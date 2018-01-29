@@ -25,8 +25,8 @@ class NexmoSmsChannel
     /**
      * Create a new Nexmo channel instance.
      *
-     * @param  \Nexmo\Client  $nexmo
-     * @param  string  $from
+     * @param  \Nexmo\Client $nexmo
+     * @param  string        $from
      * @return void
      */
     public function __construct(NexmoClient $nexmo, $from)
@@ -38,8 +38,8 @@ class NexmoSmsChannel
     /**
      * Send the given notification.
      *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
+     * @param  mixed                                  $notifiable
+     * @param  \Illuminate\Notifications\Notification $notification
      * @return \Nexmo\Message\Message
      */
     public function send($notifiable, Notification $notification)
@@ -54,11 +54,13 @@ class NexmoSmsChannel
             $message = new NexmoMessage($message);
         }
 
-        return $this->nexmo->message()->send([
+        return $this->nexmo->message()->send(
+            [
             'type' => $message->type,
             'from' => $message->from ?: $this->from,
             'to' => $to,
             'text' => trim($message->content),
-        ]);
+            ]
+        );
     }
 }

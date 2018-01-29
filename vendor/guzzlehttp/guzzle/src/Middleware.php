@@ -34,11 +34,12 @@ final class Middleware
                 $cookieJar = $options['cookies'];
                 $request = $cookieJar->withCookieHeader($request);
                 return $handler($request, $options)
-                    ->then(function ($response) use ($cookieJar, $request) {
-                        $cookieJar->extractCookies($request, $response);
-                        return $response;
-                    }
-                );
+                    ->then(
+                        function ($response) use ($cookieJar, $request) {
+                            $cookieJar->extractCookies($request, $response);
+                            return $response;
+                        }
+                    );
             };
         };
     }
@@ -176,9 +177,9 @@ final class Middleware
      * Middleware that logs requests, responses, and errors using a message
      * formatter.
      *
-     * @param LoggerInterface  $logger Logs messages.
+     * @param LoggerInterface  $logger    Logs messages.
      * @param MessageFormatter $formatter Formatter used to create message strings.
-     * @param string           $logLevel Level at which to log requests.
+     * @param string           $logLevel  Level at which to log requests.
      *
      * @return callable Returns a function that accepts the next handler.
      */
@@ -222,8 +223,8 @@ final class Middleware
      * Middleware that applies a map function to the request before passing to
      * the next handler.
      *
-     * @param callable $fn Function that accepts a RequestInterface and returns
-     *                     a RequestInterface.
+     * @param  callable $fn Function that accepts a RequestInterface and returns
+     *                      a RequestInterface.
      * @return callable
      */
     public static function mapRequest(callable $fn)
@@ -239,8 +240,8 @@ final class Middleware
      * Middleware that applies a map function to the resolved promise's
      * response.
      *
-     * @param callable $fn Function that accepts a ResponseInterface and
-     *                     returns a ResponseInterface.
+     * @param  callable $fn Function that accepts a ResponseInterface and
+     *                      returns a ResponseInterface.
      * @return callable
      */
     public static function mapResponse(callable $fn)

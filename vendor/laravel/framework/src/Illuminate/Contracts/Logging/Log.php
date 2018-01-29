@@ -7,7 +7,7 @@ interface Log
     /**
      * Log an alert message to the logs.
      *
-     * @param  string  $message
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -16,7 +16,7 @@ interface Log
     /**
      * Log a critical message to the logs.
      *
-     * @param  string  $message
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -25,7 +25,7 @@ interface Log
     /**
      * Log an error message to the logs.
      *
-     * @param  string  $message
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -34,7 +34,7 @@ interface Log
     /**
      * Log a warning message to the logs.
      *
-     * @param  string  $message
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -43,7 +43,7 @@ interface Log
     /**
      * Log a notice to the logs.
      *
-     * @param  string  $message
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -52,7 +52,7 @@ interface Log
     /**
      * Log an informational message to the logs.
      *
-     * @param  string  $message
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -61,7 +61,7 @@ interface Log
     /**
      * Log a debug message to the logs.
      *
-     * @param  string  $message
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -70,8 +70,8 @@ interface Log
     /**
      * Log a message to the logs.
      *
-     * @param  string  $level
-     * @param  string  $message
+     * @param  string $level
+     * @param  string $message
      * @param  array  $context
      * @return void
      */
@@ -80,8 +80,8 @@ interface Log
     /**
      * Register a file log handler.
      *
-     * @param  string  $path
-     * @param  string  $level
+     * @param  string $path
+     * @param  string $level
      * @return void
      */
     public function useFiles($path, $level = 'debug');
@@ -89,9 +89,9 @@ interface Log
     /**
      * Register a daily file log handler.
      *
-     * @param  string  $path
-     * @param  int     $days
-     * @param  string  $level
+     * @param  string $path
+     * @param  int    $days
+     * @param  string $level
      * @return void
      */
     public function useDailyFiles($path, $days = 0, $level = 'debug');

@@ -9,7 +9,7 @@ class MiddlewareNameResolver
     /**
      * Resolve the middleware name to a class name(s) preserving passed parameters.
      *
-     * @param  string  $name
+     * @param  string $name
      * @param  array  $map
      * @param  array  $middlewareGroups
      * @return \Closure|string|array
@@ -45,7 +45,7 @@ class MiddlewareNameResolver
     /**
      * Parse the middleware group and format it for usage.
      *
-     * @param  string  $name
+     * @param  string $name
      * @param  array  $map
      * @param  array  $middlewareGroups
      * @return array
@@ -59,9 +59,11 @@ class MiddlewareNameResolver
             // merge its middleware into the results. This allows groups to conveniently
             // reference other groups without needing to repeat all their middlewares.
             if (isset($middlewareGroups[$middleware])) {
-                $results = array_merge($results, static::parseMiddlewareGroup(
-                    $middleware, $map, $middlewareGroups
-                ));
+                $results = array_merge(
+                    $results, static::parseMiddlewareGroup(
+                        $middleware, $map, $middlewareGroups
+                    )
+                );
 
                 continue;
             }

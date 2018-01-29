@@ -291,11 +291,13 @@ class ExceptionCaster
         if (isset($trace[0]['file'], $trace[0]['line']) && $trace[0]['file'] === $file && $trace[0]['line'] === $line) {
             return;
         }
-        array_unshift($trace, array(
+        array_unshift(
+            $trace, array(
             'function' => $class ? 'new '.$class : null,
             'file' => $file,
             'line' => $line,
-        ));
+            )
+        );
     }
 
     private static function extractSource($srcLines, $line, $srcContext, $title, $lang, $file = null)

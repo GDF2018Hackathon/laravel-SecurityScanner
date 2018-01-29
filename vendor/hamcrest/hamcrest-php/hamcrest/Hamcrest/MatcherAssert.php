@@ -39,33 +39,33 @@ class MatcherAssert
     {
         $args = func_get_args();
         switch (count($args)) {
-            case 1:
-                self::$_count++;
-                if (!$args[0]) {
-                    throw new AssertionError();
-                }
-                break;
+        case 1:
+            self::$_count++;
+            if (!$args[0]) {
+                throw new AssertionError();
+            }
+            break;
 
-            case 2:
-                self::$_count++;
-                if ($args[1] instanceof Matcher) {
-                    self::doAssert('', $args[0], $args[1]);
-                } elseif (!$args[1]) {
-                    throw new AssertionError($args[0]);
-                }
-                break;
+        case 2:
+            self::$_count++;
+            if ($args[1] instanceof Matcher) {
+                self::doAssert('', $args[0], $args[1]);
+            } elseif (!$args[1]) {
+                throw new AssertionError($args[0]);
+            }
+            break;
 
-            case 3:
-                self::$_count++;
-                self::doAssert(
-                    $args[0],
-                    $args[1],
-                    Util::wrapValueWithIsEqual($args[2])
-                );
-                break;
+        case 3:
+            self::$_count++;
+            self::doAssert(
+                $args[0],
+                $args[1],
+                Util::wrapValueWithIsEqual($args[2])
+            );
+            break;
 
-            default:
-                throw new \InvalidArgumentException('assertThat() requires one to three arguments');
+        default:
+            throw new \InvalidArgumentException('assertThat() requires one to three arguments');
         }
     }
 
@@ -94,9 +94,9 @@ class MatcherAssert
      * throws a {@link Hamcrest\AssertionError} with a description
      * of the failure along with the optional <code>$identifier</code>.
      *
-     * @param string $identifier added to the message upon failure
-     * @param mixed $actual value to compare against <code>$matcher</code>
-     * @param \Hamcrest\Matcher $matcher applied to <code>$actual</code>
+     * @param  string            $identifier added to the message upon failure
+     * @param  mixed             $actual     value to compare against <code>$matcher</code>
+     * @param  \Hamcrest\Matcher $matcher    applied to <code>$actual</code>
      * @throws AssertionError
      */
     private static function doAssert($identifier, $actual, Matcher $matcher)
@@ -107,8 +107,8 @@ class MatcherAssert
                 $description->appendText($identifier . PHP_EOL);
             }
             $description->appendText('Expected: ')
-                                    ->appendDescriptionOf($matcher)
-                                    ->appendText(PHP_EOL . '     but: ');
+                ->appendDescriptionOf($matcher)
+                ->appendText(PHP_EOL . '     but: ');
 
             $matcher->describeMismatch($actual, $description);
 

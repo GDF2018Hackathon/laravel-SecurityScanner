@@ -76,10 +76,12 @@ class SymfonyStyle extends OutputStyle
     public function title($message)
     {
         $this->autoPrependBlock();
-        $this->writeln(array(
+        $this->writeln(
+            array(
             sprintf('<comment>%s</>', OutputFormatter::escapeTrailingBackslash($message)),
             sprintf('<comment>%s</>', str_repeat('=', Helper::strlenWithoutDecoration($this->getFormatter(), $message))),
-        ));
+            )
+        );
         $this->newLine();
     }
 
@@ -89,10 +91,12 @@ class SymfonyStyle extends OutputStyle
     public function section($message)
     {
         $this->autoPrependBlock();
-        $this->writeln(array(
+        $this->writeln(
+            array(
             sprintf('<comment>%s</>', OutputFormatter::escapeTrailingBackslash($message)),
             sprintf('<comment>%s</>', str_repeat('-', Helper::strlenWithoutDecoration($this->getFormatter(), $message))),
-        ));
+            )
+        );
         $this->newLine();
     }
 
@@ -102,9 +106,11 @@ class SymfonyStyle extends OutputStyle
     public function listing(array $elements)
     {
         $this->autoPrependText();
-        $elements = array_map(function ($element) {
-            return sprintf(' * %s', $element);
-        }, $elements);
+        $elements = array_map(
+            function ($element) {
+                return sprintf(' * %s', $element);
+            }, $elements
+        );
 
         $this->writeln($elements);
         $this->newLine();
@@ -374,9 +380,11 @@ class SymfonyStyle extends OutputStyle
     {
         // We need to know if the two last chars are PHP_EOL
         // Preserve the last 4 chars inserted (PHP_EOL on windows is two chars) in the history buffer
-        return array_map(function ($value) {
-            return substr($value, -4);
-        }, array_merge(array($this->bufferedOutput->fetch()), (array) $messages));
+        return array_map(
+            function ($value) {
+                return substr($value, -4);
+            }, array_merge(array($this->bufferedOutput->fetch()), (array) $messages)
+        );
     }
 
     private function createBlock($messages, $type = null, $style = null, $prefix = ' ', $padding = false, $escape = false)

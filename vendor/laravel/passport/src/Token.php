@@ -78,7 +78,7 @@ class Token extends Model
     /**
      * Determine if the token has a given scope.
      *
-     * @param  string  $scope
+     * @param  string $scope
      * @return bool
      */
     public function can($scope)
@@ -90,7 +90,7 @@ class Token extends Model
     /**
      * Determine if the token is missing a given scope.
      *
-     * @param  string  $scope
+     * @param  string $scope
      * @return bool
      */
     public function cant($scope)

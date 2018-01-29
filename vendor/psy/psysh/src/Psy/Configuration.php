@@ -70,7 +70,9 @@ class Configuration
     private $dataDir;
     private $runtimeDir;
     private $configFile;
-    /** @var string|false */
+    /**
+     * @var string|false 
+     */
     private $historyFile;
     private $historySize;
     private $eraseDuplicates;
@@ -248,7 +250,7 @@ class Configuration
     {
         $__psysh_config_file__ = $file;
         $load = function ($config) use ($__psysh_config_file__) {
-            $result = require $__psysh_config_file__;
+            $result = include $__psysh_config_file__;
             if ($result !== 1) {
                 return $result;
             }
@@ -1163,24 +1165,24 @@ class Configuration
         if (!isset($this->checker)) {
             $interval = $this->getUpdateCheck();
             switch ($interval) {
-                case Checker::ALWAYS:
-                    $this->checker = new GitHubChecker();
-                    break;
+            case Checker::ALWAYS:
+                $this->checker = new GitHubChecker();
+                break;
 
-                case Checker::DAILY:
-                case Checker::WEEKLY:
-                case Checker::MONTHLY:
-                    $checkFile = $this->getUpdateCheckCacheFile();
-                    if ($checkFile === false) {
-                        $this->checker = new NoopChecker();
-                    } else {
-                        $this->checker = new IntervalChecker($checkFile, $interval);
-                    }
-                    break;
-
-                case Checker::NEVER:
+            case Checker::DAILY:
+            case Checker::WEEKLY:
+            case Checker::MONTHLY:
+                $checkFile = $this->getUpdateCheckCacheFile();
+                if ($checkFile === false) {
                     $this->checker = new NoopChecker();
-                    break;
+                } else {
+                    $this->checker = new IntervalChecker($checkFile, $interval);
+                }
+                break;
+
+            case Checker::NEVER:
+                $this->checker = new NoopChecker();
+                break;
             }
         }
 

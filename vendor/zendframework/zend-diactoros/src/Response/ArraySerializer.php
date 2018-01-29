@@ -24,7 +24,7 @@ final class ArraySerializer
     /**
      * Serialize a response message to an array.
      *
-     * @param ResponseInterface $response
+     * @param  ResponseInterface $response
      * @return array
      */
     public static function toArray(ResponseInterface $response)
@@ -41,7 +41,7 @@ final class ArraySerializer
     /**
      * Deserialize a response array to a response instance.
      *
-     * @param array $serializedResponse
+     * @param  array $serializedResponse
      * @return Response
      * @throws UnexpectedValueException when cannot deserialize response
      */
@@ -65,7 +65,7 @@ final class ArraySerializer
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $key
      * @param string $message
      * @return mixed

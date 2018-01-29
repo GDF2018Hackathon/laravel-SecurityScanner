@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 use Mockery\ExpectationInterface;
@@ -67,7 +67,7 @@ class Mockery
      */
     public static function globalHelpers()
     {
-        require_once __DIR__.'/helpers.php';
+        include_once __DIR__.'/helpers.php';
     }
 
     /**
@@ -324,7 +324,7 @@ class Mockery
      * Return instance of SUBSET matcher.
      *
      * @param array $part
-     * @param bool $strict - (Optional) True for strict comparison, false for loose
+     * @param bool  $strict - (Optional) True for strict comparison, false for loose
      *
      * @return \Mockery\Matcher\Subset
      */
@@ -460,7 +460,7 @@ class Mockery
      * Utility method to format method name and arguments into a string.
      *
      * @param string $method
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return string
      */
@@ -572,8 +572,8 @@ class Mockery
     /**
      * Utility function to turn public properties and public get* and is* method values into an array.
      *
-     * @param     $object
-     * @param int $nesting
+     * @param $object
+     * @param int    $nesting
      *
      * @return array
      */
@@ -644,7 +644,7 @@ class Mockery
      * of the given array.
      *
      * @param array $argument
-     * @param int $nesting
+     * @param int   $nesting
      *
      * @return mixed
      */
@@ -669,9 +669,9 @@ class Mockery
      * Utility function to parse shouldReceive() arguments and generate
      * expectations from such as needed.
      *
-     * @param Mockery\MockInterface $mock
-     * @param array $args
-     * @param callable $add
+     * @param  Mockery\MockInterface $mock
+     * @param  array                 $args
+     * @param  callable              $add
      * @return \Mockery\CompositeExpectation
      */
     public static function parseShouldReturnArgs(\Mockery\MockInterface $mock, $args, $add)
@@ -697,15 +697,17 @@ class Mockery
      * Sets up expectations on the members of the CompositeExpectation and
      * builds up any demeter chain that was passed to shouldReceive.
      *
-     * @param \Mockery\MockInterface $mock
-     * @param string $arg
-     * @param callable $add
+     * @param  \Mockery\MockInterface $mock
+     * @param  string                 $arg
+     * @param  callable               $add
      * @throws Mockery\Exception
      * @return \Mockery\ExpectationInterface
      */
     protected static function buildDemeterChain(\Mockery\MockInterface $mock, $arg, $add)
     {
-        /** @var Mockery\Container $container */
+        /**
+ * @var Mockery\Container $container 
+*/
         $container = $mock->mockery_getContainer();
         $methodNames = explode('->', $arg);
         reset($methodNames);
@@ -721,10 +723,14 @@ class Mockery
             );
         }
 
-        /** @var ExpectationInterface|null $expectations */
+        /**
+ * @var ExpectationInterface|null $expectations 
+*/
         $expectations = null;
 
-        /** @var Callable $nextExp */
+        /**
+ * @var Callable $nextExp 
+*/
         $nextExp = function ($method) use ($add) {
             return $add($method);
         };
@@ -759,8 +765,8 @@ class Mockery
      * Gets a new demeter configured
      * mock from the container.
      *
-     * @param \Mockery\Container $container
-     * @param string $method
+     * @param \Mockery\Container           $container
+     * @param string                       $method
      * @param Mockery\ExpectationInterface $exp
      *
      * @return \Mockery\Mock
@@ -781,7 +787,7 @@ class Mockery
      * the ones kept by the container.
      *
      * @param \Mockery\Container $container
-     * @param string $demeterMockKey
+     * @param string             $demeterMockKey
      *
      * @return mixed
      */
@@ -841,7 +847,7 @@ class Mockery
          */
         $tmpfname = tempnam(sys_get_temp_dir(), "Mockery");
         file_put_contents($tmpfname, $targetCode);
-        require $tmpfname;
+        include $tmpfname;
         \Mockery::registerFileForCleanUp($tmpfname);
     }
 

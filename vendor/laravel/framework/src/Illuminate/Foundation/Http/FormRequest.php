@@ -83,7 +83,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Create the default validator instance.
      *
-     * @param  \Illuminate\Contracts\Validation\Factory  $factory
+     * @param  \Illuminate\Contracts\Validation\Factory $factory
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function createDefaultValidator(ValidationFactory $factory)
@@ -107,7 +107,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @param  \Illuminate\Contracts\Validation\Validator $validator
      * @return void
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -174,9 +174,13 @@ class FormRequest extends Request implements ValidatesWhenResolved
     {
         $rules = $this->container->call([$this, 'rules']);
 
-        return $this->only(collect($rules)->keys()->map(function ($rule) {
-            return str_contains($rule, '.') ? explode('.', $rule)[0] : $rule;
-        })->unique()->toArray());
+        return $this->only(
+            collect($rules)->keys()->map(
+                function ($rule) {
+                    return str_contains($rule, '.') ? explode('.', $rule)[0] : $rule;
+                }
+            )->unique()->toArray()
+        );
     }
 
     /**
@@ -202,7 +206,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Set the Redirector instance.
      *
-     * @param  \Illuminate\Routing\Redirector  $redirector
+     * @param  \Illuminate\Routing\Redirector $redirector
      * @return $this
      */
     public function setRedirector(Redirector $redirector)
@@ -215,7 +219,7 @@ class FormRequest extends Request implements ValidatesWhenResolved
     /**
      * Set the container implementation.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
      * @return $this
      */
     public function setContainer(Container $container)

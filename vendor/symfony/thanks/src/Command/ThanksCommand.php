@@ -106,10 +106,11 @@ class ThanksCommand extends BaseCommand
 
         $this->setName('thanks')
             ->setDescription(sprintf('Give thanks (in the form of a GitHub %s) to your fellow PHP package maintainers.', $this->star))
-            ->setDefinition([
+            ->setDefinition(
+                [
                 new InputOption('dry-run', null, InputOption::VALUE_NONE, 'Don\'t actually send the stars'),
-            ])
-        ;
+                ]
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -205,13 +206,15 @@ class ThanksCommand extends BaseCommand
             $rfs = $preFileDownloadEvent->getRemoteFilesystem();
         }
 
-        $result = $rfs->getContents('github.com', 'https://api.github.com/graphql', false, [
+        $result = $rfs->getContents(
+            'github.com', 'https://api.github.com/graphql', false, [
             'http' => [
                 'method' => 'POST',
                 'content' => json_encode(['query' => $graphql]),
                 'header' => ['Content-Type: application/json'],
             ],
-        ]);
+            ]
+        );
         $result = json_decode($result, true);
 
         return $result['data'];

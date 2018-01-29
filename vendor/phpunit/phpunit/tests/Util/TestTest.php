@@ -620,7 +620,8 @@ class TestTest extends TestCase
     {
         $dataSets = Test::getProvidedData(\VariousIterableDataProviderTest::class, 'test');
 
-        $this->assertEquals([
+        $this->assertEquals(
+            [
             ['A'],
             ['B'],
             ['C'],
@@ -630,7 +631,8 @@ class TestTest extends TestCase
             ['G'],
             ['H'],
             ['I'],
-        ], $dataSets);
+            ], $dataSets
+        );
     }
 
     public function testTestWithEmptyAnnotation()
@@ -641,56 +643,68 @@ class TestTest extends TestCase
 
     public function testTestWithSimpleCase()
     {
-        $result = Test::getDataFromTestWithAnnotation('/**
+        $result = Test::getDataFromTestWithAnnotation(
+            '/**
                                                                      * @testWith [1]
-                                                                     */');
+                                                                     */'
+        );
         $this->assertEquals([[1]], $result);
     }
 
     public function testTestWithMultiLineMultiParameterCase()
     {
-        $result = Test::getDataFromTestWithAnnotation('/**
+        $result = Test::getDataFromTestWithAnnotation(
+            '/**
                                                                      * @testWith [1, 2]
                                                                      * [3, 4]
-                                                                     */');
+                                                                     */'
+        );
         $this->assertEquals([[1, 2], [3, 4]], $result);
     }
 
     public function testTestWithVariousTypes()
     {
-        $result = Test::getDataFromTestWithAnnotation('/**
+        $result = Test::getDataFromTestWithAnnotation(
+            '/**
             * @testWith ["ab"]
             *           [true]
             *           [null]
-         */');
+         */'
+        );
         $this->assertEquals([['ab'], [true], [null]], $result);
     }
 
     public function testTestWithAnnotationAfter()
     {
-        $result = Test::getDataFromTestWithAnnotation('/**
+        $result = Test::getDataFromTestWithAnnotation(
+            '/**
                                                                      * @testWith [1]
                                                                      *           [2]
                                                                      * @annotation
-                                                                     */');
+                                                                     */'
+        );
         $this->assertEquals([[1], [2]], $result);
     }
 
     public function testTestWithSimpleTextAfter()
     {
-        $result = Test::getDataFromTestWithAnnotation('/**
+        $result = Test::getDataFromTestWithAnnotation(
+            '/**
                                                                      * @testWith [1]
                                                                      *           [2]
                                                                      * blah blah
-                                                                     */');
+                                                                     */'
+        );
         $this->assertEquals([[1], [2]], $result);
     }
 
     public function testTestWithCharacterEscape()
     {
-        $result = Test::getDataFromTestWithAnnotation('/**
+        $result = Test::getDataFromTestWithAnnotation(
+            '/**
                                                                      * @testWith ["\"", "\""]
-                                                                     */');
+                                                                     */'
+        );
         $this->assertEquals([['"', '"']], $result);
     }
 
@@ -699,9 +713,11 @@ class TestTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
 
-        Test::getDataFromTestWithAnnotation('/**
+        Test::getDataFromTestWithAnnotation(
+            '/**
                                                            * @testWith [s]
-                                                           */');
+                                                           */'
+        );
     }
 
     public function testTestWithThrowsProperExceptionIfMultiLineDatasetCannotBeParsed()
@@ -709,10 +725,12 @@ class TestTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
 
-        Test::getDataFromTestWithAnnotation('/**
+        Test::getDataFromTestWithAnnotation(
+            '/**
                                                            * @testWith ["valid"]
                                                            *           [invalid]
-                                                           */');
+                                                           */'
+        );
     }
 
     /**
@@ -744,7 +762,9 @@ class TestTest extends TestCase
         );
     }
 
-    /** @depends Bar */
+    /**
+     * @depends Bar 
+     */
     public function methodForTestParseAnnotationThatIsOnlyOneLine()
     {
         // TODO Remove fixture from test class

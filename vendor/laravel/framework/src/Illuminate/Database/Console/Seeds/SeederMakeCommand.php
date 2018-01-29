@@ -39,8 +39,8 @@ class SeederMakeCommand extends GeneratorCommand
     /**
      * Create a new command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  \Illuminate\Support\Composer  $composer
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  \Illuminate\Support\Composer      $composer
      * @return void
      */
     public function __construct(Filesystem $files, Composer $composer)
@@ -75,7 +75,7 @@ class SeederMakeCommand extends GeneratorCommand
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return string
      */
     protected function getPath($name)
@@ -86,7 +86,7 @@ class SeederMakeCommand extends GeneratorCommand
     /**
      * Parse the class name and format according to the root namespace.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return string
      */
     protected function qualifyClass($name)

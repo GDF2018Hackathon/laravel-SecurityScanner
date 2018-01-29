@@ -4,10 +4,13 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/** Nop/empty statement (;). */
+/**
+ * Nop/empty statement (;). 
+ */
 class Nop extends Node\Stmt
 {
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array();
     }
 }

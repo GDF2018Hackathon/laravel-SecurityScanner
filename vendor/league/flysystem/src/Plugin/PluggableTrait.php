@@ -25,7 +25,7 @@ trait PluggableTrait
      */
     public function addPlugin(PluginInterface $plugin)
     {
-        if ( ! method_exists($plugin, 'handle')) {
+        if (! method_exists($plugin, 'handle')) {
             throw new LogicException(get_class($plugin) . ' does not have a handle method.');
         }
 
@@ -45,7 +45,7 @@ trait PluggableTrait
      */
     protected function findPlugin($method)
     {
-        if ( ! isset($this->plugins[$method])) {
+        if (! isset($this->plugins[$method])) {
             throw new PluginNotFoundException('Plugin not found for method: ' . $method);
         }
 

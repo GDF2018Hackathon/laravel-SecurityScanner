@@ -63,7 +63,7 @@ trait MessageTrait
      * immutability of the message, and MUST return an instance that has the
      * new protocol version.
      *
-     * @param string $version HTTP protocol version
+     * @param  string $version HTTP protocol version
      * @return static
      */
     public function withProtocolVersion($version)
@@ -103,7 +103,7 @@ trait MessageTrait
     /**
      * Checks if a header exists by the given case-insensitive name.
      *
-     * @param string $header Case-insensitive header name.
+     * @param  string $header Case-insensitive header name.
      * @return bool Returns true if any header names match the given header
      *     name using a case-insensitive string comparison. Returns false if
      *     no matching header name is found in the message.
@@ -122,7 +122,7 @@ trait MessageTrait
      * If the header does not appear in the message, this method MUST return an
      * empty array.
      *
-     * @param string $header Case-insensitive header field name.
+     * @param  string $header Case-insensitive header field name.
      * @return string[] An array of string values as provided for the given
      *    header. If the header does not appear in the message, this method MUST
      *    return an empty array.
@@ -152,7 +152,7 @@ trait MessageTrait
      * If the header does not appear in the message, this method MUST return
      * an empty string.
      *
-     * @param string $name Case-insensitive header field name.
+     * @param  string $name Case-insensitive header field name.
      * @return string A string of values as provided for the given header
      *    concatenated together using a comma. If the header does not appear in
      *    the message, this method MUST return an empty string.
@@ -178,8 +178,8 @@ trait MessageTrait
      * immutability of the message, and MUST return an instance that has the
      * new and/or updated header and value.
      *
-     * @param string $header Case-insensitive header field name.
-     * @param string|string[] $value Header value(s).
+     * @param  string          $header Case-insensitive header field name.
+     * @param  string|string[] $value  Header value(s).
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
@@ -214,8 +214,8 @@ trait MessageTrait
      * immutability of the message, and MUST return an instance that has the
      * new header and/or value.
      *
-     * @param string $header Case-insensitive header field name to add.
-     * @param string|string[] $value Header value(s).
+     * @param  string          $header Case-insensitive header field name to add.
+     * @param  string|string[] $value  Header value(s).
      * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
@@ -244,7 +244,7 @@ trait MessageTrait
      * immutability of the message, and MUST return an instance that removes
      * the named header.
      *
-     * @param string $header Case-insensitive header field name to remove.
+     * @param  string $header Case-insensitive header field name to remove.
      * @return static
      */
     public function withoutHeader($header)
@@ -280,7 +280,7 @@ trait MessageTrait
      * immutability of the message, and MUST return a new instance that has the
      * new body stream.
      *
-     * @param StreamInterface $body Body.
+     * @param  StreamInterface $body Body.
      * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
@@ -335,7 +335,7 @@ trait MessageTrait
     /**
      * Validate the HTTP protocol version
      *
-     * @param string $version
+     * @param  string $version
      * @throws InvalidArgumentException on invalid HTTP protocol version
      */
     private function validateProtocolVersion($version)
@@ -346,19 +346,23 @@ trait MessageTrait
             );
         }
         if (! is_string($version)) {
-            throw new InvalidArgumentException(sprintf(
-                'Unsupported HTTP protocol version; must be a string, received %s',
-                (is_object($version) ? get_class($version) : gettype($version))
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Unsupported HTTP protocol version; must be a string, received %s',
+                    (is_object($version) ? get_class($version) : gettype($version))
+                )
+            );
         }
 
         // HTTP/1 uses a "<major>.<minor>" numbering scheme to indicate
         // versions of the protocol, while HTTP/2 does not.
         if (! preg_match('#^(1\.[01]|2)$#', $version)) {
-            throw new InvalidArgumentException(sprintf(
-                'Unsupported HTTP protocol version "%s" provided',
-                $version
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Unsupported HTTP protocol version "%s" provided',
+                    $version
+                )
+            );
         }
     }
 
@@ -372,11 +376,13 @@ trait MessageTrait
             $values = [$values];
         }
 
-        return array_map(function ($value) {
-            HeaderSecurity::assertValid($value);
+        return array_map(
+            function ($value) {
+                HeaderSecurity::assertValid($value);
 
-            return (string) $value;
-        }, $values);
+                return (string) $value;
+            }, $values
+        );
     }
 
     /**

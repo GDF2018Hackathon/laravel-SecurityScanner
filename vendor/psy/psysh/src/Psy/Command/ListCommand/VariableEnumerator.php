@@ -82,24 +82,26 @@ class VariableEnumerator extends Enumerator
         $specialNames = self::$specialNames;
 
         $scopeVars = $this->context->getAll();
-        uksort($scopeVars, function ($a, $b) use ($specialNames) {
-            $aIndex = array_search($a, $specialNames);
-            $bIndex = array_search($b, $specialNames);
+        uksort(
+            $scopeVars, function ($a, $b) use ($specialNames) {
+                $aIndex = array_search($a, $specialNames);
+                $bIndex = array_search($b, $specialNames);
 
-            if ($aIndex !== false) {
-                if ($bIndex !== false) {
-                    return $aIndex - $bIndex;
+                if ($aIndex !== false) {
+                    if ($bIndex !== false) {
+                        return $aIndex - $bIndex;
+                    }
+
+                    return 1;
                 }
 
-                return 1;
-            }
+                if ($bIndex !== false) {
+                    return -1;
+                }
 
-            if ($bIndex !== false) {
-                return -1;
+                return strnatcasecmp($a, $b);
             }
-
-            return strnatcasecmp($a, $b);
-        });
+        );
 
         $ret = array();
         foreach ($scopeVars as $name => $val) {

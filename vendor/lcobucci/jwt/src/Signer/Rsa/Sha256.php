@@ -13,7 +13,7 @@ use Lcobucci\JWT\Signer\Rsa;
  * Signer for RSA SHA-256
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
+ * @since  2.1.0
  */
 class Sha256 extends Rsa
 {

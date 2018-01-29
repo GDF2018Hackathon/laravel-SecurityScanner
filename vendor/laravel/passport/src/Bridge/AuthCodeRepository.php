@@ -20,7 +20,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     /**
      * Create a new repository instance.
      *
-     * @param  \Illuminate\Database\Connection  $database
+     * @param  \Illuminate\Database\Connection $database
      * @return void
      */
     public function __construct(Connection $database)
@@ -41,14 +41,16 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
      */
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
     {
-        $this->database->table('oauth_auth_codes')->insert([
+        $this->database->table('oauth_auth_codes')->insert(
+            [
             'id' => $authCodeEntity->getIdentifier(),
             'user_id' => $authCodeEntity->getUserIdentifier(),
             'client_id' => $authCodeEntity->getClient()->getIdentifier(),
             'scopes' => $this->formatScopesForStorage($authCodeEntity->getScopes()),
             'revoked' => false,
             'expires_at' => $authCodeEntity->getExpiryDateTime(),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -57,7 +59,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     public function revokeAuthCode($codeId)
     {
         $this->database->table('oauth_auth_codes')
-                    ->where('id', $codeId)->update(['revoked' => true]);
+            ->where('id', $codeId)->update(['revoked' => true]);
     }
 
     /**
@@ -66,6 +68,6 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     public function isAuthCodeRevoked($codeId)
     {
         return $this->database->table('oauth_auth_codes')
-                    ->where('id', $codeId)->where('revoked', 1)->exists();
+            ->where('id', $codeId)->where('revoked', 1)->exists();
     }
 }

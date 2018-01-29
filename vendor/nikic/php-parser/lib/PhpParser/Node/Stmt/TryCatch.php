@@ -6,11 +6,17 @@ use PhpParser\Node;
 
 class TryCatch extends Node\Stmt
 {
-    /** @var Node[] Statements */
+    /**
+     * @var Node[] Statements 
+     */
     public $stmts;
-    /** @var Catch_[] Catches */
+    /**
+     * @var Catch_[] Catches 
+     */
     public $catches;
-    /** @var null|Finally_ Optional finally node */
+    /**
+     * @var null|Finally_ Optional finally node 
+     */
     public $finally;
 
     /**
@@ -21,14 +27,16 @@ class TryCatch extends Node\Stmt
      * @param null|Finally_ $finally    Optionaly finally node
      * @param array|null    $attributes Additional attributes
      */
-    public function __construct(array $stmts, array $catches, Finally_ $finally = null, array $attributes = array()) {
+    public function __construct(array $stmts, array $catches, Finally_ $finally = null, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->stmts = $stmts;
         $this->catches = $catches;
         $this->finally = $finally;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('stmts', 'catches', 'finally');
     }
 }

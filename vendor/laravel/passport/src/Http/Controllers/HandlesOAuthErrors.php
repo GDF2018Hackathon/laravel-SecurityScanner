@@ -18,7 +18,7 @@ trait HandlesOAuthErrors
     /**
      * Perform the given callback with exception handling.
      *
-     * @param  \Closure  $callback
+     * @param  \Closure $callback
      * @return \Illuminate\Http\Response
      */
     protected function withErrorHandling($callback)

@@ -18,6 +18,7 @@ class Person extends \Faker\Provider\Person
 
     /**
      * An array of typical Nigerian male firstnames.
+     *
      * @link https://andela-celisha-wigwe.github.io/names.html
      */
     protected static $firstNameMale = array(

@@ -430,14 +430,16 @@ class Carbon extends DateTime
     {
         $now = static::hasTestNow() ? static::getTestNow()->getTimestamp() : time();
 
-        $defaults = array_combine(array(
+        $defaults = array_combine(
+            array(
             'year',
             'month',
             'day',
             'hour',
             'minute',
             'second',
-        ), explode('-', date('Y-n-j-G-i-s', $now)));
+            ), explode('-', date('Y-n-j-G-i-s', $now))
+        );
 
         $year = $year === null ? $defaults['year'] : $year;
         $month = $month === null ? $defaults['month'] : $month;
@@ -653,7 +655,8 @@ class Carbon extends DateTime
     public function __get($name)
     {
         switch (true) {
-            case array_key_exists($name, $formats = array(
+        case array_key_exists(
+            $name, $formats = array(
                 'year' => 'Y',
                 'yearIso' => 'o',
                 'month' => 'n',
@@ -667,41 +670,42 @@ class Carbon extends DateTime
                 'weekOfYear' => 'W',
                 'daysInMonth' => 't',
                 'timestamp' => 'U',
-            )):
-                return (int) $this->format($formats[$name]);
+            )
+        ):
+            return (int) $this->format($formats[$name]);
 
-            case $name === 'weekOfMonth':
-                return (int) ceil($this->day / static::DAYS_PER_WEEK);
+        case $name === 'weekOfMonth':
+            return (int) ceil($this->day / static::DAYS_PER_WEEK);
 
-            case $name === 'age':
-                return $this->diffInYears();
+        case $name === 'age':
+            return $this->diffInYears();
 
-            case $name === 'quarter':
-                return (int) ceil($this->month / static::MONTHS_PER_QUARTER);
+        case $name === 'quarter':
+            return (int) ceil($this->month / static::MONTHS_PER_QUARTER);
 
-            case $name === 'offset':
-                return $this->getOffset();
+        case $name === 'offset':
+            return $this->getOffset();
 
-            case $name === 'offsetHours':
-                return $this->getOffset() / static::SECONDS_PER_MINUTE / static::MINUTES_PER_HOUR;
+        case $name === 'offsetHours':
+            return $this->getOffset() / static::SECONDS_PER_MINUTE / static::MINUTES_PER_HOUR;
 
-            case $name === 'dst':
-                return $this->format('I') === '1';
+        case $name === 'dst':
+            return $this->format('I') === '1';
 
-            case $name === 'local':
-                return $this->getOffset() === $this->copy()->setTimezone(date_default_timezone_get())->getOffset();
+        case $name === 'local':
+            return $this->getOffset() === $this->copy()->setTimezone(date_default_timezone_get())->getOffset();
 
-            case $name === 'utc':
-                return $this->getOffset() === 0;
+        case $name === 'utc':
+            return $this->getOffset() === 0;
 
-            case $name === 'timezone' || $name === 'tz':
-                return $this->getTimezone();
+        case $name === 'timezone' || $name === 'tz':
+            return $this->getTimezone();
 
-            case $name === 'timezoneName' || $name === 'tzName':
-                return $this->getTimezone()->getName();
+        case $name === 'timezoneName' || $name === 'tzName':
+            return $this->getTimezone()->getName();
 
-            default:
-                throw new InvalidArgumentException(sprintf("Unknown getter '%s'", $name));
+        default:
+            throw new InvalidArgumentException(sprintf("Unknown getter '%s'", $name));
         }
     }
 
@@ -734,28 +738,28 @@ class Carbon extends DateTime
     public function __set($name, $value)
     {
         switch ($name) {
-            case 'year':
-            case 'month':
-            case 'day':
-            case 'hour':
-            case 'minute':
-            case 'second':
-                list($year, $month, $day, $hour, $minute, $second) = explode('-', $this->format('Y-n-j-G-i-s'));
-                $$name = $value;
-                $this->setDateTime($year, $month, $day, $hour, $minute, $second);
-                break;
+        case 'year':
+        case 'month':
+        case 'day':
+        case 'hour':
+        case 'minute':
+        case 'second':
+            list($year, $month, $day, $hour, $minute, $second) = explode('-', $this->format('Y-n-j-G-i-s'));
+            $$name = $value;
+            $this->setDateTime($year, $month, $day, $hour, $minute, $second);
+            break;
 
-            case 'timestamp':
-                parent::setTimestamp($value);
-                break;
+        case 'timestamp':
+            parent::setTimestamp($value);
+            break;
 
-            case 'timezone':
-            case 'tz':
-                $this->setTimezone($value);
-                break;
+        case 'timezone':
+        case 'tz':
+            $this->setTimezone($value);
+            break;
 
-            default:
-                throw new InvalidArgumentException(sprintf("Unknown setter '%s'", $name));
+        default:
+            throw new InvalidArgumentException(sprintf("Unknown setter '%s'", $name));
         }
     }
 
@@ -1139,14 +1143,16 @@ class Carbon extends DateTime
      */
     public static function setLocale($locale)
     {
-        $locale = preg_replace_callback('/\b([a-z]{2})[-_](?:([a-z]{4})[-_])?([a-z]{2})\b/', function ($matches) {
-            return $matches[1].'_'.(!empty($matches[2]) ? ucfirst($matches[2]).'_' : '').strtoupper($matches[3]);
-        }, strtolower($locale));
+        $locale = preg_replace_callback(
+            '/\b([a-z]{2})[-_](?:([a-z]{4})[-_])?([a-z]{2})\b/', function ($matches) {
+                return $matches[1].'_'.(!empty($matches[2]) ? ucfirst($matches[2]).'_' : '').strtoupper($matches[3]);
+            }, strtolower($locale)
+        );
 
         if (file_exists($filename = __DIR__.'/Lang/'.$locale.'.php')) {
             static::translator()->setLocale($locale);
             // Ensure the locale has been loaded.
-            static::translator()->addResource('array', require $filename, $locale);
+            static::translator()->addResource('array', include $filename, $locale);
 
             return true;
         }
@@ -2660,9 +2666,11 @@ class Carbon extends DateTime
         }
 
         $period = new DatePeriod($start, $ci, $end);
-        $vals = array_filter(iterator_to_array($period), function (DateTime $date) use ($callback) {
-            return call_user_func($callback, Carbon::instance($date));
-        });
+        $vals = array_filter(
+            iterator_to_array($period), function (DateTime $date) use ($callback) {
+                return call_user_func($callback, Carbon::instance($date));
+            }
+        );
 
         $diff = count($vals);
 
@@ -2679,9 +2687,11 @@ class Carbon extends DateTime
      */
     public function diffInWeekdays(Carbon $dt = null, $abs = true)
     {
-        return $this->diffInDaysFiltered(function (Carbon $date) {
-            return $date->isWeekday();
-        }, $dt, $abs);
+        return $this->diffInDaysFiltered(
+            function (Carbon $date) {
+                return $date->isWeekday();
+            }, $dt, $abs
+        );
     }
 
     /**
@@ -2694,9 +2704,11 @@ class Carbon extends DateTime
      */
     public function diffInWeekendDays(Carbon $dt = null, $abs = true)
     {
-        return $this->diffInDaysFiltered(function (Carbon $date) {
-            return $date->isWeekend();
-        }, $dt, $abs);
+        return $this->diffInDaysFiltered(
+            function (Carbon $date) {
+                return $date->isWeekend();
+            }, $dt, $abs
+        );
     }
 
     /**
@@ -2797,40 +2809,40 @@ class Carbon extends DateTime
         $diffInterval = $this->diff($other);
 
         switch (true) {
-            case $diffInterval->y > 0:
-                $unit = $short ? 'y' : 'year';
-                $count = $diffInterval->y;
-                break;
+        case $diffInterval->y > 0:
+            $unit = $short ? 'y' : 'year';
+            $count = $diffInterval->y;
+            break;
 
-            case $diffInterval->m > 0:
-                $unit = $short ? 'm' : 'month';
-                $count = $diffInterval->m;
-                break;
+        case $diffInterval->m > 0:
+            $unit = $short ? 'm' : 'month';
+            $count = $diffInterval->m;
+            break;
 
-            case $diffInterval->d > 0:
-                $unit = $short ? 'd' : 'day';
-                $count = $diffInterval->d;
+        case $diffInterval->d > 0:
+            $unit = $short ? 'd' : 'day';
+            $count = $diffInterval->d;
 
-                if ($count >= static::DAYS_PER_WEEK) {
-                    $unit = $short ? 'w' : 'week';
-                    $count = (int) ($count / static::DAYS_PER_WEEK);
-                }
-                break;
+            if ($count >= static::DAYS_PER_WEEK) {
+                $unit = $short ? 'w' : 'week';
+                $count = (int) ($count / static::DAYS_PER_WEEK);
+            }
+            break;
 
-            case $diffInterval->h > 0:
-                $unit = $short ? 'h' : 'hour';
-                $count = $diffInterval->h;
-                break;
+        case $diffInterval->h > 0:
+            $unit = $short ? 'h' : 'hour';
+            $count = $diffInterval->h;
+            break;
 
-            case $diffInterval->i > 0:
-                $unit = $short ? 'min' : 'minute';
-                $count = $diffInterval->i;
-                break;
+        case $diffInterval->i > 0:
+            $unit = $short ? 'min' : 'minute';
+            $count = $diffInterval->i;
+            break;
 
-            default:
-                $count = $diffInterval->s;
-                $unit = $short ? 's' : 'second';
-                break;
+        default:
+            $count = $diffInterval->s;
+            $unit = $short ? 's' : 'second';
+            break;
         }
 
         if ($count === 0) {

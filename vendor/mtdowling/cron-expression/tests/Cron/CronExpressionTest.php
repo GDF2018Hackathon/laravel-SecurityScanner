@@ -271,23 +271,27 @@ class CronExpressionTest extends PHPUnit_Framework_TestCase
     public function testProvidesMultipleRunDates()
     {
         $cron = CronExpression::factory('*/2 * * * *');
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             new DateTime('2008-11-09 00:00:00'),
             new DateTime('2008-11-09 00:02:00'),
             new DateTime('2008-11-09 00:04:00'),
             new DateTime('2008-11-09 00:06:00')
-        ), $cron->getMultipleRunDates(4, '2008-11-09 00:00:00', false, true));
+            ), $cron->getMultipleRunDates(4, '2008-11-09 00:00:00', false, true)
+        );
     }
 
     /**
      * @covers Cron\CronExpression::getMultipleRunDates
      * @covers Cron\CronExpression::setMaxIterationCount
      */
-    public function testProvidesMultipleRunDatesForTheFarFuture() {
+    public function testProvidesMultipleRunDatesForTheFarFuture() 
+    {
         // Fails with the default 1000 iteration limit
         $cron = CronExpression::factory('0 0 12 1 * */2');
         $cron->setMaxIterationCount(2000);
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             new DateTime('2016-01-12 00:00:00'),
             new DateTime('2018-01-12 00:00:00'),
             new DateTime('2020-01-12 00:00:00'),
@@ -297,7 +301,8 @@ class CronExpressionTest extends PHPUnit_Framework_TestCase
             new DateTime('2028-01-12 00:00:00'),
             new DateTime('2030-01-12 00:00:00'),
             new DateTime('2032-01-12 00:00:00'),
-        ), $cron->getMultipleRunDates(9, '2015-04-28 00:00:00', false, true));
+            ), $cron->getMultipleRunDates(9, '2015-04-28 00:00:00', false, true)
+        );
     }
 
     /**
@@ -368,7 +373,8 @@ class CronExpressionTest extends PHPUnit_Framework_TestCase
     /**
      * @see https://github.com/mtdowling/cron-expression/issues/20
      */
-    public function testIssue20() {
+    public function testIssue20() 
+    {
         $e = CronExpression::factory('* * * * MON#1');
         $this->assertTrue($e->isDue(new DateTime('2014-04-07 00:00:00')));
         $this->assertFalse($e->isDue(new DateTime('2014-04-14 00:00:00')));

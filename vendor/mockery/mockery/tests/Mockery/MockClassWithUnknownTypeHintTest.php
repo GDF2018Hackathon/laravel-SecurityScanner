@@ -26,7 +26,9 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockClassWithUnknownTypeHintTest extends MockeryTestCase
 {
-    /** @test */
+    /**
+     * @test 
+     */
     public function itShouldSuccessfullyBuildTheMock()
     {
         $mock = mock("test\Mockery\HasUnknownClassAsTypeHintOnMethod");

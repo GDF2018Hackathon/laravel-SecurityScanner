@@ -107,7 +107,7 @@ class Shell extends Application
     /**
      * Invoke a Psy Shell from the current context.
      *
-     * @see Psy\debug
+     * @see        Psy\debug
      * @deprecated will be removed in 1.0. Use \Psy\debug instead
      *
      * @param array  $vars        Scope variables from the calling context (default: array())
@@ -151,10 +151,12 @@ class Shell extends Application
      */
     protected function getDefaultInputDefinition()
     {
-        return new InputDefinition(array(
+        return new InputDefinition(
+            array(
             new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
             new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display this help message.'),
-        ));
+            )
+        );
     }
 
     /**
@@ -629,9 +631,11 @@ class Shell extends Application
      */
     private function addCodeBufferToHistory()
     {
-        $codeBuffer = array_filter($this->codeBuffer, function ($line) {
-            return !$line instanceof SilentInput;
-        });
+        $codeBuffer = array_filter(
+            $this->codeBuffer, function ($line) {
+                return !$line instanceof SilentInput;
+            }
+        );
 
         $code = implode("\n", $codeBuffer);
 
@@ -770,17 +774,17 @@ class Shell extends Application
         $severity = $e->getSeverity();
         if ($severity & error_reporting()) {
             switch ($severity) {
-                case E_WARNING:
-                case E_NOTICE:
-                case E_CORE_WARNING:
-                case E_COMPILE_WARNING:
-                case E_USER_WARNING:
-                case E_USER_NOTICE:
-                case E_STRICT:
-                    return 'warning';
+            case E_WARNING:
+            case E_NOTICE:
+            case E_CORE_WARNING:
+            case E_COMPILE_WARNING:
+            case E_USER_WARNING:
+            case E_USER_NOTICE:
+            case E_STRICT:
+                return 'warning';
 
-                default:
-                    return 'error';
+            default:
+                return 'error';
             }
         } else {
             // Since this is below the user's reporting threshold, it's always going to be a warning.

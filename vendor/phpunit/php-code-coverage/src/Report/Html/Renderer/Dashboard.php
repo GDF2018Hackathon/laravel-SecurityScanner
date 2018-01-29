@@ -248,8 +248,9 @@ class Dashboard extends Renderer
 
         foreach ($classes as $className => $class) {
             foreach ($class['methods'] as $methodName => $method) {
-                if ($method['coverage'] < $this->highLowerBound &&
-                    $method['ccn'] > 1) {
+                if ($method['coverage'] < $this->highLowerBound 
+                    && $method['ccn'] > 1
+                ) {
                     if ($className !== '*') {
                         $key = $className . '::' . $methodName;
                     } else {
@@ -260,8 +261,9 @@ class Dashboard extends Renderer
                 }
             }
 
-            if ($class['coverage'] < $this->highLowerBound &&
-                $class['ccn'] > \count($class['methods'])) {
+            if ($class['coverage'] < $this->highLowerBound 
+                && $class['ccn'] > \count($class['methods'])
+            ) {
                 $classRisks[$className] = $class['crap'];
             }
         }

@@ -39,8 +39,9 @@ class DefaultPhpProcess extends AbstractPhpProcess
     public function runJob($job, array $settings = [])
     {
         if ($this->useTempFile || $this->stdin) {
-            if (!($this->tempFile = \tempnam(\sys_get_temp_dir(), 'PHPUnit')) ||
-                \file_put_contents($this->tempFile, $job) === false) {
+            if (!($this->tempFile = \tempnam(\sys_get_temp_dir(), 'PHPUnit')) 
+                || \file_put_contents($this->tempFile, $job) === false
+            ) {
                 throw new Exception(
                     'Unable to write temporary file'
                 );

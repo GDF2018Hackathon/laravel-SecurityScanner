@@ -76,9 +76,9 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                       . 'ruiI2tsEdGFTLTsyU+GeRqC7zN0aTnTQajarUylKJ3UWr/r1kg==';
 
         $this->privateKeySerializer->expects($this->once())
-                                   ->method('parse')
-                                   ->with($keyContent)
-                                   ->willReturn($privateKey);
+            ->method('parse')
+            ->with($keyContent)
+            ->willReturn($privateKey);
 
         $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
         $this->assertSame($privateKey, $parser->getPrivateKey($this->getPrivateKey()));
@@ -98,7 +98,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     public function getPrivateKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
     {
         $this->privateKeySerializer->expects($this->never())
-                                   ->method('parse');
+            ->method('parse');
 
         $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
         $parser->getPrivateKey($this->getPublicKey());
@@ -121,9 +121,9 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
                       . 'd0wxa2iFruiI2tsEdGFTLTsyU+GeRqC7zN0aTnTQajarUylKJ3UWr/r1kg==';
 
         $this->publicKeySerializer->expects($this->once())
-                                  ->method('parse')
-                                  ->with($keyContent)
-                                  ->willReturn($publicKey);
+            ->method('parse')
+            ->with($keyContent)
+            ->willReturn($publicKey);
 
         $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
         $this->assertSame($publicKey, $parser->getPublicKey($this->getPublicKey()));
@@ -143,7 +143,7 @@ class KeyParserTest extends \PHPUnit_Framework_TestCase
     public function getPublicKeyShouldRaiseExceptionWhenAWrongKeyWasGiven()
     {
         $this->publicKeySerializer->expects($this->never())
-                                  ->method('parse');
+            ->method('parse');
 
         $parser = new KeyParser($this->adapter, $this->privateKeySerializer, $this->publicKeySerializer);
         $parser->getPublicKey($this->getPrivateKey());

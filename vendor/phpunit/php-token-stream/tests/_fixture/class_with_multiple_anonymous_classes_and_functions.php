@@ -4,13 +4,15 @@ class class_with_multiple_anonymous_classes_and_functions
     public function m()
     {
         $c = new class {
-            public function n() {
+            public function n() 
+            {
                 return true;
             }
         };
 
         $d = new class {
-            public function o() {
+            public function o() 
+            {
                 return false;
             }
         };

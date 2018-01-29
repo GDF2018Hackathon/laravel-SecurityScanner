@@ -52,14 +52,16 @@ class PhpMatcherDumperTest extends TestCase
     public function testDumpWhenSchemeIsUsedWithoutAProperDumper()
     {
         $collection = new RouteCollection();
-        $collection->add('secure', new Route(
-            '/secure',
-            array(),
-            array(),
-            array(),
-            '',
-            array('https')
-        ));
+        $collection->add(
+            'secure', new Route(
+                '/secure',
+                array(),
+                array(),
+                array(),
+                '',
+                array('https')
+            )
+        );
         $dumper = new PhpMatcherDumper($collection);
         $dumper->dump();
     }
@@ -72,9 +74,9 @@ class PhpMatcherDumperTest extends TestCase
         $class = $this->generateDumpedMatcher($collection, true);
 
         $matcher = $this->getMockBuilder($class)
-                        ->setMethods(array('redirect'))
-                        ->setConstructorArgs(array(new RequestContext()))
-                        ->getMock();
+            ->setMethods(array('redirect'))
+            ->setConstructorArgs(array(new RequestContext()))
+            ->getMock();
 
         $matcher->expects($this->once())->method('redirect')->with('/foo%3Abar/', 'foo')->willReturn(array());
 
@@ -101,82 +103,106 @@ class PhpMatcherDumperTest extends TestCase
         $collection->add('overridden', new Route('/overridden'));
 
         // defaults and requirements
-        $collection->add('foo', new Route(
-            '/foo/{bar}',
-            array('def' => 'test'),
-            array('bar' => 'baz|symfony')
-        ));
+        $collection->add(
+            'foo', new Route(
+                '/foo/{bar}',
+                array('def' => 'test'),
+                array('bar' => 'baz|symfony')
+            )
+        );
         // method requirement
-        $collection->add('bar', new Route(
-            '/bar/{foo}',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('GET', 'head')
-        ));
+        $collection->add(
+            'bar', new Route(
+                '/bar/{foo}',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('GET', 'head')
+            )
+        );
         // GET method requirement automatically adds HEAD as valid
-        $collection->add('barhead', new Route(
-            '/barhead/{foo}',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('GET')
-        ));
+        $collection->add(
+            'barhead', new Route(
+                '/barhead/{foo}',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('GET')
+            )
+        );
         // simple
-        $collection->add('baz', new Route(
-            '/test/baz'
-        ));
+        $collection->add(
+            'baz', new Route(
+                '/test/baz'
+            )
+        );
         // simple with extension
-        $collection->add('baz2', new Route(
-            '/test/baz.html'
-        ));
+        $collection->add(
+            'baz2', new Route(
+                '/test/baz.html'
+            )
+        );
         // trailing slash
-        $collection->add('baz3', new Route(
-            '/test/baz3/'
-        ));
+        $collection->add(
+            'baz3', new Route(
+                '/test/baz3/'
+            )
+        );
         // trailing slash with variable
-        $collection->add('baz4', new Route(
-            '/test/{foo}/'
-        ));
+        $collection->add(
+            'baz4', new Route(
+                '/test/{foo}/'
+            )
+        );
         // trailing slash and method
-        $collection->add('baz5', new Route(
-            '/test/{foo}/',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('post')
-        ));
+        $collection->add(
+            'baz5', new Route(
+                '/test/{foo}/',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('post')
+            )
+        );
         // complex name
-        $collection->add('baz.baz6', new Route(
-            '/test/{foo}/',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('put')
-        ));
+        $collection->add(
+            'baz.baz6', new Route(
+                '/test/{foo}/',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('put')
+            )
+        );
         // defaults without variable
-        $collection->add('foofoo', new Route(
-            '/foofoo',
-            array('def' => 'test')
-        ));
+        $collection->add(
+            'foofoo', new Route(
+                '/foofoo',
+                array('def' => 'test')
+            )
+        );
         // pattern with quotes
-        $collection->add('quoter', new Route(
-            '/{quoter}',
-            array(),
-            array('quoter' => '[\']+')
-        ));
+        $collection->add(
+            'quoter', new Route(
+                '/{quoter}',
+                array(),
+                array('quoter' => '[\']+')
+            )
+        );
         // space in pattern
-        $collection->add('space', new Route(
-            '/spa ce'
-        ));
+        $collection->add(
+            'space', new Route(
+                '/spa ce'
+            )
+        );
 
         // prefixes
         $collection1 = new RouteCollection();
@@ -295,24 +321,28 @@ class PhpMatcherDumperTest extends TestCase
         $redirectCollection = clone $collection;
 
         // force HTTPS redirection
-        $redirectCollection->add('secure', new Route(
-            '/secure',
-            array(),
-            array(),
-            array(),
-            '',
-            array('https')
-        ));
+        $redirectCollection->add(
+            'secure', new Route(
+                '/secure',
+                array(),
+                array(),
+                array(),
+                '',
+                array('https')
+            )
+        );
 
         // force HTTP redirection
-        $redirectCollection->add('nonsecure', new Route(
-            '/nonsecure',
-            array(),
-            array(),
-            array(),
-            '',
-            array('http')
-        ));
+        $redirectCollection->add(
+            'nonsecure', new Route(
+                '/nonsecure',
+                array(),
+                array(),
+                array(),
+                '',
+                array('http')
+            )
+        );
 
         /* test case 3 */
 
@@ -326,60 +356,72 @@ class PhpMatcherDumperTest extends TestCase
 
         /* test case 4 */
         $headMatchCasesCollection = new RouteCollection();
-        $headMatchCasesCollection->add('just_head', new Route(
-            '/just_head',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('HEAD')
-        ));
-        $headMatchCasesCollection->add('head_and_get', new Route(
-            '/head_and_get',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('HEAD', 'GET')
-        ));
-        $headMatchCasesCollection->add('get_and_head', new Route(
-            '/get_and_head',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('GET', 'HEAD')
-        ));
-        $headMatchCasesCollection->add('post_and_head', new Route(
-            '/post_and_get',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('POST', 'HEAD')
-        ));
-        $headMatchCasesCollection->add('put_and_post', new Route(
-            '/put_and_post',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('PUT', 'POST')
-        ));
-        $headMatchCasesCollection->add('put_and_get_and_head', new Route(
-            '/put_and_post',
-            array(),
-            array(),
-            array(),
-            '',
-            array(),
-            array('PUT', 'GET', 'HEAD')
-        ));
+        $headMatchCasesCollection->add(
+            'just_head', new Route(
+                '/just_head',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('HEAD')
+            )
+        );
+        $headMatchCasesCollection->add(
+            'head_and_get', new Route(
+                '/head_and_get',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('HEAD', 'GET')
+            )
+        );
+        $headMatchCasesCollection->add(
+            'get_and_head', new Route(
+                '/get_and_head',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('GET', 'HEAD')
+            )
+        );
+        $headMatchCasesCollection->add(
+            'post_and_head', new Route(
+                '/post_and_get',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('POST', 'HEAD')
+            )
+        );
+        $headMatchCasesCollection->add(
+            'put_and_post', new Route(
+                '/put_and_post',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('PUT', 'POST')
+            )
+        );
+        $headMatchCasesCollection->add(
+            'put_and_get_and_head', new Route(
+                '/put_and_post',
+                array(),
+                array(),
+                array(),
+                '',
+                array(),
+                array('PUT', 'GET', 'HEAD')
+            )
+        );
 
         /* test case 5 */
         $groupOptimisedCollection = new RouteCollection();

@@ -86,9 +86,11 @@ class ClientTest extends TestCase
         $m = $r->getMethod('filterResponse');
         $m->setAccessible(true);
 
-        $response = new StreamedResponse(function () {
-            echo 'foo';
-        });
+        $response = new StreamedResponse(
+            function () {
+                echo 'foo';
+            }
+        );
 
         $domResponse = $m->invoke($client, $response);
         $this->assertEquals('foo', $domResponse->getContent());
@@ -156,13 +158,11 @@ class ClientTest extends TestCase
             ->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')
             ->setConstructorArgs(array($source, 'original', 'mime/original', 123, UPLOAD_ERR_OK, true))
             ->setMethods(array('getSize'))
-            ->getMock()
-        ;
+            ->getMock();
 
         $file->expects($this->once())
             ->method('getSize')
-            ->will($this->returnValue(INF))
-        ;
+            ->will($this->returnValue(INF));
 
         $client->request('POST', '/', array(), array($file));
 

@@ -42,9 +42,11 @@ class TinkerCommand extends Command
     {
         $this->getApplication()->setCatchExceptions(false);
 
-        $config = new Configuration([
+        $config = new Configuration(
+            [
             'updateCheck' => 'never'
-        ]);
+            ]
+        );
 
         $config->getPresenter()->addCasters(
             $this->getCasters()

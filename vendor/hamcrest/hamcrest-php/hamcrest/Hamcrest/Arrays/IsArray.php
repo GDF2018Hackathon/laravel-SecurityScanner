@@ -37,7 +37,9 @@ class IsArray extends TypeSafeMatcher
             return false;
         }
 
-        /** @var $matcher \Hamcrest\Matcher */
+        /**
+ * @var $matcher \Hamcrest\Matcher 
+*/
         foreach ($this->_elementMatchers as $k => $matcher) {
             if (!$matcher->matches($array[$k])) {
                 return false;
@@ -55,18 +57,19 @@ class IsArray extends TypeSafeMatcher
             return;
         } elseif (array_keys($actual) != array_keys($this->_elementMatchers)) {
             $mismatchDescription->appendText('array keys were ')
-                                                    ->appendValueList(
-                                                        $this->descriptionStart(),
-                                                        $this->descriptionSeparator(),
-                                                        $this->descriptionEnd(),
-                                                        array_keys($actual)
-                                                    )
-                                                    ;
+                ->appendValueList(
+                    $this->descriptionStart(),
+                    $this->descriptionSeparator(),
+                    $this->descriptionEnd(),
+                    array_keys($actual)
+                );
 
             return;
         }
 
-        /** @var $matcher \Hamcrest\Matcher */
+        /**
+ * @var $matcher \Hamcrest\Matcher 
+*/
         foreach ($this->_elementMatchers as $k => $matcher) {
             if (!$matcher->matches($actual[$k])) {
                 $mismatchDescription->appendText('element ')->appendValue($k)

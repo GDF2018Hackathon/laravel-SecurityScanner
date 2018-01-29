@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get(
+    '/', function () {
+        return view('welcome');
+    }
+);
 
 Auth::routes();
 Route::get('login/github', 'Auth\LoginController@redirectToProvider');
@@ -21,3 +23,6 @@ Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/gitMe', 'GithubController@getInfos');
 Route::get('/password', 'GithubController@pass');
+Route::get('/code', function () {
+    return view('code');
+});

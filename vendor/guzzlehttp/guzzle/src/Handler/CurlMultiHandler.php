@@ -17,7 +17,9 @@ use Psr\Http\Message\RequestInterface;
  */
 class CurlMultiHandler
 {
-    /** @var CurlFactoryInterface */
+    /**
+     * @var CurlFactoryInterface 
+     */
     private $factory;
     private $selectTimeout;
     private $active;
@@ -65,7 +67,9 @@ class CurlMultiHandler
 
         $promise = new Promise(
             [$this, 'execute'],
-            function () use ($id) { return $this->cancel($id); }
+            function () use ($id) {
+                return $this->cancel($id); 
+            }
         );
 
         $this->addRequest(['easy' => $easy, 'deferred' => $promise]);
@@ -95,15 +99,16 @@ class CurlMultiHandler
         // Step through the task queue which may add additional requests.
         P\queue()->run();
 
-        if ($this->active &&
-            curl_multi_select($this->_mh, $this->selectTimeout) === -1
+        if ($this->active 
+            && curl_multi_select($this->_mh, $this->selectTimeout) === -1
         ) {
             // Perform a usleep if a select returns -1.
             // See: https://bugs.php.net/bug.php?id=61141
             usleep(250);
         }
 
-        while (curl_multi_exec($this->_mh, $this->active) === CURLM_CALL_MULTI_PERFORM);
+        while (curl_multi_exec($this->_mh, $this->active) === CURLM_CALL_MULTI_PERFORM) {
+        }
 
         $this->processMessages();
     }

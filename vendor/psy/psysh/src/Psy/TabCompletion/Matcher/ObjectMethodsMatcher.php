@@ -70,9 +70,9 @@ class ObjectMethodsMatcher extends AbstractContextAwareMatcher
         $prevToken = array_pop($tokens);
 
         switch (true) {
-            case self::tokenIs($token, self::T_OBJECT_OPERATOR):
-            case self::tokenIs($prevToken, self::T_OBJECT_OPERATOR):
-                return true;
+        case self::tokenIs($token, self::T_OBJECT_OPERATOR):
+        case self::tokenIs($prevToken, self::T_OBJECT_OPERATOR):
+            return true;
         }
 
         return false;

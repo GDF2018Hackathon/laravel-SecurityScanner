@@ -20,29 +20,39 @@ use Webmozart\Assert\Assert;
  */
 class Serializer
 {
-    /** @var string The string to indent the comment with. */
+    /**
+     * @var string The string to indent the comment with. 
+     */
     protected $indentString = ' ';
 
-    /** @var int The number of times the indent string is repeated. */
+    /**
+     * @var int The number of times the indent string is repeated. 
+     */
     protected $indent = 0;
 
-    /** @var bool Whether to indent the first line with the given indent amount and string. */
+    /**
+     * @var bool Whether to indent the first line with the given indent amount and string. 
+     */
     protected $isFirstLineIndented = true;
 
-    /** @var int|null The max length of a line. */
+    /**
+     * @var int|null The max length of a line. 
+     */
     protected $lineLength = null;
 
-    /** @var DocBlock\Tags\Formatter A custom tag formatter. */
+    /**
+     * @var DocBlock\Tags\Formatter A custom tag formatter. 
+     */
     protected $tagFormatter = null;
 
     /**
      * Create a Serializer instance.
      *
-     * @param int $indent The number of times the indent string is repeated.
-     * @param string   $indentString    The string to indent the comment with.
-     * @param bool     $indentFirstLine Whether to indent the first line.
-     * @param int|null $lineLength The max length of a line or NULL to disable line wrapping.
-     * @param DocBlock\Tags\Formatter $tagFormatter A custom tag formatter, defaults to PassthroughFormatter.
+     * @param int                     $indent          The number of times the indent string is repeated.
+     * @param string                  $indentString    The string to indent the comment with.
+     * @param bool                    $indentFirstLine Whether to indent the first line.
+     * @param int|null                $lineLength      The max length of a line or NULL to disable line wrapping.
+     * @param DocBlock\Tags\Formatter $tagFormatter    A custom tag formatter, defaults to PassthroughFormatter.
      */
     public function __construct($indent = 0, $indentString = ' ', $indentFirstLine = true, $lineLength = null, $tagFormatter = null)
     {
@@ -81,7 +91,12 @@ class Serializer
             )
         );
 
-        $comment = "{$firstIndent}/**\n{$indent} * {$text}\n{$indent} *\n";
+        $comment = "{$firstIndent}/**\n";
+        if ($text) {
+            $comment .= "{$indent} * {$text}\n";
+            $comment .= "{$indent} *\n";
+        }
+
         $comment = $this->addTagBlock($docblock, $wrapLength, $indent, $comment);
         $comment .= $indent . ' */';
 
@@ -109,7 +124,7 @@ class Serializer
     }
 
     /**
-     * @param DocBlock $docblock
+     * @param DocBlock   $docblock
      * @param $wrapLength
      * @return string
      */
@@ -126,7 +141,7 @@ class Serializer
     }
 
     /**
-     * @param DocBlock $docblock
+     * @param DocBlock   $docblock
      * @param $wrapLength
      * @param $indent
      * @param $comment

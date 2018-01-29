@@ -7,11 +7,17 @@ use PhpParser\Node\Expr;
 
 class MethodCall extends Expr
 {
-    /** @var Expr Variable holding object */
+    /**
+     * @var Expr Variable holding object 
+     */
     public $var;
-    /** @var string|Expr Method name */
+    /**
+     * @var string|Expr Method name 
+     */
     public $name;
-    /** @var Arg[] Arguments */
+    /**
+     * @var Arg[] Arguments 
+     */
     public $args;
 
     /**
@@ -22,14 +28,16 @@ class MethodCall extends Expr
      * @param Arg[]       $args       Arguments
      * @param array       $attributes Additional attributes
      */
-    public function __construct(Expr $var, $name, array $args = array(), array $attributes = array()) {
+    public function __construct(Expr $var, $name, array $args = array(), array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->var = $var;
         $this->name = $name;
         $this->args = $args;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('var', 'name', 'args');
     }
 }

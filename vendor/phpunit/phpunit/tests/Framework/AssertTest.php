@@ -2470,9 +2470,11 @@ XML;
     {
         $this->assertThat(
             null,
-            $this->callback(function ($other) {
-                return true;
-            })
+            $this->callback(
+                function ($other) {
+                    return true;
+                }
+            )
         );
     }
 

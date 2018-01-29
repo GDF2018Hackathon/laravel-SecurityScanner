@@ -18,7 +18,7 @@ class AuthenticateSession
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param  \Illuminate\Contracts\Auth\Factory $auth
      * @return void
      */
     public function __construct(AuthFactory $auth)
@@ -29,8 +29,8 @@ class AuthenticateSession
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -55,15 +55,17 @@ class AuthenticateSession
             $this->logout($request);
         }
 
-        return tap($next($request), function () use ($request) {
-            $this->storePasswordHashInSession($request);
-        });
+        return tap(
+            $next($request), function () use ($request) {
+                $this->storePasswordHashInSession($request);
+            }
+        );
     }
 
     /**
      * Store the user's current password hash in the session.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return void
      */
     protected function storePasswordHashInSession($request)
@@ -72,15 +74,17 @@ class AuthenticateSession
             return;
         }
 
-        $request->session()->put([
+        $request->session()->put(
+            [
             'password_hash' => $request->user()->getAuthPassword(),
-        ]);
+            ]
+        );
     }
 
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return void
      *
      * @throws \Illuminate\Auth\AuthenticationException

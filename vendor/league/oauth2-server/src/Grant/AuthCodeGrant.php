@@ -135,30 +135,29 @@ class AuthCodeGrant extends AbstractAuthorizeGrant
             }
 
             switch ($authCodePayload->code_challenge_method) {
-                case 'plain':
-                    if (hash_equals($codeVerifier, $authCodePayload->code_challenge) === false) {
-                        throw OAuthServerException::invalidGrant('Failed to verify `code_verifier`.');
-                    }
+            case 'plain':
+                if (hash_equals($codeVerifier, $authCodePayload->code_challenge) === false) {
+                    throw OAuthServerException::invalidGrant('Failed to verify `code_verifier`.');
+                }
 
-                    break;
-                case 'S256':
-                    if (
-                        hash_equals(
-                            hash('sha256', strtr(rtrim(base64_encode($codeVerifier), '='), '+/', '-_')),
-                            $authCodePayload->code_challenge
-                        ) === false
-                    ) {
-                        throw OAuthServerException::invalidGrant('Failed to verify `code_verifier`.');
-                    }
-                    // @codeCoverageIgnoreStart
-                    break;
-                default:
-                    throw OAuthServerException::serverError(
-                        sprintf(
-                            'Unsupported code challenge method `%s`',
-                            $authCodePayload->code_challenge_method
-                        )
-                    );
+                break;
+            case 'S256':
+                if (hash_equals(
+                    hash('sha256', strtr(rtrim(base64_encode($codeVerifier), '='), '+/', '-_')),
+                    $authCodePayload->code_challenge
+                ) === false
+                ) {
+                    throw OAuthServerException::invalidGrant('Failed to verify `code_verifier`.');
+                }
+                // @codeCoverageIgnoreStart
+                break;
+            default:
+                throw OAuthServerException::serverError(
+                    sprintf(
+                        'Unsupported code challenge method `%s`',
+                        $authCodePayload->code_challenge_method
+                    )
+                );
                 // @codeCoverageIgnoreEnd
             }
         }
@@ -227,14 +226,12 @@ class AuthCodeGrant extends AbstractAuthorizeGrant
 
         $redirectUri = $this->getQueryStringParameter('redirect_uri', $request);
         if ($redirectUri !== null) {
-            if (
-                is_string($client->getRedirectUri())
+            if (is_string($client->getRedirectUri())
                 && (strcmp($client->getRedirectUri(), $redirectUri) !== 0)
             ) {
                 $this->getEmitter()->emit(new RequestEvent(RequestEvent::CLIENT_AUTHENTICATION_FAILED, $request));
                 throw OAuthServerException::invalidClient();
-            } elseif (
-                is_array($client->getRedirectUri())
+            } elseif (is_array($client->getRedirectUri())
                 && in_array($redirectUri, $client->getRedirectUri()) === false
             ) {
                 $this->getEmitter()->emit(new RequestEvent(RequestEvent::CLIENT_AUTHENTICATION_FAILED, $request));

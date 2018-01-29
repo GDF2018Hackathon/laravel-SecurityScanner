@@ -33,9 +33,11 @@ class HelpCommand extends Command
         $this
             ->setName('help')
             ->setAliases(array('?'))
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', null),
-            ))
+                )
+            )
             ->setDescription('Show a list of commands. Type `help [foo]` for information about [foo].')
             ->setHelp('My. How meta.');
     }
@@ -79,11 +81,13 @@ class HelpCommand extends Command
                     $aliases = '';
                 }
 
-                $table->addRow(array(
+                $table->addRow(
+                    array(
                     sprintf('<info>%s</info>', $name),
                     $command->getDescription(),
                     $aliases,
-                ));
+                    )
+                );
             }
 
             $output->startPaging();

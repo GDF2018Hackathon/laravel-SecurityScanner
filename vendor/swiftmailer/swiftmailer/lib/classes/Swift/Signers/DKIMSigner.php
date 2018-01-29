@@ -11,7 +11,7 @@
 /**
  * DKIM Signer used to apply DKIM Signature to a message.
  *
- * @author     Xavier De Cock <xdecock@gmail.com>
+ * @author Xavier De Cock <xdecock@gmail.com>
  */
 class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
 {
@@ -292,17 +292,17 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
     public function setHashAlgorithm($hash)
     {
         switch ($hash) {
-            case 'rsa-sha1':
-                $this->hashAlgorithm = 'rsa-sha1';
-                break;
-            case 'rsa-sha256':
-                $this->hashAlgorithm = 'rsa-sha256';
-                if (!defined('OPENSSL_ALGO_SHA256')) {
-                    throw new Swift_SwiftException('Unable to set sha256 as it is not supported by OpenSSL.');
-                }
-                break;
-            default:
-                throw new Swift_SwiftException('Unable to set the hash algorithm, must be one of rsa-sha1 or rsa-sha256 (%s given).', $hash);
+        case 'rsa-sha1':
+            $this->hashAlgorithm = 'rsa-sha1';
+            break;
+        case 'rsa-sha256':
+            $this->hashAlgorithm = 'rsa-sha256';
+            if (!defined('OPENSSL_ALGO_SHA256')) {
+                throw new Swift_SwiftException('Unable to set sha256 as it is not supported by OpenSSL.');
+            }
+            break;
+        default:
+            throw new Swift_SwiftException('Unable to set the hash algorithm, must be one of rsa-sha1 or rsa-sha256 (%s given).', $hash);
         }
 
         return $this;
@@ -430,12 +430,12 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
     {
         // Init
         switch ($this->hashAlgorithm) {
-            case 'rsa-sha256':
-                $this->bodyHashHandler = hash_init('sha256');
-                break;
-            case 'rsa-sha1':
-                $this->bodyHashHandler = hash_init('sha1');
-                break;
+        case 'rsa-sha256':
+            $this->bodyHashHandler = hash_init('sha256');
+            break;
+        case 'rsa-sha1':
+            $this->bodyHashHandler = hash_init('sha1');
+            break;
         }
         $this->bodyCanonLine = '';
     }
@@ -564,15 +564,15 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
     protected function addHeader($header, $is_sig = false)
     {
         switch ($this->headerCanon) {
-            case 'relaxed':
-                // Prepare Header and cascade
-                $exploded = explode(':', $header, 2);
-                $name = strtolower(trim($exploded[0]));
-                $value = str_replace("\r\n", '', $exploded[1]);
-                $value = preg_replace("/[ \t][ \t]+/", ' ', $value);
-                $header = $name.':'.trim($value).($is_sig ? '' : "\r\n");
-            case 'simple':
-                // Nothing to do
+        case 'relaxed':
+            // Prepare Header and cascade
+            $exploded = explode(':', $header, 2);
+            $name = strtolower(trim($exploded[0]));
+            $value = str_replace("\r\n", '', $exploded[1]);
+            $value = preg_replace("/[ \t][ \t]+/", ' ', $value);
+            $header = $name.':'.trim($value).($is_sig ? '' : "\r\n");
+        case 'simple':
+            // Nothing to do
         }
         $this->addToHeaderHash($header);
     }
@@ -588,43 +588,43 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
                 continue;
             }
             switch ($string[$i]) {
-                case "\r":
-                    $this->bodyCanonLastChar = "\r";
-                    break;
-                case "\n":
-                    if ($this->bodyCanonLastChar == "\r") {
-                        if ($method) {
-                            $this->bodyCanonSpace = false;
-                        }
-                        if ($this->bodyCanonLine == '') {
-                            ++$this->bodyCanonEmptyCounter;
-                        } else {
-                            $this->bodyCanonLine = '';
-                            $canon .= "\r\n";
-                        }
-                    } else {
-                        // Wooops Error
-                        // todo handle it but should never happen
-                    }
-                    break;
-                case ' ':
-                case "\t":
+            case "\r":
+                $this->bodyCanonLastChar = "\r";
+                break;
+            case "\n":
+                if ($this->bodyCanonLastChar == "\r") {
                     if ($method) {
-                        $this->bodyCanonSpace = true;
-                        break;
-                    }
-                default:
-                    if ($this->bodyCanonEmptyCounter > 0) {
-                        $canon .= str_repeat("\r\n", $this->bodyCanonEmptyCounter);
-                        $this->bodyCanonEmptyCounter = 0;
-                    }
-                    if ($this->bodyCanonSpace) {
-                        $this->bodyCanonLine .= ' ';
-                        $canon .= ' ';
                         $this->bodyCanonSpace = false;
                     }
-                    $this->bodyCanonLine .= $string[$i];
-                    $canon .= $string[$i];
+                    if ($this->bodyCanonLine == '') {
+                        ++$this->bodyCanonEmptyCounter;
+                    } else {
+                        $this->bodyCanonLine = '';
+                        $canon .= "\r\n";
+                    }
+                } else {
+                    // Wooops Error
+                    // todo handle it but should never happen
+                }
+                break;
+            case ' ':
+            case "\t":
+                if ($method) {
+                    $this->bodyCanonSpace = true;
+                    break;
+                }
+            default:
+                if ($this->bodyCanonEmptyCounter > 0) {
+                    $canon .= str_repeat("\r\n", $this->bodyCanonEmptyCounter);
+                    $this->bodyCanonEmptyCounter = 0;
+                }
+                if ($this->bodyCanonSpace) {
+                    $this->bodyCanonLine .= ' ';
+                    $canon .= ' ';
+                    $this->bodyCanonSpace = false;
+                }
+                $this->bodyCanonLine .= $string[$i];
+                $canon .= $string[$i];
             }
         }
         $this->addToBodyHash($canon);
@@ -667,12 +667,12 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
     {
         $signature = '';
         switch ($this->hashAlgorithm) {
-            case 'rsa-sha1':
-                $algorithm = OPENSSL_ALGO_SHA1;
-                break;
-            case 'rsa-sha256':
-                $algorithm = OPENSSL_ALGO_SHA256;
-                break;
+        case 'rsa-sha1':
+            $algorithm = OPENSSL_ALGO_SHA1;
+            break;
+        case 'rsa-sha256':
+            $algorithm = OPENSSL_ALGO_SHA256;
+            break;
         }
         $pkeyId = openssl_get_privatekey($this->privateKey, $this->passphrase);
         if (!$pkeyId) {

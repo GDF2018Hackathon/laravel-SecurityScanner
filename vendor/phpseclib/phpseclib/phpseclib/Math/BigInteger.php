@@ -62,11 +62,12 @@ use phpseclib\Crypt\Random;
  */
 class BigInteger
 {
-    /**#@+
+    /**
+* #@+
      * Reduction constants
      *
      * @access private
-     * @see BigInteger::_reduce()
+     * @see    BigInteger::_reduce()
      */
     /**
      * @see BigInteger::_montgomery()
@@ -89,9 +90,12 @@ class BigInteger
      * @see BigInteger::__clone()
      */
     const NONE = 4;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
      * Array constants
      *
      * Rather than create a thousands and thousands of new BigInteger objects in repeated function calls to add() and
@@ -107,12 +111,16 @@ class BigInteger
      * $result[self::SIGN] contains the sign.
      */
     const SIGN = 1;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
+     *
      * @access private
-     * @see BigInteger::_montgomery()
-     * @see BigInteger::_barrett()
+     * @see    BigInteger::_montgomery()
+     * @see    BigInteger::_barrett()
     */
     /**
      * Cache constants
@@ -124,13 +132,16 @@ class BigInteger
      * $cache[self::DATA] contains the cached data.
      */
     const DATA = 1;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
      * Mode constants.
      *
      * @access private
-     * @see BigInteger::__construct()
+     * @see    BigInteger::__construct()
     */
     /**
      * To use the pure-PHP implementation
@@ -148,7 +159,9 @@ class BigInteger
      * (if present; otherwise, either the BCMath or the internal implementation will be used)
      */
     const MODE_GMP = 3;
-    /**#@-*/
+    /**
+* #@-
+*/
 
     /**
      * Karatsuba Cutoff
@@ -159,7 +172,8 @@ class BigInteger
      */
     const KARATSUBA_CUTOFF = 25;
 
-    /**#@+
+    /**
+     * #@+
      * Static properties used by the pure-PHP implementation.
      *
      * @see __construct()
@@ -181,12 +195,14 @@ class BigInteger
      */
     protected static $max10Len;
     protected static $maxDigit2;
-    /**#@-*/
+    /**
+     * #@-
+     */
 
     /**
      * Holds the BigInteger's value.
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $value;
@@ -194,7 +210,7 @@ class BigInteger
     /**
      * Holds the BigInteger's magnitude.
      *
-     * @var bool
+     * @var    bool
      * @access private
      */
     var $is_negative = false;
@@ -202,7 +218,7 @@ class BigInteger
     /**
      * Precision
      *
-     * @see self::setPrecision()
+     * @see    self::setPrecision()
      * @access private
      */
     var $precision = -1;
@@ -210,7 +226,7 @@ class BigInteger
     /**
      * Precision Bitmask
      *
-     * @see self::setPrecision()
+     * @see    self::setPrecision()
      * @access private
      */
     var $bitmask = false;
@@ -222,9 +238,9 @@ class BigInteger
      * a variable that'll be serializable regardless of whether or not extensions are being used.  Unlike $this->value,
      * however, $this->hex is only calculated when $this->__sleep() is called.
      *
-     * @see self::__sleep()
-     * @see self::__wakeup()
-     * @var string
+     * @see    self::__sleep()
+     * @see    self::__wakeup()
+     * @var    string
      * @access private
      */
     var $hex;
@@ -244,8 +260,8 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param $x base-10 number or base-$base number if $base set.
-     * @param int $base
+     * @param  x base-10 number or base- $base number if $base set.
+     * @param  int                       $base
      * @return \phpseclib\Math\BigInteger
      * @access public
      */
@@ -253,14 +269,14 @@ class BigInteger
     {
         if (!defined('MATH_BIGINTEGER_MODE')) {
             switch (true) {
-                case extension_loaded('gmp'):
-                    define('MATH_BIGINTEGER_MODE', self::MODE_GMP);
-                    break;
-                case extension_loaded('bcmath'):
-                    define('MATH_BIGINTEGER_MODE', self::MODE_BCMATH);
-                    break;
-                default:
-                    define('MATH_BIGINTEGER_MODE', self::MODE_INTERNAL);
+            case extension_loaded('gmp'):
+                define('MATH_BIGINTEGER_MODE', self::MODE_GMP);
+                break;
+            case extension_loaded('bcmath'):
+                define('MATH_BIGINTEGER_MODE', self::MODE_BCMATH);
+                break;
+            default:
+                define('MATH_BIGINTEGER_MODE', self::MODE_INTERNAL);
             }
         }
 
@@ -289,14 +305,14 @@ class BigInteger
 
             // it doesn't appear that OpenSSL versions were reported upon until PHP 5.3+
             switch (true) {
-                case !isset($versions['Header']):
-                case !isset($versions['Library']):
-                case $versions['Header'] == $versions['Library']:
-                case version_compare($versions['Header'], '1.0.0') >= 0 && version_compare($versions['Library'], '1.0.0') >= 0:
-                    define('MATH_BIGINTEGER_OPENSSL_ENABLED', true);
-                    break;
-                default:
-                    define('MATH_BIGINTEGER_OPENSSL_DISABLE', true);
+            case !isset($versions['Header']):
+            case !isset($versions['Library']):
+            case $versions['Header'] == $versions['Library']:
+            case version_compare($versions['Header'], '1.0.0') >= 0 && version_compare($versions['Library'], '1.0.0') >= 0:
+                define('MATH_BIGINTEGER_OPENSSL_ENABLED', true);
+                break;
+            default:
+                define('MATH_BIGINTEGER_OPENSSL_DISABLE', true);
             }
         }
 
@@ -306,43 +322,43 @@ class BigInteger
 
         if (empty(self::$base) && MATH_BIGINTEGER_MODE == self::MODE_INTERNAL) {
             switch (PHP_INT_SIZE) {
-                case 8: // use 64-bit integers if int size is 8 bytes
-                    self::$base      = 31;
-                    self::$baseFull  = 0x80000000;
-                    self::$maxDigit  = 0x7FFFFFFF;
-                    self::$msb       = 0x40000000;
-                    self::$max10     = 1000000000;
-                    self::$max10Len  = 9;
-                    self::$maxDigit2 = pow(2, 62);
-                    break;
+            case 8: // use 64-bit integers if int size is 8 bytes
+                self::$base      = 31;
+                self::$baseFull  = 0x80000000;
+                self::$maxDigit  = 0x7FFFFFFF;
+                self::$msb       = 0x40000000;
+                self::$max10     = 1000000000;
+                self::$max10Len  = 9;
+                self::$maxDigit2 = pow(2, 62);
+                break;
                 //case 4: // use 64-bit floats if int size is 4 bytes
-                default:
-                    self::$base      = 26;
-                    self::$baseFull  = 0x4000000;
-                    self::$maxDigit  = 0x3FFFFFF;
-                    self::$msb       = 0x2000000;
-                    self::$max10     = 10000000;
-                    self::$max10Len  = 7;
-                    self::$maxDigit2 = pow(2, 52); // pow() prevents truncation
+            default:
+                self::$base      = 26;
+                self::$baseFull  = 0x4000000;
+                self::$maxDigit  = 0x3FFFFFF;
+                self::$msb       = 0x2000000;
+                self::$max10     = 10000000;
+                self::$max10Len  = 7;
+                self::$maxDigit2 = pow(2, 52); // pow() prevents truncation
             }
         }
 
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                switch (true) {
-                    case is_resource($x) && get_resource_type($x) == 'GMP integer':
-                    // PHP 5.6 switched GMP from using resources to objects
-                    case $x instanceof \GMP:
-                        $this->value = $x;
-                        return;
-                }
-                $this->value = gmp_init(0);
-                break;
-            case self::MODE_BCMATH:
-                $this->value = '0';
-                break;
-            default:
-                $this->value = array();
+        case self::MODE_GMP:
+            switch (true) {
+            case is_resource($x) && get_resource_type($x) == 'GMP integer':
+                // PHP 5.6 switched GMP from using resources to objects
+            case $x instanceof \GMP:
+                $this->value = $x;
+                return;
+            }
+            $this->value = gmp_init(0);
+            break;
+        case self::MODE_BCMATH:
+            $this->value = '0';
+            break;
+        default:
+            $this->value = array();
         }
 
         // '0' counts as empty() but when the base is 256 '0' is equal to ord('0') or 48
@@ -352,155 +368,155 @@ class BigInteger
         }
 
         switch ($base) {
-            case -256:
-                if (ord($x[0]) & 0x80) {
-                    $x = ~$x;
-                    $this->is_negative = true;
+        case -256:
+            if (ord($x[0]) & 0x80) {
+                $x = ~$x;
+                $this->is_negative = true;
+            }
+        case 256:
+            switch (MATH_BIGINTEGER_MODE) {
+            case self::MODE_GMP:
+                $this->value = function_exists('gmp_import') ?
+                    gmp_import($x) :
+                    gmp_init('0x' . bin2hex($x));
+                if ($this->is_negative) {
+                    $this->value = gmp_neg($this->value);
                 }
-            case 256:
-                switch (MATH_BIGINTEGER_MODE) {
-                    case self::MODE_GMP:
-                        $this->value = function_exists('gmp_import') ?
-                            gmp_import($x) :
-                            gmp_init('0x' . bin2hex($x));
-                        if ($this->is_negative) {
-                            $this->value = gmp_neg($this->value);
-                        }
-                        break;
-                    case self::MODE_BCMATH:
-                        // round $len to the nearest 4 (thanks, DavidMJ!)
-                        $len = (strlen($x) + 3) & 0xFFFFFFFC;
+                break;
+            case self::MODE_BCMATH:
+                // round $len to the nearest 4 (thanks, DavidMJ!)
+                $len = (strlen($x) + 3) & 0xFFFFFFFC;
 
-                        $x = str_pad($x, $len, chr(0), STR_PAD_LEFT);
+                $x = str_pad($x, $len, chr(0), STR_PAD_LEFT);
 
-                        for ($i = 0; $i < $len; $i+= 4) {
-                            $this->value = bcmul($this->value, '4294967296', 0); // 4294967296 == 2**32
-                            $this->value = bcadd($this->value, 0x1000000 * ord($x[$i]) + ((ord($x[$i + 1]) << 16) | (ord($x[$i + 2]) << 8) | ord($x[$i + 3])), 0);
-                        }
-
-                        if ($this->is_negative) {
-                            $this->value = '-' . $this->value;
-                        }
-
-                        break;
-                    // converts a base-2**8 (big endian / msb) number to base-2**26 (little endian / lsb)
-                    default:
-                        while (strlen($x)) {
-                            $this->value[] = $this->_bytes2int($this->_base256_rshift($x, self::$base));
-                        }
+                for ($i = 0; $i < $len; $i+= 4) {
+                    $this->value = bcmul($this->value, '4294967296', 0); // 4294967296 == 2**32
+                    $this->value = bcadd($this->value, 0x1000000 * ord($x[$i]) + ((ord($x[$i + 1]) << 16) | (ord($x[$i + 2]) << 8) | ord($x[$i + 3])), 0);
                 }
 
                 if ($this->is_negative) {
-                    if (MATH_BIGINTEGER_MODE != self::MODE_INTERNAL) {
-                        $this->is_negative = false;
-                    }
-                    $temp = $this->add(new static('-1'));
-                    $this->value = $temp->value;
+                    $this->value = '-' . $this->value;
                 }
+
                 break;
-            case 16:
-            case -16:
-                if ($base > 0 && $x[0] == '-') {
-                    $this->is_negative = true;
-                    $x = substr($x, 1);
-                }
-
-                $x = preg_replace('#^(?:0x)?([A-Fa-f0-9]*).*#', '$1', $x);
-
-                $is_negative = false;
-                if ($base < 0 && hexdec($x[0]) >= 8) {
-                    $this->is_negative = $is_negative = true;
-                    $x = bin2hex(~pack('H*', $x));
-                }
-
-                switch (MATH_BIGINTEGER_MODE) {
-                    case self::MODE_GMP:
-                        $temp = $this->is_negative ? '-0x' . $x : '0x' . $x;
-                        $this->value = gmp_init($temp);
-                        $this->is_negative = false;
-                        break;
-                    case self::MODE_BCMATH:
-                        $x = (strlen($x) & 1) ? '0' . $x : $x;
-                        $temp = new static(pack('H*', $x), 256);
-                        $this->value = $this->is_negative ? '-' . $temp->value : $temp->value;
-                        $this->is_negative = false;
-                        break;
-                    default:
-                        $x = (strlen($x) & 1) ? '0' . $x : $x;
-                        $temp = new static(pack('H*', $x), 256);
-                        $this->value = $temp->value;
-                }
-
-                if ($is_negative) {
-                    $temp = $this->add(new static('-1'));
-                    $this->value = $temp->value;
-                }
-                break;
-            case 10:
-            case -10:
-                // (?<!^)(?:-).*: find any -'s that aren't at the beginning and then any characters that follow that
-                // (?<=^|-)0*: find any 0's that are preceded by the start of the string or by a - (ie. octals)
-                // [^-0-9].*: find any non-numeric characters and then any characters that follow that
-                $x = preg_replace('#(?<!^)(?:-).*|(?<=^|-)0*|[^-0-9].*#', '', $x);
-
-                switch (MATH_BIGINTEGER_MODE) {
-                    case self::MODE_GMP:
-                        $this->value = gmp_init($x);
-                        break;
-                    case self::MODE_BCMATH:
-                        // explicitly casting $x to a string is necessary, here, since doing $x[0] on -1 yields different
-                        // results then doing it on '-1' does (modInverse does $x[0])
-                        $this->value = $x === '-' ? '0' : (string) $x;
-                        break;
-                    default:
-                        $temp = new static();
-
-                        $multiplier = new static();
-                        $multiplier->value = array(self::$max10);
-
-                        if ($x[0] == '-') {
-                            $this->is_negative = true;
-                            $x = substr($x, 1);
-                        }
-
-                        $x = str_pad($x, strlen($x) + ((self::$max10Len - 1) * strlen($x)) % self::$max10Len, 0, STR_PAD_LEFT);
-                        while (strlen($x)) {
-                            $temp = $temp->multiply($multiplier);
-                            $temp = $temp->add(new static($this->_int2bytes(substr($x, 0, self::$max10Len)), 256));
-                            $x = substr($x, self::$max10Len);
-                        }
-
-                        $this->value = $temp->value;
-                }
-                break;
-            case 2: // base-2 support originally implemented by Lluis Pamies - thanks!
-            case -2:
-                if ($base > 0 && $x[0] == '-') {
-                    $this->is_negative = true;
-                    $x = substr($x, 1);
-                }
-
-                $x = preg_replace('#^([01]*).*#', '$1', $x);
-                $x = str_pad($x, strlen($x) + (3 * strlen($x)) % 4, 0, STR_PAD_LEFT);
-
-                $str = '0x';
+                // converts a base-2**8 (big endian / msb) number to base-2**26 (little endian / lsb)
+            default:
                 while (strlen($x)) {
-                    $part = substr($x, 0, 4);
-                    $str.= dechex(bindec($part));
-                    $x = substr($x, 4);
+                    $this->value[] = $this->_bytes2int($this->_base256_rshift($x, self::$base));
                 }
+            }
 
-                if ($this->is_negative) {
-                    $str = '-' . $str;
+            if ($this->is_negative) {
+                if (MATH_BIGINTEGER_MODE != self::MODE_INTERNAL) {
+                    $this->is_negative = false;
                 }
-
-                $temp = new static($str, 8 * $base); // ie. either -16 or +16
+                $temp = $this->add(new static('-1'));
                 $this->value = $temp->value;
-                $this->is_negative = $temp->is_negative;
+            }
+            break;
+        case 16:
+        case -16:
+            if ($base > 0 && $x[0] == '-') {
+                $this->is_negative = true;
+                $x = substr($x, 1);
+            }
 
+            $x = preg_replace('#^(?:0x)?([A-Fa-f0-9]*).*#', '$1', $x);
+
+            $is_negative = false;
+            if ($base < 0 && hexdec($x[0]) >= 8) {
+                $this->is_negative = $is_negative = true;
+                $x = bin2hex(~pack('H*', $x));
+            }
+
+            switch (MATH_BIGINTEGER_MODE) {
+            case self::MODE_GMP:
+                $temp = $this->is_negative ? '-0x' . $x : '0x' . $x;
+                $this->value = gmp_init($temp);
+                $this->is_negative = false;
+                break;
+            case self::MODE_BCMATH:
+                $x = (strlen($x) & 1) ? '0' . $x : $x;
+                $temp = new static(pack('H*', $x), 256);
+                $this->value = $this->is_negative ? '-' . $temp->value : $temp->value;
+                $this->is_negative = false;
                 break;
             default:
-                // base not supported, so we'll let $this == 0
+                $x = (strlen($x) & 1) ? '0' . $x : $x;
+                $temp = new static(pack('H*', $x), 256);
+                $this->value = $temp->value;
+            }
+
+            if ($is_negative) {
+                $temp = $this->add(new static('-1'));
+                $this->value = $temp->value;
+            }
+            break;
+        case 10:
+        case -10:
+            // (?<!^)(?:-).*: find any -'s that aren't at the beginning and then any characters that follow that
+            // (?<=^|-)0*: find any 0's that are preceded by the start of the string or by a - (ie. octals)
+            // [^-0-9].*: find any non-numeric characters and then any characters that follow that
+            $x = preg_replace('#(?<!^)(?:-).*|(?<=^|-)0*|[^-0-9].*#', '', $x);
+
+            switch (MATH_BIGINTEGER_MODE) {
+            case self::MODE_GMP:
+                $this->value = gmp_init($x);
+                break;
+            case self::MODE_BCMATH:
+                // explicitly casting $x to a string is necessary, here, since doing $x[0] on -1 yields different
+                // results then doing it on '-1' does (modInverse does $x[0])
+                $this->value = $x === '-' ? '0' : (string) $x;
+                break;
+            default:
+                $temp = new static();
+
+                $multiplier = new static();
+                $multiplier->value = array(self::$max10);
+
+                if ($x[0] == '-') {
+                    $this->is_negative = true;
+                    $x = substr($x, 1);
+                }
+
+                $x = str_pad($x, strlen($x) + ((self::$max10Len - 1) * strlen($x)) % self::$max10Len, 0, STR_PAD_LEFT);
+                while (strlen($x)) {
+                    $temp = $temp->multiply($multiplier);
+                    $temp = $temp->add(new static($this->_int2bytes(substr($x, 0, self::$max10Len)), 256));
+                    $x = substr($x, self::$max10Len);
+                }
+
+                $this->value = $temp->value;
+            }
+            break;
+        case 2: // base-2 support originally implemented by Lluis Pamies - thanks!
+        case -2:
+            if ($base > 0 && $x[0] == '-') {
+                $this->is_negative = true;
+                $x = substr($x, 1);
+            }
+
+            $x = preg_replace('#^([01]*).*#', '$1', $x);
+            $x = str_pad($x, strlen($x) + (3 * strlen($x)) % 4, 0, STR_PAD_LEFT);
+
+            $str = '0x';
+            while (strlen($x)) {
+                $part = substr($x, 0, 4);
+                $str.= dechex(bindec($part));
+                $x = substr($x, 4);
+            }
+
+            if ($this->is_negative) {
+                $str = '-' . $str;
+            }
+
+            $temp = new static($str, 8 * $base); // ie. either -16 or +16
+            $this->value = $temp->value;
+            $this->is_negative = $temp->is_negative;
+
+            break;
+        default:
+            // base not supported, so we'll let $this == 0
         }
     }
 
@@ -519,9 +535,9 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param bool $twos_compliment
-     * @return string
-     * @access public
+     * @param    bool $twos_compliment
+     * @return   string
+     * @access   public
      * @internal Converts a base-2**26 number to base-2**8
      */
     function toBytes($twos_compliment = false)
@@ -547,41 +563,41 @@ class BigInteger
         }
 
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                if (gmp_cmp($this->value, gmp_init(0)) == 0) {
-                    return $this->precision > 0 ? str_repeat(chr(0), ($this->precision + 1) >> 3) : '';
-                }
+        case self::MODE_GMP:
+            if (gmp_cmp($this->value, gmp_init(0)) == 0) {
+                return $this->precision > 0 ? str_repeat(chr(0), ($this->precision + 1) >> 3) : '';
+            }
 
-                if (function_exists('gmp_export')) {
-                    $temp = gmp_export($this->value);
-                } else {
-                    $temp = gmp_strval(gmp_abs($this->value), 16);
-                    $temp = (strlen($temp) & 1) ? '0' . $temp : $temp;
-                    $temp = pack('H*', $temp);
-                }
+            if (function_exists('gmp_export')) {
+                $temp = gmp_export($this->value);
+            } else {
+                $temp = gmp_strval(gmp_abs($this->value), 16);
+                $temp = (strlen($temp) & 1) ? '0' . $temp : $temp;
+                $temp = pack('H*', $temp);
+            }
 
-                return $this->precision > 0 ?
+            return $this->precision > 0 ?
                     substr(str_pad($temp, $this->precision >> 3, chr(0), STR_PAD_LEFT), -($this->precision >> 3)) :
                     ltrim($temp, chr(0));
-            case self::MODE_BCMATH:
-                if ($this->value === '0') {
-                    return $this->precision > 0 ? str_repeat(chr(0), ($this->precision + 1) >> 3) : '';
-                }
+        case self::MODE_BCMATH:
+            if ($this->value === '0') {
+                return $this->precision > 0 ? str_repeat(chr(0), ($this->precision + 1) >> 3) : '';
+            }
 
-                $value = '';
-                $current = $this->value;
+            $value = '';
+            $current = $this->value;
 
-                if ($current[0] == '-') {
-                    $current = substr($current, 1);
-                }
+            if ($current[0] == '-') {
+                $current = substr($current, 1);
+            }
 
-                while (bccomp($current, '0', 0) > 0) {
-                    $temp = bcmod($current, '16777216');
-                    $value = chr($temp >> 16) . chr($temp >> 8) . chr($temp) . $value;
-                    $current = bcdiv($current, '16777216', 0);
-                }
+            while (bccomp($current, '0', 0) > 0) {
+                $temp = bcmod($current, '16777216');
+                $value = chr($temp >> 16) . chr($temp >> 8) . chr($temp) . $value;
+                $current = bcdiv($current, '16777216', 0);
+            }
 
-                return $this->precision > 0 ?
+            return $this->precision > 0 ?
                     substr(str_pad($value, $this->precision >> 3, chr(0), STR_PAD_LEFT), -($this->precision >> 3)) :
                     ltrim($value, chr(0));
         }
@@ -618,9 +634,9 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param bool $twos_compliment
-     * @return string
-     * @access public
+     * @param    bool $twos_compliment
+     * @return   string
+     * @access   public
      * @internal Converts a base-2**26 number to base-2**8
      */
     function toHex($twos_compliment = false)
@@ -643,9 +659,9 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param bool $twos_compliment
-     * @return string
-     * @access public
+     * @param    bool $twos_compliment
+     * @return   string
+     * @access   public
      * @internal Converts a base-2**26 number to base-2**2
      */
     function toBits($twos_compliment = false)
@@ -679,21 +695,21 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @return string
-     * @access public
+     * @return   string
+     * @access   public
      * @internal Converts a base-2**26 number to base-10**7 (which is pretty much base-10)
      */
     function toString()
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                return gmp_strval($this->value);
-            case self::MODE_BCMATH:
-                if ($this->value === '0') {
-                    return '0';
-                }
+        case self::MODE_GMP:
+            return gmp_strval($this->value);
+        case self::MODE_BCMATH:
+            if ($this->value === '0') {
+                return '0';
+            }
 
-                return ltrim($this->value, '0');
+            return ltrim($this->value, '0');
         }
 
         if (!count($this->value)) {
@@ -731,7 +747,7 @@ class BigInteger
      * {@link http://php.net/language.oop5.basic#51624}
      *
      * @access public
-     * @see self::__clone()
+     * @see    self::__clone()
      * @return \phpseclib\Math\BigInteger
      */
     function copy()
@@ -750,7 +766,7 @@ class BigInteger
      * Will be called, automatically, if you're supporting just PHP5.  If you're supporting PHP4, you'll need to call
      * toString().
      *
-     * @access public
+     * @access   public
      * @internal Implemented per a suggestion by Techie-Michael - thanks!
      */
     function __toString()
@@ -767,7 +783,7 @@ class BigInteger
      * PHP5, call BigInteger::copy(), instead.
      *
      * @access public
-     * @see self::copy()
+     * @see    self::copy()
      * @return \phpseclib\Math\BigInteger
      */
     function __clone()
@@ -780,7 +796,7 @@ class BigInteger
      *
      * Will be called, automatically, when serialize() is called on a BigInteger object.
      *
-     * @see self::__wakeup()
+     * @see    self::__wakeup()
      * @access public
      */
     function __sleep()
@@ -798,7 +814,7 @@ class BigInteger
      *
      * Will be called, automatically, when unserialize() is called on a BigInteger object.
      *
-     * @see self::__sleep()
+     * @see    self::__sleep()
      * @access public
      */
     function __wakeup()
@@ -823,15 +839,15 @@ class BigInteger
     {
         $opts = array();
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $engine = 'gmp';
-                break;
-            case self::MODE_BCMATH:
-                $engine = 'bcmath';
-                break;
-            case self::MODE_INTERNAL:
-                $engine = 'internal';
-                $opts[] = PHP_INT_SIZE == 8 ? '64-bit' : '32-bit';
+        case self::MODE_GMP:
+            $engine = 'gmp';
+            break;
+        case self::MODE_BCMATH:
+            $engine = 'bcmath';
+            break;
+        case self::MODE_INTERNAL:
+            $engine = 'internal';
+            $opts[] = PHP_INT_SIZE == 8 ? '64-bit' : '32-bit';
         }
         if (MATH_BIGINTEGER_MODE != self::MODE_GMP && defined('MATH_BIGINTEGER_OPENSSL_ENABLED')) {
             $opts[] = 'OpenSSL';
@@ -860,24 +876,24 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $y
-     * @return \phpseclib\Math\BigInteger
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $y
+     * @return   \phpseclib\Math\BigInteger
+     * @access   public
      * @internal Performs base-2**52 addition
      */
     function add($y)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp = new static();
-                $temp->value = gmp_add($this->value, $y->value);
+        case self::MODE_GMP:
+            $temp = new static();
+            $temp->value = gmp_add($this->value, $y->value);
 
-                return $this->_normalize($temp);
-            case self::MODE_BCMATH:
-                $temp = new static();
-                $temp->value = bcadd($this->value, $y->value, 0);
+            return $this->_normalize($temp);
+        case self::MODE_BCMATH:
+            $temp = new static();
+            $temp->value = bcadd($this->value, $y->value, 0);
 
-                return $this->_normalize($temp);
+            return $this->_normalize($temp);
         }
 
         $temp = $this->_add($this->value, $this->is_negative, $y->value, $y->is_negative);
@@ -892,10 +908,10 @@ class BigInteger
     /**
      * Performs addition.
      *
-     * @param array $x_value
-     * @param bool $x_negative
-     * @param array $y_value
-     * @param bool $y_negative
+     * @param  array $x_value
+     * @param  bool  $x_negative
+     * @param  array $y_value
+     * @param  bool  $y_negative
      * @return array
      * @access private
      */
@@ -989,24 +1005,24 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $y
-     * @return \phpseclib\Math\BigInteger
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $y
+     * @return   \phpseclib\Math\BigInteger
+     * @access   public
      * @internal Performs base-2**52 subtraction
      */
     function subtract($y)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp = new static();
-                $temp->value = gmp_sub($this->value, $y->value);
+        case self::MODE_GMP:
+            $temp = new static();
+            $temp->value = gmp_sub($this->value, $y->value);
 
-                return $this->_normalize($temp);
-            case self::MODE_BCMATH:
-                $temp = new static();
-                $temp->value = bcsub($this->value, $y->value, 0);
+            return $this->_normalize($temp);
+        case self::MODE_BCMATH:
+            $temp = new static();
+            $temp->value = bcsub($this->value, $y->value, 0);
 
-                return $this->_normalize($temp);
+            return $this->_normalize($temp);
         }
 
         $temp = $this->_subtract($this->value, $this->is_negative, $y->value, $y->is_negative);
@@ -1021,10 +1037,10 @@ class BigInteger
     /**
      * Performs subtraction.
      *
-     * @param array $x_value
-     * @param bool $x_negative
-     * @param array $y_value
-     * @param bool $y_negative
+     * @param  array $x_value
+     * @param  bool  $x_negative
+     * @param  array $y_value
+     * @param  bool  $y_negative
      * @return array
      * @access private
      */
@@ -1123,23 +1139,23 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $x
+     * @param  \phpseclib\Math\BigInteger $x
      * @return \phpseclib\Math\BigInteger
      * @access public
      */
     function multiply($x)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp = new static();
-                $temp->value = gmp_mul($this->value, $x->value);
+        case self::MODE_GMP:
+            $temp = new static();
+            $temp->value = gmp_mul($this->value, $x->value);
 
-                return $this->_normalize($temp);
-            case self::MODE_BCMATH:
-                $temp = new static();
-                $temp->value = bcmul($this->value, $x->value, 0);
+            return $this->_normalize($temp);
+        case self::MODE_BCMATH:
+            $temp = new static();
+            $temp->value = bcmul($this->value, $x->value, 0);
 
-                return $this->_normalize($temp);
+            return $this->_normalize($temp);
         }
 
         $temp = $this->_multiply($this->value, $this->is_negative, $x->value, $x->is_negative);
@@ -1154,10 +1170,10 @@ class BigInteger
     /**
      * Performs multiplication.
      *
-     * @param array $x_value
-     * @param bool $x_negative
-     * @param array $y_value
-     * @param bool $y_negative
+     * @param  array $x_value
+     * @param  bool  $x_negative
+     * @param  array $y_value
+     * @param  bool  $y_negative
      * @return array
      * @access private
      */
@@ -1193,8 +1209,8 @@ class BigInteger
      *
      * Modeled after 'multiply' in MutableBigInteger.java.
      *
-     * @param array $x_value
-     * @param array $y_value
+     * @param  array $x_value
+     * @param  array $y_value
      * @return array
      * @access private
      */
@@ -1257,8 +1273,8 @@ class BigInteger
      * See {@link http://en.wikipedia.org/wiki/Karatsuba_algorithm Karatsuba algorithm} and
      * {@link http://math.libtomcrypt.com/files/tommath.pdf#page=120 MPM 5.2.3}.
      *
-     * @param array $x_value
-     * @param array $y_value
+     * @param  array $x_value
+     * @param  array $y_value
      * @return array
      * @access private
      */
@@ -1296,7 +1312,7 @@ class BigInteger
     /**
      * Performs squaring
      *
-     * @param array $x
+     * @param  array $x
      * @return array
      * @access private
      */
@@ -1314,7 +1330,7 @@ class BigInteger
      * {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=7 HAC 14.2.4} /
      * {@link http://math.libtomcrypt.com/files/tommath.pdf#page=141 MPM 5.3} for more information.
      *
-     * @param array $value
+     * @param  array $value
      * @return array
      * @access private
      */
@@ -1353,7 +1369,7 @@ class BigInteger
      * See {@link http://en.wikipedia.org/wiki/Karatsuba_algorithm Karatsuba algorithm} and
      * {@link http://math.libtomcrypt.com/files/tommath.pdf#page=151 MPM 5.3.4}.
      *
-     * @param array $value
+     * @param  array $value
      * @return array
      * @access private
      */
@@ -1407,37 +1423,37 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $y
-     * @return array
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $y
+     * @return   array
+     * @access   public
      * @internal This function is based off of {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=9 HAC 14.20}.
      */
     function divide($y)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $quotient = new static();
-                $remainder = new static();
+        case self::MODE_GMP:
+            $quotient = new static();
+            $remainder = new static();
 
-                list($quotient->value, $remainder->value) = gmp_div_qr($this->value, $y->value);
+            list($quotient->value, $remainder->value) = gmp_div_qr($this->value, $y->value);
 
-                if (gmp_sign($remainder->value) < 0) {
-                    $remainder->value = gmp_add($remainder->value, gmp_abs($y->value));
-                }
+            if (gmp_sign($remainder->value) < 0) {
+                $remainder->value = gmp_add($remainder->value, gmp_abs($y->value));
+            }
 
-                return array($this->_normalize($quotient), $this->_normalize($remainder));
-            case self::MODE_BCMATH:
-                $quotient = new static();
-                $remainder = new static();
+            return array($this->_normalize($quotient), $this->_normalize($remainder));
+        case self::MODE_BCMATH:
+            $quotient = new static();
+            $remainder = new static();
 
-                $quotient->value = bcdiv($this->value, $y->value, 0);
-                $remainder->value = bcmod($this->value, $y->value);
+            $quotient->value = bcdiv($this->value, $y->value, 0);
+            $remainder->value = bcmod($this->value, $y->value);
 
-                if ($remainder->value[0] == '-') {
-                    $remainder->value = bcadd($remainder->value, $y->value[0] == '-' ? substr($y->value, 1) : $y->value, 0);
-                }
+            if ($remainder->value[0] == '-') {
+                $remainder->value = bcadd($remainder->value, $y->value[0] == '-' ? substr($y->value, 1) : $y->value, 0);
+            }
 
-                return array($this->_normalize($quotient), $this->_normalize($remainder));
+            return array($this->_normalize($quotient), $this->_normalize($remainder));
         }
 
         if (count($y->value) == 1) {
@@ -1588,8 +1604,8 @@ class BigInteger
      *
      * abc / x = a00 / x + b0 / x + c / x
      *
-     * @param array $dividend
-     * @param array $divisor
+     * @param  array $dividend
+     * @param  array $divisor
      * @return array
      * @access private
      */
@@ -1623,10 +1639,10 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $e
-     * @param \phpseclib\Math\BigInteger $n
-     * @return \phpseclib\Math\BigInteger
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $e
+     * @param    \phpseclib\Math\BigInteger $n
+     * @return   \phpseclib\Math\BigInteger
+     * @access   public
      * @internal The most naive approach to modular exponentiation has very unreasonable requirements, and
      *    and although the approach involving repeated squaring does vastly better, it, too, is impractical
      *    for our purposes.  The reason being that division - by far the most complicated and time-consuming
@@ -1793,8 +1809,8 @@ class BigInteger
      *
      * Alias for modPow().
      *
-     * @param \phpseclib\Math\BigInteger $e
-     * @param \phpseclib\Math\BigInteger $n
+     * @param  \phpseclib\Math\BigInteger $e
+     * @param  \phpseclib\Math\BigInteger $n
      * @return \phpseclib\Math\BigInteger
      * @access public
      */
@@ -1811,9 +1827,9 @@ class BigInteger
      * however, this function performs a modular reduction after every multiplication and squaring operation.
      * As such, this function has the same preconditions that the reductions being used do.
      *
-     * @param \phpseclib\Math\BigInteger $e
-     * @param \phpseclib\Math\BigInteger $n
-     * @param int $mode
+     * @param  \phpseclib\Math\BigInteger $e
+     * @param  \phpseclib\Math\BigInteger $n
+     * @param  int                        $mode
      * @return \phpseclib\Math\BigInteger
      * @access private
      */
@@ -1887,48 +1903,48 @@ class BigInteger
      *
      * For most $modes this will return the remainder.
      *
-     * @see self::_slidingWindow()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $x
-     * @param array $n
-     * @param int $mode
+     * @param  array $x
+     * @param  array $n
+     * @param  int   $mode
      * @return array
      */
     function _reduce($x, $n, $mode)
     {
         switch ($mode) {
-            case self::MONTGOMERY:
-                return $this->_montgomery($x, $n);
-            case self::BARRETT:
-                return $this->_barrett($x, $n);
-            case self::POWEROF2:
-                $lhs = new static();
-                $lhs->value = $x;
-                $rhs = new static();
-                $rhs->value = $n;
-                return $x->_mod2($n);
-            case self::CLASSIC:
-                $lhs = new static();
-                $lhs->value = $x;
-                $rhs = new static();
-                $rhs->value = $n;
-                list(, $temp) = $lhs->divide($rhs);
-                return $temp->value;
-            case self::NONE:
-                return $x;
-            default:
-                // an invalid $mode was provided
+        case self::MONTGOMERY:
+            return $this->_montgomery($x, $n);
+        case self::BARRETT:
+            return $this->_barrett($x, $n);
+        case self::POWEROF2:
+            $lhs = new static();
+            $lhs->value = $x;
+            $rhs = new static();
+            $rhs->value = $n;
+            return $x->_mod2($n);
+        case self::CLASSIC:
+            $lhs = new static();
+            $lhs->value = $x;
+            $rhs = new static();
+            $rhs->value = $n;
+            list(, $temp) = $lhs->divide($rhs);
+            return $temp->value;
+        case self::NONE:
+            return $x;
+        default:
+            // an invalid $mode was provided
         }
     }
 
     /**
      * Modular reduction preperation
      *
-     * @see self::_slidingWindow()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $x
-     * @param array $n
-     * @param int $mode
+     * @param  array $x
+     * @param  array $n
+     * @param  int   $mode
      * @return array
      */
     function _prepareReduce($x, $n, $mode)
@@ -1942,12 +1958,12 @@ class BigInteger
     /**
      * Modular multiply
      *
-     * @see self::_slidingWindow()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $x
-     * @param array $y
-     * @param array $n
-     * @param int $mode
+     * @param  array $x
+     * @param  array $y
+     * @param  array $n
+     * @param  int   $mode
      * @return array
      */
     function _multiplyReduce($x, $y, $n, $mode)
@@ -1962,11 +1978,11 @@ class BigInteger
     /**
      * Modular square
      *
-     * @see self::_slidingWindow()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $x
-     * @param array $n
-     * @param int $mode
+     * @param  array $x
+     * @param  array $n
+     * @param  int   $mode
      * @return array
      */
     function _squareReduce($x, $n, $mode)
@@ -1983,9 +1999,9 @@ class BigInteger
      * Calculates $x%$n, where $n = 2**$e, for some $e.  Since this is basically the same as doing $x & ($n-1),
      * we'll just use this function as a wrapper for doing that.
      *
-     * @see self::_slidingWindow()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param \phpseclib\Math\BigInteger
+     * @param  \phpseclib\Math\BigInteger
      * @return \phpseclib\Math\BigInteger
      */
     function _mod2($n)
@@ -2013,10 +2029,10 @@ class BigInteger
      * (x >> 1) + (x >> 1) != x / 2 + x / 2.  If x is even, they're the same, but if x is odd, they're not.  See the in-line
      * comments for details.
      *
-     * @see self::_slidingWindow()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $n
-     * @param array $m
+     * @param  array $n
+     * @param  array $m
      * @return array
      */
     function _barrett($n, $m)
@@ -2110,10 +2126,10 @@ class BigInteger
      * For numbers with more than four digits BigInteger::_barrett() is faster.  The difference between that and this
      * is that this function does not fold the denominator into a smaller form.
      *
-     * @see self::_slidingWindow()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $x
-     * @param array $n
+     * @param  array $x
+     * @param  array $n
      * @return array
      */
     function _regularBarrett($x, $n)
@@ -2181,12 +2197,12 @@ class BigInteger
      *
      * If you're going to be doing array_slice($product->value, 0, $stop), some cycles can be saved.
      *
-     * @see self::_regularBarrett()
-     * @param array $x_value
-     * @param bool $x_negative
-     * @param array $y_value
-     * @param bool $y_negative
-     * @param int $stop
+     * @see    self::_regularBarrett()
+     * @param  array $x_value
+     * @param  bool  $x_negative
+     * @param  array $y_value
+     * @param  bool  $y_negative
+     * @param  int   $stop
      * @return array
      * @access private
      */
@@ -2262,11 +2278,11 @@ class BigInteger
      * improved upon (basically, by using the comba method).  gcd($n, 2) must be equal to one for this function
      * to work correctly.
      *
-     * @see self::_prepMontgomery()
-     * @see self::_slidingWindow()
+     * @see    self::_prepMontgomery()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $x
-     * @param array $n
+     * @param  array $x
+     * @param  array $n
      * @return array
      */
     function _montgomery($x, $n)
@@ -2309,12 +2325,12 @@ class BigInteger
      * Interleaves the montgomery reduction and long multiplication algorithms together as described in
      * {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=13 HAC 14.36}
      *
-     * @see self::_prepMontgomery()
-     * @see self::_montgomery()
+     * @see    self::_prepMontgomery()
+     * @see    self::_montgomery()
      * @access private
-     * @param array $x
-     * @param array $y
-     * @param array $m
+     * @param  array $x
+     * @param  array $y
+     * @param  array $m
      * @return array
      */
     function _montgomeryMultiply($x, $y, $m)
@@ -2361,11 +2377,11 @@ class BigInteger
     /**
      * Prepare a number for use in Montgomery Modular Reductions
      *
-     * @see self::_montgomery()
-     * @see self::_slidingWindow()
+     * @see    self::_montgomery()
+     * @see    self::_slidingWindow()
      * @access private
-     * @param array $x
-     * @param array $n
+     * @param  array $x
+     * @param  array $n
      * @return array
      */
     function _prepMontgomery($x, $n)
@@ -2400,9 +2416,9 @@ class BigInteger
      *
      * Thanks to Pedro Gimeno Fortea for input!
      *
-     * @see self::_montgomery()
+     * @see    self::_montgomery()
      * @access private
-     * @param array $x
+     * @param  array $x
      * @return int
      */
     function _modInverse67108864($x) // 2**26 == 67,108,864
@@ -2438,19 +2454,19 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $n
-     * @return \phpseclib\Math\BigInteger|false
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $n
+     * @return   \phpseclib\Math\BigInteger|false
+     * @access   public
      * @internal See {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=21 HAC 14.64} for more information.
      */
     function modInverse($n)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp = new static();
-                $temp->value = gmp_invert($this->value, $n->value);
+        case self::MODE_GMP:
+            $temp = new static();
+            $temp->value = gmp_invert($this->value, $n->value);
 
-                return ($temp->value === false) ? false : $this->_normalize($temp);
+            return ($temp->value === false) ? false : $this->_normalize($temp);
         }
 
         static $zero, $one;
@@ -2500,9 +2516,9 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $n
-     * @return \phpseclib\Math\BigInteger
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $n
+     * @return   \phpseclib\Math\BigInteger
+     * @access   public
      * @internal Calculates the GCD using the binary xGCD algorithim described in
      *    {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap14.pdf#page=19 HAC 14.61}.  As the text above 14.61 notes,
      *    the more traditional algorithim requires "relatively costly multiple-precision divisions".
@@ -2510,44 +2526,44 @@ class BigInteger
     function extendedGCD($n)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                extract(gmp_gcdext($this->value, $n->value));
+        case self::MODE_GMP:
+            extract(gmp_gcdext($this->value, $n->value));
 
-                return array(
+            return array(
                     'gcd' => $this->_normalize(new static($g)),
                     'x'   => $this->_normalize(new static($s)),
                     'y'   => $this->_normalize(new static($t))
                 );
-            case self::MODE_BCMATH:
-                // it might be faster to use the binary xGCD algorithim here, as well, but (1) that algorithim works
-                // best when the base is a power of 2 and (2) i don't think it'd make much difference, anyway.  as is,
-                // the basic extended euclidean algorithim is what we're using.
+        case self::MODE_BCMATH:
+            // it might be faster to use the binary xGCD algorithim here, as well, but (1) that algorithim works
+            // best when the base is a power of 2 and (2) i don't think it'd make much difference, anyway.  as is,
+            // the basic extended euclidean algorithim is what we're using.
 
-                $u = $this->value;
-                $v = $n->value;
+            $u = $this->value;
+            $v = $n->value;
 
-                $a = '1';
-                $b = '0';
-                $c = '0';
-                $d = '1';
+            $a = '1';
+            $b = '0';
+            $c = '0';
+            $d = '1';
 
-                while (bccomp($v, '0', 0) != 0) {
-                    $q = bcdiv($u, $v, 0);
+            while (bccomp($v, '0', 0) != 0) {
+                $q = bcdiv($u, $v, 0);
 
-                    $temp = $u;
-                    $u = $v;
-                    $v = bcsub($temp, bcmul($v, $q, 0), 0);
+                $temp = $u;
+                $u = $v;
+                $v = bcsub($temp, bcmul($v, $q, 0), 0);
 
-                    $temp = $a;
-                    $a = $c;
-                    $c = bcsub($temp, bcmul($a, $q, 0), 0);
+                $temp = $a;
+                $a = $c;
+                $c = bcsub($temp, bcmul($a, $q, 0), 0);
 
-                    $temp = $b;
-                    $b = $d;
-                    $d = bcsub($temp, bcmul($b, $q, 0), 0);
-                }
+                $temp = $b;
+                $b = $d;
+                $d = bcsub($temp, bcmul($b, $q, 0), 0);
+            }
 
-                return array(
+            return array(
                     'gcd' => $this->_normalize(new static($u)),
                     'x'   => $this->_normalize(new static($a)),
                     'y'   => $this->_normalize(new static($b))
@@ -2632,7 +2648,7 @@ class BigInteger
      * ?>
      * </code>
      *
-     * @param \phpseclib\Math\BigInteger $n
+     * @param  \phpseclib\Math\BigInteger $n
      * @return \phpseclib\Math\BigInteger
      * @access public
      */
@@ -2653,14 +2669,14 @@ class BigInteger
         $temp = new static();
 
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp->value = gmp_abs($this->value);
-                break;
-            case self::MODE_BCMATH:
-                $temp->value = (bccomp($this->value, '0', 0) < 0) ? substr($this->value, 1) : $this->value;
-                break;
-            default:
-                $temp->value = $this->value;
+        case self::MODE_GMP:
+            $temp->value = gmp_abs($this->value);
+            break;
+        case self::MODE_BCMATH:
+            $temp->value = (bccomp($this->value, '0', 0) < 0) ? substr($this->value, 1) : $this->value;
+            break;
+        default:
+            $temp->value = $this->value;
         }
 
         return $temp;
@@ -2678,19 +2694,19 @@ class BigInteger
      *
      * Note how the same comparison operator is used.  If you want to test for equality, use $x->equals($y).
      *
-     * @param \phpseclib\Math\BigInteger $y
-     * @return int < 0 if $this is less than $y; > 0 if $this is greater than $y, and 0 if they are equal.
-     * @access public
-     * @see self::equals()
+     * @param    \phpseclib\Math\BigInteger $y
+     * @return   int < 0 if $this is less than $y; > 0 if $this is greater than $y, and 0 if they are equal.
+     * @access   public
+     * @see      self::equals()
      * @internal Could return $this->subtract($x), but that's not as fast as what we do do.
      */
     function compare($y)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                return gmp_cmp($this->value, $y->value);
-            case self::MODE_BCMATH:
-                return bccomp($this->value, $y->value, 0);
+        case self::MODE_GMP:
+            return gmp_cmp($this->value, $y->value);
+        case self::MODE_BCMATH:
+            return bccomp($this->value, $y->value, 0);
         }
 
         return $this->_compare($this->value, $this->is_negative, $y->value, $y->is_negative);
@@ -2699,12 +2715,12 @@ class BigInteger
     /**
      * Compares two numbers.
      *
-     * @param array $x_value
-     * @param bool $x_negative
-     * @param array $y_value
-     * @param bool $y_negative
+     * @param  array $x_value
+     * @param  bool  $x_negative
+     * @param  array $y_value
+     * @param  bool  $y_negative
      * @return int
-     * @see self::compare()
+     * @see    self::compare()
      * @access private
      */
     function _compare($x_value, $x_negative, $y_value, $y_negative)
@@ -2737,18 +2753,18 @@ class BigInteger
      *
      * If you need to see if one number is greater than or less than another number, use BigInteger::compare()
      *
-     * @param \phpseclib\Math\BigInteger $x
+     * @param  \phpseclib\Math\BigInteger $x
      * @return bool
      * @access public
-     * @see self::compare()
+     * @see    self::compare()
      */
     function equals($x)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                return gmp_cmp($this->value, $x->value) == 0;
-            default:
-                return $this->value === $x->value && $this->is_negative == $x->is_negative;
+        case self::MODE_GMP:
+            return gmp_cmp($this->value, $x->value) == 0;
+        default:
+            return $this->value === $x->value && $this->is_negative == $x->is_negative;
         }
     }
 
@@ -2758,7 +2774,7 @@ class BigInteger
      * Some bitwise operations give different results depending on the precision being used.  Examples include left
      * shift, not, and rotates.
      *
-     * @param int $bits
+     * @param  int $bits
      * @access public
      */
     function setPrecision($bits)
@@ -2777,29 +2793,29 @@ class BigInteger
     /**
      * Logical And
      *
-     * @param \phpseclib\Math\BigInteger $x
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $x
+     * @access   public
      * @internal Implemented per a request by Lluis Pamies i Juarez <lluis _a_ pamies.cat>
-     * @return \phpseclib\Math\BigInteger
+     * @return   \phpseclib\Math\BigInteger
      */
     function bitwise_and($x)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp = new static();
-                $temp->value = gmp_and($this->value, $x->value);
+        case self::MODE_GMP:
+            $temp = new static();
+            $temp->value = gmp_and($this->value, $x->value);
 
-                return $this->_normalize($temp);
-            case self::MODE_BCMATH:
-                $left = $this->toBytes();
-                $right = $x->toBytes();
+            return $this->_normalize($temp);
+        case self::MODE_BCMATH:
+            $left = $this->toBytes();
+            $right = $x->toBytes();
 
-                $length = max(strlen($left), strlen($right));
+            $length = max(strlen($left), strlen($right));
 
-                $left = str_pad($left, $length, chr(0), STR_PAD_LEFT);
-                $right = str_pad($right, $length, chr(0), STR_PAD_LEFT);
+            $left = str_pad($left, $length, chr(0), STR_PAD_LEFT);
+            $right = str_pad($right, $length, chr(0), STR_PAD_LEFT);
 
-                return $this->_normalize(new static($left & $right, 256));
+            return $this->_normalize(new static($left & $right, 256));
         }
 
         $result = $this->copy();
@@ -2818,29 +2834,29 @@ class BigInteger
     /**
      * Logical Or
      *
-     * @param \phpseclib\Math\BigInteger $x
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $x
+     * @access   public
      * @internal Implemented per a request by Lluis Pamies i Juarez <lluis _a_ pamies.cat>
-     * @return \phpseclib\Math\BigInteger
+     * @return   \phpseclib\Math\BigInteger
      */
     function bitwise_or($x)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp = new static();
-                $temp->value = gmp_or($this->value, $x->value);
+        case self::MODE_GMP:
+            $temp = new static();
+            $temp->value = gmp_or($this->value, $x->value);
 
-                return $this->_normalize($temp);
-            case self::MODE_BCMATH:
-                $left = $this->toBytes();
-                $right = $x->toBytes();
+            return $this->_normalize($temp);
+        case self::MODE_BCMATH:
+            $left = $this->toBytes();
+            $right = $x->toBytes();
 
-                $length = max(strlen($left), strlen($right));
+            $length = max(strlen($left), strlen($right));
 
-                $left = str_pad($left, $length, chr(0), STR_PAD_LEFT);
-                $right = str_pad($right, $length, chr(0), STR_PAD_LEFT);
+            $left = str_pad($left, $length, chr(0), STR_PAD_LEFT);
+            $right = str_pad($right, $length, chr(0), STR_PAD_LEFT);
 
-                return $this->_normalize(new static($left | $right, 256));
+            return $this->_normalize(new static($left | $right, 256));
         }
 
         $length = max(count($this->value), count($x->value));
@@ -2858,29 +2874,29 @@ class BigInteger
     /**
      * Logical Exclusive-Or
      *
-     * @param \phpseclib\Math\BigInteger $x
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $x
+     * @access   public
      * @internal Implemented per a request by Lluis Pamies i Juarez <lluis _a_ pamies.cat>
-     * @return \phpseclib\Math\BigInteger
+     * @return   \phpseclib\Math\BigInteger
      */
     function bitwise_xor($x)
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                $temp = new static();
-                $temp->value = gmp_xor($this->value, $x->value);
+        case self::MODE_GMP:
+            $temp = new static();
+            $temp->value = gmp_xor($this->value, $x->value);
 
-                return $this->_normalize($temp);
-            case self::MODE_BCMATH:
-                $left = $this->toBytes();
-                $right = $x->toBytes();
+            return $this->_normalize($temp);
+        case self::MODE_BCMATH:
+            $left = $this->toBytes();
+            $right = $x->toBytes();
 
-                $length = max(strlen($left), strlen($right));
+            $length = max(strlen($left), strlen($right));
 
-                $left = str_pad($left, $length, chr(0), STR_PAD_LEFT);
-                $right = str_pad($right, $length, chr(0), STR_PAD_LEFT);
+            $left = str_pad($left, $length, chr(0), STR_PAD_LEFT);
+            $right = str_pad($right, $length, chr(0), STR_PAD_LEFT);
 
-                return $this->_normalize(new static($left ^ $right, 256));
+            return $this->_normalize(new static($left ^ $right, 256));
         }
 
         $length = max(count($this->value), count($x->value));
@@ -2898,9 +2914,9 @@ class BigInteger
     /**
      * Logical Not
      *
-     * @access public
+     * @access   public
      * @internal Implemented per a request by Lluis Pamies i Juarez <lluis _a_ pamies.cat>
-     * @return \phpseclib\Math\BigInteger
+     * @return   \phpseclib\Math\BigInteger
      */
     function bitwise_not()
     {
@@ -2939,9 +2955,9 @@ class BigInteger
      *
      * Shifts BigInteger's by $shift bits, effectively dividing by 2**$shift.
      *
-     * @param int $shift
-     * @return \phpseclib\Math\BigInteger
-     * @access public
+     * @param    int $shift
+     * @return   \phpseclib\Math\BigInteger
+     * @access   public
      * @internal The only version that yields any speed increases is the internal version.
      */
     function bitwise_rightShift($shift)
@@ -2949,24 +2965,24 @@ class BigInteger
         $temp = new static();
 
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                static $two;
+        case self::MODE_GMP:
+            static $two;
 
-                if (!isset($two)) {
-                    $two = gmp_init('2');
-                }
+            if (!isset($two)) {
+                $two = gmp_init('2');
+            }
 
-                $temp->value = gmp_div_q($this->value, gmp_pow($two, $shift));
+            $temp->value = gmp_div_q($this->value, gmp_pow($two, $shift));
 
-                break;
-            case self::MODE_BCMATH:
-                $temp->value = bcdiv($this->value, bcpow('2', $shift, 0), 0);
+            break;
+        case self::MODE_BCMATH:
+            $temp->value = bcdiv($this->value, bcpow('2', $shift, 0), 0);
 
-                break;
-            default: // could just replace _lshift with this, but then all _lshift() calls would need to be rewritten
-                     // and I don't want to do that...
-                $temp->value = $this->value;
-                $temp->_rshift($shift);
+            break;
+        default: // could just replace _lshift with this, but then all _lshift() calls would need to be rewritten
+                 // and I don't want to do that...
+            $temp->value = $this->value;
+            $temp->_rshift($shift);
         }
 
         return $this->_normalize($temp);
@@ -2977,9 +2993,9 @@ class BigInteger
      *
      * Shifts BigInteger's by $shift bits, effectively multiplying by 2**$shift.
      *
-     * @param int $shift
-     * @return \phpseclib\Math\BigInteger
-     * @access public
+     * @param    int $shift
+     * @return   \phpseclib\Math\BigInteger
+     * @access   public
      * @internal The only version that yields any speed increases is the internal version.
      */
     function bitwise_leftShift($shift)
@@ -2987,24 +3003,24 @@ class BigInteger
         $temp = new static();
 
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                static $two;
+        case self::MODE_GMP:
+            static $two;
 
-                if (!isset($two)) {
-                    $two = gmp_init('2');
-                }
+            if (!isset($two)) {
+                $two = gmp_init('2');
+            }
 
-                $temp->value = gmp_mul($this->value, gmp_pow($two, $shift));
+            $temp->value = gmp_mul($this->value, gmp_pow($two, $shift));
 
-                break;
-            case self::MODE_BCMATH:
-                $temp->value = bcmul($this->value, bcpow('2', $shift, 0), 0);
+            break;
+        case self::MODE_BCMATH:
+            $temp->value = bcmul($this->value, bcpow('2', $shift, 0), 0);
 
-                break;
-            default: // could just replace _rshift with this, but then all _lshift() calls would need to be rewritten
-                     // and I don't want to do that...
-                $temp->value = $this->value;
-                $temp->_lshift($shift);
+            break;
+        default: // could just replace _rshift with this, but then all _lshift() calls would need to be rewritten
+                 // and I don't want to do that...
+            $temp->value = $this->value;
+            $temp->_lshift($shift);
         }
 
         return $this->_normalize($temp);
@@ -3015,7 +3031,7 @@ class BigInteger
      *
      * Instead of the top x bits being dropped they're appended to the shifted bit string.
      *
-     * @param int $shift
+     * @param  int $shift
      * @return \phpseclib\Math\BigInteger
      * @access public
      */
@@ -3060,7 +3076,7 @@ class BigInteger
      *
      * Instead of the bottom x bits being dropped they're prepended to the shifted bit string.
      *
-     * @param int $shift
+     * @param  int $shift
      * @return \phpseclib\Math\BigInteger
      * @access public
      */
@@ -3074,7 +3090,7 @@ class BigInteger
      *
      * Byte length is equal to $length. Uses \phpseclib\Crypt\Random if it's loaded and mt_rand if it's not.
      *
-     * @param int $length
+     * @param  int $length
      * @return \phpseclib\Math\BigInteger
      * @access private
      */
@@ -3108,10 +3124,10 @@ class BigInteger
      * $min->random($max)
      * $max->random($min)
      *
-     * @param \phpseclib\Math\BigInteger $arg1
-     * @param \phpseclib\Math\BigInteger $arg2
-     * @return \phpseclib\Math\BigInteger
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $arg1
+     * @param    \phpseclib\Math\BigInteger $arg2
+     * @return   \phpseclib\Math\BigInteger
+     * @access   public
      * @internal The API for creating random numbers used to be $a->random($min, $max), where $a was a BigInteger object.
      *           That method is still supported for BC purposes.
      */
@@ -3189,11 +3205,11 @@ class BigInteger
      * If there's not a prime within the given range, false will be returned.
      * If more than $timeout seconds have elapsed, give up and return false.
      *
-     * @param \phpseclib\Math\BigInteger $arg1
-     * @param \phpseclib\Math\BigInteger $arg2
-     * @param int $timeout
-     * @return Math_BigInteger|false
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $arg1
+     * @param    \phpseclib\Math\BigInteger $arg2
+     * @param    int                        $timeout
+     * @return   Math_BigInteger|false
+     * @access   public
      * @internal See {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap4.pdf#page=15 HAC 4.44}.
      */
     function randomPrime($arg1, $arg2 = false, $timeout = false)
@@ -3293,22 +3309,22 @@ class BigInteger
      *
      * If the current number is odd it'll be unchanged.  If it's even, one will be added to it.
      *
-     * @see self::randomPrime()
+     * @see    self::randomPrime()
      * @access private
      */
     function _make_odd()
     {
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                gmp_setbit($this->value, 0);
-                break;
-            case self::MODE_BCMATH:
-                if ($this->value[strlen($this->value) - 1] % 2 == 0) {
-                    $this->value = bcadd($this->value, '1');
-                }
-                break;
-            default:
-                $this->value[0] |= 1;
+        case self::MODE_GMP:
+            gmp_setbit($this->value, 0);
+            break;
+        case self::MODE_BCMATH:
+            if ($this->value[strlen($this->value) - 1] % 2 == 0) {
+                $this->value = bcadd($this->value, '1');
+            }
+            break;
+        default:
+            $this->value[0] |= 1;
         }
     }
 
@@ -3319,9 +3335,9 @@ class BigInteger
      * $t parameter is distributability.  BigInteger::randomPrime() can be distributed across multiple pageloads
      * on a website instead of just one.
      *
-     * @param \phpseclib\Math\BigInteger $t
-     * @return bool
-     * @access public
+     * @param    \phpseclib\Math\BigInteger $t
+     * @return   bool
+     * @access   public
      * @internal Uses the
      *     {@link http://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test Miller-Rabin primality test}.  See
      *     {@link http://www.cacr.math.uwaterloo.ca/hac/about/chap4.pdf#page=8 HAC 4.24}.
@@ -3351,23 +3367,23 @@ class BigInteger
         // ie. gmp_testbit($this, 0)
         // ie. isEven() or !isOdd()
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                return gmp_prob_prime($this->value, $t) != 0;
-            case self::MODE_BCMATH:
-                if ($this->value === '2') {
-                    return true;
-                }
-                if ($this->value[strlen($this->value) - 1] % 2 == 0) {
-                    return false;
-                }
-                break;
-            default:
-                if ($this->value == array(2)) {
-                    return true;
-                }
-                if (~$this->value[0] & 1) {
-                    return false;
-                }
+        case self::MODE_GMP:
+            return gmp_prob_prime($this->value, $t) != 0;
+        case self::MODE_BCMATH:
+            if ($this->value === '2') {
+                return true;
+            }
+            if ($this->value[strlen($this->value) - 1] % 2 == 0) {
+                return false;
+            }
+            break;
+        default:
+            if ($this->value == array(2)) {
+                return true;
+            }
+            if (~$this->value[0] & 1) {
+                return false;
+            }
         }
 
         static $primes, $zero, $one, $two;
@@ -3472,7 +3488,7 @@ class BigInteger
      *
      * Shifts BigInteger's by $shift bits.
      *
-     * @param int $shift
+     * @param  int $shift
      * @access private
      */
     function _lshift($shift)
@@ -3507,7 +3523,7 @@ class BigInteger
      *
      * Shifts BigInteger's by $shift bits.
      *
-     * @param int $shift
+     * @param  int $shift
      * @access private
      */
     function _rshift($shift)
@@ -3541,9 +3557,9 @@ class BigInteger
      *
      * Removes leading zeros and truncates (if necessary) to maintain the appropriate precision
      *
-     * @param \phpseclib\Math\BigInteger
+     * @param  \phpseclib\Math\BigInteger
      * @return \phpseclib\Math\BigInteger
-     * @see self::_trim()
+     * @see    self::_trim()
      * @access private
      */
     function _normalize($result)
@@ -3552,18 +3568,18 @@ class BigInteger
         $result->bitmask = $this->bitmask;
 
         switch (MATH_BIGINTEGER_MODE) {
-            case self::MODE_GMP:
-                if ($this->bitmask !== false) {
-                    $result->value = gmp_and($result->value, $result->bitmask->value);
-                }
+        case self::MODE_GMP:
+            if ($this->bitmask !== false) {
+                $result->value = gmp_and($result->value, $result->bitmask->value);
+            }
 
-                return $result;
-            case self::MODE_BCMATH:
-                if (!empty($result->bitmask->value)) {
-                    $result->value = bcmod($result->value, $result->bitmask->value);
-                }
+            return $result;
+        case self::MODE_BCMATH:
+            if (!empty($result->bitmask->value)) {
+                $result->value = bcmod($result->value, $result->bitmask->value);
+            }
 
-                return $result;
+            return $result;
         }
 
         $value = &$result->value;
@@ -3591,7 +3607,7 @@ class BigInteger
      *
      * Removes leading zeros
      *
-     * @param array $value
+     * @param  array $value
      * @return \phpseclib\Math\BigInteger
      * @access private
      */
@@ -3610,8 +3626,8 @@ class BigInteger
     /**
      * Array Repeat
      *
-     * @param $input Array
-     * @param $multiplier mixed
+     * @param  $input Array
+     * @param  $multiplier mixed
      * @return array
      * @access private
      */
@@ -3625,8 +3641,8 @@ class BigInteger
      *
      * Shifts binary strings $shift bits, essentially multiplying by 2**$shift.
      *
-     * @param $x String
-     * @param $shift Integer
+     * @param  $x String
+     * @param  $shift Integer
      * @return string
      * @access private
      */
@@ -3654,8 +3670,8 @@ class BigInteger
      *
      * Shifts binary strings $shift bits, essentially dividing by 2**$shift and returning the remainder.
      *
-     * @param $x String
-     * @param $shift Integer
+     * @param  $x String
+     * @param  $shift Integer
      * @return string
      * @access private
      */
@@ -3696,7 +3712,7 @@ class BigInteger
     /**
      * Converts 32-bit integers to bytes.
      *
-     * @param int $x
+     * @param  int $x
      * @return string
      * @access private
      */
@@ -3708,7 +3724,7 @@ class BigInteger
     /**
      * Converts bytes to 32-bit integers
      *
-     * @param string $x
+     * @param  string $x
      * @return int
      * @access private
      */
@@ -3723,9 +3739,9 @@ class BigInteger
      *
      * The ability to DER-encode integers is needed to create RSA public keys for use with OpenSSL
      *
-     * @see self::modPow()
+     * @see    self::modPow()
      * @access private
-     * @param int $length
+     * @param  int $length
      * @return string
      */
     function _encodeASN1Length($length)
@@ -3747,8 +3763,8 @@ class BigInteger
      * we'll guarantee that the dividend is divisible by first subtracting the remainder.
      *
      * @access private
-     * @param int $x
-     * @param int $y
+     * @param  int $x
+     * @param  int $y
      * @return int
      */
     function _safe_divide($x, $y)

@@ -266,11 +266,11 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
-               ->method('getAlgorithmId')
-               ->willReturn('HS256');
+            ->method('getAlgorithmId')
+            ->willReturn('HS256');
 
         $signature->expects($this->never())
-                  ->method('verify');
+            ->method('verify');
 
         $token = new Token(['alg' => 'RS256'], [], $signature);
 
@@ -291,13 +291,13 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
-               ->method('getAlgorithmId')
-               ->willReturn('HS256');
+            ->method('getAlgorithmId')
+            ->willReturn('HS256');
 
         $signature->expects($this->once())
-                  ->method('verify')
-                  ->with($signer, $this->isType('string'), 'test')
-                  ->willReturn(true);
+            ->method('verify')
+            ->with($signer, $this->isType('string'), 'test')
+            ->willReturn(true);
 
         $token = new Token(['alg' => 'HS256'], [], $signature);
 

@@ -18,9 +18,11 @@ class Swift_Bug650Test extends \PHPUnit\Framework\TestCase
         $header = new Swift_Mime_Headers_MailboxHeader('To', $encoder, new EmailValidator());
         $header->setCharset('utf-8');
 
-        $header->setNameAddresses(array(
+        $header->setNameAddresses(
+            array(
             'test@example.com' => $name,
-        ));
+            )
+        );
 
         $this->assertSame('To: '.$expectedEncodedName." <test@example.com>\r\n", $header->toString());
     }

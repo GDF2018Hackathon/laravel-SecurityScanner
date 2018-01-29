@@ -27,16 +27,24 @@ final class Method extends BaseTag implements Factory\StaticMethod
 {
     protected $name = 'method';
 
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $methodName = '';
 
-    /** @var string[] */
+    /**
+     * @var string[] 
+     */
     private $arguments = [];
 
-    /** @var bool */
+    /**
+     * @var bool 
+     */
     private $isStatic = false;
 
-    /** @var Type */
+    /**
+     * @var Type 
+     */
     private $returnType;
 
     public function __construct(
@@ -118,7 +126,8 @@ final class Method extends BaseTag implements Factory\StaticMethod
             $/sux',
             $body,
             $matches
-        )) {
+        )
+        ) {
             return null;
         }
 
@@ -201,11 +210,13 @@ final class Method extends BaseTag implements Factory\StaticMethod
             $arguments[] = $argument['type'] . ' $' . $argument['name'];
         }
 
-        return trim(($this->isStatic() ? 'static ' : '')
+        return trim(
+            ($this->isStatic() ? 'static ' : '')
             . (string)$this->returnType . ' '
             . $this->methodName
             . '(' . implode(', ', $arguments) . ')'
-            . ($this->description ? ' ' . $this->description->render() : ''));
+            . ($this->description ? ' ' . $this->description->render() : '')
+        );
     }
 
     private function filterArguments($arguments)

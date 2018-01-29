@@ -13,9 +13,11 @@ class DatabaseNotificationCollection extends Collection
      */
     public function markAsRead()
     {
-        $this->each(function ($notification) {
-            $notification->markAsRead();
-        });
+        $this->each(
+            function ($notification) {
+                $notification->markAsRead();
+            }
+        );
     }
 
     /**
@@ -25,8 +27,10 @@ class DatabaseNotificationCollection extends Collection
      */
     public function markAsUnread()
     {
-        $this->each(function ($notification) {
-            $notification->markAsUnread();
-        });
+        $this->each(
+            function ($notification) {
+                $notification->markAsUnread();
+            }
+        );
     }
 }

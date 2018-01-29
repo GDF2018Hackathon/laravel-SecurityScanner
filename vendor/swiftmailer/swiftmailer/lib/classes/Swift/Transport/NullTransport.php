@@ -15,7 +15,9 @@
  */
 class Swift_Transport_NullTransport implements Swift_Transport
 {
-    /** The event dispatcher from the plugin API */
+    /**
+     * The event dispatcher from the plugin API 
+     */
     private $eventDispatcher;
 
     /**
@@ -62,7 +64,7 @@ class Swift_Transport_NullTransport implements Swift_Transport
      * Sends the given message.
      *
      * @param Swift_Mime_SimpleMessage $message
-     * @param string[]           $failedRecipients An array of failures by-reference
+     * @param string[]                 $failedRecipients An array of failures by-reference
      *
      * @return int The number of sent emails
      */

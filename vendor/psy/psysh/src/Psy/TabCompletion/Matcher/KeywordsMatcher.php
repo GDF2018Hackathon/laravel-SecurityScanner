@@ -58,9 +58,11 @@ class KeywordsMatcher extends AbstractMatcher
     {
         $input = $this->getInput($tokens);
 
-        return array_filter($this->keywords, function ($keyword) use ($input) {
-            return AbstractMatcher::startsWith($input, $keyword);
-        });
+        return array_filter(
+            $this->keywords, function ($keyword) use ($input) {
+                return AbstractMatcher::startsWith($input, $keyword);
+            }
+        );
     }
 
     /**
@@ -72,12 +74,12 @@ class KeywordsMatcher extends AbstractMatcher
         $prevToken = array_pop($tokens);
 
         switch (true) {
-            case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $token):
-//            case is_string($token) && $token === '$':
-            case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $prevToken) &&
+        case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $token):
+            //            case is_string($token) && $token === '$':
+        case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $prevToken) &&
                 self::tokenIs($token, self::T_STRING):
-            case self::isOperator($token):
-                return true;
+        case self::isOperator($token):
+            return true;
         }
 
         return false;

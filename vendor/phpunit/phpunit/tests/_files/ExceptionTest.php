@@ -95,7 +95,9 @@ class ExceptionTest extends TestCase
     {
     }
 
-    /** @expectedException Class */
+    /**
+     * @expectedException Class 
+     */
     public function testSingleLine()
     {
     }

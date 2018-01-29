@@ -22,13 +22,13 @@ use Symfony\Component\Translation\TranslatorInterface;
  * The implementation provides helpers to handle weeks but only days are saved.
  * Weeks are calculated based on the total days of the current instance.
  *
- * @property int $years Total years of the current interval.
- * @property int $months Total months of the current interval.
- * @property int $weeks Total weeks of the current interval calculated from the days.
- * @property int $dayz Total days of the current interval (weeks * 7 + days).
- * @property int $hours Total hours of the current interval.
- * @property int $minutes Total minutes of the current interval.
- * @property int $seconds Total seconds of the current interval.
+ * @property      int $years Total years of the current interval.
+ * @property      int $months Total months of the current interval.
+ * @property      int $weeks Total weeks of the current interval calculated from the days.
+ * @property      int $dayz Total days of the current interval (weeks * 7 + days).
+ * @property      int $hours Total hours of the current interval.
+ * @property      int $minutes Total minutes of the current interval.
+ * @property      int $seconds Total seconds of the current interval.
  * @property-read int $dayzExcludeWeeks Total days remaining in the final week of the current instance (days % 7).
  * @property-read int $daysExcludeWeeks alias of dayzExcludeWeeks
  *
@@ -182,34 +182,34 @@ class CarbonInterval extends DateInterval
         $arg = count($args) === 0 ? 1 : $args[0];
 
         switch ($name) {
-            case 'years':
-            case 'year':
-                return new static($arg);
+        case 'years':
+        case 'year':
+            return new static($arg);
 
-            case 'months':
-            case 'month':
-                return new static(null, $arg);
+        case 'months':
+        case 'month':
+            return new static(null, $arg);
 
-            case 'weeks':
-            case 'week':
-                return new static(null, null, $arg);
+        case 'weeks':
+        case 'week':
+            return new static(null, null, $arg);
 
-            case 'days':
-            case 'dayz':
-            case 'day':
-                return new static(null, null, null, $arg);
+        case 'days':
+        case 'dayz':
+        case 'day':
+            return new static(null, null, null, $arg);
 
-            case 'hours':
-            case 'hour':
-                return new static(null, null, null, null, $arg);
+        case 'hours':
+        case 'hour':
+            return new static(null, null, null, null, $arg);
 
-            case 'minutes':
-            case 'minute':
-                return new static(null, null, null, null, null, $arg);
+        case 'minutes':
+        case 'minute':
+            return new static(null, null, null, null, null, $arg);
 
-            case 'seconds':
-            case 'second':
-                return new static(null, null, null, null, null, null, $arg);
+        case 'seconds':
+        case 'second':
+            return new static(null, null, null, null, null, null, $arg);
         }
     }
 
@@ -297,7 +297,7 @@ class CarbonInterval extends DateInterval
         static::translator()->setLocale($locale);
 
         // Ensure the locale has been loaded.
-        static::translator()->addResource('array', require __DIR__.'/Lang/'.$locale.'.php', $locale);
+        static::translator()->addResource('array', include __DIR__.'/Lang/'.$locale.'.php', $locale);
     }
 
     ///////////////////////////////////////////////////////////////////
@@ -316,33 +316,33 @@ class CarbonInterval extends DateInterval
     public function __get($name)
     {
         switch ($name) {
-            case 'years':
-                return $this->y;
+        case 'years':
+            return $this->y;
 
-            case 'months':
-                return $this->m;
+        case 'months':
+            return $this->m;
 
-            case 'dayz':
-                return $this->d;
+        case 'dayz':
+            return $this->d;
 
-            case 'hours':
-                return $this->h;
+        case 'hours':
+            return $this->h;
 
-            case 'minutes':
-                return $this->i;
+        case 'minutes':
+            return $this->i;
 
-            case 'seconds':
-                return $this->s;
+        case 'seconds':
+            return $this->s;
 
-            case 'weeks':
-                return (int) floor($this->d / Carbon::DAYS_PER_WEEK);
+        case 'weeks':
+            return (int) floor($this->d / Carbon::DAYS_PER_WEEK);
 
-            case 'daysExcludeWeeks':
-            case 'dayzExcludeWeeks':
-                return $this->d % Carbon::DAYS_PER_WEEK;
+        case 'daysExcludeWeeks':
+        case 'dayzExcludeWeeks':
+            return $this->d % Carbon::DAYS_PER_WEEK;
 
-            default:
-                throw new InvalidArgumentException(sprintf("Unknown getter '%s'", $name));
+        default:
+            throw new InvalidArgumentException(sprintf("Unknown getter '%s'", $name));
         }
     }
 
@@ -357,33 +357,33 @@ class CarbonInterval extends DateInterval
     public function __set($name, $val)
     {
         switch ($name) {
-            case 'years':
-                $this->y = $val;
-                break;
+        case 'years':
+            $this->y = $val;
+            break;
 
-            case 'months':
-                $this->m = $val;
-                break;
+        case 'months':
+            $this->m = $val;
+            break;
 
-            case 'weeks':
-                $this->d = $val * Carbon::DAYS_PER_WEEK;
-                break;
+        case 'weeks':
+            $this->d = $val * Carbon::DAYS_PER_WEEK;
+            break;
 
-            case 'dayz':
-                $this->d = $val;
-                break;
+        case 'dayz':
+            $this->d = $val;
+            break;
 
-            case 'hours':
-                $this->h = $val;
-                break;
+        case 'hours':
+            $this->h = $val;
+            break;
 
-            case 'minutes':
-                $this->i = $val;
-                break;
+        case 'minutes':
+            $this->i = $val;
+            break;
 
-            case 'seconds':
-                $this->s = $val;
-                break;
+        case 'seconds':
+            $this->s = $val;
+            break;
         }
     }
 
@@ -418,41 +418,41 @@ class CarbonInterval extends DateInterval
         $arg = count($args) === 0 ? 1 : $args[0];
 
         switch ($name) {
-            case 'years':
-            case 'year':
-                $this->years = $arg;
-                break;
+        case 'years':
+        case 'year':
+            $this->years = $arg;
+            break;
 
-            case 'months':
-            case 'month':
-                $this->months = $arg;
-                break;
+        case 'months':
+        case 'month':
+            $this->months = $arg;
+            break;
 
-            case 'weeks':
-            case 'week':
-                $this->dayz = $arg * Carbon::DAYS_PER_WEEK;
-                break;
+        case 'weeks':
+        case 'week':
+            $this->dayz = $arg * Carbon::DAYS_PER_WEEK;
+            break;
 
-            case 'days':
-            case 'dayz':
-            case 'day':
-                $this->dayz = $arg;
-                break;
+        case 'days':
+        case 'dayz':
+        case 'day':
+            $this->dayz = $arg;
+            break;
 
-            case 'hours':
-            case 'hour':
-                $this->hours = $arg;
-                break;
+        case 'hours':
+        case 'hour':
+            $this->hours = $arg;
+            break;
 
-            case 'minutes':
-            case 'minute':
-                $this->minutes = $arg;
-                break;
+        case 'minutes':
+        case 'minute':
+            $this->minutes = $arg;
+            break;
 
-            case 'seconds':
-            case 'second':
-                $this->seconds = $arg;
-                break;
+        case 'seconds':
+        case 'second':
+            $this->seconds = $arg;
+            break;
         }
 
         return $this;
@@ -527,17 +527,21 @@ class CarbonInterval extends DateInterval
      */
     public function spec()
     {
-        $date = array_filter(array(
+        $date = array_filter(
+            array(
             static::PERIOD_YEARS => $this->y,
             static::PERIOD_MONTHS => $this->m,
             static::PERIOD_DAYS => $this->d,
-        ));
+            )
+        );
 
-        $time = array_filter(array(
+        $time = array_filter(
+            array(
             static::PERIOD_HOURS => $this->h,
             static::PERIOD_MINUTES => $this->i,
             static::PERIOD_SECONDS => $this->s,
-        ));
+            )
+        );
 
         $specString = static::PERIOD_PREFIX;
 

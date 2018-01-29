@@ -33,25 +33,25 @@ class SignatureFormatter implements Formatter
     public static function format(\Reflector $reflector)
     {
         switch (true) {
-            case $reflector instanceof \ReflectionFunction:
-            case $reflector instanceof ReflectionLanguageConstruct:
-                return self::formatFunction($reflector);
+        case $reflector instanceof \ReflectionFunction:
+        case $reflector instanceof ReflectionLanguageConstruct:
+            return self::formatFunction($reflector);
 
             // this case also covers \ReflectionObject:
-            case $reflector instanceof \ReflectionClass:
-                return self::formatClass($reflector);
+        case $reflector instanceof \ReflectionClass:
+            return self::formatClass($reflector);
 
-            case $reflector instanceof ReflectionConstant:
-                return self::formatConstant($reflector);
+        case $reflector instanceof ReflectionConstant:
+            return self::formatConstant($reflector);
 
-            case $reflector instanceof \ReflectionMethod:
-                return self::formatMethod($reflector);
+        case $reflector instanceof \ReflectionMethod:
+            return self::formatMethod($reflector);
 
-            case $reflector instanceof \ReflectionProperty:
-                return self::formatProperty($reflector);
+        case $reflector instanceof \ReflectionProperty:
+            return self::formatProperty($reflector);
 
-            default:
-                throw new \InvalidArgumentException('Unexpected Reflector class: ' . get_class($reflector));
+        default:
+            throw new \InvalidArgumentException('Unexpected Reflector class: ' . get_class($reflector));
         }
     }
 
@@ -78,9 +78,13 @@ class SignatureFormatter implements Formatter
      */
     private static function formatModifiers(\Reflector $reflector)
     {
-        return implode(' ', array_map(function ($modifier) {
-            return sprintf('<keyword>%s</keyword>', $modifier);
-        }, \Reflection::getModifierNames($reflector->getModifiers())));
+        return implode(
+            ' ', array_map(
+                function ($modifier) {
+                    return sprintf('<keyword>%s</keyword>', $modifier);
+                }, \Reflection::getModifierNames($reflector->getModifiers())
+            )
+        );
     }
 
     /**
@@ -116,9 +120,13 @@ class SignatureFormatter implements Formatter
             sort($interfaces);
 
             $chunks[] = 'implements';
-            $chunks[] = implode(', ', array_map(function ($name) {
-                return sprintf('<class>%s</class>', $name);
-            }, $interfaces));
+            $chunks[] = implode(
+                ', ', array_map(
+                    function ($name) {
+                        return sprintf('<class>%s</class>', $name);
+                    }, $interfaces
+                )
+            );
         }
 
         return implode(' ', $chunks);

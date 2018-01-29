@@ -41,23 +41,23 @@ function uri_template($template, array $variables)
 function describe_type($input)
 {
     switch (gettype($input)) {
-        case 'object':
-            return 'object(' . get_class($input) . ')';
-        case 'array':
-            return 'array(' . count($input) . ')';
-        default:
-            ob_start();
-            var_dump($input);
-            // normalize float vs double
-            return str_replace('double(', 'float(', rtrim(ob_get_clean()));
+    case 'object':
+        return 'object(' . get_class($input) . ')';
+    case 'array':
+        return 'array(' . count($input) . ')';
+    default:
+        ob_start();
+        var_dump($input);
+        // normalize float vs double
+        return str_replace('double(', 'float(', rtrim(ob_get_clean()));
     }
 }
 
 /**
  * Parses an array of header lines into an associative array of headers.
  *
- * @param array $lines Header lines array of strings in the following
- *                     format: "Name: Value"
+ * @param  array $lines Header lines array of strings in the following
+ *                      format: "Name: Value"
  * @return array
  */
 function headers_from_lines($lines)
@@ -116,8 +116,10 @@ function choose_handler()
             ? Proxy::wrapStreaming($handler, new StreamHandler())
             : new StreamHandler();
     } elseif (!$handler) {
-        throw new \RuntimeException('GuzzleHttp requires cURL, the '
-            . 'allow_url_fopen ini setting, or a custom HTTP handler.');
+        throw new \RuntimeException(
+            'GuzzleHttp requires cURL, the '
+            . 'allow_url_fopen ini setting, or a custom HTTP handler.'
+        );
     }
 
     return $handler;
@@ -196,7 +198,8 @@ function default_ca_bundle()
         }
     }
 
-    throw new \RuntimeException(<<< EOT
+    throw new \RuntimeException(
+        <<< EOT
 No system CA bundle could be found in any of the the common system locations.
 PHP versions earlier than 5.6 are not properly configured to use the system's
 CA bundle by default. In order to verify peer certificates, you will need to
@@ -288,21 +291,22 @@ function is_host_in_noproxy($host, array $noProxyArray)
  * Wrapper for json_decode that throws when an error occurs.
  *
  * @param string $json    JSON data to parse
- * @param bool $assoc     When true, returned objects will be converted
+ * @param bool   $assoc   When true, returned objects will be converted
  *                        into associative arrays.
  * @param int    $depth   User specified recursion depth.
  * @param int    $options Bitmask of JSON decode options.
  *
  * @return mixed
  * @throws \InvalidArgumentException if the JSON cannot be decoded.
- * @link http://www.php.net/manual/en/function.json-decode.php
+ * @link   http://www.php.net/manual/en/function.json-decode.php
  */
 function json_decode($json, $assoc = false, $depth = 512, $options = 0)
 {
     $data = \json_decode($json, $assoc, $depth, $options);
     if (JSON_ERROR_NONE !== json_last_error()) {
         throw new \InvalidArgumentException(
-            'json_decode error: ' . json_last_error_msg());
+            'json_decode error: ' . json_last_error_msg()
+        );
     }
 
     return $data;
@@ -312,19 +316,20 @@ function json_decode($json, $assoc = false, $depth = 512, $options = 0)
  * Wrapper for JSON encoding that throws when an error occurs.
  *
  * @param mixed $value   The value being encoded
- * @param int    $options JSON encode option bitmask
- * @param int    $depth   Set the maximum depth. Must be greater than zero.
+ * @param int   $options JSON encode option bitmask
+ * @param int   $depth   Set the maximum depth. Must be greater than zero.
  *
  * @return string
  * @throws \InvalidArgumentException if the JSON cannot be encoded.
- * @link http://www.php.net/manual/en/function.json-encode.php
+ * @link   http://www.php.net/manual/en/function.json-encode.php
  */
 function json_encode($value, $options = 0, $depth = 512)
 {
     $json = \json_encode($value, $options, $depth);
     if (JSON_ERROR_NONE !== json_last_error()) {
         throw new \InvalidArgumentException(
-            'json_encode error: ' . json_last_error_msg());
+            'json_encode error: ' . json_last_error_msg()
+        );
     }
 
     return $json;

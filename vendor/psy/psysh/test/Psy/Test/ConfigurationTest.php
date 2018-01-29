@@ -22,9 +22,11 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 {
     private function getConfig($configFile = null)
     {
-        return new Configuration(array(
+        return new Configuration(
+            array(
             'configFile' => $configFile ?: __DIR__ . '/../../fixtures/empty.php',
-        ));
+            )
+        );
     }
 
     public function testDefaults()
@@ -102,7 +104,8 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         $pager   = new PassthruPager(new ConsoleOutput());
         $loop    = new Loop($config);
 
-        $config->loadConfig(array(
+        $config->loadConfig(
+            array(
             'useReadline'       => false,
             'usePcntl'          => false,
             'codeCleaner'       => $cleaner,
@@ -112,7 +115,8 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
             'errorLoggingLevel' => E_ERROR | E_WARNING,
             'colorMode'         => Configuration::COLOR_MODE_FORCED,
             'startupMessage'    => 'Psysh is awesome!',
-        ));
+            )
+        );
 
         $this->assertFalse($config->useReadline());
         $this->assertFalse($config->usePcntl());
@@ -175,10 +179,12 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
 
     public function testConfigIncludes()
     {
-        $config = new Configuration(array(
+        $config = new Configuration(
+            array(
             'defaultIncludes' => array('/file.php'),
             'configFile'      => __DIR__ . '/../../fixtures/empty.php',
-        ));
+            )
+        );
 
         $includes = $config->getDefaultIncludes();
         $this->assertCount(1, $includes);
@@ -211,7 +217,9 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /** @dataProvider getOutputDecoratedProvider */
+    /**
+     * @dataProvider getOutputDecoratedProvider 
+     */
     public function testGetOutputDecorated($expectation, $colorMode)
     {
         $config = $this->getConfig();
@@ -229,7 +237,9 @@ class ConfigurationTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /** @dataProvider setColorModeValidProvider */
+    /**
+     * @dataProvider setColorModeValidProvider 
+     */
     public function testSetColorModeValid($colorMode)
     {
         $config = $this->getConfig();

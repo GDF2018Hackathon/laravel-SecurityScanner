@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Converter;
@@ -26,7 +26,7 @@ interface NumberConverterInterface
      * The integer representation returned may be an object or a string
      * representation of the integer, depending on the implementation.
      *
-     * @param string $hex The hexadecimal string representation to convert
+     * @param  string $hex The hexadecimal string representation to convert
      * @return mixed
      */
     public function fromHex($hex);
@@ -35,9 +35,9 @@ interface NumberConverterInterface
      * Converts an integer representation into a hexadecimal string representation
      * of the number
      *
-     * @param mixed $integer An integer representation to convert; this may be
-     *     a true integer, a string integer, or a object representation that
-     *     this converter can understand
+     * @param  mixed $integer An integer representation to convert; this may be
+     *                        a true integer, a string integer, or a object representation that
+     *                        this converter can understand
      * @return string Hexadecimal string
      */
     public function toHex($integer);

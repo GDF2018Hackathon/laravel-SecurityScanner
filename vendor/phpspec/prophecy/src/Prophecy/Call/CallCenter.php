@@ -94,7 +94,11 @@ class CallCenter
         }
 
         // Sort matches by their score value
-        @usort($matches, function ($match1, $match2) { return $match2[0] - $match1[0]; });
+        @usort(
+            $matches, function ($match1, $match2) {
+                return $match2[0] - $match1[0]; 
+            }
+        );
 
         // If Highest rated method prophecy has a promise - execute it or return null instead
         $methodProphecy = $matches[0][1];
@@ -137,32 +141,37 @@ class CallCenter
     public function findCalls($methodName, ArgumentsWildcard $wildcard)
     {
         return array_values(
-            array_filter($this->recordedCalls, function (Call $call) use ($methodName, $wildcard) {
-                return $methodName === $call->getMethodName()
-                    && 0 < $wildcard->scoreArguments($call->getArguments())
-                ;
-            })
+            array_filter(
+                $this->recordedCalls, function (Call $call) use ($methodName, $wildcard) {
+                    return $methodName === $call->getMethodName()
+                    && 0 < $wildcard->scoreArguments($call->getArguments());
+                }
+            )
         );
     }
 
     private function createUnexpectedCallException(ObjectProphecy $prophecy, $methodName,
-                                                   array $arguments)
-    {
+        array $arguments
+    ) {
         $classname = get_class($prophecy->reveal());
         $argstring = implode(', ', array_map(array($this->util, 'stringify'), $arguments));
-        $expected  = implode("\n", array_map(function (MethodProphecy $methodProphecy) {
-            return sprintf('  - %s(%s)',
-                $methodProphecy->getMethodName(),
-                $methodProphecy->getArgumentsWildcard()
-            );
-        }, call_user_func_array('array_merge', $prophecy->getMethodProphecies())));
+        $expected  = implode(
+            "\n", array_map(
+                function (MethodProphecy $methodProphecy) {
+                    return sprintf(
+                        '  - %s(%s)',
+                        $methodProphecy->getMethodName(),
+                        $methodProphecy->getArgumentsWildcard()
+                    );
+                }, call_user_func_array('array_merge', $prophecy->getMethodProphecies())
+            )
+        );
 
         return new UnexpectedCallException(
             sprintf(
                 "Method call:\n".
                 "  - %s(%s)\n".
                 "on %s was not expected, expected calls were:\n%s",
-
                 $methodName, $argstring, $classname, $expected
             ),
             $prophecy, $methodName, $arguments

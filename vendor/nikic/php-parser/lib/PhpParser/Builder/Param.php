@@ -11,7 +11,9 @@ class Param extends PhpParser\BuilderAbstract
 
     protected $default = null;
 
-    /** @var string|Node\Name|Node\NullableType|null */
+    /**
+     * @var string|Node\Name|Node\NullableType|null 
+     */
     protected $type = null;
 
     protected $byRef = false;
@@ -23,7 +25,8 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @param string $name Name of the parameter
      */
-    public function __construct($name) {
+    public function __construct($name) 
+    {
         $this->name = $name;
     }
 
@@ -34,7 +37,8 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function setDefault($value) {
+    public function setDefault($value) 
+    {
         $this->default = $this->normalizeValue($value);
 
         return $this;
@@ -47,7 +51,8 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function setTypeHint($type) {
+    public function setTypeHint($type) 
+    {
         $this->type = $this->normalizeType($type);
         if ($this->type === 'void') {
             throw new \LogicException('Parameter type cannot be void');
@@ -61,7 +66,8 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makeByRef() {
+    public function makeByRef() 
+    {
         $this->byRef = true;
 
         return $this;
@@ -72,7 +78,8 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function makeVariadic() {
+    public function makeVariadic() 
+    {
         $this->variadic = true;
 
         return $this;
@@ -83,7 +90,8 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @return Node\Param The built parameter node
      */
-    public function getNode() {
+    public function getNode() 
+    {
         return new Node\Param(
             $this->name, $this->default, $this->type, $this->byRef, $this->variadic
         );

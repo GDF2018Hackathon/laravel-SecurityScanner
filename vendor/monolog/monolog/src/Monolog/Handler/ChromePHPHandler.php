@@ -101,8 +101,8 @@ class ChromePHPHandler extends AbstractProcessingHandler
     /**
      * Creates & sends header for a record
      *
-     * @see sendHeader()
-     * @see send()
+     * @see   sendHeader()
+     * @see   send()
      * @param array $record
      */
     protected function write(array $record)

@@ -13,13 +13,19 @@ class Request implements RequestInterface
 {
     use MessageTrait;
 
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $method;
 
-    /** @var null|string */
+    /**
+     * @var null|string 
+     */
     private $requestTarget;
 
-    /** @var UriInterface */
+    /**
+     * @var UriInterface 
+     */
     private $uri;
 
     /**

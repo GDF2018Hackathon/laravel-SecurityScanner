@@ -35,34 +35,34 @@ class Identity
     /**
      * Key Object
      *
-     * @var \phpseclib\Crypt\RSA
+     * @var    \phpseclib\Crypt\RSA
      * @access private
-     * @see self::getPublicKey()
+     * @see    self::getPublicKey()
      */
     var $key;
 
     /**
      * Key Blob
      *
-     * @var string
+     * @var    string
      * @access private
-     * @see self::sign()
+     * @see    self::sign()
      */
     var $key_blob;
 
     /**
      * Socket Resource
      *
-     * @var resource
+     * @var    resource
      * @access private
-     * @see self::sign()
+     * @see    self::sign()
      */
     var $fsock;
 
     /**
      * Default Constructor.
      *
-     * @param resource $fsock
+     * @param  resource $fsock
      * @return \phpseclib\System\SSH\Agent\Identity
      * @access private
      */
@@ -76,7 +76,7 @@ class Identity
      *
      * Called by \phpseclib\System\SSH\Agent::requestIdentities()
      *
-     * @param \phpseclib\Crypt\RSA $key
+     * @param  \phpseclib\Crypt\RSA $key
      * @access private
      */
     function setPublicKey($key)
@@ -91,7 +91,7 @@ class Identity
      * Called by \phpseclib\System\SSH\Agent::requestIdentities(). The key blob could be extracted from $this->key
      * but this saves a small amount of computation.
      *
-     * @param string $key_blob
+     * @param  string $key_blob
      * @access private
      */
     function setPublicKeyBlob($key_blob)
@@ -104,7 +104,7 @@ class Identity
      *
      * Wrapper for $this->key->getPublicKey()
      *
-     * @param int $format optional
+     * @param  int $format optional
      * @return mixed
      * @access public
      */
@@ -119,7 +119,7 @@ class Identity
      * Doesn't do anything as ssh-agent doesn't let you pick and choose the signature mode. ie.
      * ssh-agent's only supported mode is \phpseclib\Crypt\RSA::SIGNATURE_PKCS1
      *
-     * @param int $mode
+     * @param  int $mode
      * @access public
      */
     function setSignatureMode($mode)
@@ -131,7 +131,7 @@ class Identity
      *
      * See "2.6.2 Protocol 2 private key signature request"
      *
-     * @param string $message
+     * @param  string $message
      * @return string
      * @access public
      */

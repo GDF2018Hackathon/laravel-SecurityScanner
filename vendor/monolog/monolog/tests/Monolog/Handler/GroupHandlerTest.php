@@ -76,11 +76,13 @@ class GroupHandlerTest extends TestCase
     {
         $test = new TestHandler();
         $handler = new GroupHandler(array($test));
-        $handler->pushProcessor(function ($record) {
-            $record['extra']['foo'] = true;
+        $handler->pushProcessor(
+            function ($record) {
+                $record['extra']['foo'] = true;
 
-            return $record;
-        });
+                return $record;
+            }
+        );
         $handler->handle($this->getRecord(Logger::WARNING));
         $this->assertTrue($test->hasWarningRecords());
         $records = $test->getRecords();
@@ -94,11 +96,13 @@ class GroupHandlerTest extends TestCase
     {
         $testHandlers = array(new TestHandler(), new TestHandler());
         $handler = new GroupHandler($testHandlers);
-        $handler->pushProcessor(function ($record) {
-            $record['extra']['foo'] = true;
+        $handler->pushProcessor(
+            function ($record) {
+                $record['extra']['foo'] = true;
 
-            return $record;
-        });
+                return $record;
+            }
+        );
         $handler->handleBatch(array($this->getRecord(Logger::DEBUG), $this->getRecord(Logger::INFO)));
         foreach ($testHandlers as $test) {
             $this->assertTrue($test->hasDebugRecords());

@@ -92,21 +92,26 @@ class PhpFileLoaderTest extends TestCase
 
         $expectedCollection = new RouteCollection();
 
-        $expectedCollection->add('foo', (new Route('/foo'))
+        $expectedCollection->add(
+            'foo', (new Route('/foo'))
             ->setOptions(array('utf8' => true))
             ->setCondition('abc')
         );
-        $expectedCollection->add('buz', (new Route('/zub'))
+        $expectedCollection->add(
+            'buz', (new Route('/zub'))
             ->setDefaults(array('_controller' => 'foo:act'))
         );
-        $expectedCollection->add('c_bar', (new Route('/sub/pub/bar'))
+        $expectedCollection->add(
+            'c_bar', (new Route('/sub/pub/bar'))
             ->setRequirements(array('id' => '\d+'))
         );
-        $expectedCollection->add('c_pub_buz', (new Route('/sub/pub/buz'))
+        $expectedCollection->add(
+            'c_pub_buz', (new Route('/sub/pub/buz'))
             ->setHost('host')
             ->setRequirements(array('id' => '\d+'))
         );
-        $expectedCollection->add('ouf', (new Route('/ouf'))
+        $expectedCollection->add(
+            'ouf', (new Route('/ouf'))
             ->setSchemes(array('https'))
             ->setMethods(array('GET'))
             ->setDefaults(array('id' => 0))

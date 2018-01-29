@@ -26,8 +26,8 @@ class RedisBroadcaster extends Broadcaster
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Illuminate\Contracts\Redis\Factory  $redis
-     * @param  string  $connection
+     * @param  \Illuminate\Contracts\Redis\Factory $redis
+     * @param  string                              $connection
      * @return void
      */
     public function __construct(Redis $redis, $connection = null)
@@ -39,14 +39,15 @@ class RedisBroadcaster extends Broadcaster
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return mixed
      * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
     public function auth($request)
     {
-        if (Str::startsWith($request->channel_name, ['private-', 'presence-']) &&
-            ! $request->user()) {
+        if (Str::startsWith($request->channel_name, ['private-', 'presence-']) 
+            && ! $request->user()
+        ) {
             throw new AccessDeniedHttpException;
         }
 
@@ -62,8 +63,8 @@ class RedisBroadcaster extends Broadcaster
     /**
      * Return the valid authentication response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $result
+     * @param  \Illuminate\Http\Request $request
+     * @param  mixed                    $result
      * @return mixed
      */
     public function validAuthenticationResponse($request, $result)
@@ -72,17 +73,19 @@ class RedisBroadcaster extends Broadcaster
             return json_encode($result);
         }
 
-        return json_encode(['channel_data' => [
+        return json_encode(
+            ['channel_data' => [
             'user_id' => $request->user()->getAuthIdentifier(),
             'user_info' => $result,
-        ]]);
+            ]]
+        );
     }
 
     /**
      * Broadcast the given event.
      *
      * @param  array  $channels
-     * @param  string  $event
+     * @param  string $event
      * @param  array  $payload
      * @return void
      */
@@ -90,11 +93,13 @@ class RedisBroadcaster extends Broadcaster
     {
         $connection = $this->redis->connection($this->connection);
 
-        $payload = json_encode([
+        $payload = json_encode(
+            [
             'event' => $event,
             'data' => $payload,
             'socket' => Arr::pull($payload, 'socket'),
-        ]);
+            ]
+        );
 
         foreach ($this->formatChannels($channels) as $channel) {
             $connection->publish($channel, $payload);

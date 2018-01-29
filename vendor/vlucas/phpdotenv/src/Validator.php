@@ -119,10 +119,12 @@ class Validator
         }
 
         if (count($variablesFailingAssertion) > 0) {
-            throw new ValidationException(sprintf(
-                'One or more environment variables failed assertions: %s.',
-                implode(', ', $variablesFailingAssertion)
-            ));
+            throw new ValidationException(
+                sprintf(
+                    'One or more environment variables failed assertions: %s.',
+                    implode(', ', $variablesFailingAssertion)
+                )
+            );
         }
 
         return $this;

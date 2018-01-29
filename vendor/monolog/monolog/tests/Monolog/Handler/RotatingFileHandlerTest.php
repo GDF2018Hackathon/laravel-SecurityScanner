@@ -37,12 +37,14 @@ class RotatingFileHandlerTest extends TestCase
         $this->lastError = null;
         $self = $this;
         // workaround with &$self used for PHP 5.3
-        set_error_handler(function($code, $message) use (&$self) {
-            $self->lastError = array(
+        set_error_handler(
+            function ($code, $message) use (&$self) {
+                $self->lastError = array(
                 'code' => $code,
                 'message' => $message,
-            );
-        });
+                );
+            }
+        );
     }
 
     private function assertErrorWasTriggered($code, $message)
@@ -107,13 +109,13 @@ class RotatingFileHandlerTest extends TestCase
     public function rotationTests()
     {
         $now = time();
-        $dayCallback = function($ago) use ($now) {
+        $dayCallback = function ($ago) use ($now) {
             return $now + 86400 * $ago;
         };
-        $monthCallback = function($ago) {
+        $monthCallback = function ($ago) {
             return gmmktime(0, 0, 0, date('n') + $ago, 1, date('Y'));
         };
-        $yearCallback = function($ago) {
+        $yearCallback = function ($ago) {
             return gmmktime(0, 0, 0, 1, 1, date('Y') + $ago);
         };
 

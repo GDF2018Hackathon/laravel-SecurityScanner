@@ -58,7 +58,8 @@ class ListCommand extends ReflectingCommand implements PresenterAware
         $this
             ->setName('ls')
             ->setAliases(array('list', 'dir'))
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputArgument('target', InputArgument::OPTIONAL, 'A target class or object to list.', null),
 
                 new InputOption('vars',        '',  InputOption::VALUE_NONE,     'Display variables.'),
@@ -84,7 +85,8 @@ class ListCommand extends ReflectingCommand implements PresenterAware
 
                 new InputOption('all',         'a', InputOption::VALUE_NONE,     'Include private and protected methods and properties.'),
                 new InputOption('long',        'l', InputOption::VALUE_NONE,     'List in long format: includes class names and method signatures.'),
-            ))
+                )
+            )
             ->setDescription('List local, instance or class variables, methods and constants.')
             ->setHelp(
                 <<<'HELP'

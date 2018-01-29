@@ -18,10 +18,10 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Constructor.
      *
-     * @param  mixed  $data
-     * @param  int    $status
-     * @param  array  $headers
-     * @param  int    $options
+     * @param  mixed $data
+     * @param  int   $status
+     * @param  array $headers
+     * @param  int   $options
      * @return void
      */
     public function __construct($data = null, $status = 200, $headers = [], $options = 0)
@@ -34,7 +34,7 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Sets the JSONP callback.
      *
-     * @param  string|null  $callback
+     * @param  string|null $callback
      * @return $this
      */
     public function withCallback($callback = null)
@@ -45,7 +45,7 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Get the json_decoded data from the response.
      *
-     * @param  bool  $assoc
+     * @param  bool $assoc
      * @param  int  $depth
      * @return mixed
      */
@@ -81,7 +81,7 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Determine if an error occurred during JSON encoding.
      *
-     * @param  int  $jsonError
+     * @param  int $jsonError
      * @return bool
      */
     protected function hasValidJson($jsonError)
@@ -104,7 +104,7 @@ class JsonResponse extends BaseJsonResponse
     /**
      * Determine if a JSON encoding option is set.
      *
-     * @param  int  $option
+     * @param  int $option
      * @return bool
      */
     public function hasEncodingOption($option)

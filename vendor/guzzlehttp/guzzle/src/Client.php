@@ -24,7 +24,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Client implements ClientInterface
 {
-    /** @var array Default request options */
+    /**
+     * @var array Default request options 
+     */
     private $config;
 
     /**
@@ -294,11 +296,13 @@ class Client implements ClientInterface
 
         if (isset($options['form_params'])) {
             if (isset($options['multipart'])) {
-                throw new \InvalidArgumentException('You cannot use '
+                throw new \InvalidArgumentException(
+                    'You cannot use '
                     . 'form_params and multipart at the same time. Use the '
                     . 'form_params option if you want to send application/'
                     . 'x-www-form-urlencoded requests, and the multipart '
-                    . 'option to send multipart/form-data requests.');
+                    . 'option to send multipart/form-data requests.'
+                );
             }
             $options['body'] = http_build_query($options['form_params'], '', '&');
             unset($options['form_params']);
@@ -343,19 +347,19 @@ class Client implements ClientInterface
             $value = $options['auth'];
             $type = isset($value[2]) ? strtolower($value[2]) : 'basic';
             switch ($type) {
-                case 'basic':
-                    $modify['set_headers']['Authorization'] = 'Basic '
-                        . base64_encode("$value[0]:$value[1]");
-                    break;
-                case 'digest':
-                    // @todo: Do not rely on curl
-                    $options['curl'][CURLOPT_HTTPAUTH] = CURLAUTH_DIGEST;
-                    $options['curl'][CURLOPT_USERPWD] = "$value[0]:$value[1]";
-                    break;
-                case 'ntlm':
-                    $options['curl'][CURLOPT_HTTPAUTH] = CURLAUTH_NTLM;
-                    $options['curl'][CURLOPT_USERPWD] = "$value[0]:$value[1]";
-                    break;
+            case 'basic':
+                $modify['set_headers']['Authorization'] = 'Basic '
+                    . base64_encode("$value[0]:$value[1]");
+                break;
+            case 'digest':
+                // @todo: Do not rely on curl
+                $options['curl'][CURLOPT_HTTPAUTH] = CURLAUTH_DIGEST;
+                $options['curl'][CURLOPT_USERPWD] = "$value[0]:$value[1]";
+                break;
+            case 'ntlm':
+                $options['curl'][CURLOPT_HTTPAUTH] = CURLAUTH_NTLM;
+                $options['curl'][CURLOPT_USERPWD] = "$value[0]:$value[1]";
+                break;
             }
         }
 
@@ -405,10 +409,12 @@ class Client implements ClientInterface
 
     private function invalidBody()
     {
-        throw new \InvalidArgumentException('Passing in the "body" request '
+        throw new \InvalidArgumentException(
+            'Passing in the "body" request '
             . 'option as an array to send a POST request has been deprecated. '
             . 'Please use the "form_params" request option to send a '
             . 'application/x-www-form-urlencoded request, or the "multipart" '
-            . 'request option to send a multipart/form-data request.');
+            . 'request option to send a multipart/form-data request.'
+        );
     }
 }

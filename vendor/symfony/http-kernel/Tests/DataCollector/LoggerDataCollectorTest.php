@@ -30,15 +30,19 @@ class LoggerDataCollectorTest extends TestCase
         $c->lateCollect();
         $compilerLogs = $c->getCompilerLogs()->getValue('message');
 
-        $this->assertSame(array(
+        $this->assertSame(
+            array(
             array('message' => 'Removed service "Psr\Container\ContainerInterface"; reason: private alias.'),
             array('message' => 'Removed service "Symfony\Component\DependencyInjection\ContainerInterface"; reason: private alias.'),
-        ), $compilerLogs['Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass']);
+            ), $compilerLogs['Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass']
+        );
 
-        $this->assertSame(array(
+        $this->assertSame(
+            array(
             array('message' => 'Some custom logging message'),
             array('message' => 'With ending :'),
-        ), $compilerLogs['Unknown Compiler Pass']);
+            ), $compilerLogs['Unknown Compiler Pass']
+        );
     }
 
     /**
@@ -59,14 +63,16 @@ class LoggerDataCollectorTest extends TestCase
         $this->assertEquals('logger', $c->getName());
         $this->assertEquals($nb, $c->countErrors());
 
-        $logs = array_map(function ($v) {
-            if (isset($v['context']['exception'])) {
-                $e = &$v['context']['exception'];
-                $e = isset($e["\0*\0message"]) ? array($e["\0*\0message"], $e["\0*\0severity"]) : array($e["\0Symfony\Component\Debug\Exception\SilencedErrorContext\0severity"]);
-            }
+        $logs = array_map(
+            function ($v) {
+                if (isset($v['context']['exception'])) {
+                    $e = &$v['context']['exception'];
+                    $e = isset($e["\0*\0message"]) ? array($e["\0*\0message"], $e["\0*\0severity"]) : array($e["\0Symfony\Component\Debug\Exception\SilencedErrorContext\0severity"]);
+                }
 
-            return $v;
-        }, $c->getLogs()->getValue(true));
+                return $v;
+            }, $c->getLogs()->getValue(true)
+        );
         $this->assertEquals($expectedLogs, $logs);
         $this->assertEquals($expectedDeprecationCount, $c->countDeprecations());
         $this->assertEquals($expectedScreamCount, $c->countScreams());

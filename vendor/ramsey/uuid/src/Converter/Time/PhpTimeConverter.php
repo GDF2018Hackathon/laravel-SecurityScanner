@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Converter\Time;
@@ -27,10 +27,10 @@ class PhpTimeConverter implements TimeConverterInterface
      * Uses the provided seconds and micro-seconds to calculate the time_low,
      * time_mid, and time_high fields used by RFC 4122 version 1 UUIDs
      *
-     * @param string $seconds
-     * @param string $microSeconds
+     * @param  string $seconds
+     * @param  string $microSeconds
      * @return string[] An array containing `low`, `mid`, and `high` keys
-     * @link http://tools.ietf.org/html/rfc4122#section-4.2.2
+     * @link   http://tools.ietf.org/html/rfc4122#section-4.2.2
      */
     public function calculateTime($seconds, $microSeconds)
     {

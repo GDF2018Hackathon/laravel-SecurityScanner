@@ -62,16 +62,16 @@ class ServerRequest implements ServerRequestInterface
     private $uploadedFiles;
 
     /**
-     * @param array $serverParams Server parameters, typically from $_SERVER
-     * @param array $uploadedFiles Upload file information, a tree of UploadedFiles
-     * @param null|string|UriInterface $uri URI for the request, if any.
-     * @param null|string $method HTTP method for the request, if any.
-     * @param string|resource|StreamInterface $body Message body, if any.
-     * @param array $headers Headers for the message, if any.
-     * @param array $cookies Cookies for the message, if any.
-     * @param array $queryParams Query params for the message, if any.
-     * @param null|array|object $parsedBody The deserialized body parameters, if any.
-     * @param string $protocol HTTP protocol version.
+     * @param array                           $serverParams  Server parameters, typically from $_SERVER
+     * @param array                           $uploadedFiles Upload file information, a tree of UploadedFiles
+     * @param null|string|UriInterface        $uri           URI for the request, if any.
+     * @param null|string                     $method        HTTP method for the request, if any.
+     * @param string|resource|StreamInterface $body          Message body, if any.
+     * @param array                           $headers       Headers for the message, if any.
+     * @param array                           $cookies       Cookies for the message, if any.
+     * @param array                           $queryParams   Query params for the message, if any.
+     * @param null|array|object               $parsedBody    The deserialized body parameters, if any.
+     * @param string                          $protocol      HTTP protocol version.
      * @throws InvalidArgumentException for any invalid value.
      */
     public function __construct(
@@ -247,7 +247,7 @@ class ServerRequest implements ServerRequestInterface
      *
      * This methods returns a new instance.
      *
-     * @param string $method
+     * @param  string $method
      * @return self
      */
     public function withMethod($method)
@@ -261,7 +261,7 @@ class ServerRequest implements ServerRequestInterface
     /**
      * Recursively validate the structure in an uploaded files array.
      *
-     * @param array $uploadedFiles
+     * @param  array $uploadedFiles
      * @throws InvalidArgumentException if any leaf is not an UploadedFileInterface instance.
      */
     private function validateUploadedFiles(array $uploadedFiles)

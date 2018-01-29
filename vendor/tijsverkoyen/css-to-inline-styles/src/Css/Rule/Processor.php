@@ -10,7 +10,7 @@ class Processor
     /**
      * Split a string into seperate rules
      *
-     * @param string $rulesString
+     * @param  string $rulesString
      * @return array
      */
     public function splitIntoSeparateRules($rulesString)
@@ -41,8 +41,8 @@ class Processor
     /**
      * Convert a rule-string into an object
      *
-     * @param string $rule
-     * @param int    $originalOrder
+     * @param  string $rule
+     * @param  int    $originalOrder
      * @return array
      */
     public function convertToObjects($rule, $originalOrder)
@@ -77,8 +77,8 @@ class Processor
      * Calculate the specificity based on a CSS Selector string,
      * Based on the patterns from premailer/css_parser by Alex Dunae
      *
-     * @see https://github.com/premailer/css_parser/blob/master/lib/css_parser/regexps.rb
-     * @param string $selector
+     * @see    https://github.com/premailer/css_parser/blob/master/lib/css_parser/regexps.rb
+     * @param  string $selector
      * @return Specificity
      */
     public function calculateSpecificityBasedOnASelector($selector)

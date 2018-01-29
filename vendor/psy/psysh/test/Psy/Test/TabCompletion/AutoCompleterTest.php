@@ -59,11 +59,13 @@ class AutoCompleterTest extends \PHPUnit\Framework\TestCase
 
         $context->setAll(array('foo' => 12, 'bar' => new \DOMDocument()));
 
-        $code = $tabCompletion->processCallback('', 0, array(
-           'line_buffer' => $line,
-           'point'       => 0,
-           'end'         => strlen($line),
-        ));
+        $code = $tabCompletion->processCallback(
+            '', 0, array(
+            'line_buffer' => $line,
+            'point'       => 0,
+            'end'         => strlen($line),
+            )
+        );
 
         foreach ($mustContain as $mc) {
             $this->assertContains($mc, $code);

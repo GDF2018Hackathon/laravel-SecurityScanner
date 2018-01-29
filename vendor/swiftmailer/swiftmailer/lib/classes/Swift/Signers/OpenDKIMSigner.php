@@ -12,7 +12,7 @@
  * DKIM Signer used to apply DKIM Signature to a message
  * Takes advantage of pecl extension.
  *
- * @author     Xavier De Cock <xdecock@gmail.com>
+ * @author Xavier De Cock <xdecock@gmail.com>
  */
 class Swift_Signers_OpenDKIMSigner extends Swift_Signers_DKIMSigner
 {

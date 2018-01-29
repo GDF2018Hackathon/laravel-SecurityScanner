@@ -53,15 +53,17 @@ class CronExpression
     /**
      * Factory method to create a new CronExpression.
      *
-     * @param string $expression The CRON expression to create.  There are
-     *                           several special predefined values which can be used to substitute the
-     *                           CRON expression:
-     *
-     *      `@yearly`, `@annually` - Run once a year, midnight, Jan. 1 - 0 0 1 1 *
-     *      `@monthly` - Run once a month, midnight, first of month - 0 0 1 * *
-     *      `@weekly` - Run once a week, midnight on Sun - 0 0 * * 0
-     *      `@daily` - Run once a day, midnight - 0 0 * * *
-     *      `@hourly` - Run once an hour, first minute - 0 * * * *
+     * @param string       $expression   The CRON expression to create.  There are
+     *                                   several special predefined values which
+     *                                   can be used to substitute the CRON
+     *                                   expression: `@yearly`, `@annually` - Run
+     *                                   once a year, midnight, Jan. 1 - 0 0 1 1 *
+     *                                   `@monthly` - Run once a month, midnight,
+     *                                   first of month - 0 0 1 * * `@weekly` -
+     *                                   Run once a week, midnight on Sun - 0 0 *
+     *                                   * 0 `@daily` - Run once a day, midnight -
+     *                                   0 0 * * * `@hourly` - Run once an hour,
+     *                                   first minute - 0 * * * *
      * @param FieldFactory $fieldFactory Field factory to use
      *
      * @return CronExpression
@@ -90,7 +92,7 @@ class CronExpression
      * @param string $expression The CRON expression to validate.
      *
      * @return bool True if a valid CRON expression was passed. False if not.
-     * @see \Cron\CronExpression::factory
+     * @see    \Cron\CronExpression::factory
      */
     public static function isValidExpression($expression)
     {
@@ -206,7 +208,7 @@ class CronExpression
      *
      * @return \DateTime
      * @throws \RuntimeException on too many iterations
-     * @see \Cron\CronExpression::getNextRunDate
+     * @see    \Cron\CronExpression::getNextRunDate
      */
     public function getPreviousRunDate($currentTime = 'now', $nth = 0, $allowCurrentDate = false)
     {

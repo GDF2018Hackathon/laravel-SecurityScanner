@@ -15,6 +15,7 @@ use RuntimeException;
  *
  * Wrapper for default Stream class, representing subpart (starting from given offset) of initial stream.
  * It can be used to avoid copying full stream, conserving memory.
+ *
  * @example see Zend\Diactoros\AbstractSerializer::splitStream()
  */
 final class RelativeStream implements StreamInterface
@@ -33,7 +34,7 @@ final class RelativeStream implements StreamInterface
      * Class constructor
      *
      * @param StreamInterface $decoratedStream
-     * @param int $offset
+     * @param int             $offset
      */
     public function __construct(StreamInterface $decoratedStream, $offset)
     {

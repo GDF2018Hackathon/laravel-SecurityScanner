@@ -21,9 +21,11 @@ class TinkerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('command.tinker', function () {
-            return new TinkerCommand;
-        });
+        $this->app->singleton(
+            'command.tinker', function () {
+                return new TinkerCommand;
+            }
+        );
 
         $this->commands(['command.tinker']);
     }

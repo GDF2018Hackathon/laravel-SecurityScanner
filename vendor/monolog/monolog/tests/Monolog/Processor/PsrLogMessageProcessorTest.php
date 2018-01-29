@@ -20,10 +20,12 @@ class PsrLogMessageProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $proc = new PsrLogMessageProcessor;
 
-        $message = $proc(array(
+        $message = $proc(
+            array(
             'message' => '{foo}',
             'context' => array('foo' => $val),
-        ));
+            )
+        );
         $this->assertEquals($expected, $message['message']);
     }
 

@@ -43,17 +43,21 @@ class ClassMethodsMatcher extends AbstractMatcher
         }
 
         $methods = $reflection->getMethods(\ReflectionMethod::IS_STATIC);
-        $methods = array_map(function (\ReflectionMethod $method) {
-            return $method->getName();
-        }, $methods);
+        $methods = array_map(
+            function (\ReflectionMethod $method) {
+                return $method->getName();
+            }, $methods
+        );
 
         return array_map(
             function ($name) use ($class) {
                 return $class . '::' . $name;
             },
-            array_filter($methods, function ($method) use ($input) {
-                return AbstractMatcher::startsWith($input, $method);
-            })
+            array_filter(
+                $methods, function ($method) use ($input) {
+                    return AbstractMatcher::startsWith($input, $method);
+                }
+            )
         );
     }
 
@@ -66,9 +70,9 @@ class ClassMethodsMatcher extends AbstractMatcher
         $prevToken = array_pop($tokens);
 
         switch (true) {
-            case self::tokenIs($prevToken, self::T_DOUBLE_COLON) && self::tokenIs($token, self::T_STRING):
-            case self::tokenIs($token, self::T_DOUBLE_COLON):
-                return true;
+        case self::tokenIs($prevToken, self::T_DOUBLE_COLON) && self::tokenIs($token, self::T_STRING):
+        case self::tokenIs($token, self::T_DOUBLE_COLON):
+            return true;
         }
 
         return false;

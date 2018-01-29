@@ -26,7 +26,7 @@ class Generic extends BaseTag implements Factory\StaticMethod
     /**
      * Parses a tag and populates the member variables.
      *
-     * @param string $name Name of the tag.
+     * @param string      $name        Name of the tag.
      * @param Description $description The contents of the given tag.
      */
     public function __construct($name, Description $description = null)

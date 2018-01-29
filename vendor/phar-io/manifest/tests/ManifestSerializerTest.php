@@ -44,7 +44,8 @@ use PharIo\Version\Version;
  * @uses \PharIo\Version\Version
  * @uses \PharIo\Version\VersionConstraint
  */
-class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
+class ManifestSerializerTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @dataProvider dataProvider
      *
@@ -55,7 +56,8 @@ class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
      * @uses \PharIo\Manifest\Extension
      * @uses \PharIo\Manifest\ExtensionElement
      */
-    public function testCanSerializeToString($expected) {
+    public function testCanSerializeToString($expected) 
+    {
         $manifest = ManifestLoader::fromString($expected);
 
         $serializer = new ManifestSerializer();
@@ -66,7 +68,8 @@ class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
         );
     }
 
-    public function dataProvider() {
+    public function dataProvider() 
+    {
         return [
             'application' => [file_get_contents(__DIR__ . '/_fixture/phpunit-5.6.5.xml')],
             'library'     => [file_get_contents(__DIR__ . '/_fixture/library.xml')],
@@ -78,7 +81,8 @@ class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
      * @uses \PharIo\Manifest\Library
      * @uses \PharIo\Manifest\ApplicationName
      */
-    public function testCanSerializeToFile() {
+    public function testCanSerializeToFile() 
+    {
         $src        = __DIR__ . '/_fixture/library.xml';
         $dest       = '/tmp/' . uniqid('serializer', true);
         $manifest   = ManifestLoader::fromFile($src);
@@ -91,7 +95,8 @@ class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
     /**
      * @uses \PharIo\Manifest\ApplicationName
      */
-    public function testCanHandleUnknownType() {
+    public function testCanHandleUnknownType() 
+    {
         $type     = $this->getMockForAbstractClass(Type::class);
         $manifest = new Manifest(
             new ApplicationName('testvendor/testname'),

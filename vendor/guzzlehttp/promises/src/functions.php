@@ -43,15 +43,17 @@ function task(callable $task)
 {
     $queue = queue();
     $promise = new Promise([$queue, 'run']);
-    $queue->add(function () use ($task, $promise) {
-        try {
-            $promise->resolve($task());
-        } catch (\Throwable $e) {
-            $promise->reject($e);
-        } catch (\Exception $e) {
-            $promise->reject($e);
+    $queue->add(
+        function () use ($task, $promise) {
+            try {
+                $promise->resolve($task());
+            } catch (\Throwable $e) {
+                $promise->reject($e);
+            } catch (\Exception $e) {
+                $promise->reject($e);
+            }
         }
-    });
+    );
 
     return $promise;
 }
@@ -169,7 +171,7 @@ function inspect(PromiseInterface $promise)
  * @param PromiseInterface[] $promises Traversable of promises to wait upon.
  *
  * @return array
- * @see GuzzleHttp\Promise\inspect for the inspection state array format.
+ * @see    GuzzleHttp\Promise\inspect for the inspection state array format.
  */
 function inspect_all($promises)
 {
@@ -227,10 +229,12 @@ function all($promises)
         function ($reason, $idx, Promise $aggregate) {
             $aggregate->reject($reason);
         }
-    )->then(function () use (&$results) {
-        ksort($results);
-        return $results;
-    });
+    )->then(
+        function () use (&$results) {
+            ksort($results);
+            return $results;
+        }
+    );
 }
 
 /**
@@ -292,7 +296,11 @@ function some($count, $promises)
  */
 function any($promises)
 {
-    return some(1, $promises)->then(function ($values) { return $values[0]; });
+    return some(1, $promises)->then(
+        function ($values) {
+            return $values[0]; 
+        }
+    );
 }
 
 /**
@@ -304,7 +312,7 @@ function any($promises)
  * @param mixed $promises Promises or values.
  *
  * @return PromiseInterface
- * @see GuzzleHttp\Promise\inspect for the inspection state array format.
+ * @see    GuzzleHttp\Promise\inspect for the inspection state array format.
  */
 function settle($promises)
 {
@@ -318,10 +326,12 @@ function settle($promises)
         function ($reason, $idx) use (&$results) {
             $results[$idx] = ['state' => PromiseInterface::REJECTED, 'reason' => $reason];
         }
-    )->then(function () use (&$results) {
-        ksort($results);
-        return $results;
-    });
+    )->then(
+        function () use (&$results) {
+            ksort($results);
+            return $results;
+        }
+    );
 }
 
 /**
@@ -348,10 +358,12 @@ function each(
     callable $onFulfilled = null,
     callable $onRejected = null
 ) {
-    return (new EachPromise($iterable, [
+    return (new EachPromise(
+        $iterable, [
         'fulfilled' => $onFulfilled,
         'rejected'  => $onRejected
-    ]))->promise();
+        ]
+    ))->promise();
 }
 
 /**
@@ -375,11 +387,13 @@ function each_limit(
     callable $onFulfilled = null,
     callable $onRejected = null
 ) {
-    return (new EachPromise($iterable, [
+    return (new EachPromise(
+        $iterable, [
         'fulfilled'   => $onFulfilled,
         'rejected'    => $onRejected,
         'concurrency' => $concurrency
-    ]))->promise();
+        ]
+    ))->promise();
 }
 
 /**

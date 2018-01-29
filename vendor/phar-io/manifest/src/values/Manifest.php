@@ -12,7 +12,8 @@ namespace PharIo\Manifest;
 
 use PharIo\Version\Version;
 
-class Manifest {
+class Manifest
+{
     /**
      * @var ApplicationName
      */
@@ -43,7 +44,8 @@ class Manifest {
      */
     private $bundledComponents;
 
-    public function __construct(ApplicationName $name, Version $version, Type $type, CopyrightInformation $copyrightInformation, RequirementCollection $requirements, BundledComponentCollection $bundledComponents) {
+    public function __construct(ApplicationName $name, Version $version, Type $type, CopyrightInformation $copyrightInformation, RequirementCollection $requirements, BundledComponentCollection $bundledComponents) 
+    {
         $this->name                 = $name;
         $this->version              = $version;
         $this->type                 = $type;
@@ -55,63 +57,72 @@ class Manifest {
     /**
      * @return ApplicationName
      */
-    public function getName() {
+    public function getName() 
+    {
         return $this->name;
     }
 
     /**
      * @return Version
      */
-    public function getVersion() {
+    public function getVersion() 
+    {
         return $this->version;
     }
 
     /**
      * @return Type
      */
-    public function getType() {
+    public function getType() 
+    {
         return $this->type;
     }
 
     /**
      * @return CopyrightInformation
      */
-    public function getCopyrightInformation() {
+    public function getCopyrightInformation() 
+    {
         return $this->copyrightInformation;
     }
 
     /**
      * @return RequirementCollection
      */
-    public function getRequirements() {
+    public function getRequirements() 
+    {
         return $this->requirements;
     }
 
     /**
      * @return BundledComponentCollection
      */
-    public function getBundledComponents() {
+    public function getBundledComponents() 
+    {
         return $this->bundledComponents;
     }
 
     /**
      * @return bool
      */
-    public function isApplication() {
+    public function isApplication() 
+    {
         return $this->type->isApplication();
     }
 
     /**
      * @return bool
      */
-    public function isLibrary() {
+    public function isLibrary() 
+    {
         return $this->type->isLibrary();
     }
 
     /**
      * @return bool
      */
-    public function isExtension() {
+    public function isExtension() 
+    {
         return $this->type->isExtension();
     }
 
@@ -121,12 +132,15 @@ class Manifest {
      *
      * @return bool
      */
-    public function isExtensionFor(ApplicationName $application, Version $version = null) {
+    public function isExtensionFor(ApplicationName $application, Version $version = null) 
+    {
         if (!$this->isExtension()) {
             return false;
         }
 
-        /** @var Extension $type */
+        /**
+ * @var Extension $type 
+*/
         $type = $this->type;
 
         if ($version !== null) {

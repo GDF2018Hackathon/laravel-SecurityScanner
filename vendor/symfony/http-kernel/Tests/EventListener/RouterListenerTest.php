@@ -100,9 +100,9 @@ class RouterListenerTest extends TestCase
 
         $requestMatcher = $this->getMockBuilder('Symfony\Component\Routing\Matcher\RequestMatcherInterface')->getMock();
         $requestMatcher->expects($this->once())
-                       ->method('matchRequest')
-                       ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
-                       ->will($this->returnValue(array()));
+            ->method('matchRequest')
+            ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
+            ->will($this->returnValue(array()));
 
         $listener = new RouterListener($requestMatcher, $this->requestStack, new RequestContext());
         $listener->onKernelRequest($event);
@@ -116,9 +116,9 @@ class RouterListenerTest extends TestCase
 
         $requestMatcher = $this->getMockBuilder('Symfony\Component\Routing\Matcher\RequestMatcherInterface')->getMock();
         $requestMatcher->expects($this->any())
-                       ->method('matchRequest')
-                       ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
-                       ->will($this->returnValue(array()));
+            ->method('matchRequest')
+            ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
+            ->will($this->returnValue(array()));
 
         $context = new RequestContext();
 
@@ -175,9 +175,13 @@ class RouterListenerTest extends TestCase
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new ValidateRequestListener());
         $dispatcher->addSubscriber(new RouterListener($requestMatcher, $requestStack, new RequestContext()));
-        $dispatcher->addSubscriber(new ExceptionListener(function () {
-            return new Response('Exception handled', 400);
-        }));
+        $dispatcher->addSubscriber(
+            new ExceptionListener(
+                function () {
+                    return new Response('Exception handled', 400);
+                }
+            )
+        );
 
         $kernel = new HttpKernel($dispatcher, new ControllerResolver(), $requestStack, new ArgumentResolver());
 
@@ -195,8 +199,7 @@ class RouterListenerTest extends TestCase
         $requestMatcher
             ->expects($this->once())
             ->method('matchRequest')
-            ->willThrowException(new NoConfigurationException())
-        ;
+            ->willThrowException(new NoConfigurationException());
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new RouterListener($requestMatcher, $requestStack, new RequestContext()));

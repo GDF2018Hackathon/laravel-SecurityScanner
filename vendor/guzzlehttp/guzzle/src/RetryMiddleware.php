@@ -13,10 +13,14 @@ use Psr\Http\Message\ResponseInterface;
  */
 class RetryMiddleware
 {
-    /** @var callable  */
+    /**
+     * @var callable  
+     */
     private $nextHandler;
 
-    /** @var callable */
+    /**
+     * @var callable 
+     */
     private $decider;
 
     /**
@@ -80,7 +84,8 @@ class RetryMiddleware
                 $req,
                 $value,
                 null
-            )) {
+            )
+            ) {
                 return $value;
             }
             return $this->doRetry($req, $options, $value);
@@ -96,7 +101,8 @@ class RetryMiddleware
                 $req,
                 null,
                 $reason
-            )) {
+            )
+            ) {
                 return \GuzzleHttp\Promise\rejection_for($reason);
             }
             return $this->doRetry($req, $options);

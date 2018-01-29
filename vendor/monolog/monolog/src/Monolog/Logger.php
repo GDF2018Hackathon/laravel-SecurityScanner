@@ -278,9 +278,9 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record.
      *
-     * @param  int     $level   The logging level
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  int    $level   The logging level
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addRecord($level, $message, array $context = array())
@@ -347,8 +347,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the DEBUG level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addDebug($message, array $context = array())
@@ -359,8 +359,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the INFO level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addInfo($message, array $context = array())
@@ -371,8 +371,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the NOTICE level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addNotice($message, array $context = array())
@@ -383,8 +383,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the WARNING level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addWarning($message, array $context = array())
@@ -395,8 +395,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the ERROR level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addError($message, array $context = array())
@@ -407,8 +407,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the CRITICAL level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addCritical($message, array $context = array())
@@ -419,8 +419,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the ALERT level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addAlert($message, array $context = array())
@@ -431,8 +431,8 @@ class Logger implements LoggerInterface
     /**
      * Adds a log record at the EMERGENCY level.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function addEmergency($message, array $context = array())
@@ -453,7 +453,7 @@ class Logger implements LoggerInterface
     /**
      * Gets the name of the logging level.
      *
-     * @param  int    $level
+     * @param  int $level
      * @return string
      */
     public static function getLevelName($level)
@@ -468,7 +468,7 @@ class Logger implements LoggerInterface
     /**
      * Converts PSR-3 levels to Monolog ones if necessary
      *
-     * @param string|int Level number (monolog) or name (PSR-3)
+     * @param  string|int Level number (monolog) or name (PSR-3)
      * @return int
      */
     public static function toMonologLevel($level)
@@ -483,7 +483,7 @@ class Logger implements LoggerInterface
     /**
      * Checks whether the Logger has a handler that listens on the given level
      *
-     * @param  int     $level
+     * @param  int $level
      * @return Boolean
      */
     public function isHandling($level)
@@ -506,9 +506,9 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  mixed   $level   The log level
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  mixed  $level   The log level
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function log($level, $message, array $context = array())
@@ -523,8 +523,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function debug($message, array $context = array())
@@ -537,8 +537,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function info($message, array $context = array())
@@ -551,8 +551,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function notice($message, array $context = array())
@@ -565,8 +565,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function warn($message, array $context = array())
@@ -579,8 +579,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function warning($message, array $context = array())
@@ -593,8 +593,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function err($message, array $context = array())
@@ -607,8 +607,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function error($message, array $context = array())
@@ -621,8 +621,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function crit($message, array $context = array())
@@ -635,8 +635,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function critical($message, array $context = array())
@@ -649,8 +649,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function alert($message, array $context = array())
@@ -663,8 +663,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function emerg($message, array $context = array())
@@ -677,8 +677,8 @@ class Logger implements LoggerInterface
      *
      * This method allows for compatibility with common interfaces.
      *
-     * @param  string  $message The log message
-     * @param  array   $context The log context
+     * @param  string $message The log message
+     * @param  array  $context The log context
      * @return Boolean Whether the record has been processed
      */
     public function emergency($message, array $context = array())

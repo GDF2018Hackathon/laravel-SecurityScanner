@@ -50,25 +50,25 @@ final class Core
     {
         if (Core::ourStrlen($ctr) !== Core::BLOCK_BYTE_SIZE) {
             throw new Ex\EnvironmentIsBrokenException(
-              'Trying to increment a nonce of the wrong size.'
+                'Trying to increment a nonce of the wrong size.'
             );
         }
 
         if (! \is_int($inc)) {
             throw new Ex\EnvironmentIsBrokenException(
-              'Trying to increment nonce by a non-integer.'
+                'Trying to increment nonce by a non-integer.'
             );
         }
 
         if ($inc < 0) {
             throw new Ex\EnvironmentIsBrokenException(
-              'Trying to increment nonce by a negative amount.'
+                'Trying to increment nonce by a negative amount.'
             );
         }
 
         if ($inc > PHP_INT_MAX - 255) {
             throw new Ex\EnvironmentIsBrokenException(
-              'Integer overflow may occur.'
+                'Integer overflow may occur.'
             );
         }
 
@@ -82,7 +82,7 @@ final class Core
             /* Detect integer overflow and fail. */
             if (! \is_int($sum)) {
                 throw new Ex\EnvironmentIsBrokenException(
-                  'Integer overflow in CTR mode nonce increment.'
+                    'Integer overflow in CTR mode nonce increment.'
                 );
             }
 
@@ -123,7 +123,7 @@ final class Core
      * @param string $info   What sort of key are we deriving?
      * @param string $salt
      *
-     * @throws Ex\EnvironmentIsBrokenException
+     * @throws         Ex\EnvironmentIsBrokenException
      * @psalm-suppress UndefinedFunction - We're checking if the function exists first.
      *
      * @return string
@@ -141,8 +141,9 @@ final class Core
         $digest_length = Core::ourStrlen(\hash_hmac($hash, '', '', true));
 
         // Sanity-check the desired output length.
-        if (empty($length) || ! \is_int($length) ||
-            $length < 0 || $length > 255 * $digest_length) {
+        if (empty($length) || ! \is_int($length) 
+            || $length < 0 || $length > 255 * $digest_length
+        ) {
             throw new Ex\EnvironmentIsBrokenException(
                 'Bad output length requested of HKDF.'
             );
@@ -181,7 +182,9 @@ final class Core
         }
 
         // ORM = first L octets of T
-        /** @var string $orm */
+        /**
+ * @var string $orm 
+*/
         $orm = Core::ourSubstr($t, 0, $length);
         if (!\is_string($orm)) {
             throw new Ex\EnvironmentIsBrokenException();
@@ -231,7 +234,7 @@ final class Core
     /**
      * Throws an exception if the constant doesn't exist.
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -246,7 +249,7 @@ final class Core
     /**
      * Throws an exception if the function doesn't exist.
      *
-     * @param string $name
+     * @param  string $name
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException

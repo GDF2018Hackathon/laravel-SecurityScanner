@@ -11,35 +11,53 @@
 /**
  * Makes sure a connection to a POP3 host has been established prior to connecting to SMTP.
  *
- * @author     Chris Corbyn
+ * @author Chris Corbyn
  */
 class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeListener, Swift_Plugins_Pop_Pop3Connection
 {
-    /** A delegate connection to use (mostly a test hook) */
+    /**
+     * A delegate connection to use (mostly a test hook) 
+     */
     private $connection;
 
-    /** Hostname of the POP3 server */
+    /**
+     * Hostname of the POP3 server 
+     */
     private $host;
 
-    /** Port number to connect on */
+    /**
+     * Port number to connect on 
+     */
     private $port;
 
-    /** Encryption type to use (if any) */
+    /**
+     * Encryption type to use (if any) 
+     */
     private $crypto;
 
-    /** Username to use (if any) */
+    /**
+     * Username to use (if any) 
+     */
     private $username;
 
-    /** Password to use (if any) */
+    /**
+     * Password to use (if any) 
+     */
     private $password;
 
-    /** Established connection via TCP socket */
+    /**
+     * Established connection via TCP socket 
+     */
     private $socket;
 
-    /** Connect timeout in seconds */
+    /**
+     * Connect timeout in seconds 
+     */
     private $timeout = 10;
 
-    /** SMTP Transport to bind to */
+    /**
+     * SMTP Transport to bind to 
+     */
     private $transport;
 
     /**
@@ -134,7 +152,9 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
         } else {
             if (!isset($this->socket)) {
                 if (!$socket = fsockopen(
-                    $this->getHostString(), $this->port, $errno, $errstr, $this->timeout)) {
+                    $this->getHostString(), $this->port, $errno, $errstr, $this->timeout
+                )
+                ) {
                     throw new Swift_Plugins_Pop_Pop3Exception(
                         sprintf('Failed to connect to POP3 host [%s]: %s', $this->host, $errstr)
                     );
@@ -245,13 +265,13 @@ class Swift_Plugins_PopBeforeSmtpPlugin implements Swift_Events_TransportChangeL
     {
         $host = $this->host;
         switch (strtolower($this->crypto)) {
-            case 'ssl':
-                $host = 'ssl://'.$host;
-                break;
+        case 'ssl':
+            $host = 'ssl://'.$host;
+            break;
 
-            case 'tls':
-                $host = 'tls://'.$host;
-                break;
+        case 'tls':
+            $host = 'tls://'.$host;
+            break;
         }
 
         return $host;

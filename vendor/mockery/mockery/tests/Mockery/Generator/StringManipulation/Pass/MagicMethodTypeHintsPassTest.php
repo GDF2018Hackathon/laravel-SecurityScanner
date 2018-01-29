@@ -42,6 +42,7 @@ class MagicMethodTypeHintsPassTest extends TestCase
 
     /**
      * Setup method
+     *
      * @return void
      */
     public function setup()
@@ -113,10 +114,12 @@ class MagicMethodTypeHintsPassTest extends TestCase
      */
     public function itShouldAddStringTypeHintOnAllMagicMethods()
     {
-        $this->configureForInterfaces([
+        $this->configureForInterfaces(
+            [
             'Mockery\Test\Generator\StringManipulation\Pass\MagicInterfaceDummy',
             'Mockery\Test\Generator\StringManipulation\Pass\MagicUnsetInterfaceDummy'
-        ]);
+            ]
+        );
         $code = $this->pass->apply(
             'public function __isset($name) {}',
             $this->mockedConfiguration

@@ -103,7 +103,7 @@ class DayOfMonthField extends AbstractField
      * Days of the month can contain values of 1-31, *, L, or ? by default. This can be augmented with lists via a ',',
      * ranges via a '-', or with a '[0-9]W' to specify the closest weekday.
      *
-     * @param string $value
+     * @param  string $value
      * @return bool
      */
     public function validate($value)

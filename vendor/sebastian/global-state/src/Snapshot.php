@@ -257,10 +257,11 @@ class Snapshot
         }
 
         foreach (\array_keys($GLOBALS) as $key) {
-            if ($key != 'GLOBALS' &&
-                !\in_array($key, $superGlobalArrays) &&
-                $this->canBeSerialized($GLOBALS[$key]) &&
-                !$this->blacklist->isGlobalVariableBlacklisted($key)) {
+            if ($key != 'GLOBALS' 
+                && !\in_array($key, $superGlobalArrays) 
+                && $this->canBeSerialized($GLOBALS[$key]) 
+                && !$this->blacklist->isGlobalVariableBlacklisted($key)
+            ) {
                 $this->globalVariables[$key] = \unserialize(\serialize($GLOBALS[$key]));
             }
         }

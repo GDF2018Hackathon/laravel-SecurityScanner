@@ -7,15 +7,18 @@ use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Exception\BadMethodCallException;
 
-class BaseClassStub 
+class BaseClassStub
 {
     use MockeryPHPUnitIntegration;
 
-    function finish() {
+    function finish() 
+    {
         $this->checkMockeryExceptions();
     }
 
-    function markAsRisky() {}
+    function markAsRisky() 
+    {
+    }
 };
 
 class MockeryPHPUnitIntegrationTest extends MockeryTestCase

@@ -7,7 +7,7 @@ class ConvertEmptyStringsToNull extends TransformsRequest
     /**
      * Transform the given value.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  mixed  $value
      * @return mixed
      */

@@ -143,7 +143,7 @@ class DebugClassLoader
                 if ($file = $this->classLoader[0]->findFile($class) ?: false) {
                     $wasCached = \function_exists('opcache_is_script_cached') && opcache_is_script_cached($file);
 
-                    require $file;
+                    include $file;
 
                     if ($wasCached) {
                         return;
@@ -372,7 +372,7 @@ class DebugClassLoader
                 }
 
                 if (0 === substr_compare($real, $tail, -$tailLen, $tailLen, true)
-                  && 0 !== substr_compare($real, $tail, -$tailLen, $tailLen, false)
+                    && 0 !== substr_compare($real, $tail, -$tailLen, $tailLen, false)
                 ) {
                     throw new \RuntimeException(sprintf('Case mismatch between class and real file names: "%s" vs "%s" in "%s".', substr($tail, -$tailLen + 1), substr($real, -$tailLen + 1), substr($real, 0, -$tailLen + 1)));
                 }

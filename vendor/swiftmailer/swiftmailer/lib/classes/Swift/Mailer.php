@@ -15,7 +15,9 @@
  */
 class Swift_Mailer
 {
-    /** The Transport used to send messages */
+    /**
+     * The Transport used to send messages 
+     */
     private $transport;
 
     /**

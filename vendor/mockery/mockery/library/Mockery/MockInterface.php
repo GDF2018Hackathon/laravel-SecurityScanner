@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery;
@@ -23,13 +23,13 @@ namespace Mockery;
 interface MockInterface
 {
     /**
-     * @param mixed $something  String method name or map of method => return
+     * @param mixed $something String method name or map of method => return
      * @return self|\Mockery\ExpectationInterface|\Mockery\HigherOrderMessage
      */
     public function allows($something = []);
 
     /**
-     * @param mixed $something  String method name (optional)
+     * @param mixed $something String method name (optional)
      * @return \Mockery\ExpectationInterface|\Mockery\ExpectsHigherOrderMessage
      */
     public function expects($something = null);
@@ -37,8 +37,8 @@ interface MockInterface
     /**
      * Alternative setup method to constructor
      *
-     * @param \Mockery\Container $container
-     * @param object $partialObject
+     * @param  \Mockery\Container $container
+     * @param  object             $partialObject
      * @return void
      */
     public function mockery_init(\Mockery\Container $container = null, $partialObject = null);
@@ -55,20 +55,22 @@ interface MockInterface
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param array $methodNames one or many methods that are expected not to be called in this mock
+     * @param  array $methodNames one or many methods that are expected not to be called in this mock
      * @return \Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldNotReceive(...$methodNames);
 
     /**
      * Allows additional methods to be mocked that do not explicitly exist on mocked class
+     *
      * @param String $method name of the method to be mocked
      */
     public function shouldAllowMockingMethod($method);
 
     /**
      * Set mock to ignore unexpected methods and return Undefined class
-     * @param mixed $returnValue the default return value for calls to missing functions on this mock
+     *
+     * @param  mixed $returnValue the default return value for calls to missing functions on this mock
      * @return Mock
      */
     public function shouldIgnoreMissing($returnValue = null);
@@ -94,14 +96,14 @@ interface MockInterface
 
     /**
      * @param null|string $method
-     * @param null $args
+     * @param null        $args
      * @return mixed
      */
     public function shouldHaveReceived($method, $args = null);
 
     /**
      * @param null|string $method
-     * @param null $args
+     * @param null        $args
      * @return mixed
      */
     public function shouldNotHaveReceived($method, $args = null);
@@ -142,7 +144,7 @@ interface MockInterface
      * Set ordering for a group
      *
      * @param mixed $group
-     * @param int $order
+     * @param int   $order
      */
     public function mockery_setGroup($group, $order);
 
@@ -170,8 +172,8 @@ interface MockInterface
     /**
      * Validate the current mock's ordering
      *
-     * @param string $method
-     * @param int $order
+     * @param  string $method
+     * @param  int    $order
      * @throws \Mockery\Exception
      * @return void
      */
@@ -187,7 +189,7 @@ interface MockInterface
     /**
      * Return the expectations director for the given method
      *
-     * @var string $method
+     * @var    string $method
      * @return \Mockery\ExpectationDirector|null
      */
     public function mockery_setExpectationsFor($method, \Mockery\ExpectationDirector $director);
@@ -195,7 +197,7 @@ interface MockInterface
     /**
      * Return the expectations director for the given method
      *
-     * @var string $method
+     * @var    string $method
      * @return \Mockery\ExpectationDirector|null
      */
     public function mockery_getExpectationsFor($method);
@@ -203,8 +205,8 @@ interface MockInterface
     /**
      * Find an expectation matching the given method and arguments
      *
-     * @var string $method
-     * @var array $args
+     * @var    string $method
+     * @var    array $args
      * @return \Mockery\Expectation|null
      */
     public function mockery_findExpectation($method, array $args);

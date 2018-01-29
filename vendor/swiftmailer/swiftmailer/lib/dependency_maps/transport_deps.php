@@ -9,20 +9,24 @@ Swift_DependencyContainer::getInstance()
 
     ->register('transport.smtp')
     ->asNewInstanceOf('Swift_Transport_EsmtpTransport')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         'transport.buffer',
         array('transport.authhandler'),
         'transport.eventdispatcher',
         'transport.localdomain',
-    ))
+        )
+    )
 
     ->register('transport.sendmail')
     ->asNewInstanceOf('Swift_Transport_SendmailTransport')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         'transport.buffer',
         'transport.eventdispatcher',
         'transport.localdomain',
-    ))
+        )
+    )
 
     ->register('transport.loadbalanced')
     ->asNewInstanceOf('Swift_Transport_LoadBalancedTransport')
@@ -44,7 +48,8 @@ Swift_DependencyContainer::getInstance()
 
     ->register('transport.authhandler')
     ->asNewInstanceOf('Swift_Transport_Esmtp_AuthHandler')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         array(
             'transport.crammd5auth',
             'transport.loginauth',
@@ -52,7 +57,8 @@ Swift_DependencyContainer::getInstance()
             'transport.ntlmauth',
             'transport.xoauth2auth',
         ),
-    ))
+        )
+    )
 
     ->register('transport.crammd5auth')
     ->asNewInstanceOf('Swift_Transport_Esmtp_Auth_CramMd5Authenticator')
@@ -73,5 +79,4 @@ Swift_DependencyContainer::getInstance()
     ->asNewInstanceOf('Swift_Events_SimpleEventDispatcher')
 
     ->register('transport.replacementfactory')
-    ->asSharedInstanceOf('Swift_StreamFilters_StringReplacementFilterFactory')
-;
+    ->asSharedInstanceOf('Swift_StreamFilters_StringReplacementFilterFactory');

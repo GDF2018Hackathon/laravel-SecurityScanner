@@ -134,7 +134,8 @@ class TrustProxies
     {
         $trustedHeaderNames = $this->getTrustedHeaderNames();
 
-        if(!is_array($trustedHeaderNames)) { return; } // Leave the defaults
+        if(!is_array($trustedHeaderNames)) { return; 
+        } // Leave the defaults
 
         foreach ($trustedHeaderNames as $headerKey => $headerName) {
             $request->setTrustedHeaderName($headerKey, $headerName);
@@ -161,21 +162,23 @@ class TrustProxies
         $trustedHeaderNames = $this->getTrustedHeaderNames();
         $headerKeys = array_keys($this->getTrustedHeaderNames());
 
-        return array_reduce($headerKeys, function ($set, $key) use ($trustedHeaderNames) {
-            // PHP 7+ gives a warning if non-numeric value is used
-            // resulting in a thrown ErrorException within Laravel
-            // This error occurs with Symfony < 3.3, PHP7+
-            if(! is_numeric($key)) {
-                return $set;
-            }
+        return array_reduce(
+            $headerKeys, function ($set, $key) use ($trustedHeaderNames) {
+                // PHP 7+ gives a warning if non-numeric value is used
+                // resulting in a thrown ErrorException within Laravel
+                // This error occurs with Symfony < 3.3, PHP7+
+                if(! is_numeric($key)) {
+                    return $set;
+                }
 
-            // If the header value is null, it is a distrusted header,
-            // so we will ignore it and move on.
-            if (is_null($trustedHeaderNames[$key])) {
-                return $set;
-            }
+                // If the header value is null, it is a distrusted header,
+                // so we will ignore it and move on.
+                if (is_null($trustedHeaderNames[$key])) {
+                    return $set;
+                }
 
-            return $set | $key;
-        }, 0);
+                return $set | $key;
+            }, 0
+        );
     }
 }

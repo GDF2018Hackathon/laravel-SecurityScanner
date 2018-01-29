@@ -22,7 +22,7 @@ class SapiStreamEmitter implements EmitterInterface
      * body content via the output buffer.
      *
      * @param ResponseInterface $response
-     * @param int $maxBufferLength Maximum output buffering size for each iteration
+     * @param int               $maxBufferLength Maximum output buffering size for each iteration
      */
     public function emit(ResponseInterface $response, $maxBufferLength = 8192)
     {
@@ -44,7 +44,7 @@ class SapiStreamEmitter implements EmitterInterface
      * Emit the message body.
      *
      * @param ResponseInterface $response
-     * @param int $maxBufferLength
+     * @param int               $maxBufferLength
      */
     private function emitBody(ResponseInterface $response, $maxBufferLength)
     {
@@ -67,9 +67,9 @@ class SapiStreamEmitter implements EmitterInterface
     /**
      * Emit a range of the message body.
      *
-     * @param array $range
+     * @param array             $range
      * @param ResponseInterface $response
-     * @param int $maxBufferLength
+     * @param int               $maxBufferLength
      */
     private function emitBodyRange(array $range, ResponseInterface $response, $maxBufferLength)
     {
@@ -108,7 +108,7 @@ class SapiStreamEmitter implements EmitterInterface
      * Parse content-range header
      * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16
      *
-     * @param string $header
+     * @param  string $header
      * @return false|array [unit, first, last, length]; returns false if no
      *     content range or an invalid content range is provided
      */

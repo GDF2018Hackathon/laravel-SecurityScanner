@@ -11,7 +11,6 @@
 /**
  * MIME Message Signer used to apply S/MIME Signature/Encryption to a message.
  *
- *
  * @author Romain-Geissler
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */

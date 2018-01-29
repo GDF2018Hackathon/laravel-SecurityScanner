@@ -22,13 +22,19 @@ use Webmozart\Assert\Assert;
  */
 final class Source extends BaseTag implements Factory\StaticMethod
 {
-    /** @var string */
+    /**
+     * @var string 
+     */
     protected $name = 'source';
 
-    /** @var int The starting line, relative to the structural element's location. */
+    /**
+     * @var int The starting line, relative to the structural element's location. 
+     */
     private $startingLine = 1;
 
-    /** @var int|null The number of lines, relative to the starting line. NULL means "to the end". */
+    /**
+     * @var int|null The number of lines, relative to the starting line. NULL means "to the end". 
+     */
     private $lineCount = null;
 
     public function __construct($startingLine, $lineCount = null, Description $description = null)

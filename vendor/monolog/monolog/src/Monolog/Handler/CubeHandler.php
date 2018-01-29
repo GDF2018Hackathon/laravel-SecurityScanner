@@ -16,7 +16,7 @@ use Monolog\Logger;
 /**
  * Logs to Cube.
  *
- * @link http://square.github.com/cube/
+ * @link   http://square.github.com/cube/
  * @author Wan Chen <kami@kamisama.me>
  */
 class CubeHandler extends AbstractProcessingHandler
@@ -46,7 +46,8 @@ class CubeHandler extends AbstractProcessingHandler
         if (!in_array($urlInfo['scheme'], $this->acceptedSchemes)) {
             throw new \UnexpectedValueException(
                 'Invalid protocol (' . $urlInfo['scheme']  . ').'
-                . ' Valid options are ' . implode(', ', $this->acceptedSchemes));
+                . ' Valid options are ' . implode(', ', $this->acceptedSchemes)
+            );
         }
 
         $this->scheme = $urlInfo['scheme'];
@@ -80,6 +81,7 @@ class CubeHandler extends AbstractProcessingHandler
 
     /**
      * Establish a connection to a http server
+     *
      * @throws \LogicException when no curl extension
      */
     protected function connectHttp()
@@ -141,10 +143,12 @@ class CubeHandler extends AbstractProcessingHandler
         }
 
         curl_setopt($this->httpConnection, CURLOPT_POSTFIELDS, '['.$data.']');
-        curl_setopt($this->httpConnection, CURLOPT_HTTPHEADER, array(
+        curl_setopt(
+            $this->httpConnection, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'Content-Length: ' . strlen('['.$data.']'),
-        ));
+            )
+        );
 
         Curl\Util::execute($this->httpConnection, 5, false);
     }

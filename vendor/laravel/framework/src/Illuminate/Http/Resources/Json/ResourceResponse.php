@@ -18,7 +18,7 @@ class ResourceResponse implements Responsable
     /**
      * Create a new resource response.
      *
-     * @param  mixed  $resource
+     * @param  mixed $resource
      * @return void
      */
     public function __construct($resource)
@@ -29,29 +29,31 @@ class ResourceResponse implements Responsable
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function toResponse($request)
     {
-        return tap(response()->json(
-            $this->wrap(
-                $this->resource->resolve($request),
-                $this->resource->with($request),
-                $this->resource->additional
-            ),
-            $this->calculateStatus()
-        ), function ($response) use ($request) {
-            $this->resource->withResponse($request, $response);
-        });
+        return tap(
+            response()->json(
+                $this->wrap(
+                    $this->resource->resolve($request),
+                    $this->resource->with($request),
+                    $this->resource->additional
+                ),
+                $this->calculateStatus()
+            ), function ($response) use ($request) {
+                $this->resource->withResponse($request, $response);
+            }
+        );
     }
 
     /**
      * Wrap the given data if necessary.
      *
-     * @param  array  $data
-     * @param  array  $with
-     * @param  array  $additional
+     * @param  array $data
+     * @param  array $with
+     * @param  array $additional
      * @return array
      */
     protected function wrap($data, $with = [], $additional = [])
@@ -72,7 +74,7 @@ class ResourceResponse implements Responsable
     /**
      * Determine if we have a default wrapper and the given data is unwrapped.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return bool
      */
     protected function haveDefaultWrapperAndDataIsUnwrapped($data)
@@ -83,9 +85,9 @@ class ResourceResponse implements Responsable
     /**
      * Determine if "with" data has been added and our data is unwrapped.
      *
-     * @param  array  $data
-     * @param  array  $with
-     * @param  array  $additional
+     * @param  array $data
+     * @param  array $with
+     * @param  array $additional
      * @return bool
      */
     protected function haveAdditionalInformationAndDataIsUnwrapped($data, $with, $additional)

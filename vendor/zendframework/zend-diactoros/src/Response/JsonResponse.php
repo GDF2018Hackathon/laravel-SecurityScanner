@@ -55,10 +55,10 @@ class JsonResponse extends Response
      * - JSON_HEX_QUOT
      * - JSON_UNESCAPED_SLASHES
      *
-     * @param mixed $data Data to convert to JSON.
-     * @param int $status Integer status code for the response; 200 by default.
-     * @param array $headers Array of headers to use at initialization.
-     * @param int $encodingOptions JSON encoding options to use.
+     * @param  mixed $data            Data to convert to JSON.
+     * @param  int   $status          Integer status code for the response; 200 by default.
+     * @param  array $headers         Array of headers to use at initialization.
+     * @param  int   $encodingOptions JSON encoding options to use.
      * @throws InvalidArgumentException if unable to encode the $data to JSON.
      */
     public function __construct(
@@ -135,8 +135,8 @@ class JsonResponse extends Response
     /**
      * Encode the provided data to JSON.
      *
-     * @param mixed $data
-     * @param int $encodingOptions
+     * @param  mixed $data
+     * @param  int   $encodingOptions
      * @return string
      * @throws InvalidArgumentException if unable to encode the $data to JSON.
      */
@@ -152,11 +152,13 @@ class JsonResponse extends Response
         $json = json_encode($data, $encodingOptions);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new InvalidArgumentException(sprintf(
-                'Unable to encode data to JSON in %s: %s',
-                __CLASS__,
-                json_last_error_msg()
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Unable to encode data to JSON in %s: %s',
+                    __CLASS__,
+                    json_last_error_msg()
+                )
+            );
         }
 
         return $json;
@@ -177,7 +179,7 @@ class JsonResponse extends Response
     /**
      * Update the response body for the given instance.
      *
-     * @param self $toUpdate Instance to update.
+     * @param  self $toUpdate Instance to update.
      * @return JsonResponse Returns a new instance with an updated body.
      */
     private function updateBodyFor(self $toUpdate)

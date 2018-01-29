@@ -105,8 +105,8 @@ class GeneratorTest extends TestCase
         $mock = $this->generator->getMockForAbstractClass(AbstractMockTestClass::class);
 
         $mock->expects($this->any())
-             ->method('doSomething')
-             ->willReturn('testing');
+            ->method('doSomething')
+            ->willReturn('testing');
 
         $this->assertEquals('testing', $mock->doSomething());
         $this->assertEquals(1, $mock->returnAnything());

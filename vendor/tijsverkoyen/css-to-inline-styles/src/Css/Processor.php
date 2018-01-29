@@ -10,8 +10,8 @@ class Processor
     /**
      * Get the rules from a given CSS-string
      *
-     * @param string $css
-     * @param array  $existingRules
+     * @param  string $css
+     * @param  array  $existingRules
      * @return Rule[]
      */
     public function getRules($css, $existingRules = array())
@@ -26,7 +26,7 @@ class Processor
     /**
      * Get the CSS from the style-tags in the given HTML-string
      *
-     * @param string $html
+     * @param  string $html
      * @return string
      */
     public function getCssFromStyleTags($html)

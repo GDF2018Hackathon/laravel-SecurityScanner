@@ -94,7 +94,7 @@ class MountManager
      */
     public function mountFilesystem($prefix, FilesystemInterface $filesystem)
     {
-        if ( ! is_string($prefix)) {
+        if (! is_string($prefix)) {
             throw new InvalidArgumentException(__METHOD__ . ' expects argument #1 to be a string.');
         }
 
@@ -114,7 +114,7 @@ class MountManager
      */
     public function getFilesystem($prefix)
     {
-        if ( ! isset($this->filesystems[$prefix])) {
+        if (! isset($this->filesystems[$prefix])) {
             throw new FilesystemNotFoundException('No filesystem mounted with prefix ' . $prefix);
         }
 
@@ -138,7 +138,7 @@ class MountManager
 
         $path = array_shift($arguments);
 
-        if ( ! is_string($path)) {
+        if (! is_string($path)) {
             throw new InvalidArgumentException('First argument should be a string');
         }
 

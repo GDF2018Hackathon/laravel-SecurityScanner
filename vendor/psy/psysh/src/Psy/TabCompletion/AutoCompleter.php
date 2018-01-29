@@ -20,7 +20,9 @@ use Psy\TabCompletion\Matcher\AbstractMatcher;
  */
 class AutoCompleter
 {
-    /** @var Matcher\AbstractMatcher[] */
+    /**
+     * @var Matcher\AbstractMatcher[] 
+     */
     protected $matchers;
 
     /**
@@ -65,9 +67,11 @@ class AutoCompleter
         $tokens = token_get_all('<?php ' . $line);
 
         // remove whitespaces
-        $tokens = array_filter($tokens, function ($token) {
-            return !AbstractMatcher::tokenIs($token, AbstractMatcher::T_WHITESPACE);
-        });
+        $tokens = array_filter(
+            $tokens, function ($token) {
+                return !AbstractMatcher::tokenIs($token, AbstractMatcher::T_WHITESPACE);
+            }
+        );
 
         $matches = array();
         foreach ($this->matchers as $matcher) {

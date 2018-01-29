@@ -33,7 +33,8 @@ use PHPUnit\Framework\TestCase;
  * @uses \PharIo\Version\Version
  * @uses \PharIo\Version\VersionConstraint
  */
-class ManifestTest extends TestCase {
+class ManifestTest extends TestCase
+{
     /**
      * @var ApplicationName
      */
@@ -69,7 +70,8 @@ class ManifestTest extends TestCase {
      */
     private $manifest;
 
-    protected function setUp() {
+    protected function setUp() 
+    {
         $this->version = new Version('5.6.5');
 
         $this->type = Type::application();
@@ -100,37 +102,45 @@ class ManifestTest extends TestCase {
         );
     }
 
-    public function testCanBeCreated() {
+    public function testCanBeCreated() 
+    {
         $this->assertInstanceOf(Manifest::class, $this->manifest);
     }
 
-    public function testNameCanBeRetrieved() {
+    public function testNameCanBeRetrieved() 
+    {
         $this->assertEquals($this->name, $this->manifest->getName());
     }
 
-    public function testVersionCanBeRetrieved() {
+    public function testVersionCanBeRetrieved() 
+    {
         $this->assertEquals($this->version, $this->manifest->getVersion());
     }
 
-    public function testTypeCanBeRetrieved() {
+    public function testTypeCanBeRetrieved() 
+    {
         $this->assertEquals($this->type, $this->manifest->getType());
     }
 
-    public function testTypeCanBeQueried() {
+    public function testTypeCanBeQueried() 
+    {
         $this->assertTrue($this->manifest->isApplication());
         $this->assertFalse($this->manifest->isLibrary());
         $this->assertFalse($this->manifest->isExtension());
     }
 
-    public function testCopyrightInformationCanBeRetrieved() {
+    public function testCopyrightInformationCanBeRetrieved() 
+    {
         $this->assertEquals($this->copyrightInformation, $this->manifest->getCopyrightInformation());
     }
 
-    public function testRequirementsCanBeRetrieved() {
+    public function testRequirementsCanBeRetrieved() 
+    {
         $this->assertEquals($this->requirements, $this->manifest->getRequirements());
     }
 
-    public function testBundledComponentsCanBeRetrieved() {
+    public function testBundledComponentsCanBeRetrieved() 
+    {
         $this->assertEquals($this->bundledComponents, $this->manifest->getBundledComponents());
     }
 
@@ -152,7 +162,8 @@ class ManifestTest extends TestCase {
         $this->assertTrue($manifest->isExtensionFor($appName));
     }
 
-    public function testNonExtensionReturnsFalseWhenQueriesForExtension() {
+    public function testNonExtensionReturnsFalseWhenQueriesForExtension() 
+    {
         $appName = new ApplicationName('foo/bar');
         $manifest = new Manifest(
             new ApplicationName('foo/foo'),

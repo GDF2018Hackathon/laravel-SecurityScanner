@@ -65,8 +65,7 @@ class DiactorosFactory implements HttpMessageFactoryInterface
             ->withCookieParams($symfonyRequest->cookies->all())
             ->withQueryParams($symfonyRequest->query->all())
             ->withParsedBody($symfonyRequest->request->all())
-            ->withRequestTarget($symfonyRequest->getRequestUri())
-        ;
+            ->withRequestTarget($symfonyRequest->getRequestUri());
 
         foreach ($symfonyRequest->attributes->all() as $key => $value) {
             $request = $request->withAttribute($key, $value);
@@ -129,11 +128,13 @@ class DiactorosFactory implements HttpMessageFactoryInterface
         } else {
             $stream = new DiactorosStream('php://temp', 'wb+');
             if ($symfonyResponse instanceof StreamedResponse) {
-                ob_start(function ($buffer) use ($stream) {
-                    $stream->write($buffer);
+                ob_start(
+                    function ($buffer) use ($stream) {
+                        $stream->write($buffer);
 
-                    return false;
-                });
+                        return false;
+                    }
+                );
 
                 $symfonyResponse->sendContent();
                 ob_end_clean();

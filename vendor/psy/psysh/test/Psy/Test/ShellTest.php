@@ -80,10 +80,12 @@ class ShellTest extends \PHPUnit\Framework\TestCase
 
     public function testIncludesConfig()
     {
-        $config = $this->getConfig(array(
+        $config = $this->getConfig(
+            array(
             'defaultIncludes' => array('/file.php'),
             'configFile'      => __DIR__ . '/../../fixtures/empty.php',
-        ));
+            )
+        );
 
         $shell = new Shell($config);
 
@@ -93,11 +95,13 @@ class ShellTest extends \PHPUnit\Framework\TestCase
 
     public function testAddMatchersViaConfig()
     {
-        $config = $this->getConfig(array(
+        $config = $this->getConfig(
+            array(
             'tabCompletionMatchers' => array(
                 new ClassMethodsMatcher(),
             ),
-        ));
+            )
+        );
 
         $matchers = $config->getTabCompletionMatchers();
 

@@ -11,7 +11,7 @@
 /**
  * An abstract base MIME Header.
  *
- * @author     Chris Corbyn
+ * @author Chris Corbyn
  */
 abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
 {
@@ -269,10 +269,10 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
                 // Don't encode starting WSP
                 $firstChar = substr($token, 0, 1);
                 switch ($firstChar) {
-                    case ' ':
-                    case "\t":
-                        $value .= $firstChar;
-                        $token = substr($token, 1);
+                case ' ':
+                case "\t":
+                    $value .= $firstChar;
+                    $token = substr($token, 1);
                 }
 
                 if (-1 == $usedLength) {
@@ -349,17 +349,18 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
         }
         $encodingWrapperLength = strlen(
             '=?'.$charsetDecl.'?'.$this->encoder->getName().'??='
-            );
+        );
 
         if ($firstLineOffset >= 75) {
             //Does this logic need to be here?
             $firstLineOffset = 0;
         }
 
-        $encodedTextLines = explode("\r\n",
+        $encodedTextLines = explode(
+            "\r\n",
             $this->encoder->encodeString(
                 $token, $firstLineOffset, 75 - $encodingWrapperLength, $this->charset
-                )
+            )
         );
 
         if (strtolower($this->charset) !== 'iso-2022-jp') {
@@ -462,9 +463,10 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
         // Build all tokens back into compliant header
         foreach ($tokens as $i => $token) {
             // Line longer than specified maximum or token was just a new line
-            if (("\r\n" == $token) ||
-                ($i > 0 && strlen($currentLine.$token) > $this->lineLength)
-                && 0 < strlen($currentLine)) {
+            if (("\r\n" == $token) 
+                || ($i > 0 && strlen($currentLine.$token) > $this->lineLength)
+                && 0 < strlen($currentLine)
+            ) {
                 $headerLines[] = '';
                 $currentLine = &$headerLines[$lineCount++];
             }

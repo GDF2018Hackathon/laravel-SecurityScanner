@@ -76,7 +76,9 @@ class Process implements \IteratorAggregate
     private $inheritEnv = false;
 
     private $useFileHandles = false;
-    /** @var PipesInterface */
+    /**
+     * @var PipesInterface 
+     */
     private $processPipes;
 
     private $latestSignal;
@@ -1138,9 +1140,11 @@ class Process implements \IteratorAggregate
     public function setEnv(array $env)
     {
         // Process can not handle env values that are arrays
-        $env = array_filter($env, function ($value) {
-            return !is_array($value);
-        });
+        $env = array_filter(
+            $env, function ($value) {
+                return !is_array($value);
+            }
+        );
 
         $this->env = $env;
 

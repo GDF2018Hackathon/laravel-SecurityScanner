@@ -17,35 +17,49 @@ use Webmozart\Assert\Assert;
 
 final class DocBlock
 {
-    /** @var string The opening line for this docblock. */
+    /**
+     * @var string The opening line for this docblock. 
+     */
     private $summary = '';
 
-    /** @var DocBlock\Description The actual description for this docblock. */
+    /**
+     * @var DocBlock\Description The actual description for this docblock. 
+     */
     private $description = null;
 
-    /** @var Tag[] An array containing all the tags in this docblock; except inline. */
+    /**
+     * @var Tag[] An array containing all the tags in this docblock; except inline. 
+     */
     private $tags = [];
 
-    /** @var Types\Context Information about the context of this DocBlock. */
+    /**
+     * @var Types\Context Information about the context of this DocBlock. 
+     */
     private $context = null;
 
-    /** @var Location Information about the location of this DocBlock. */
+    /**
+     * @var Location Information about the location of this DocBlock. 
+     */
     private $location = null;
 
-    /** @var bool Is this DocBlock (the start of) a template? */
+    /**
+     * @var bool Is this DocBlock (the start of) a template? 
+     */
     private $isTemplateStart = false;
 
-    /** @var bool Does this DocBlock signify the end of a DocBlock template? */
+    /**
+     * @var bool Does this DocBlock signify the end of a DocBlock template? 
+     */
     private $isTemplateEnd = false;
 
     /**
-     * @param string $summary
+     * @param string               $summary
      * @param DocBlock\Description $description
-     * @param DocBlock\Tag[] $tags
-     * @param Types\Context $context The context in which the DocBlock occurs.
-     * @param Location $location The location within the file that this DocBlock occurs in.
-     * @param bool $isTemplateStart
-     * @param bool $isTemplateEnd
+     * @param DocBlock\Tag[]       $tags
+     * @param Types\Context        $context         The context in which the DocBlock occurs.
+     * @param Location             $location        The location within the file that this DocBlock occurs in.
+     * @param bool                 $isTemplateStart
+     * @param bool                 $isTemplateEnd
      */
     public function __construct(
         $summary = '',
@@ -172,7 +186,9 @@ final class DocBlock
 
         $result = [];
 
-        /** @var Tag $tag */
+        /**
+ * @var Tag $tag 
+*/
         foreach ($this->getTags() as $tag) {
             if ($tag->getName() !== $name) {
                 continue;
@@ -195,7 +211,9 @@ final class DocBlock
     {
         Assert::string($name);
 
-        /** @var Tag $tag */
+        /**
+ * @var Tag $tag 
+*/
         foreach ($this->getTags() as $tag) {
             if ($tag->getName() === $name) {
                 return true;

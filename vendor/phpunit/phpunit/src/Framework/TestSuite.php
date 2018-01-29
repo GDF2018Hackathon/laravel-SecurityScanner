@@ -132,12 +132,14 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
         $argumentsValid = false;
 
-        if (\is_object($theClass) &&
-            $theClass instanceof ReflectionClass) {
+        if (\is_object($theClass) 
+            && $theClass instanceof ReflectionClass
+        ) {
             $argumentsValid = true;
-        } elseif (\is_string($theClass) &&
-            $theClass !== '' &&
-            \class_exists($theClass, false)) {
+        } elseif (\is_string($theClass) 
+            && $theClass !== '' 
+            && \class_exists($theClass, false)
+        ) {
             $argumentsValid = true;
 
             if ($name == '') {
@@ -169,8 +171,9 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
         $constructor = $theClass->getConstructor();
 
-        if ($constructor !== null &&
-            !$constructor->isPublic()) {
+        if ($constructor !== null 
+            && !$constructor->isPublic()
+        ) {
             $this->addTest(
                 self::warning(
                     \sprintf(
@@ -391,8 +394,9 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
      */
     public function addTestFiles($filenames)
     {
-        if (!(\is_array($filenames) ||
-            (\is_object($filenames) && $filenames instanceof Iterator))) {
+        if (!(\is_array($filenames) 
+            || (\is_object($filenames) && $filenames instanceof Iterator))
+        ) {
             throw InvalidArgumentHelper::factory(
                 1,
                 'array or iterator'
@@ -548,9 +552,10 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
 
                     $groups = \PHPUnit\Util\Test::getGroups($className, $name);
 
-                    if ($data instanceof WarningTestCase ||
-                        $data instanceof SkippedTestCase ||
-                        $data instanceof IncompleteTestCase) {
+                    if ($data instanceof WarningTestCase 
+                        || $data instanceof SkippedTestCase 
+                        || $data instanceof IncompleteTestCase
+                    ) {
                         $test->addTest($data, $groups);
                     } else {
                         foreach ($data as $_dataName => $_data) {
@@ -692,9 +697,10 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
             $this->setUp();
 
             foreach ($hookMethods['beforeClass'] as $beforeClassMethod) {
-                if ($this->testCase === true &&
-                    \class_exists($this->name, false) &&
-                    \method_exists($this->name, $beforeClassMethod)) {
+                if ($this->testCase === true 
+                    && \class_exists($this->name, false) 
+                    && \method_exists($this->name, $beforeClassMethod)
+                ) {
                     if ($missingRequirements = \PHPUnit\Util\Test::getMissingRequirements($this->name, $beforeClassMethod)) {
                         $this->markTestSuiteSkipped(\implode(PHP_EOL, $missingRequirements));
                     }
@@ -798,7 +804,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     /**
      * Sets the name of the suite.
      *
-     * @param  string
+     * @param string
      */
     public function setName($name)
     {
@@ -808,7 +814,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
     /**
      * Returns the test at the given index.
      *
-     * @param  int|false
+     * @param int|false
      *
      * @return Test|false
      */

@@ -140,7 +140,8 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
             if (empty($context) && empty($extra)) {
                 $script[] = self::call_array('log', self::handleStyles($record['formatted']));
             } else {
-                $script = array_merge($script,
+                $script = array_merge(
+                    $script,
                     array(self::call_array('groupCollapsed', self::handleStyles($record['formatted']))),
                     $context,
                     $extra,
@@ -176,19 +177,21 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
         static $colors = array('blue', 'green', 'red', 'magenta', 'orange', 'black', 'grey');
         static $labels = array();
 
-        return preg_replace_callback('/macro\s*:(.*?)(?:;|$)/', function ($m) use ($string, &$colors, &$labels) {
-            if (trim($m[1]) === 'autolabel') {
-                // Format the string as a label with consistent auto assigned background color
-                if (!isset($labels[$string])) {
-                    $labels[$string] = $colors[count($labels) % count($colors)];
+        return preg_replace_callback(
+            '/macro\s*:(.*?)(?:;|$)/', function ($m) use ($string, &$colors, &$labels) {
+                if (trim($m[1]) === 'autolabel') {
+                    // Format the string as a label with consistent auto assigned background color
+                    if (!isset($labels[$string])) {
+                        $labels[$string] = $colors[count($labels) % count($colors)];
+                    }
+                    $color = $labels[$string];
+
+                    return "background-color: $color; color: white; border-radius: 3px; padding: 0 2px 0 2px";
                 }
-                $color = $labels[$string];
 
-                return "background-color: $color; color: white; border-radius: 3px; padding: 0 2px 0 2px";
-            }
-
-            return $m[1];
-        }, $style);
+                return $m[1];
+            }, $style
+        );
     }
 
     private static function dump($title, array $dict)

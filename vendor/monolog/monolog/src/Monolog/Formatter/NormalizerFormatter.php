@@ -164,8 +164,8 @@ class NormalizerFormatter implements FormatterInterface
     /**
      * Return the JSON representation of a value
      *
-     * @param  mixed             $data
-     * @param  bool              $ignoreErrors
+     * @param  mixed $data
+     * @param  bool  $ignoreErrors
      * @throws \RuntimeException if encoding fails and errors are not ignored
      * @return string
      */
@@ -186,7 +186,7 @@ class NormalizerFormatter implements FormatterInterface
     }
 
     /**
-     * @param  mixed  $data
+     * @param  mixed $data
      * @return string JSON encoded data or null on failure
      */
     private function jsonEncode($data)
@@ -206,8 +206,8 @@ class NormalizerFormatter implements FormatterInterface
      * inital error is not encoding related or the input can't be cleaned then
      * raise a descriptive exception.
      *
-     * @param  int               $code return code of json_last_error function
-     * @param  mixed             $data data that was meant to be encoded
+     * @param  int   $code return code of json_last_error function
+     * @param  mixed $data data that was meant to be encoded
      * @throws \RuntimeException if failure can't be corrected
      * @return string            JSON encoded data after error correction
      */
@@ -237,27 +237,27 @@ class NormalizerFormatter implements FormatterInterface
     /**
      * Throws an exception according to a given code with a customized message
      *
-     * @param  int               $code return code of json_last_error function
-     * @param  mixed             $data data that was meant to be encoded
+     * @param  int   $code return code of json_last_error function
+     * @param  mixed $data data that was meant to be encoded
      * @throws \RuntimeException
      */
     private function throwEncodeError($code, $data)
     {
         switch ($code) {
-            case JSON_ERROR_DEPTH:
-                $msg = 'Maximum stack depth exceeded';
-                break;
-            case JSON_ERROR_STATE_MISMATCH:
-                $msg = 'Underflow or the modes mismatch';
-                break;
-            case JSON_ERROR_CTRL_CHAR:
-                $msg = 'Unexpected control character found';
-                break;
-            case JSON_ERROR_UTF8:
-                $msg = 'Malformed UTF-8 characters, possibly incorrectly encoded';
-                break;
-            default:
-                $msg = 'Unknown error';
+        case JSON_ERROR_DEPTH:
+            $msg = 'Maximum stack depth exceeded';
+            break;
+        case JSON_ERROR_STATE_MISMATCH:
+            $msg = 'Underflow or the modes mismatch';
+            break;
+        case JSON_ERROR_CTRL_CHAR:
+            $msg = 'Unexpected control character found';
+            break;
+        case JSON_ERROR_UTF8:
+            $msg = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+            break;
+        default:
+            $msg = 'Unknown error';
         }
 
         throw new \RuntimeException('JSON encoding failed: '.$msg.'. Encoding: '.var_export($data, true));
@@ -276,7 +276,7 @@ class NormalizerFormatter implements FormatterInterface
      * Function converts the input in place in the passed variable so that it
      * can be used as a callback for array_walk_recursive.
      *
-     * @param mixed &$data Input to check and convert if needed
+     * @param   mixed &$data Input to check and convert if needed
      * @private
      */
     public function detectAndCleanUtf8(&$data)
@@ -284,7 +284,9 @@ class NormalizerFormatter implements FormatterInterface
         if (is_string($data) && !preg_match('//u', $data)) {
             $data = preg_replace_callback(
                 '/[\x80-\xFF]+/',
-                function ($m) { return utf8_encode($m[0]); },
+                function ($m) {
+                    return utf8_encode($m[0]); 
+                },
                 $data
             );
             $data = str_replace(

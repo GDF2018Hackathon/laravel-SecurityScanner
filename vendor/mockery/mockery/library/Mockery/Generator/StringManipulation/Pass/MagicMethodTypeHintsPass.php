@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery\Generator\StringManipulation\Pass;
@@ -50,8 +50,8 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Apply implementation.
      *
-     * @param $code
-     * @param MockConfiguration $config
+     * @param  $code
+     * @param  MockConfiguration $config
      * @return string
      */
     public function apply($code, MockConfiguration $config)
@@ -72,7 +72,7 @@ class MagicMethodTypeHintsPass implements Pass
      * Returns the magic methods within the
      * passed DefinedTargetClass.
      *
-     * @param TargetClassInterface $class
+     * @param  TargetClassInterface $class
      * @return array
      */
     public function getMagicMethods(
@@ -81,17 +81,19 @@ class MagicMethodTypeHintsPass implements Pass
         if (is_null($class)) {
             return array();
         }
-        return array_filter($class->getMethods(), function (Method $method) {
-            return in_array($method->getName(), $this->mockMagicMethods);
-        });
+        return array_filter(
+            $class->getMethods(), function (Method $method) {
+                return in_array($method->getName(), $this->mockMagicMethods);
+            }
+        );
     }
 
     /**
      * Applies type hints of magic methods from
      * class to the passed code.
      *
-     * @param $code
-     * @param Method $method
+     * @param  $code
+     * @param  Method $method
      * @return string
      */
     private function applyMagicTypeHints($code, Method $method)
@@ -113,8 +115,8 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Checks if the method is declared withing code.
      *
-     * @param $code
-     * @param Method $method
+     * @param  $code
+     * @param  Method $method
      * @return boolean
      */
     private function isMethodWithinCode($code, Method $method)
@@ -129,8 +131,8 @@ class MagicMethodTypeHintsPass implements Pass
      * Returns the method original parameters, as they're
      * described in the $code string.
      *
-     * @param $code
-     * @param Method $method
+     * @param  $code
+     * @param  Method $method
      * @return array
      */
     private function getOriginalParameters($code, Method $method)
@@ -164,8 +166,8 @@ class MagicMethodTypeHintsPass implements Pass
     /**
      * Gets the declaration code, as a string, for the passed method.
      *
-     * @param Method $method
-     * @param array  $namedParameters
+     * @param  Method $method
+     * @param  array  $namedParameters
      * @return string
      */
     private function getMethodDeclaration(
@@ -199,7 +201,7 @@ class MagicMethodTypeHintsPass implements Pass
      * Returns a regex string used to match the
      * declaration of some method.
      *
-     * @param string $methodName
+     * @param  string $methodName
      * @return string
      */
     private function getDeclarationRegex($methodName)

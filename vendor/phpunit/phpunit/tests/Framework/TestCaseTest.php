@@ -621,7 +621,9 @@ class TestCaseTest extends TestCase
 
     public function testCreateMockMocksAllMethods()
     {
-        /** @var \Mockable $mock */
+        /**
+ * @var \Mockable $mock 
+*/
         $mock = $this->createMock(\Mockable::class);
 
         $this->assertNull($mock->foo());
@@ -630,7 +632,9 @@ class TestCaseTest extends TestCase
 
     public function testCreatePartialMockDoesNotMockAllMethods()
     {
-        /** @var \Mockable $mock */
+        /**
+ * @var \Mockable $mock 
+*/
         $mock = $this->createPartialMock(\Mockable::class, ['foo']);
 
         $this->assertNull($mock->foo());
@@ -639,7 +643,9 @@ class TestCaseTest extends TestCase
 
     public function testCreatePartialMockCanMockNoMethods()
     {
-        /** @var \Mockable $mock */
+        /**
+ * @var \Mockable $mock 
+*/
         $mock = $this->createPartialMock(\Mockable::class, []);
 
         $this->assertTrue($mock->foo());
@@ -648,7 +654,9 @@ class TestCaseTest extends TestCase
 
     public function testCreateMockSkipsConstructor()
     {
-        /** @var \Mockable $mock */
+        /**
+ * @var \Mockable $mock 
+*/
         $mock = $this->createMock(\Mockable::class);
 
         $this->assertFalse($mock->constructorCalled);
@@ -656,7 +664,9 @@ class TestCaseTest extends TestCase
 
     public function testCreateMockDisablesOriginalClone()
     {
-        /** @var \Mockable $mock */
+        /**
+ * @var \Mockable $mock 
+*/
         $mock = $this->createMock(\Mockable::class);
 
         $cloned = clone $mock;
@@ -665,7 +675,9 @@ class TestCaseTest extends TestCase
 
     public function testConfiguredMockCanBeCreated()
     {
-        /** @var \Mockable $mock */
+        /**
+ * @var \Mockable $mock 
+*/
         $mock = $this->createConfiguredMock(
             \Mockable::class,
             [

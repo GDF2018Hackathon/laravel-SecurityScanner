@@ -14,7 +14,7 @@ class LoadConfiguration
     /**
      * Bootstrap the given application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application $app
      * @return void
      */
     public function bootstrap(Application $app)
@@ -25,7 +25,7 @@ class LoadConfiguration
         // the configuration items from that file so that it is very quick. Otherwise
         // we will need to spin through every configuration file and load them all.
         if (file_exists($cached = $app->getCachedConfigPath())) {
-            $items = require $cached;
+            $items = include $cached;
 
             $loadedFromCache = true;
         }
@@ -42,9 +42,11 @@ class LoadConfiguration
         // Finally, we will set the application's environment based on the configuration
         // values that were loaded. We will pass a callback which will be used to get
         // the environment in a web context where an "--env" switch is not present.
-        $app->detectEnvironment(function () use ($config) {
-            return $config->get('app.env', 'production');
-        });
+        $app->detectEnvironment(
+            function () use ($config) {
+                return $config->get('app.env', 'production');
+            }
+        );
 
         date_default_timezone_set($config->get('app.timezone', 'UTC'));
 
@@ -54,8 +56,8 @@ class LoadConfiguration
     /**
      * Load the configuration items from all of the files.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
-     * @param  \Illuminate\Contracts\Config\Repository  $repository
+     * @param  \Illuminate\Contracts\Foundation\Application $app
+     * @param  \Illuminate\Contracts\Config\Repository      $repository
      * @return void
      * @throws \Exception
      */
@@ -68,14 +70,14 @@ class LoadConfiguration
         }
 
         foreach ($files as $key => $path) {
-            $repository->set($key, require $path);
+            $repository->set($key, include $path);
         }
     }
 
     /**
      * Get all of the configuration files for the application.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application $app
      * @return array
      */
     protected function getConfigurationFiles(Application $app)
@@ -98,8 +100,8 @@ class LoadConfiguration
     /**
      * Get the configuration file nesting path.
      *
-     * @param  \SplFileInfo  $file
-     * @param  string  $configPath
+     * @param  \SplFileInfo $file
+     * @param  string       $configPath
      * @return string
      */
     protected function getNestedDirectory(SplFileInfo $file, $configPath)

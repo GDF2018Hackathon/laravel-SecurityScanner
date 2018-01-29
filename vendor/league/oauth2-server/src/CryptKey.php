@@ -2,11 +2,11 @@
 /**
  * Cryptography key holder.
  *
- * @author      Julián Gutiérrez <juliangut@gmail.com>
- * @copyright   Copyright (c) Alex Bilbie
- * @license     http://mit-license.org/
+ * @author    Julián Gutiérrez <juliangut@gmail.com>
+ * @copyright Copyright (c) Alex Bilbie
+ * @license   http://mit-license.org/
  *
- * @link        https://github.com/thephpleague/oauth2-server
+ * @link https://github.com/thephpleague/oauth2-server
  */
 
 namespace League\OAuth2\Server;
@@ -49,11 +49,13 @@ class CryptKey
             // Verify the permissions of the key
             $keyPathPerms = decoct(fileperms($keyPath) & 0777);
             if (in_array($keyPathPerms, ['600', '660'], true) === false) {
-                trigger_error(sprintf(
-                    'Key file "%s" permissions are not correct, should be 600 or 660 instead of %s',
-                    $keyPath,
-                    $keyPathPerms
-                ), E_USER_NOTICE);
+                trigger_error(
+                    sprintf(
+                        'Key file "%s" permissions are not correct, should be 600 or 660 instead of %s',
+                        $keyPath,
+                        $keyPathPerms
+                    ), E_USER_NOTICE
+                );
             }
         }
 

@@ -12,7 +12,8 @@ namespace PharIo\Manifest;
 
 use PharIo\Version\Version;
 
-class BundledComponent {
+class BundledComponent
+{
     /**
      * @var string
      */
@@ -27,7 +28,8 @@ class BundledComponent {
      * @param string  $name
      * @param Version $version
      */
-    public function __construct($name, Version $version) {
+    public function __construct($name, Version $version) 
+    {
         $this->name    = $name;
         $this->version = $version;
     }
@@ -35,14 +37,16 @@ class BundledComponent {
     /**
      * @return string
      */
-    public function getName() {
+    public function getName() 
+    {
         return $this->name;
     }
 
     /**
      * @return Version
      */
-    public function getVersion() {
+    public function getVersion() 
+    {
         return $this->version;
     }
 }

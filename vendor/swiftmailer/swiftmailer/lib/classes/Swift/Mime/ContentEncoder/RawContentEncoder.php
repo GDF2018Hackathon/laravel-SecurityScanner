@@ -11,7 +11,6 @@
 /**
  * Handles raw Transfer Encoding in Swift Mailer.
  *
- *
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 class Swift_Mime_ContentEncoder_RawContentEncoder implements Swift_Mime_ContentEncoder

@@ -135,7 +135,6 @@ class Facade
                 'url(../.fonts/',
                 \file_get_contents($this->templatePath . 'css/bootstrap.min.css')
             )
-
         );
 
         \copy($this->templatePath . 'css/nv.d3.min.css', $dir . 'nv.d3.min.css');

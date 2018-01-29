@@ -48,9 +48,11 @@ class MethodProphecy
     {
         $double = $objectProphecy->reveal();
         if (!method_exists($double, $methodName)) {
-            throw new MethodNotFoundException(sprintf(
-                'Method `%s::%s()` is not defined.', get_class($double), $methodName
-            ), get_class($double), $methodName, $arguments);
+            throw new MethodNotFoundException(
+                sprintf(
+                    'Method `%s::%s()` is not defined.', get_class($double), $methodName
+                ), get_class($double), $methodName, $arguments
+            );
         }
 
         $this->objectProphecy = $objectProphecy;
@@ -58,12 +60,14 @@ class MethodProphecy
 
         $reflectedMethod = new \ReflectionMethod($double, $methodName);
         if ($reflectedMethod->isFinal()) {
-            throw new MethodProphecyException(sprintf(
-                "Can not add prophecy for a method `%s::%s()`\n".
-                "as it is a final method.",
-                get_class($double),
-                $methodName
-            ), $this);
+            throw new MethodProphecyException(
+                sprintf(
+                    "Can not add prophecy for a method `%s::%s()`\n".
+                    "as it is a final method.",
+                    get_class($double),
+                    $methodName
+                ), $this
+            );
         }
 
         if (null !== $arguments) {
@@ -78,30 +82,40 @@ class MethodProphecy
                 return;
             }
 
-            $this->will(function () use ($type) {
-                switch ($type) {
-                    case 'string': return '';
-                    case 'float':  return 0.0;
-                    case 'int':    return 0;
-                    case 'bool':   return false;
-                    case 'array':  return array();
+            $this->will(
+                function () use ($type) {
+                    switch ($type) {
+                    case 'string': 
+                return '';
+                    case 'float':  
+                return 0.0;
+                    case 'int':    
+                return 0;
+                    case 'bool':   
+                return false;
+                    case 'array':  
+                return array();
 
                     case 'callable':
                     case 'Closure':
-                        return function () {};
+                return function () {
+                };
 
-                    case 'Traversable':
-                    case 'Generator':
-                        // Remove eval() when minimum version >=5.5
-                        /** @var callable $generator */
-                        $generator = eval('return function () { yield; };');
-                        return $generator();
+                        case 'Traversable':
+                        case 'Generator':
+                            // Remove eval() when minimum version >=5.5
+                            /**
+                * @var callable $generator 
+                */
+                            $generator = eval('return function () { yield; };');
+                return $generator();
 
-                    default:
-                        $prophet = new Prophet;
-                        return $prophet->prophesize($type)->reveal();
+                        default:
+                            $prophet = new Prophet;
+                return $prophet->prophesize($type)->reveal();
+                    }
                 }
-            });
+            );
         }
     }
 
@@ -121,11 +135,13 @@ class MethodProphecy
         }
 
         if (!$arguments instanceof Argument\ArgumentsWildcard) {
-            throw new InvalidArgumentException(sprintf(
-                "Either an array or an instance of ArgumentsWildcard expected as\n".
-                'a `MethodProphecy::withArguments()` argument, but got %s.',
-                gettype($arguments)
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Either an array or an instance of ArgumentsWildcard expected as\n".
+                    'a `MethodProphecy::withArguments()` argument, but got %s.',
+                    gettype($arguments)
+                )
+            );
         }
 
         $this->argumentsWildcard = $arguments;
@@ -149,10 +165,12 @@ class MethodProphecy
         }
 
         if (!$promise instanceof Promise\PromiseInterface) {
-            throw new InvalidArgumentException(sprintf(
-                'Expected callable or instance of PromiseInterface, but got %s.',
-                gettype($promise)
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Expected callable or instance of PromiseInterface, but got %s.',
+                    gettype($promise)
+                )
+            );
         }
 
         $this->bindToObjectProphecy();
@@ -228,10 +246,12 @@ class MethodProphecy
         }
 
         if (!$prediction instanceof Prediction\PredictionInterface) {
-            throw new InvalidArgumentException(sprintf(
-                'Expected callable or instance of PredictionInterface, but got %s.',
-                gettype($prediction)
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Expected callable or instance of PredictionInterface, but got %s.',
+                    gettype($prediction)
+                )
+            );
         }
 
         $this->bindToObjectProphecy();
@@ -294,10 +314,12 @@ class MethodProphecy
         }
 
         if (!$prediction instanceof Prediction\PredictionInterface) {
-            throw new InvalidArgumentException(sprintf(
-                'Expected callable or instance of PredictionInterface, but got %s.',
-                gettype($prediction)
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Expected callable or instance of PredictionInterface, but got %s.',
+                    gettype($prediction)
+                )
+            );
         }
 
         if (null === $this->promise && !$this->voidReturnType) {
@@ -348,7 +370,7 @@ class MethodProphecy
     /**
      * Checks no calls prediction.
      *
-     * @see \Prophecy\Prediction\NoCallsPrediction
+     * @see        \Prophecy\Prediction\NoCallsPrediction
      * @deprecated
      *
      * @return $this

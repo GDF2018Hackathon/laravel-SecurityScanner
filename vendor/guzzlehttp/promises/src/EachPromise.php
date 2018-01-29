@@ -9,22 +9,34 @@ class EachPromise implements PromisorInterface
 {
     private $pending = [];
 
-    /** @var \Iterator */
+    /**
+     * @var \Iterator 
+     */
     private $iterable;
 
-    /** @var callable|int */
+    /**
+     * @var callable|int 
+     */
     private $concurrency;
 
-    /** @var callable */
+    /**
+     * @var callable 
+     */
     private $onFulfilled;
 
-    /** @var callable */
+    /**
+     * @var callable 
+     */
     private $onRejected;
 
-    /** @var Promise */
+    /**
+     * @var Promise 
+     */
     private $aggregate;
 
-    /** @var bool */
+    /**
+     * @var bool 
+     */
     private $mutex;
 
     /**
@@ -45,8 +57,8 @@ class EachPromise implements PromisorInterface
      *   allowed number of outstanding concurrently executing promises,
      *   creating a capped pool of promises. There is no limit by default.
      *
-     * @param mixed    $iterable Promises or values to iterate.
-     * @param array    $config   Configuration options
+     * @param mixed $iterable Promises or values to iterate.
+     * @param array $config   Configuration options
      */
     public function __construct($iterable, array $config = [])
     {
@@ -87,23 +99,25 @@ class EachPromise implements PromisorInterface
     private function createPromise()
     {
         $this->mutex = false;
-        $this->aggregate = new Promise(function () {
-            reset($this->pending);
-            if (empty($this->pending) && !$this->iterable->valid()) {
-                $this->aggregate->resolve(null);
-                return;
-            }
-
-            // Consume a potentially fluctuating list of promises while
-            // ensuring that indexes are maintained (precluding array_shift).
-            while ($promise = current($this->pending)) {
-                next($this->pending);
-                $promise->wait();
-                if ($this->aggregate->getState() !== PromiseInterface::PENDING) {
+        $this->aggregate = new Promise(
+            function () {
+                reset($this->pending);
+                if (empty($this->pending) && !$this->iterable->valid()) {
+                    $this->aggregate->resolve(null);
                     return;
                 }
+
+                // Consume a potentially fluctuating list of promises while
+                // ensuring that indexes are maintained (precluding array_shift).
+                while ($promise = current($this->pending)) {
+                    next($this->pending);
+                    $promise->wait();
+                    if ($this->aggregate->getState() !== PromiseInterface::PENDING) {
+                        return;
+                    }
+                }
             }
-        });
+        );
 
         // Clear the references when the promise is resolved.
         $clearFn = function () {
@@ -118,7 +132,8 @@ class EachPromise implements PromisorInterface
     {
         if (!$this->concurrency) {
             // Add all pending promises.
-            while ($this->addPending() && $this->advanceIterator());
+            while ($this->addPending() && $this->advanceIterator()) {
+            }
             return;
         }
 
@@ -139,7 +154,8 @@ class EachPromise implements PromisorInterface
         // next value to yield until promise callbacks are called.
         while (--$concurrency
             && $this->advanceIterator()
-            && $this->addPending());
+            && $this->addPending()) {
+        }
     }
 
     private function addPending()

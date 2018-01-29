@@ -35,7 +35,8 @@ class SlackWebhookHandlerTest extends TestCase
         $record = $this->getRecord();
         $slackRecord = $handler->getSlackRecord();
         $this->assertInstanceOf('Monolog\Handler\Slack\SlackRecord', $slackRecord);
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'attachments' => array(
                 array(
                     'fallback' => 'test',
@@ -53,7 +54,8 @@ class SlackWebhookHandlerTest extends TestCase
                     'ts' => $record['datetime']->getTimestamp(),
                 ),
             ),
-        ), $slackRecord->getSlackData($record));
+            ), $slackRecord->getSlackData($record)
+        );
     }
 
     /**
@@ -76,12 +78,14 @@ class SlackWebhookHandlerTest extends TestCase
 
         $slackRecord = $handler->getSlackRecord();
         $this->assertInstanceOf('Monolog\Handler\Slack\SlackRecord', $slackRecord);
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'username' => 'test-username',
             'text' => 'test',
             'channel' => 'test-channel',
             'icon_emoji' => ':ghost:',
-        ), $slackRecord->getSlackData($this->getRecord()));
+            ), $slackRecord->getSlackData($this->getRecord())
+        );
     }
 
     /**

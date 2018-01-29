@@ -23,7 +23,9 @@ use Psy\Command\Command;
  */
 class CommandsMatcher extends AbstractMatcher
 {
-    /** @var string[] */
+    /**
+     * @var string[] 
+     */
     protected $commands = array();
 
     /**
@@ -88,9 +90,11 @@ class CommandsMatcher extends AbstractMatcher
     {
         $input = $this->getInput($tokens);
 
-        return array_filter($this->commands, function ($command) use ($input) {
-            return AbstractMatcher::startsWith($input, $command);
-        });
+        return array_filter(
+            $this->commands, function ($command) use ($input) {
+                return AbstractMatcher::startsWith($input, $command);
+            }
+        );
     }
 
     /**
@@ -102,11 +106,11 @@ class CommandsMatcher extends AbstractMatcher
         $command = array_shift($tokens);
 
         switch (true) {
-            case self::tokenIs($command, self::T_STRING) &&
+        case self::tokenIs($command, self::T_STRING) &&
                 !$this->isCommand($command[1]) &&
                 $this->matchCommand($command[1]) &&
                 empty($tokens):
-                return true;
+            return true;
         }
 
         return false;

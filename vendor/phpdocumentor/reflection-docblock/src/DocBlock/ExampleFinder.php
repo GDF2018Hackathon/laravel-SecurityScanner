@@ -19,10 +19,14 @@ use phpDocumentor\Reflection\DocBlock\Tags\Example;
  */
 class ExampleFinder
 {
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $sourceDirectory = '';
 
-    /** @var string[] */
+    /**
+     * @var string[] 
+     */
     private $exampleDirectories = [];
 
     /**

@@ -27,7 +27,9 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class SpyTest extends MockeryTestCase
 {
-    /** @test */
+    /**
+     * @test 
+     */
     public function itVerifiesAMethodWasCalled()
     {
         $spy = m::spy();
@@ -38,7 +40,9 @@ class SpyTest extends MockeryTestCase
         $spy->shouldHaveReceived("someMethodThatWasNotCalled");
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itVerifiesAMethodWasNotCalled()
     {
         $spy = m::spy();
@@ -49,7 +53,9 @@ class SpyTest extends MockeryTestCase
         $spy->shouldNotHaveReceived("myMethod");
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itVerifiesAMethodWasNotCalledWithParticularArguments()
     {
         $spy = m::spy();
@@ -61,7 +67,9 @@ class SpyTest extends MockeryTestCase
         $spy->shouldNotHaveReceived("myMethod", array(123, 456));
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itVerifiesAMethodWasCalledASpecificNumberOfTimes()
     {
         $spy = m::spy();
@@ -74,7 +82,9 @@ class SpyTest extends MockeryTestCase
         $spy->shouldHaveReceived("myMethod")->twice();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itVerifiesAMethodWasCalledWithSpecificArguments()
     {
         $spy = m::spy();
@@ -86,7 +96,9 @@ class SpyTest extends MockeryTestCase
         $spy->shouldHaveReceived("myMethod")->with(123);
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itIncrementsExpectationCountWhenShouldHaveReceivedIsUsed()
     {
         $spy = m::spy();
@@ -95,7 +107,9 @@ class SpyTest extends MockeryTestCase
         $this->assertEquals(1, $spy->mockery_getExpectationCount());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itIncrementsExpectationCountWhenShouldNotHaveReceivedIsUsed()
     {
         $spy = m::spy();
@@ -103,7 +117,9 @@ class SpyTest extends MockeryTestCase
         $this->assertEquals(1, $spy->mockery_getExpectationCount());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function any_args_can_be_used_with_alternative_syntax()
     {
         $spy = m::spy();

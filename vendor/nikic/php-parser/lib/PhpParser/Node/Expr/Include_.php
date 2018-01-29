@@ -11,9 +11,13 @@ class Include_ extends Expr
     const TYPE_REQUIRE      = 3;
     const TYPE_REQUIRE_ONCE = 4;
 
-    /** @var Expr Expression */
+    /**
+     * @var Expr Expression 
+     */
     public $expr;
-    /** @var int Type of include */
+    /**
+     * @var int Type of include 
+     */
     public $type;
 
     /**
@@ -23,13 +27,15 @@ class Include_ extends Expr
      * @param int   $type       Type of include
      * @param array $attributes Additional attributes
      */
-    public function __construct(Expr $expr, $type, array $attributes = array()) {
+    public function __construct(Expr $expr, $type, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->expr = $expr;
         $this->type = $type;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('expr', 'type');
     }
 }

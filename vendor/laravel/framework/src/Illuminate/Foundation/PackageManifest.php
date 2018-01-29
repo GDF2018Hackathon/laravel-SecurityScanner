@@ -45,9 +45,9 @@ class PackageManifest
     /**
      * Create a new package manifest instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  string  $basePath
-     * @param  string  $manifestPath
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  string                            $basePath
+     * @param  string                            $manifestPath
      * @return void
      */
     public function __construct(Filesystem $files, $basePath, $manifestPath)
@@ -65,9 +65,11 @@ class PackageManifest
      */
     public function providers()
     {
-        return collect($this->getManifest())->flatMap(function ($configuration) {
-            return (array) ($configuration['providers'] ?? []);
-        })->filter()->all();
+        return collect($this->getManifest())->flatMap(
+            function ($configuration) {
+                return (array) ($configuration['providers'] ?? []);
+            }
+        )->filter()->all();
     }
 
     /**
@@ -77,9 +79,11 @@ class PackageManifest
      */
     public function aliases()
     {
-        return collect($this->getManifest())->flatMap(function ($configuration) {
-            return (array) ($configuration['aliases'] ?? []);
-        })->filter()->all();
+        return collect($this->getManifest())->flatMap(
+            function ($configuration) {
+                return (array) ($configuration['aliases'] ?? []);
+            }
+        )->filter()->all();
     }
 
     /**
@@ -116,19 +120,27 @@ class PackageManifest
 
         $ignoreAll = in_array('*', $ignore = $this->packagesToIgnore());
 
-        $this->write(collect($packages)->mapWithKeys(function ($package) {
-            return [$this->format($package['name']) => $package['extra']['laravel'] ?? []];
-        })->each(function ($configuration) use (&$ignore) {
-            $ignore = array_merge($ignore, $configuration['dont-discover'] ?? []);
-        })->reject(function ($configuration, $package) use ($ignore, $ignoreAll) {
-            return $ignoreAll || in_array($package, $ignore);
-        })->filter()->all());
+        $this->write(
+            collect($packages)->mapWithKeys(
+                function ($package) {
+                    return [$this->format($package['name']) => $package['extra']['laravel'] ?? []];
+                }
+            )->each(
+                function ($configuration) use (&$ignore) {
+                    $ignore = array_merge($ignore, $configuration['dont-discover'] ?? []);
+                }
+            )->reject(
+                function ($configuration, $package) use ($ignore, $ignoreAll) {
+                    return $ignoreAll || in_array($package, $ignore);
+                }
+            )->filter()->all()
+        );
     }
 
     /**
      * Format the given package name.
      *
-     * @param  string  $package
+     * @param  string $package
      * @return string
      */
     protected function format($package)
@@ -147,15 +159,17 @@ class PackageManifest
             return [];
         }
 
-        return json_decode(file_get_contents(
-            $this->basePath.'/composer.json'
-        ), true)['extra']['laravel']['dont-discover'] ?? [];
+        return json_decode(
+            file_get_contents(
+                $this->basePath.'/composer.json'
+            ), true
+        )['extra']['laravel']['dont-discover'] ?? [];
     }
 
     /**
      * Write the given manifest array to disk.
      *
-     * @param  array  $manifest
+     * @param  array $manifest
      * @return void
      * @throws \Exception
      */

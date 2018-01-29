@@ -26,6 +26,7 @@ class PhoneNumber extends \Faker\Provider\PhoneNumber
 
     /**
      * Returns a Thai mobile phone number
+     *
      * @return string
      */
     public static function mobileNumber()

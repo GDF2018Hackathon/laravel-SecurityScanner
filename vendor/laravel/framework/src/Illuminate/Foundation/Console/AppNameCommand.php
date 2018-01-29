@@ -48,8 +48,8 @@ class AppNameCommand extends Command
     /**
      * Create a new key generator command.
      *
-     * @param  \Illuminate\Support\Composer  $composer
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Support\Composer      $composer
+     * @param  \Illuminate\Filesystem\Filesystem $files
      * @return void
      */
     public function __construct(Composer $composer, Filesystem $files)
@@ -102,7 +102,7 @@ class AppNameCommand extends Command
     /**
      * Replace the App namespace at the given path.
      *
-     * @param  string  $path
+     * @param  string $path
      * @return void
      */
     protected function replaceNamespace($path)
@@ -239,9 +239,9 @@ class AppNameCommand extends Command
     /**
      * Replace the given string in the given file.
      *
-     * @param  string  $path
-     * @param  string|array  $search
-     * @param  string|array  $replace
+     * @param  string       $path
+     * @param  string|array $search
+     * @param  string|array $replace
      * @return void
      */
     protected function replaceIn($path, $search, $replace)
@@ -274,7 +274,7 @@ class AppNameCommand extends Command
     /**
      * Get the path to the given configuration file.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return string
      */
     protected function getConfigPath($name)

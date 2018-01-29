@@ -42,8 +42,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->defaultClaim = $this->getMock(Claim::class);
 
         $this->claimFactory->expects($this->any())
-                           ->method('create')
-                           ->willReturn($this->defaultClaim);
+            ->method('create')
+            ->willReturn($this->defaultClaim);
     }
 
     /**
@@ -113,8 +113,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function parseMustRaiseExceptionWhenHeaderCannotBeDecoded()
     {
         $this->decoder->expects($this->any())
-                      ->method('jsonDecode')
-                      ->willThrowException(new RuntimeException());
+            ->method('jsonDecode')
+            ->willThrowException(new RuntimeException());
 
         $parser = $this->createParser();
         $parser->parse('asdfad.asdfasdf.');
@@ -134,8 +134,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function parseMustRaiseExceptionWhenHeaderIsFromAnEncryptedToken()
     {
         $this->decoder->expects($this->any())
-                      ->method('jsonDecode')
-                      ->willReturn(['enc' => 'AAA']);
+            ->method('jsonDecode')
+            ->willReturn(['enc' => 'AAA']);
 
         $parser = $this->createParser();
         $parser->parse('a.a.');
@@ -152,17 +152,16 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @covers Lcobucci\JWT\Parser::parseHeader
      * @covers Lcobucci\JWT\Parser::parseClaims
      * @covers Lcobucci\JWT\Parser::parseSignature
-     *
      */
     public function parseMustReturnANonSignedTokenWhenSignatureIsNotInformed()
     {
         $this->decoder->expects($this->at(1))
-                      ->method('jsonDecode')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'none']);
+            ->method('jsonDecode')
+            ->willReturn(['typ' => 'JWT', 'alg' => 'none']);
 
         $this->decoder->expects($this->at(3))
-                      ->method('jsonDecode')
-                      ->willReturn(['aud' => 'test']);
+            ->method('jsonDecode')
+            ->willReturn(['aud' => 'test']);
 
         $parser = $this->createParser();
         $token = $parser->parse('a.a.');
@@ -187,12 +186,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function parseShouldReplicateClaimValueOnHeaderWhenNeeded()
     {
         $this->decoder->expects($this->at(1))
-                      ->method('jsonDecode')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'none', 'aud' => 'test']);
+            ->method('jsonDecode')
+            ->willReturn(['typ' => 'JWT', 'alg' => 'none', 'aud' => 'test']);
 
         $this->decoder->expects($this->at(3))
-                      ->method('jsonDecode')
-                      ->willReturn(['aud' => 'test']);
+            ->method('jsonDecode')
+            ->willReturn(['aud' => 'test']);
 
         $parser = $this->createParser();
         $token = $parser->parse('a.a.');
@@ -223,16 +222,16 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function parseMustReturnASignedTokenWhenSignatureIsInformed()
     {
         $this->decoder->expects($this->at(1))
-                      ->method('jsonDecode')
-                      ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
+            ->method('jsonDecode')
+            ->willReturn(['typ' => 'JWT', 'alg' => 'HS256']);
 
         $this->decoder->expects($this->at(3))
-                      ->method('jsonDecode')
-                      ->willReturn(['aud' => 'test']);
+            ->method('jsonDecode')
+            ->willReturn(['aud' => 'test']);
 
         $this->decoder->expects($this->at(4))
-                      ->method('base64UrlDecode')
-                      ->willReturn('aaa');
+            ->method('base64UrlDecode')
+            ->willReturn('aaa');
 
         $parser = $this->createParser();
         $token = $parser->parse('a.a.a');

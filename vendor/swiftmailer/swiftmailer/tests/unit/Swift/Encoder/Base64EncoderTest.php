@@ -30,15 +30,15 @@ class Swift_Encoder_Base64EncoderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             'MTIz', $this->encoder->encodeString('123'),
             '%s: 3 bytes of input should yield 4 bytes of output'
-            );
+        );
         $this->assertEquals(
             'MTIzNDU2', $this->encoder->encodeString('123456'),
             '%s: 6 bytes in input should yield 8 bytes of output'
-            );
+        );
         $this->assertEquals(
             'MTIzNDU2Nzg5', $this->encoder->encodeString('123456789'),
             '%s: 9 bytes in input should yield 12 bytes of output'
-            );
+        );
     }
 
     public function testPadLength()
@@ -46,29 +46,29 @@ class Swift_Encoder_Base64EncoderTest extends \PHPUnit\Framework\TestCase
         /*
         RFC 2045, 6.8
 
-       Special processing is performed if fewer than 24 bits are available
-       at the end of the data being encoded.  A full encoding quantum is
-       always completed at the end of a body.  When fewer than 24 input bits
-       are available in an input group, zero bits are added (on the right)
-       to form an integral number of 6-bit groups.  Padding at the end of
-       the data is performed using the "=" character.  Since all base64
-       input is an integral number of octets, only the following cases can
-       arise: (1) the final quantum of encoding input is an integral
-       multiple of 24 bits; here, the final unit of encoded output will be
-       an integral multiple of 4 characters with no "=" padding, (2) the
-       final quantum of encoding input is exactly 8 bits; here, the final
-       unit of encoded output will be two characters followed by two "="
-       padding characters, or (3) the final quantum of encoding input is
-       exactly 16 bits; here, the final unit of encoded output will be three
-       characters followed by one "=" padding character.
-       */
+        Special processing is performed if fewer than 24 bits are available
+        at the end of the data being encoded.  A full encoding quantum is
+        always completed at the end of a body.  When fewer than 24 input bits
+        are available in an input group, zero bits are added (on the right)
+        to form an integral number of 6-bit groups.  Padding at the end of
+        the data is performed using the "=" character.  Since all base64
+        input is an integral number of octets, only the following cases can
+        arise: (1) the final quantum of encoding input is an integral
+        multiple of 24 bits; here, the final unit of encoded output will be
+        an integral multiple of 4 characters with no "=" padding, (2) the
+        final quantum of encoding input is exactly 8 bits; here, the final
+        unit of encoded output will be two characters followed by two "="
+        padding characters, or (3) the final quantum of encoding input is
+        exactly 16 bits; here, the final unit of encoded output will be three
+        characters followed by one "=" padding character.
+        */
 
         for ($i = 0; $i < 30; ++$i) {
             $input = pack('C', random_int(0, 255));
             $this->assertRegExp(
                 '~^[a-zA-Z0-9/\+]{2}==$~', $this->encoder->encodeString($input),
                 '%s: A single byte should have 2 bytes of padding'
-                );
+            );
         }
 
         for ($i = 0; $i < 30; ++$i) {
@@ -76,7 +76,7 @@ class Swift_Encoder_Base64EncoderTest extends \PHPUnit\Framework\TestCase
             $this->assertRegExp(
                 '~^[a-zA-Z0-9/\+]{3}=$~', $this->encoder->encodeString($input),
                 '%s: Two bytes should have 1 byte of padding'
-                );
+            );
         }
 
         for ($i = 0; $i < 30; ++$i) {
@@ -84,7 +84,7 @@ class Swift_Encoder_Base64EncoderTest extends \PHPUnit\Framework\TestCase
             $this->assertRegExp(
                 '~^[a-zA-Z0-9/\+]{4}$~', $this->encoder->encodeString($input),
                 '%s: Three bytes should have no padding'
-                );
+            );
         }
     }
 
@@ -116,7 +116,7 @@ class Swift_Encoder_Base64EncoderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             $output, $this->encoder->encodeString($input),
             '%s: Lines should be no more than 76 characters'
-            );
+        );
     }
 
     public function testMaximumLineLengthCanBeSpecified()
@@ -143,7 +143,7 @@ class Swift_Encoder_Base64EncoderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             $output, $this->encoder->encodeString($input, 0, 50),
             '%s: Lines should be no more than 100 characters'
-            );
+        );
     }
 
     public function testFirstLineLengthCanBeDifferent()
@@ -168,6 +168,6 @@ class Swift_Encoder_Base64EncoderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             $output, $this->encoder->encodeString($input, 19),
             '%s: First line offset is 19 so first line should be 57 chars long'
-            );
+        );
     }
 }

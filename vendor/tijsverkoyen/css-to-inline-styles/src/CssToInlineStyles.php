@@ -27,8 +27,8 @@ class CssToInlineStyles
      * Remark: if the html contains <style>-tags those will be used, the rules
      * in $css will be appended.
      *
-     * @param string $html
-     * @param string $css
+     * @param  string $html
+     * @param  string $css
      * @return string
      */
     public function convert($html, $css = null)
@@ -53,8 +53,8 @@ class CssToInlineStyles
     /**
      * Inline the given properties on an given DOMElement
      *
-     * @param \DOMElement             $element
-     * @param Css\Property\Property[] $properties
+     * @param  \DOMElement             $element
+     * @param  Css\Property\Property[] $properties
      * @return \DOMElement
      */
     public function inlineCssOnElement(\DOMElement $element, array $properties)
@@ -88,7 +88,7 @@ class CssToInlineStyles
     /**
      * Get the current inline styles for a given DOMElement
      *
-     * @param \DOMElement $element
+     * @param  \DOMElement $element
      * @return Css\Property\Property[]
      */
     public function getInlineStyles(\DOMElement $element)

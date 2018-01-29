@@ -63,8 +63,8 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     public function verifyMustReturnWhatSignerSays()
     {
         $this->signer->expects($this->any())
-                     ->method('verify')
-                     ->willReturn(true);
+            ->method('verify')
+            ->willReturn(true);
 
         $signature = new Signature('test');
 

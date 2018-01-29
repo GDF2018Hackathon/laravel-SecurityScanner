@@ -53,13 +53,17 @@ namespace phpseclib\Crypt;
  */
 class RC4 extends Base
 {
-    /**#@+
+    /**
+* #@+
+     *
      * @access private
-     * @see \phpseclib\Crypt\RC4::_crypt()
+     * @see    \phpseclib\Crypt\RC4::_crypt()
     */
     const ENCRYPT = 0;
     const DECRYPT = 1;
-    /**#@-*/
+    /**
+     * #@-
+     */
 
     /**
      * Block Length of the cipher
@@ -67,8 +71,8 @@ class RC4 extends Base
      * RC4 is a stream cipher
      * so we the block_size to 0
      *
-     * @see \phpseclib\Crypt\Base::block_size
-     * @var int
+     * @see    \phpseclib\Crypt\Base::block_size
+     * @var    int
      * @access private
      */
     var $block_size = 0;
@@ -76,8 +80,8 @@ class RC4 extends Base
     /**
      * Key Length (in bytes)
      *
-     * @see \phpseclib\Crypt\RC4::setKeyLength()
-     * @var int
+     * @see    \phpseclib\Crypt\RC4::setKeyLength()
+     * @var    int
      * @access private
      */
     var $key_length = 128; // = 1024 bits
@@ -85,8 +89,8 @@ class RC4 extends Base
     /**
      * The mcrypt specific name of the cipher
      *
-     * @see \phpseclib\Crypt\Base::cipher_name_mcrypt
-     * @var string
+     * @see    \phpseclib\Crypt\Base::cipher_name_mcrypt
+     * @var    string
      * @access private
      */
     var $cipher_name_mcrypt = 'arcfour';
@@ -94,8 +98,8 @@ class RC4 extends Base
     /**
      * Holds whether performance-optimized $inline_crypt() can/should be used.
      *
-     * @see \phpseclib\Crypt\Base::inline_crypt
-     * @var mixed
+     * @see    \phpseclib\Crypt\Base::inline_crypt
+     * @var    mixed
      * @access private
      */
     var $use_inline_crypt = false; // currently not available
@@ -103,8 +107,8 @@ class RC4 extends Base
     /**
      * The Key
      *
-     * @see self::setKey()
-     * @var string
+     * @see    self::setKey()
+     * @var    string
      * @access private
      */
     var $key;
@@ -112,8 +116,8 @@ class RC4 extends Base
     /**
      * The Key Stream for decryption and encryption
      *
-     * @see self::setKey()
-     * @var array
+     * @see    self::setKey()
+     * @var    array
      * @access private
      */
     var $stream;
@@ -123,7 +127,7 @@ class RC4 extends Base
      *
      * Determines whether or not the mcrypt extension should be used.
      *
-     * @see \phpseclib\Crypt\Base::__construct()
+     * @see    \phpseclib\Crypt\Base::__construct()
      * @return \phpseclib\Crypt\RC4
      * @access public
      */
@@ -137,8 +141,8 @@ class RC4 extends Base
      *
      * This is mainly just a wrapper to set things up for \phpseclib\Crypt\Base::isValidEngine()
      *
-     * @see \phpseclib\Crypt\Base::__construct()
-     * @param int $engine
+     * @see    \phpseclib\Crypt\Base::__construct()
+     * @param  int $engine
      * @access public
      * @return bool
      */
@@ -149,17 +153,17 @@ class RC4 extends Base
                 $this->cipher_name_openssl = 'rc4-40';
             } else {
                 switch (strlen($this->key)) {
-                    case 5:
-                        $this->cipher_name_openssl = 'rc4-40';
-                        break;
-                    case 8:
-                        $this->cipher_name_openssl = 'rc4-64';
-                        break;
-                    case 16:
-                        $this->cipher_name_openssl = 'rc4';
-                        break;
-                    default:
-                        return false;
+                case 5:
+                    $this->cipher_name_openssl = 'rc4-40';
+                    break;
+                case 8:
+                    $this->cipher_name_openssl = 'rc4-64';
+                    break;
+                case 16:
+                    $this->cipher_name_openssl = 'rc4';
+                    break;
+                default:
+                    return false;
                 }
             }
         }
@@ -182,8 +186,8 @@ class RC4 extends Base
      * {@link http://www.rsa.com/rsalabs/node.asp?id=2009 http://www.rsa.com/rsalabs/node.asp?id=2009}
      * {@link http://en.wikipedia.org/wiki/Related_key_attack http://en.wikipedia.org/wiki/Related_key_attack}
      *
-     * @param string $iv
-     * @see self::setKey()
+     * @param  string $iv
+     * @see    self::setKey()
      * @access public
      */
     function setIV($iv)
@@ -196,7 +200,7 @@ class RC4 extends Base
      * Keys can be between 1 and 256 bytes long.
      *
      * @access public
-     * @param int $length
+     * @param  int $length
      */
     function setKeyLength($length)
     {
@@ -214,10 +218,10 @@ class RC4 extends Base
     /**
      * Encrypts a message.
      *
-     * @see \phpseclib\Crypt\Base::decrypt()
-     * @see self::_crypt()
+     * @see    \phpseclib\Crypt\Base::decrypt()
+     * @see    self::_crypt()
      * @access public
-     * @param string $plaintext
+     * @param  string $plaintext
      * @return string $ciphertext
      */
     function encrypt($plaintext)
@@ -234,10 +238,10 @@ class RC4 extends Base
      * $this->decrypt($this->encrypt($plaintext)) == $this->encrypt($this->encrypt($plaintext)).
      * At least if the continuous buffer is disabled.
      *
-     * @see \phpseclib\Crypt\Base::encrypt()
-     * @see self::_crypt()
+     * @see    \phpseclib\Crypt\Base::encrypt()
+     * @see    self::_crypt()
      * @access public
-     * @param string $ciphertext
+     * @param  string $ciphertext
      * @return string $plaintext
      */
     function decrypt($ciphertext)
@@ -252,7 +256,7 @@ class RC4 extends Base
      * Encrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      */
     function _encryptBlock($in)
     {
@@ -263,7 +267,7 @@ class RC4 extends Base
      * Decrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      */
     function _decryptBlock($in)
     {
@@ -273,7 +277,7 @@ class RC4 extends Base
     /**
      * Setup the key (expansion)
      *
-     * @see \phpseclib\Crypt\Base::_setupKey()
+     * @see    \phpseclib\Crypt\Base::_setupKey()
      * @access private
      */
     function _setupKey()
@@ -300,11 +304,11 @@ class RC4 extends Base
     /**
      * Encrypts or decrypts a message.
      *
-     * @see self::encrypt()
-     * @see self::decrypt()
+     * @see    self::encrypt()
+     * @see    self::decrypt()
      * @access private
-     * @param string $text
-     * @param int $mode
+     * @param  string $text
+     * @param  int    $mode
      * @return string $text
      */
     function _crypt($text, $mode)

@@ -10,7 +10,7 @@ trait CollectsResources
     /**
      * Map the given collection resource into its individual resources.
      *
-     * @param  mixed  $resource
+     * @param  mixed $resource
      * @return mixed
      */
     protected function collectResource($resource)
@@ -41,8 +41,9 @@ trait CollectsResources
             return $this->collects;
         }
 
-        if (Str::endsWith(class_basename($this), 'Collection') &&
-            class_exists($class = Str::replaceLast('Collection', '', get_class($this)))) {
+        if (Str::endsWith(class_basename($this), 'Collection') 
+            && class_exists($class = Str::replaceLast('Collection', '', get_class($this)))
+        ) {
             return $class;
         }
     }

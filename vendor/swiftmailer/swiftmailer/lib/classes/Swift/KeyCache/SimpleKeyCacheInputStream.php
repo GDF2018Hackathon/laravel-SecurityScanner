@@ -15,16 +15,24 @@
  */
 class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCacheInputStream
 {
-    /** The KeyCache being written to */
+    /**
+     * The KeyCache being written to 
+     */
     private $keyCache;
 
-    /** The nsKey of the KeyCache being written to */
+    /**
+     * The nsKey of the KeyCache being written to 
+     */
     private $nsKey;
 
-    /** The itemKey of the KeyCache being written to */
+    /**
+     * The itemKey of the KeyCache being written to 
+     */
     private $itemKey;
 
-    /** A stream to write through on each write() */
+    /**
+     * A stream to write through on each write() 
+     */
     private $writeThrough = null;
 
     /**
@@ -57,7 +65,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStream implements Swift_KeyCache_KeyCach
     {
         $this->keyCache->setString(
             $this->nsKey, $this->itemKey, $bytes, Swift_KeyCache::MODE_APPEND
-            );
+        );
         if (isset($is)) {
             $is->write($bytes);
         }

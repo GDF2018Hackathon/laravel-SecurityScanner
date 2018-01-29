@@ -24,13 +24,19 @@ use Webmozart\Assert\Assert;
  */
 class Property extends BaseTag implements Factory\StaticMethod
 {
-    /** @var string */
+    /**
+     * @var string 
+     */
     protected $name = 'property';
 
-    /** @var Type */
+    /**
+     * @var Type 
+     */
     private $type;
 
-    /** @var string */
+    /**
+     * @var string 
+     */
     protected $variableName = '';
 
     /**

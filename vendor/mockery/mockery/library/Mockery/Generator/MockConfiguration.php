@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery\Generator;
@@ -154,9 +154,11 @@ class MockConfiguration
          */
         if (count($this->getWhiteListedMethods())) {
             $whitelist = array_map('strtolower', $this->getWhiteListedMethods());
-            $methods = array_filter($methods, function ($method) use ($whitelist) {
-                return $method->isAbstract() || in_array(strtolower($method->getName()), $whitelist);
-            });
+            $methods = array_filter(
+                $methods, function ($method) use ($whitelist) {
+                    return $method->isAbstract() || in_array(strtolower($method->getName()), $whitelist);
+                }
+            );
 
             return $methods;
         }
@@ -166,9 +168,11 @@ class MockConfiguration
          */
         if (count($this->getBlackListedMethods())) {
             $blacklist = array_map('strtolower', $this->getBlackListedMethods());
-            $methods = array_filter($methods, function ($method) use ($blacklist) {
-                return !in_array(strtolower($method->getName()), $blacklist);
-            });
+            $methods = array_filter(
+                $methods, function ($method) use ($blacklist) {
+                    return !in_array(strtolower($method->getName()), $blacklist);
+                }
+            );
         }
 
         /**
@@ -179,10 +183,13 @@ class MockConfiguration
          */
         if ($this->getTargetClass()
             && $this->getTargetClass()->implementsInterface("Serializable")
-            && $this->getTargetClass()->hasInternalAncestor()) {
-            $methods = array_filter($methods, function ($method) {
-                return $method->getName() !== "unserialize";
-            });
+            && $this->getTargetClass()->hasInternalAncestor()
+        ) {
+            $methods = array_filter(
+                $methods, function ($method) {
+                    return $method->getName() !== "unserialize";
+                }
+            );
         }
 
         return array_values($methods);
@@ -424,10 +431,12 @@ class MockConfiguration
         }
 
         if ($this->getTargetInterfaces()) {
-            $name .= array_reduce($this->getTargetInterfaces(), function ($tmpname, $i) {
-                $tmpname .= '_' . str_replace("\\", "_", $i->getName());
-                return $tmpname;
-            }, '');
+            $name .= array_reduce(
+                $this->getTargetInterfaces(), function ($tmpname, $i) {
+                    $tmpname .= '_' . str_replace("\\", "_", $i->getName());
+                    return $tmpname;
+                }, ''
+            );
         }
 
         return $name;
@@ -507,14 +516,16 @@ class MockConfiguration
         }
 
         $names = array();
-        $methods = array_filter($methods, function ($method) use (&$names) {
-            if (in_array($method->getName(), $names)) {
-                return false;
-            }
+        $methods = array_filter(
+            $methods, function ($method) use (&$names) {
+                if (in_array($method->getName(), $names)) {
+                    return false;
+                }
 
-            $names[] = $method->getName();
-            return true;
-        });
+                $names[] = $method->getName();
+                return true;
+            }
+        );
 
         return $this->allMethods = $methods;
     }

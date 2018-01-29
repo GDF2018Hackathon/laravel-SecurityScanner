@@ -2,11 +2,11 @@
 /**
  * OAuth 2.0 Refresh token grant.
  *
- * @author      Alex Bilbie <hello@alexbilbie.com>
- * @copyright   Copyright (c) Alex Bilbie
- * @license     http://mit-license.org/
+ * @author    Alex Bilbie <hello@alexbilbie.com>
+ * @copyright Copyright (c) Alex Bilbie
+ * @license   http://mit-license.org/
  *
- * @link        https://github.com/thephpleague/oauth2-server
+ * @link https://github.com/thephpleague/oauth2-server
  */
 
 namespace League\OAuth2\Server\Grant;
@@ -44,10 +44,12 @@ class RefreshTokenGrant extends AbstractGrant
         // Validate request
         $client = $this->validateClient($request);
         $oldRefreshToken = $this->validateOldRefreshToken($request, $client->getIdentifier());
-        $scopes = $this->validateScopes($this->getRequestParameter(
-            'scope',
-            $request,
-            implode(self::SCOPE_DELIMITER_STRING, $oldRefreshToken['scopes']))
+        $scopes = $this->validateScopes(
+            $this->getRequestParameter(
+                'scope',
+                $request,
+                implode(self::SCOPE_DELIMITER_STRING, $oldRefreshToken['scopes'])
+            )
         );
 
         // The OAuth spec says that a refreshed access token can have the original scopes or fewer so ensure

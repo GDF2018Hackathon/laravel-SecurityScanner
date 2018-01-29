@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 export default class Example extends Component {
-    render() {
+    render() 
+    {
         return (
             <div className="container">
                 <div className="row">

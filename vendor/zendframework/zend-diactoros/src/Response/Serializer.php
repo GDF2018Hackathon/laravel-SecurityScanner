@@ -20,7 +20,7 @@ final class Serializer extends AbstractSerializer
     /**
      * Deserialize a response string to a response instance.
      *
-     * @param string $message
+     * @param  string $message
      * @return Response
      * @throws UnexpectedValueException when errors occur parsing the message.
      */
@@ -34,7 +34,7 @@ final class Serializer extends AbstractSerializer
     /**
      * Parse a response from a stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return Response
      * @throws InvalidArgumentException when the stream is not readable.
      * @throws UnexpectedValueException when errors occur parsing the message.
@@ -58,7 +58,7 @@ final class Serializer extends AbstractSerializer
     /**
      * Create a string representation of a response.
      *
-     * @param ResponseInterface $response
+     * @param  ResponseInterface $response
      * @return string
      */
     public static function toString(ResponseInterface $response)
@@ -87,7 +87,7 @@ final class Serializer extends AbstractSerializer
     /**
      * Retrieve the status line for the message.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return array Array with three elements: 0 => version, 1 => status, 2 => reason
      * @throws UnexpectedValueException if line is malformed
      */
@@ -99,7 +99,8 @@ final class Serializer extends AbstractSerializer
             '#^HTTP/(?P<version>[1-9]\d*\.\d) (?P<status>[1-5]\d{2})(\s+(?P<reason>.+))?$#',
             $line,
             $matches
-        )) {
+        )
+        ) {
             throw new UnexpectedValueException('No status line detected');
         }
 

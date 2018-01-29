@@ -195,19 +195,16 @@ class SsiTest extends TestCase
     {
         $cache = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpCache\HttpCache')->setMethods(array('getRequest', 'handle'))->disableOriginalConstructor()->getMock();
         $cache->expects($this->any())
-              ->method('getRequest')
-              ->will($this->returnValue($request))
-        ;
+            ->method('getRequest')
+            ->will($this->returnValue($request));
         if (is_array($response)) {
             $cache->expects($this->any())
-                  ->method('handle')
-                  ->will(call_user_func_array(array($this, 'onConsecutiveCalls'), $response))
-            ;
+                ->method('handle')
+                ->will(call_user_func_array(array($this, 'onConsecutiveCalls'), $response));
         } else {
             $cache->expects($this->any())
-                  ->method('handle')
-                  ->will($this->returnValue($response))
-            ;
+                ->method('handle')
+                ->will($this->returnValue($response));
         }
 
         return $cache;

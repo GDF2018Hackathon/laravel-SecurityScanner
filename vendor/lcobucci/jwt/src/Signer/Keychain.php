@@ -11,7 +11,7 @@ namespace Lcobucci\JWT\Signer;
  * A utilitarian class that encapsulates the retrieval of public and private keys
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
+ * @since  2.1.0
  *
  * @deprecated Since we've removed OpenSSL from ECDSA there's no reason to use this class
  */

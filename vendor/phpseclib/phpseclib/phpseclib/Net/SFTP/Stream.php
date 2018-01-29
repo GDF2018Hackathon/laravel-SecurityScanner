@@ -41,7 +41,7 @@ class Stream
     /**
      * SFTP instance
      *
-     * @var object
+     * @var    object
      * @access private
      */
     var $sftp;
@@ -49,7 +49,7 @@ class Stream
     /**
      * Path
      *
-     * @var string
+     * @var    string
      * @access private
      */
     var $path;
@@ -57,7 +57,7 @@ class Stream
     /**
      * Mode
      *
-     * @var string
+     * @var    string
      * @access private
      */
     var $mode;
@@ -65,7 +65,7 @@ class Stream
     /**
      * Position
      *
-     * @var int
+     * @var    int
      * @access private
      */
     var $pos;
@@ -73,7 +73,7 @@ class Stream
     /**
      * Size
      *
-     * @var int
+     * @var    int
      * @access private
      */
     var $size;
@@ -81,7 +81,7 @@ class Stream
     /**
      * Directory entries
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $entries;
@@ -89,7 +89,7 @@ class Stream
     /**
      * EOF flag
      *
-     * @var bool
+     * @var    bool
      * @access private
      */
     var $eof;
@@ -99,7 +99,7 @@ class Stream
      *
      * Technically this needs to be publically accessible so PHP can set it directly
      *
-     * @var resource
+     * @var    resource
      * @access public
      */
     var $context;
@@ -107,7 +107,7 @@ class Stream
     /**
      * Notification callback function
      *
-     * @var callable
+     * @var    callable
      * @access public
      */
     var $notification;
@@ -115,7 +115,7 @@ class Stream
     /**
      * Registers this class as a URL wrapper.
      *
-     * @param string $protocol The wrapper name to be registered.
+     * @param  string $protocol The wrapper name to be registered.
      * @return bool True on success, false otherwise.
      * @access public
      */
@@ -147,7 +147,7 @@ class Stream
      * If "notification" is set as a context parameter the message code for successful login is
      * NET_SSH2_MSG_USERAUTH_SUCCESS. For a failed login it's NET_SSH2_MSG_USERAUTH_FAILURE.
      *
-     * @param string $path
+     * @param  string $path
      * @return string
      * @access private
      */
@@ -250,10 +250,10 @@ class Stream
     /**
      * Opens file or URL
      *
-     * @param string $path
-     * @param string $mode
-     * @param int $options
-     * @param string $opened_path
+     * @param  string $path
+     * @param  string $mode
+     * @param  int    $options
+     * @param  string $opened_path
      * @return bool
      * @access public
      */
@@ -279,11 +279,11 @@ class Stream
             }
         } else {
             switch ($this->mode[0]) {
-                case 'x':
-                    return false;
-                case 'w':
-                    $this->sftp->truncate($path, 0);
-                    $this->size = 0;
+            case 'x':
+                return false;
+            case 'w':
+                $this->sftp->truncate($path, 0);
+                $this->size = 0;
             }
         }
 
@@ -295,18 +295,18 @@ class Stream
     /**
      * Read from stream
      *
-     * @param int $count
+     * @param  int $count
      * @return mixed
      * @access public
      */
     function _stream_read($count)
     {
         switch ($this->mode) {
-            case 'w':
-            case 'a':
-            case 'x':
-            case 'c':
-                return false;
+        case 'w':
+        case 'a':
+        case 'x':
+        case 'c':
+            return false;
         }
 
         // commented out because some files - eg. /dev/urandom - will say their size is 0 when in fact it's kinda infinite
@@ -337,15 +337,15 @@ class Stream
     /**
      * Write to stream
      *
-     * @param string $data
+     * @param  string $data
      * @return mixed
      * @access public
      */
     function _stream_write($data)
     {
         switch ($this->mode) {
-            case 'r':
-                return false;
+        case 'r':
+            return false;
         }
 
         $result = $this->sftp->put($this->path, $data, SFTP::SOURCE_STRING, $this->pos);
@@ -401,24 +401,24 @@ class Stream
     /**
      * Seeks to specific location in a stream
      *
-     * @param int $offset
-     * @param int $whence
+     * @param  int $offset
+     * @param  int $whence
      * @return bool
      * @access public
      */
     function _stream_seek($offset, $whence)
     {
         switch ($whence) {
-            case SEEK_SET:
-                if ($offset >= $this->size || $offset < 0) {
-                    return false;
-                }
-                break;
-            case SEEK_CUR:
-                $offset+= $this->pos;
-                break;
-            case SEEK_END:
-                $offset+= $this->size;
+        case SEEK_SET:
+            if ($offset >= $this->size || $offset < 0) {
+                return false;
+            }
+            break;
+        case SEEK_CUR:
+            $offset+= $this->pos;
+            break;
+        case SEEK_END:
+            $offset+= $this->size;
         }
 
         $this->pos = $offset;
@@ -429,9 +429,9 @@ class Stream
     /**
      * Change stream options
      *
-     * @param string $path
-     * @param int $option
-     * @param mixed $var
+     * @param  string $path
+     * @param  int    $option
+     * @param  mixed  $var
      * @return bool
      * @access public
      */
@@ -446,24 +446,24 @@ class Stream
         // see http://www.php.net/streamwrapper.stream-metadata and https://bugs.php.net/64246
         //     and https://github.com/php/php-src/blob/master/main/php_streams.h#L592
         switch ($option) {
-            case 1: // PHP_STREAM_META_TOUCH
-                return $this->sftp->touch($path, $var[0], $var[1]);
-            case 2: // PHP_STREAM_OWNER_NAME
-            case 3: // PHP_STREAM_GROUP_NAME
-                return false;
-            case 4: // PHP_STREAM_META_OWNER
-                return $this->sftp->chown($path, $var);
-            case 5: // PHP_STREAM_META_GROUP
-                return $this->sftp->chgrp($path, $var);
-            case 6: // PHP_STREAM_META_ACCESS
-                return $this->sftp->chmod($path, $var) !== false;
+        case 1: // PHP_STREAM_META_TOUCH
+            return $this->sftp->touch($path, $var[0], $var[1]);
+        case 2: // PHP_STREAM_OWNER_NAME
+        case 3: // PHP_STREAM_GROUP_NAME
+            return false;
+        case 4: // PHP_STREAM_META_OWNER
+            return $this->sftp->chown($path, $var);
+        case 5: // PHP_STREAM_META_GROUP
+            return $this->sftp->chgrp($path, $var);
+        case 6: // PHP_STREAM_META_ACCESS
+            return $this->sftp->chmod($path, $var) !== false;
         }
     }
 
     /**
      * Retrieve the underlaying resource
      *
-     * @param int $cast_as
+     * @param  int $cast_as
      * @return resource
      * @access public
      */
@@ -475,7 +475,7 @@ class Stream
     /**
      * Advisory file locking
      *
-     * @param int $operation
+     * @param  int $operation
      * @return bool
      * @access public
      */
@@ -491,8 +491,8 @@ class Stream
      * If newname exists, it will be overwritten.  This is a departure from what \phpseclib\Net\SFTP
      * does.
      *
-     * @param string $path_from
-     * @param string $path_to
+     * @param  string $path_from
+     * @param  string $path_to
      * @return bool
      * @access public
      */
@@ -543,8 +543,8 @@ class Stream
      *                string     longname
      *                ATTRS      attrs
      *
-     * @param string $path
-     * @param int $options
+     * @param  string $path
+     * @param  int    $options
      * @return bool
      * @access public
      */
@@ -601,9 +601,9 @@ class Stream
      *
      * Only valid $options is STREAM_MKDIR_RECURSIVE
      *
-     * @param string $path
-     * @param int $mode
-     * @param int $options
+     * @param  string $path
+     * @param  int    $mode
+     * @param  int    $options
      * @return bool
      * @access public
      */
@@ -625,9 +625,9 @@ class Stream
      * STREAM_MKDIR_RECURSIVE is supposed to be set. Also, when I try it out with rmdir() I get 8 as
      * $options. What does 8 correspond to?
      *
-     * @param string $path
-     * @param int $mode
-     * @param int $options
+     * @param  string $path
+     * @param  int    $mode
+     * @param  int    $options
      * @return bool
      * @access public
      */
@@ -672,7 +672,7 @@ class Stream
     /**
      * Delete a file
      *
-     * @param string $path
+     * @param  string $path
      * @return bool
      * @access public
      */
@@ -693,8 +693,8 @@ class Stream
      * might be worthwhile to reconstruct bits 12-16 (ie. the file type) if mode doesn't have them but we'll
      * cross that bridge when and if it's reached
      *
-     * @param string $path
-     * @param int $flags
+     * @param  string $path
+     * @param  int    $flags
      * @return mixed
      * @access public
      */
@@ -716,7 +716,7 @@ class Stream
     /**
      * Truncate stream
      *
-     * @param int $new_size
+     * @param  int $new_size
      * @return bool
      * @access public
      */
@@ -738,9 +738,9 @@ class Stream
      * STREAM_OPTION_WRITE_BUFFER isn't supported for the same reason stream_flush isn't.
      * The other two aren't supported because of limitations in \phpseclib\Net\SFTP.
      *
-     * @param int $option
-     * @param int $arg1
-     * @param int $arg2
+     * @param  int $option
+     * @param  int $arg1
+     * @param  int $arg2
      * @return bool
      * @access public
      */
@@ -768,8 +768,8 @@ class Stream
      * If NET_SFTP_STREAM_LOGGING is defined all calls will be output on the screen and then (regardless of whether or not
      * NET_SFTP_STREAM_LOGGING is enabled) the parameters will be passed through to the appropriate method.
      *
-     * @param string
-     * @param array
+     * @param  string
+     * @param  array
      * @return mixed
      * @access public
      */

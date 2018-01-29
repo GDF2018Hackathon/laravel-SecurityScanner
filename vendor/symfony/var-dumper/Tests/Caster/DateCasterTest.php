@@ -407,7 +407,11 @@ EODUMP;
         );
 
         if (\PHP_VERSION_ID < 70107) {
-            array_walk($periods, function (&$i) { $i[5] = ''; });
+            array_walk(
+                $periods, function (&$i) {
+                    $i[5] = ''; 
+                }
+            );
         }
 
         return $periods;

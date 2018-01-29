@@ -46,8 +46,8 @@ class RC2 extends Base
     /**
      * Block Length of the cipher
      *
-     * @see \phpseclib\Crypt\Base::block_size
-     * @var int
+     * @see    \phpseclib\Crypt\Base::block_size
+     * @var    int
      * @access private
      */
     var $block_size = 8;
@@ -55,9 +55,9 @@ class RC2 extends Base
     /**
      * The Key
      *
-     * @see \phpseclib\Crypt\Base::key
-     * @see self::setKey()
-     * @var string
+     * @see    \phpseclib\Crypt\Base::key
+     * @see    self::setKey()
+     * @var    string
      * @access private
      */
     var $key;
@@ -65,11 +65,11 @@ class RC2 extends Base
     /**
      * The Original (unpadded) Key
      *
-     * @see \phpseclib\Crypt\Base::key
-     * @see self::setKey()
-     * @see self::encrypt()
-     * @see self::decrypt()
-     * @var string
+     * @see    \phpseclib\Crypt\Base::key
+     * @see    self::setKey()
+     * @see    self::encrypt()
+     * @see    self::decrypt()
+     * @var    string
      * @access private
      */
     var $orig_key;
@@ -77,8 +77,8 @@ class RC2 extends Base
     /**
      * Don't truncate / null pad key
      *
-     * @see \phpseclib\Crypt\Base::_clearBuffers()
-     * @var bool
+     * @see    \phpseclib\Crypt\Base::_clearBuffers()
+     * @var    bool
      * @access private
      */
     var $skip_key_adjustment = true;
@@ -86,8 +86,8 @@ class RC2 extends Base
     /**
      * Key Length (in bytes)
      *
-     * @see \phpseclib\Crypt\RC2::setKeyLength()
-     * @var int
+     * @see    \phpseclib\Crypt\RC2::setKeyLength()
+     * @var    int
      * @access private
      */
     var $key_length = 16; // = 128 bits
@@ -95,8 +95,8 @@ class RC2 extends Base
     /**
      * The mcrypt specific name of the cipher
      *
-     * @see \phpseclib\Crypt\Base::cipher_name_mcrypt
-     * @var string
+     * @see    \phpseclib\Crypt\Base::cipher_name_mcrypt
+     * @var    string
      * @access private
      */
     var $cipher_name_mcrypt = 'rc2';
@@ -104,8 +104,8 @@ class RC2 extends Base
     /**
      * Optimizing value while CFB-encrypting
      *
-     * @see \phpseclib\Crypt\Base::cfb_init_len
-     * @var int
+     * @see    \phpseclib\Crypt\Base::cfb_init_len
+     * @var    int
      * @access private
      */
     var $cfb_init_len = 500;
@@ -113,10 +113,10 @@ class RC2 extends Base
     /**
      * The key length in bits.
      *
-     * @see self::setKeyLength()
-     * @see self::setKey()
-     * @var int
-     * @access private
+     * @see      self::setKeyLength()
+     * @see      self::setKey()
+     * @var      int
+     * @access   private
      * @internal Should be in range [1..1024].
      * @internal Changing this value after setting the key has no effect.
      */
@@ -125,10 +125,10 @@ class RC2 extends Base
     /**
      * The key length in bits.
      *
-     * @see self::isValidEnine()
-     * @see self::setKey()
-     * @var int
-     * @access private
+     * @see      self::isValidEnine()
+     * @see      self::setKey()
+     * @var      int
+     * @access   private
      * @internal Should be in range [1..1024].
      */
     var $current_key_length;
@@ -136,8 +136,8 @@ class RC2 extends Base
     /**
      * The Key Schedule
      *
-     * @see self::_setupKey()
-     * @var array
+     * @see    self::_setupKey()
+     * @var    array
      * @access private
      */
     var $keys;
@@ -146,8 +146,8 @@ class RC2 extends Base
      * Key expansion randomization table.
      * Twice the same 256-value sequence to save a modulus in key expansion.
      *
-     * @see self::setKey()
-     * @var array
+     * @see    self::setKey()
+     * @var    array
      * @access private
      */
     var $pitable = array(
@@ -220,8 +220,8 @@ class RC2 extends Base
     /**
      * Inverse key expansion randomization table.
      *
-     * @see self::setKey()
-     * @var array
+     * @see    self::setKey()
+     * @var    array
      * @access private
      */
     var $invpitable = array(
@@ -264,20 +264,20 @@ class RC2 extends Base
      *
      * This is mainly just a wrapper to set things up for \phpseclib\Crypt\Base::isValidEngine()
      *
-     * @see \phpseclib\Crypt\Base::__construct()
-     * @param int $engine
+     * @see    \phpseclib\Crypt\Base::__construct()
+     * @param  int $engine
      * @access public
      * @return bool
      */
     function isValidEngine($engine)
     {
         switch ($engine) {
-            case self::ENGINE_OPENSSL:
-                if ($this->current_key_length != 128 || strlen($this->orig_key) < 16) {
-                    return false;
-                }
-                $this->cipher_name_openssl_ecb = 'rc2-ecb';
-                $this->cipher_name_openssl = 'rc2-' . $this->_openssl_translate_mode();
+        case self::ENGINE_OPENSSL:
+            if ($this->current_key_length != 128 || strlen($this->orig_key) < 16) {
+                return false;
+            }
+            $this->cipher_name_openssl_ecb = 'rc2-ecb';
+            $this->cipher_name_openssl = 'rc2-' . $this->_openssl_translate_mode();
         }
 
         return parent::isValidEngine($engine);
@@ -291,7 +291,7 @@ class RC2 extends Base
      *  \phpseclib\Crypt\RC2::setKey() call.
      *
      * @access public
-     * @param int $length in bits
+     * @param  int $length in bits
      */
     function setKeyLength($length)
     {
@@ -329,10 +329,10 @@ class RC2 extends Base
      * If the key is not explicitly set, it'll be assumed to be a single
      * null byte.
      *
-     * @see \phpseclib\Crypt\Base::setKey()
+     * @see    \phpseclib\Crypt\Base::setKey()
      * @access public
-     * @param string $key
-     * @param int $t1 optional Effective key length in bits.
+     * @param  string $key
+     * @param  int    $t1  optional Effective key length in bits.
      */
     function setKey($key, $t1 = 0)
     {
@@ -382,9 +382,9 @@ class RC2 extends Base
      *
      * Mostly a wrapper for \phpseclib\Crypt\Base::encrypt, with some additional OpenSSL handling code
      *
-     * @see self::decrypt()
+     * @see    self::decrypt()
      * @access public
-     * @param string $plaintext
+     * @param  string $plaintext
      * @return string $ciphertext
      */
     function encrypt($plaintext)
@@ -405,9 +405,9 @@ class RC2 extends Base
      *
      * Mostly a wrapper for \phpseclib\Crypt\Base::decrypt, with some additional OpenSSL handling code
      *
-     * @see self::encrypt()
+     * @see    self::encrypt()
      * @access public
-     * @param string $ciphertext
+     * @param  string $ciphertext
      * @return string $plaintext
      */
     function decrypt($ciphertext)
@@ -426,10 +426,10 @@ class RC2 extends Base
     /**
      * Encrypts a block
      *
-     * @see \phpseclib\Crypt\Base::_encryptBlock()
-     * @see \phpseclib\Crypt\Base::encrypt()
+     * @see    \phpseclib\Crypt\Base::_encryptBlock()
+     * @see    \phpseclib\Crypt\Base::encrypt()
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _encryptBlock($in)
@@ -471,10 +471,10 @@ class RC2 extends Base
     /**
      * Decrypts a block
      *
-     * @see \phpseclib\Crypt\Base::_decryptBlock()
-     * @see \phpseclib\Crypt\Base::decrypt()
+     * @see    \phpseclib\Crypt\Base::_decryptBlock()
+     * @see    \phpseclib\Crypt\Base::decrypt()
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _decryptBlock($in)
@@ -516,7 +516,7 @@ class RC2 extends Base
     /**
      * Setup the \phpseclib\Crypt\Base::ENGINE_MCRYPT $engine
      *
-     * @see \phpseclib\Crypt\Base::_setupMcrypt()
+     * @see    \phpseclib\Crypt\Base::_setupMcrypt()
      * @access private
      */
     function _setupMcrypt()
@@ -531,7 +531,7 @@ class RC2 extends Base
     /**
      * Creates the key schedule
      *
-     * @see \phpseclib\Crypt\Base::_setupKey()
+     * @see    \phpseclib\Crypt\Base::_setupKey()
      * @access private
      */
     function _setupKey()
@@ -552,7 +552,7 @@ class RC2 extends Base
     /**
      * Setup the performance-optimized function for de/encrypt()
      *
-     * @see \phpseclib\Crypt\Base::_setupInlineCrypt()
+     * @see    \phpseclib\Crypt\Base::_setupInlineCrypt()
      * @access private
      */
     function _setupInlineCrypt()
@@ -578,13 +578,13 @@ class RC2 extends Base
             $init_crypt = '$keys = $self->keys;';
 
             switch (true) {
-                case $gen_hi_opt_code:
-                    $keys = $this->keys;
-                default:
-                    $keys = array();
-                    foreach ($this->keys as $k => $v) {
-                        $keys[$k] = '$keys[' . $k . ']';
-                    }
+            case $gen_hi_opt_code:
+                $keys = $this->keys;
+            default:
+                $keys = array();
+                foreach ($this->keys as $k => $v) {
+                    $keys[$k] = '$keys[' . $k . ']';
+                }
             }
 
             // $in is the current 8 bytes block which has to be en/decrypt

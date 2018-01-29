@@ -4,10 +4,15 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-abstract class ClassLike extends Node\Stmt {
-    /** @var string|null Name */
+abstract class ClassLike extends Node\Stmt
+{
+    /**
+     * @var string|null Name 
+     */
     public $name;
-    /** @var Node[] Statements */
+    /**
+     * @var Node[] Statements 
+     */
     public $stmts;
 
     /**
@@ -15,7 +20,8 @@ abstract class ClassLike extends Node\Stmt {
      *
      * @return ClassMethod[]
      */
-    public function getMethods() {
+    public function getMethods() 
+    {
         $methods = array();
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof ClassMethod) {
@@ -32,7 +38,8 @@ abstract class ClassLike extends Node\Stmt {
      *
      * @return ClassMethod|null Method node or null if the method does not exist
      */
-    public function getMethod($name) {
+    public function getMethod($name) 
+    {
         $lowerName = strtolower($name);
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof ClassMethod && $lowerName === strtolower($stmt->name)) {

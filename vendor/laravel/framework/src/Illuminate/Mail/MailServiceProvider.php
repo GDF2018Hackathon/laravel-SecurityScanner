@@ -37,37 +37,39 @@ class MailServiceProvider extends ServiceProvider
      */
     protected function registerIlluminateMailer()
     {
-        $this->app->singleton('mailer', function ($app) {
-            $config = $app->make('config')->get('mail');
+        $this->app->singleton(
+            'mailer', function ($app) {
+                $config = $app->make('config')->get('mail');
 
-            // Once we have create the mailer instance, we will set a container instance
-            // on the mailer. This allows us to resolve mailer classes via containers
-            // for maximum testability on said classes instead of passing Closures.
-            $mailer = new Mailer(
-                $app['view'], $app['swift.mailer'], $app['events']
-            );
+                // Once we have create the mailer instance, we will set a container instance
+                // on the mailer. This allows us to resolve mailer classes via containers
+                // for maximum testability on said classes instead of passing Closures.
+                $mailer = new Mailer(
+                    $app['view'], $app['swift.mailer'], $app['events']
+                );
 
-            if ($app->bound('queue')) {
-                $mailer->setQueue($app['queue']);
+                if ($app->bound('queue')) {
+                    $mailer->setQueue($app['queue']);
+                }
+
+                // Next we will set all of the global addresses on this mailer, which allows
+                // for easy unification of all "from" addresses as well as easy debugging
+                // of sent messages since they get be sent into a single email address.
+                foreach (['from', 'reply_to', 'to'] as $type) {
+                    $this->setGlobalAddress($mailer, $config, $type);
+                }
+
+                return $mailer;
             }
-
-            // Next we will set all of the global addresses on this mailer, which allows
-            // for easy unification of all "from" addresses as well as easy debugging
-            // of sent messages since they get be sent into a single email address.
-            foreach (['from', 'reply_to', 'to'] as $type) {
-                $this->setGlobalAddress($mailer, $config, $type);
-            }
-
-            return $mailer;
-        });
+        );
     }
 
     /**
      * Set a global address on the mailer by type.
      *
-     * @param  \Illuminate\Mail\Mailer  $mailer
-     * @param  array  $config
-     * @param  string  $type
+     * @param  \Illuminate\Mail\Mailer $mailer
+     * @param  array                   $config
+     * @param  string                  $type
      * @return void
      */
     protected function setGlobalAddress($mailer, array $config, $type)
@@ -91,9 +93,11 @@ class MailServiceProvider extends ServiceProvider
         // Once we have the transporter registered, we will register the actual Swift
         // mailer instance, passing in the transport instances, which allows us to
         // override this transporter instances during app start-up if necessary.
-        $this->app->singleton('swift.mailer', function ($app) {
-            return new Swift_Mailer($app['swift.transport']->driver());
-        });
+        $this->app->singleton(
+            'swift.mailer', function ($app) {
+                return new Swift_Mailer($app['swift.transport']->driver());
+            }
+        );
     }
 
     /**
@@ -103,9 +107,11 @@ class MailServiceProvider extends ServiceProvider
      */
     protected function registerSwiftTransport()
     {
-        $this->app->singleton('swift.transport', function ($app) {
-            return new TransportManager($app);
-        });
+        $this->app->singleton(
+            'swift.transport', function ($app) {
+                return new TransportManager($app);
+            }
+        );
     }
 
     /**
@@ -116,19 +122,25 @@ class MailServiceProvider extends ServiceProvider
     protected function registerMarkdownRenderer()
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
+            $this->publishes(
+                [
                 __DIR__.'/resources/views' => $this->app->resourcePath('views/vendor/mail'),
-            ], 'laravel-mail');
+                ], 'laravel-mail'
+            );
         }
 
-        $this->app->singleton(Markdown::class, function ($app) {
-            $config = $app->make('config');
+        $this->app->singleton(
+            Markdown::class, function ($app) {
+                $config = $app->make('config');
 
-            return new Markdown($app->make('view'), [
-                'theme' => $config->get('mail.markdown.theme', 'default'),
-                'paths' => $config->get('mail.markdown.paths', []),
-            ]);
-        });
+                return new Markdown(
+                    $app->make('view'), [
+                    'theme' => $config->get('mail.markdown.theme', 'default'),
+                    'paths' => $config->get('mail.markdown.paths', []),
+                    ]
+                );
+            }
+        );
     }
 
     /**

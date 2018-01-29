@@ -108,7 +108,7 @@ class AmqpHandler extends AbstractProcessingHandler
     /**
      * Gets the routing key for the AMQP exchange
      *
-     * @param  array  $record
+     * @param  array $record
      * @return string
      */
     protected function getRoutingKey(array $record)
@@ -124,7 +124,7 @@ class AmqpHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @param  string      $data
+     * @param  string $data
      * @return AMQPMessage
      */
     private function createAmqpMessage($data)

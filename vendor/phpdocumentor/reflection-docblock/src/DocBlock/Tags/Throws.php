@@ -26,7 +26,9 @@ final class Throws extends BaseTag implements Factory\StaticMethod
 {
     protected $name = 'throws';
 
-    /** @var Type */
+    /**
+     * @var Type 
+     */
     private $type;
 
     public function __construct(Type $type, Description $description = null)

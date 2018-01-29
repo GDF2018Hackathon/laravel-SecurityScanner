@@ -18,7 +18,7 @@ class LogTransport extends Transport
     /**
      * Create a new log transport instance.
      *
-     * @param  \Psr\Log\LoggerInterface  $logger
+     * @param  \Psr\Log\LoggerInterface $logger
      * @return void
      */
     public function __construct(LoggerInterface $logger)

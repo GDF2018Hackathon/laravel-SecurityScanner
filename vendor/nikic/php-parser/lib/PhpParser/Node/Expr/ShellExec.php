@@ -6,7 +6,9 @@ use PhpParser\Node\Expr;
 
 class ShellExec extends Expr
 {
-    /** @var array Encapsed string array */
+    /**
+     * @var array Encapsed string array 
+     */
     public $parts;
 
     /**
@@ -15,12 +17,14 @@ class ShellExec extends Expr
      * @param array $parts      Encapsed string array
      * @param array $attributes Additional attributes
      */
-    public function __construct(array $parts, array $attributes = array()) {
+    public function __construct(array $parts, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->parts = $parts;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('parts');
     }
 }

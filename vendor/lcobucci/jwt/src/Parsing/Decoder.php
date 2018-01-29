@@ -13,7 +13,7 @@ use RuntimeException;
  * Class that decodes data according with the specs of RFC-4648
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  *
  * @link http://tools.ietf.org/html/rfc4648#section-5
  */
@@ -23,7 +23,7 @@ class Decoder
      * Decodes from JSON, validating the errors (will return an associative array
      * instead of objects)
      *
-     * @param string $json
+     * @param  string $json
      * @return mixed
      *
      * @throws RuntimeException When something goes wrong while decoding
@@ -42,7 +42,7 @@ class Decoder
     /**
      * Decodes from base64url
      *
-     * @param string $data
+     * @param  string $data
      * @return string
      */
     public function base64UrlDecode($data)

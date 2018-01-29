@@ -147,15 +147,17 @@ final class Instantiator implements InstantiatorInterface
      */
     private function checkIfUnSerializationIsSupported(ReflectionClass $reflectionClass, $serializedString) : void
     {
-        set_error_handler(function ($code, $message, $file, $line) use ($reflectionClass, & $error) : void {
-            $error = UnexpectedValueException::fromUncleanUnSerialization(
-                $reflectionClass,
-                $message,
-                $code,
-                $file,
-                $line
-            );
-        });
+        set_error_handler(
+            function ($code, $message, $file, $line) use ($reflectionClass, & $error) : void {
+                $error = UnexpectedValueException::fromUncleanUnSerialization(
+                    $reflectionClass,
+                    $message,
+                    $code,
+                    $file,
+                    $line
+                );
+            }
+        );
 
         $this->attemptInstantiationViaUnSerialization($reflectionClass, $serializedString);
 

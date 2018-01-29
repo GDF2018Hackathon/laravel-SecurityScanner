@@ -30,11 +30,13 @@ class Swift_Mailer_ArrayRecipientIteratorTest extends \PHPUnit\Framework\TestCas
 
     public function testIteratorMovesNextAfterEachIteration()
     {
-        $it = new Swift_Mailer_ArrayRecipientIterator(array(
+        $it = new Swift_Mailer_ArrayRecipientIterator(
+            array(
             'foo@bar' => 'Foo',
             'zip@button' => 'Zip thing',
             'test@test' => null,
-            ));
+            )
+        );
         $this->assertEquals(array('foo@bar' => 'Foo'), $it->nextRecipient());
         $this->assertEquals(array('zip@button' => 'Zip thing'), $it->nextRecipient());
         $this->assertEquals(array('test@test' => null), $it->nextRecipient());

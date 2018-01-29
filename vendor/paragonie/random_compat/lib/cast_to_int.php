@@ -40,7 +40,7 @@ if (!is_callable('RandomCompat_intval')) {
      * @param int|float $number    The number we want to convert to an int
      * @param bool      $fail_open Set to true to not throw an exception
      * 
-     * @return float|int
+     * @return         float|int
      * @psalm-suppress InvalidReturnType
      *
      * @throws TypeError
@@ -53,12 +53,9 @@ if (!is_callable('RandomCompat_intval')) {
             $number += 0;
         }
 
-        if (
-            is_float($number)
-            &&
-            $number > ~PHP_INT_MAX
-            &&
-            $number < PHP_INT_MAX
+        if (is_float($number)
+            && $number > ~PHP_INT_MAX
+            && $number < PHP_INT_MAX
         ) {
             $number = (int) $number;
         }

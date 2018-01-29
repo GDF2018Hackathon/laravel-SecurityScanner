@@ -50,7 +50,7 @@ class RouteListCommand extends Command
     /**
      * Create a new route command instance.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     public function __construct(Router $router)
@@ -82,9 +82,11 @@ class RouteListCommand extends Command
      */
     protected function getRoutes()
     {
-        $routes = collect($this->routes)->map(function ($route) {
-            return $this->getRouteInformation($route);
-        })->all();
+        $routes = collect($this->routes)->map(
+            function ($route) {
+                return $this->getRouteInformation($route);
+            }
+        )->all();
 
         if ($sort = $this->option('sort')) {
             $routes = $this->sortRoutes($sort, $routes);
@@ -100,39 +102,43 @@ class RouteListCommand extends Command
     /**
      * Get the route information for a given route.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  \Illuminate\Routing\Route $route
      * @return array
      */
     protected function getRouteInformation(Route $route)
     {
-        return $this->filterRoute([
+        return $this->filterRoute(
+            [
             'host'   => $route->domain(),
             'method' => implode('|', $route->methods()),
             'uri'    => $route->uri(),
             'name'   => $route->getName(),
             'action' => $route->getActionName(),
             'middleware' => $this->getMiddleware($route),
-        ]);
+            ]
+        );
     }
 
     /**
      * Sort the routes by a given element.
      *
-     * @param  string  $sort
+     * @param  string $sort
      * @param  array  $routes
      * @return array
      */
     protected function sortRoutes($sort, $routes)
     {
-        return Arr::sort($routes, function ($route) use ($sort) {
-            return $route[$sort];
-        });
+        return Arr::sort(
+            $routes, function ($route) use ($sort) {
+                return $route[$sort];
+            }
+        );
     }
 
     /**
      * Display the route information on the console.
      *
-     * @param  array  $routes
+     * @param  array $routes
      * @return void
      */
     protected function displayRoutes(array $routes)
@@ -143,27 +149,30 @@ class RouteListCommand extends Command
     /**
      * Get before filters.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  \Illuminate\Routing\Route $route
      * @return string
      */
     protected function getMiddleware($route)
     {
-        return collect($route->gatherMiddleware())->map(function ($middleware) {
-            return $middleware instanceof Closure ? 'Closure' : $middleware;
-        })->implode(',');
+        return collect($route->gatherMiddleware())->map(
+            function ($middleware) {
+                return $middleware instanceof Closure ? 'Closure' : $middleware;
+            }
+        )->implode(',');
     }
 
     /**
      * Filter the route by URI and / or name.
      *
-     * @param  array  $route
+     * @param  array $route
      * @return array|null
      */
     protected function filterRoute(array $route)
     {
-        if (($this->option('name') && ! Str::contains($route['name'], $this->option('name'))) ||
-             $this->option('path') && ! Str::contains($route['uri'], $this->option('path')) ||
-             $this->option('method') && ! Str::contains($route['method'], $this->option('method'))) {
+        if (($this->option('name') && ! Str::contains($route['name'], $this->option('name'))) 
+            || $this->option('path') && ! Str::contains($route['uri'], $this->option('path')) 
+            || $this->option('method') && ! Str::contains($route['method'], $this->option('method'))
+        ) {
             return;
         }
 

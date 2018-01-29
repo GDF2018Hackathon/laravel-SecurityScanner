@@ -94,7 +94,8 @@ class DateCaster
             foreach (clone $p as $i => $d) {
                 if (3 === $i) {
                     $now = new \DateTimeImmutable();
-                    $dates[] = sprintf('%s more', ($end = $p->getEndDate())
+                    $dates[] = sprintf(
+                        '%s more', ($end = $p->getEndDate())
                         ? ceil(($end->format('U.u') - $d->format('U.u')) / ($now->add($p->getDateInterval())->format('U.u') - $now->format('U.u')))
                         : $p->recurrences - $i
                     );

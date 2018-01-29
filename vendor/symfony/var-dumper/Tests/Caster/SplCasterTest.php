@@ -64,7 +64,9 @@ EOTXT
         );
     }
 
-    /** @dataProvider getCastFileInfoTests */
+    /**
+     * @dataProvider getCastFileInfoTests 
+     */
     public function testCastFileInfo($file, $dump)
     {
         $this->assertDumpMatchesFormat($dump, new \SplFileInfo($file));

@@ -158,9 +158,11 @@ class Swift_Mime_Headers_ParameterizedHeader extends Swift_Mime_Headers_Unstruct
             if (null !== $value) {
                 // Add the semi-colon separator
                 $tokens[count($tokens) - 1] .= ';';
-                $tokens = array_merge($tokens, $this->generateTokenLines(
-                    ' '.$this->createParameter($name, $value)
-                    ));
+                $tokens = array_merge(
+                    $tokens, $this->generateTokenLines(
+                        ' '.$this->createParameter($name, $value)
+                    )
+                );
             }
         }
 
@@ -194,7 +196,7 @@ class Swift_Mime_Headers_ParameterizedHeader extends Swift_Mime_Headers_Unstruct
                 $maxValueLength = $this->getMaxLineLength() - strlen($name.'*N*="";') - 1;
                 $firstLineOffset = strlen(
                     $this->getCharset()."'".$this->getLanguage()."'"
-                    );
+                );
             }
         }
 
@@ -203,7 +205,7 @@ class Swift_Mime_Headers_ParameterizedHeader extends Swift_Mime_Headers_Unstruct
             if (isset($this->paramEncoder)) {
                 $value = $this->paramEncoder->encodeString(
                     $origValue, $firstLineOffset, $maxValueLength, $this->getCharset()
-                    );
+                );
             } else {
                 // We have to go against RFC 2183/2231 in some areas for interoperability
                 $value = $this->getTokenAsEncodedWord($origValue);
@@ -225,7 +227,7 @@ class Swift_Mime_Headers_ParameterizedHeader extends Swift_Mime_Headers_Unstruct
         } else {
             return $name.$this->getEndOfParameterValue(
                 $valueLines[0], $encoded, true
-                );
+            );
         }
     }
 

@@ -73,19 +73,23 @@ class TransportManager extends Manager
      */
     protected function createSesDriver()
     {
-        $config = array_merge($this->app['config']->get('services.ses', []), [
+        $config = array_merge(
+            $this->app['config']->get('services.ses', []), [
             'version' => 'latest', 'service' => 'email',
-        ]);
+            ]
+        );
 
-        return new SesTransport(new SesClient(
-            $this->addSesCredentials($config)
-        ));
+        return new SesTransport(
+            new SesClient(
+                $this->addSesCredentials($config)
+            )
+        );
     }
 
     /**
      * Add the SES credentials to the configuration array.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return array
      */
     protected function addSesCredentials(array $config)
@@ -173,14 +177,16 @@ class TransportManager extends Manager
     /**
      * Get a fresh Guzzle HTTP client instance.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return \GuzzleHttp\Client
      */
     protected function guzzle($config)
     {
-        return new HttpClient(Arr::add(
-            $config['guzzle'] ?? [], 'connect_timeout', 60
-        ));
+        return new HttpClient(
+            Arr::add(
+                $config['guzzle'] ?? [], 'connect_timeout', 60
+            )
+        );
     }
 
     /**
@@ -196,7 +202,7 @@ class TransportManager extends Manager
     /**
      * Set the default mail driver name.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return void
      */
     public function setDefaultDriver($name)

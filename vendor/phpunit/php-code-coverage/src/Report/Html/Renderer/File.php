@@ -328,44 +328,44 @@ class File extends Renderer
                         }
 
                         switch ($testData[$test]['status']) {
-                            case 0:
-                                switch ($testData[$test]['size']) {
-                                    case 'small':
-                                        $testCSS = ' class="covered-by-small-tests"';
-
-                                        break;
-
-                                    case 'medium':
-                                        $testCSS = ' class="covered-by-medium-tests"';
-
-                                        break;
-
-                                    default:
-                                        $testCSS = ' class="covered-by-large-tests"';
-
-                                        break;
-                                }
+                        case 0:
+                            switch ($testData[$test]['size']) {
+                            case 'small':
+                                $testCSS = ' class="covered-by-small-tests"';
 
                                 break;
 
-                            case 1:
-                            case 2:
-                                $testCSS = ' class="warning"';
-
-                                break;
-
-                            case 3:
-                                $testCSS = ' class="danger"';
-
-                                break;
-
-                            case 4:
-                                $testCSS = ' class="danger"';
+                            case 'medium':
+                                $testCSS = ' class="covered-by-medium-tests"';
 
                                 break;
 
                             default:
-                                $testCSS = '';
+                                $testCSS = ' class="covered-by-large-tests"';
+
+                                break;
+                            }
+
+                            break;
+
+                        case 1:
+                        case 2:
+                            $testCSS = ' class="warning"';
+
+                            break;
+
+                        case 3:
+                            $testCSS = ' class="danger"';
+
+                            break;
+
+                        case 4:
+                            $testCSS = ' class="danger"';
+
+                            break;
+
+                        default:
+                            $testCSS = '';
                         }
 
                         $popoverContent .= \sprintf(
@@ -462,79 +462,79 @@ class File extends Renderer
                             $colour = 'string';
                         } else {
                             switch ($token) {
-                                case T_INLINE_HTML:
-                                    $colour = 'html';
+                            case T_INLINE_HTML:
+                                $colour = 'html';
 
-                                    break;
+                                break;
 
-                                case T_COMMENT:
-                                case T_DOC_COMMENT:
-                                    $colour = 'comment';
+                            case T_COMMENT:
+                            case T_DOC_COMMENT:
+                                $colour = 'comment';
 
-                                    break;
+                                break;
 
-                                case T_ABSTRACT:
-                                case T_ARRAY:
-                                case T_AS:
-                                case T_BREAK:
-                                case T_CALLABLE:
-                                case T_CASE:
-                                case T_CATCH:
-                                case T_CLASS:
-                                case T_CLONE:
-                                case T_CONTINUE:
-                                case T_DEFAULT:
-                                case T_ECHO:
-                                case T_ELSE:
-                                case T_ELSEIF:
-                                case T_EMPTY:
-                                case T_ENDDECLARE:
-                                case T_ENDFOR:
-                                case T_ENDFOREACH:
-                                case T_ENDIF:
-                                case T_ENDSWITCH:
-                                case T_ENDWHILE:
-                                case T_EXIT:
-                                case T_EXTENDS:
-                                case T_FINAL:
-                                case T_FINALLY:
-                                case T_FOREACH:
-                                case T_FUNCTION:
-                                case T_GLOBAL:
-                                case T_IF:
-                                case T_IMPLEMENTS:
-                                case T_INCLUDE:
-                                case T_INCLUDE_ONCE:
-                                case T_INSTANCEOF:
-                                case T_INSTEADOF:
-                                case T_INTERFACE:
-                                case T_ISSET:
-                                case T_LOGICAL_AND:
-                                case T_LOGICAL_OR:
-                                case T_LOGICAL_XOR:
-                                case T_NAMESPACE:
-                                case T_NEW:
-                                case T_PRIVATE:
-                                case T_PROTECTED:
-                                case T_PUBLIC:
-                                case T_REQUIRE:
-                                case T_REQUIRE_ONCE:
-                                case T_RETURN:
-                                case T_STATIC:
-                                case T_THROW:
-                                case T_TRAIT:
-                                case T_TRY:
-                                case T_UNSET:
-                                case T_USE:
-                                case T_VAR:
-                                case T_WHILE:
-                                case T_YIELD:
-                                    $colour = 'keyword';
+                            case T_ABSTRACT:
+                            case T_ARRAY:
+                            case T_AS:
+                            case T_BREAK:
+                            case T_CALLABLE:
+                            case T_CASE:
+                            case T_CATCH:
+                            case T_CLASS:
+                            case T_CLONE:
+                            case T_CONTINUE:
+                            case T_DEFAULT:
+                            case T_ECHO:
+                            case T_ELSE:
+                            case T_ELSEIF:
+                            case T_EMPTY:
+                            case T_ENDDECLARE:
+                            case T_ENDFOR:
+                            case T_ENDFOREACH:
+                            case T_ENDIF:
+                            case T_ENDSWITCH:
+                            case T_ENDWHILE:
+                            case T_EXIT:
+                            case T_EXTENDS:
+                            case T_FINAL:
+                            case T_FINALLY:
+                            case T_FOREACH:
+                            case T_FUNCTION:
+                            case T_GLOBAL:
+                            case T_IF:
+                            case T_IMPLEMENTS:
+                            case T_INCLUDE:
+                            case T_INCLUDE_ONCE:
+                            case T_INSTANCEOF:
+                            case T_INSTEADOF:
+                            case T_INTERFACE:
+                            case T_ISSET:
+                            case T_LOGICAL_AND:
+                            case T_LOGICAL_OR:
+                            case T_LOGICAL_XOR:
+                            case T_NAMESPACE:
+                            case T_NEW:
+                            case T_PRIVATE:
+                            case T_PROTECTED:
+                            case T_PUBLIC:
+                            case T_REQUIRE:
+                            case T_REQUIRE_ONCE:
+                            case T_RETURN:
+                            case T_STATIC:
+                            case T_THROW:
+                            case T_TRAIT:
+                            case T_TRY:
+                            case T_UNSET:
+                            case T_USE:
+                            case T_VAR:
+                            case T_WHILE:
+                            case T_YIELD:
+                                $colour = 'keyword';
 
-                                    break;
+                                break;
 
-                                default:
-                                    $colour = 'default';
+                            default:
+                                $colour = 'default';
                             }
                         }
 

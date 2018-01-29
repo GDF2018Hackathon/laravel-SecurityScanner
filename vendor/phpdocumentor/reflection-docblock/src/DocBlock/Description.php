@@ -50,17 +50,21 @@ use Webmozart\Assert\Assert;
  */
 class Description
 {
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $bodyTemplate;
 
-    /** @var Tag[] */
+    /**
+     * @var Tag[] 
+     */
     private $tags;
 
     /**
      * Initializes a Description with its body (template) and a listing of the tags used in the body template.
      *
      * @param string $bodyTemplate
-     * @param Tag[] $tags
+     * @param Tag[]  $tags
      */
     public function __construct($bodyTemplate, array $tags = [])
     {

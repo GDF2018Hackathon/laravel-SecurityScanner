@@ -13,28 +13,44 @@ use Psr\Http\Message\StreamInterface;
  */
 final class EasyHandle
 {
-    /** @var resource cURL resource */
+    /**
+     * @var resource cURL resource 
+     */
     public $handle;
 
-    /** @var StreamInterface Where data is being written */
+    /**
+     * @var StreamInterface Where data is being written 
+     */
     public $sink;
 
-    /** @var array Received HTTP headers so far */
+    /**
+     * @var array Received HTTP headers so far 
+     */
     public $headers = [];
 
-    /** @var ResponseInterface Received response (if any) */
+    /**
+     * @var ResponseInterface Received response (if any) 
+     */
     public $response;
 
-    /** @var RequestInterface Request being sent */
+    /**
+     * @var RequestInterface Request being sent 
+     */
     public $request;
 
-    /** @var array Request options */
+    /**
+     * @var array Request options 
+     */
     public $options = [];
 
-    /** @var int cURL error number (if any) */
+    /**
+     * @var int cURL error number (if any) 
+     */
     public $errno = 0;
 
-    /** @var \Exception Exception during on_headers (if any) */
+    /**
+     * @var \Exception Exception during on_headers (if any) 
+     */
     public $onHeadersException;
 
     /**

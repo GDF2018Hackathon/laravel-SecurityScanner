@@ -74,9 +74,9 @@ class ClassAttributesMatcher extends AbstractMatcher
         $prevToken = array_pop($tokens);
 
         switch (true) {
-            case self::tokenIs($prevToken, self::T_DOUBLE_COLON) && self::tokenIs($token, self::T_STRING):
-            case self::tokenIs($token, self::T_DOUBLE_COLON):
-                return true;
+        case self::tokenIs($prevToken, self::T_DOUBLE_COLON) && self::tokenIs($token, self::T_STRING):
+        case self::tokenIs($token, self::T_DOUBLE_COLON):
+            return true;
         }
 
         return false;

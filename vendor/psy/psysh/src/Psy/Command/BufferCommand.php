@@ -31,9 +31,11 @@ class BufferCommand extends Command
         $this
             ->setName('buffer')
             ->setAliases(array('buf'))
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('clear', '', InputOption::VALUE_NONE, 'Clear the current buffer.'),
-            ))
+                )
+            )
             ->setDescription('Show (or clear) the contents of the code input buffer.')
             ->setHelp(
                 <<<'HELP'
@@ -70,8 +72,10 @@ HELP
     {
         $template = sprintf('<%s>%%s</%s>', $type, $type);
 
-        return array_map(function ($line) use ($template) {
-            return sprintf($template, $line);
-        }, $lines);
+        return array_map(
+            function ($line) use ($template) {
+                return sprintf($template, $line);
+            }, $lines
+        );
     }
 }

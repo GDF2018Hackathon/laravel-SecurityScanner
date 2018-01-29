@@ -41,8 +41,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->defaultClaim = $this->getMock(Claim::class);
 
         $this->claimFactory->expects($this->any())
-                           ->method('create')
-                           ->willReturn($this->defaultClaim);
+            ->method('create')
+            ->willReturn($this->defaultClaim);
     }
 
     /**
@@ -545,8 +545,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
+            ->method('sign')
+            ->willReturn($signature);
 
         $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
@@ -569,8 +569,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
+            ->method('sign')
+            ->willReturn($signature);
 
         $builder = $this->createBuilder();
 
@@ -623,8 +623,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
+            ->method('sign')
+            ->willReturn($signature);
 
         $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
@@ -649,8 +649,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $signer->expects($this->any())
-               ->method('sign')
-               ->willReturn($signature);
+            ->method('sign')
+            ->willReturn($signature);
 
         $builder = $this->createBuilder();
         $builder->sign($signer, 'test');
@@ -671,14 +671,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $signature = $this->getMock(Signature::class, [], [], '', false);
 
         $this->encoder->expects($this->exactly(2))
-                      ->method('jsonEncode')
-                      ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => $this->defaultClaim]])
-                      ->willReturnOnConsecutiveCalls('1', '2');
+            ->method('jsonEncode')
+            ->withConsecutive([['typ'=> 'JWT', 'alg' => 'none']], [['test' => $this->defaultClaim]])
+            ->willReturnOnConsecutiveCalls('1', '2');
 
         $this->encoder->expects($this->exactly(3))
-                      ->method('base64UrlEncode')
-                      ->withConsecutive(['1'], ['2'], [$signature])
-                      ->willReturnOnConsecutiveCalls('1', '2', '3');
+            ->method('base64UrlEncode')
+            ->withConsecutive(['1'], ['2'], [$signature])
+            ->willReturnOnConsecutiveCalls('1', '2', '3');
 
         $builder = $this->createBuilder()->set('test', 123);
 

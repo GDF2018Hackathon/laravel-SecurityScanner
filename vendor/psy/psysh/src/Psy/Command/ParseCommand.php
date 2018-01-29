@@ -51,7 +51,8 @@ class ParseCommand extends Command implements PresenterAware
     public function setPresenter(Presenter $presenter)
     {
         $this->presenter = clone $presenter;
-        $this->presenter->addCasters(array(
+        $this->presenter->addCasters(
+            array(
             'PhpParser\Node' => function (Node $node, array $a) {
                 $a = array(
                     Caster::PREFIX_VIRTUAL . 'type'       => $node->getType(),
@@ -64,7 +65,8 @@ class ParseCommand extends Command implements PresenterAware
 
                 return $a;
             },
-        ));
+            )
+        );
     }
 
     /**

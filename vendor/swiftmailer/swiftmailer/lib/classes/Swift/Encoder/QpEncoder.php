@@ -13,7 +13,7 @@
  *
  * Possibly the most accurate RFC 2045 QP implementation found in PHP.
  *
- * @author     Chris Corbyn
+ * @author Chris Corbyn
  */
 class Swift_Encoder_QpEncoder implements Swift_Encoder
 {
@@ -141,7 +141,8 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
     protected function initSafeMap()
     {
         foreach (array_merge(
-            array(0x09, 0x20), range(0x21, 0x3C), range(0x3E, 0x7E)) as $byte) {
+            array(0x09, 0x20), range(0x21, 0x3C), range(0x3E, 0x7E)
+        ) as $byte) {
             $this->safeMap[$byte] = chr($byte);
         }
     }
@@ -278,13 +279,14 @@ class Swift_Encoder_QpEncoder implements Swift_Encoder
      */
     protected function standardize($string)
     {
-        $string = str_replace(array("\t=0D=0A", ' =0D=0A', '=0D=0A'),
+        $string = str_replace(
+            array("\t=0D=0A", ' =0D=0A', '=0D=0A'),
             array("=09\r\n", "=20\r\n", "\r\n"), $string
-            );
+        );
         switch ($end = ord(substr($string, -1))) {
-            case 0x09:
-            case 0x20:
-                $string = substr_replace($string, self::$qpMap[$end], -1);
+        case 0x09:
+        case 0x20:
+            $string = substr_replace($string, self::$qpMap[$end], -1);
         }
 
         return $string;

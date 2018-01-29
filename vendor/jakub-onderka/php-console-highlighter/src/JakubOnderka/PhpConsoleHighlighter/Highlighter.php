@@ -14,10 +14,14 @@ class Highlighter
     const ACTUAL_LINE_MARK = 'actual_line_mark',
         LINE_NUMBER = 'line_number';
 
-    /** @var ConsoleColor */
+    /**
+     * @var ConsoleColor 
+     */
     private $color;
 
-    /** @var array */
+    /**
+     * @var array 
+     */
     private $defaultTheme = array(
         self::TOKEN_STRING => 'red',
         self::TOKEN_COMMENT => 'yellow',
@@ -45,9 +49,9 @@ class Highlighter
 
     /**
      * @param string $source
-     * @param int $lineNumber
-     * @param int $linesBefore
-     * @param int $linesAfter
+     * @param int    $lineNumber
+     * @param int    $linesBefore
+     * @param int    $linesAfter
      * @return string
      * @throws \JakubOnderka\PhpConsoleColor\InvalidStyleException
      * @throws \InvalidArgumentException
@@ -118,50 +122,50 @@ class Highlighter
         foreach ($tokens as $token) {
             if (is_array($token)) {
                 switch ($token[0]) {
-                    case T_INLINE_HTML:
-                        $newType = self::TOKEN_HTML;
-                        break;
+                case T_INLINE_HTML:
+                    $newType = self::TOKEN_HTML;
+                    break;
 
-                    case T_COMMENT:
-                    case T_DOC_COMMENT:
-                        $newType = self::TOKEN_COMMENT;
-                        break;
+                case T_COMMENT:
+                case T_DOC_COMMENT:
+                    $newType = self::TOKEN_COMMENT;
+                    break;
 
-                    case T_ENCAPSED_AND_WHITESPACE:
-                    case T_CONSTANT_ENCAPSED_STRING:
-                        $newType = self::TOKEN_STRING;
-                        break;
+                case T_ENCAPSED_AND_WHITESPACE:
+                case T_CONSTANT_ENCAPSED_STRING:
+                    $newType = self::TOKEN_STRING;
+                    break;
 
-                    case T_WHITESPACE:
-                        break;
+                case T_WHITESPACE:
+                    break;
 
-                    case T_OPEN_TAG:
-                    case T_OPEN_TAG_WITH_ECHO:
-                    case T_CLOSE_TAG:
-                    case T_STRING:
-                    case T_VARIABLE:
+                case T_OPEN_TAG:
+                case T_OPEN_TAG_WITH_ECHO:
+                case T_CLOSE_TAG:
+                case T_STRING:
+                case T_VARIABLE:
 
                     // Constants
-                    case T_DIR:
-                    case T_FILE:
-                    case T_METHOD_C:
-                    case T_DNUMBER:
-                    case T_LNUMBER:
-                    case T_NS_C:
-                    case T_LINE:
-                    case T_CLASS_C:
-                    case T_FUNC_C:
+                case T_DIR:
+                case T_FILE:
+                case T_METHOD_C:
+                case T_DNUMBER:
+                case T_LNUMBER:
+                case T_NS_C:
+                case T_LINE:
+                case T_CLASS_C:
+                case T_FUNC_C:
                     //case T_TRAIT_C:
-                        $newType = self::TOKEN_DEFAULT;
-                        break;
+                    $newType = self::TOKEN_DEFAULT;
+                    break;
 
-                    default:
-                        // Compatibility with PHP 5.3
-                        if (defined('T_TRAIT_C') && $token[0] === T_TRAIT_C) {
-                            $newType = self::TOKEN_DEFAULT;
-                        } else {
-                            $newType = self::TOKEN_KEYWORD;
-                        }
+                default:
+                    // Compatibility with PHP 5.3
+                    if (defined('T_TRAIT_C') && $token[0] === T_TRAIT_C) {
+                        $newType = self::TOKEN_DEFAULT;
+                    } else {
+                        $newType = self::TOKEN_KEYWORD;
+                    }
                 }
             } else {
                 $newType = $token === '"' ? self::TOKEN_STRING : self::TOKEN_KEYWORD;
@@ -242,7 +246,7 @@ class Highlighter
     }
 
     /**
-     * @param array $lines
+     * @param array    $lines
      * @param null|int $markLine
      * @return string
      * @throws \JakubOnderka\PhpConsoleColor\InvalidStyleException

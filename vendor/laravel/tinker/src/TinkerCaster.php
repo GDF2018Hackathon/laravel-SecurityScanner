@@ -33,7 +33,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of an application.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Foundation\Application $app
      * @return array
      */
     public static function castApplication($app)
@@ -58,7 +58,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of a collection.
      *
-     * @param  \Illuminate\Support\Collection  $collection
+     * @param  \Illuminate\Support\Collection $collection
      * @return array
      */
     public static function castCollection($collection)
@@ -71,7 +71,7 @@ class TinkerCaster
     /**
      * Get an array representing the properties of a model.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  \Illuminate\Database\Eloquent\Model $model
      * @return array
      */
     public static function castModel($model)

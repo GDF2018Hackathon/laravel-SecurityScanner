@@ -20,17 +20,19 @@ final class LogicalAndTest extends TestCase
         $other = 'Foo';
         $count = 5;
 
-        $constraints = \array_map(function () use ($other) {
-            $constraint = $this->getMockBuilder(Constraint::class)->getMock();
+        $constraints = \array_map(
+            function () use ($other) {
+                $constraint = $this->getMockBuilder(Constraint::class)->getMock();
 
-            $constraint
-                ->expects($this->once())
-                ->method('evaluate')
-                ->with($this->identicalTo($other))
-                ->willReturn(true);
+                $constraint
+                    ->expects($this->once())
+                    ->method('evaluate')
+                    ->with($this->identicalTo($other))
+                    ->willReturn(true);
 
-            return $constraint;
-        }, \array_fill(0, $count, null));
+                return $constraint;
+            }, \array_fill(0, $count, null)
+        );
 
         $constraint = LogicalAnd::fromConstraints(...$constraints);
 

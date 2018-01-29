@@ -40,7 +40,7 @@ class Random
      * microoptimizations because this function has the potential of being called a huge number of times.
      * eg. for RSA key generation.
      *
-     * @param int $length
+     * @param  int $length
      * @return string
      */
     static function string($length)
@@ -139,15 +139,17 @@ class Random
             session_cache_limiter('');
             session_start();
 
-            $v = $seed = $_SESSION['seed'] = pack('H*', sha1(
-                (isset($_SERVER) ? phpseclib_safe_serialize($_SERVER) : '') .
-                (isset($_POST) ? phpseclib_safe_serialize($_POST) : '') .
-                (isset($_GET) ? phpseclib_safe_serialize($_GET) : '') .
-                (isset($_COOKIE) ? phpseclib_safe_serialize($_COOKIE) : '') .
-                phpseclib_safe_serialize($GLOBALS) .
-                phpseclib_safe_serialize($_SESSION) .
-                phpseclib_safe_serialize($_OLD_SESSION)
-            ));
+            $v = $seed = $_SESSION['seed'] = pack(
+                'H*', sha1(
+                    (isset($_SERVER) ? phpseclib_safe_serialize($_SERVER) : '') .
+                    (isset($_POST) ? phpseclib_safe_serialize($_POST) : '') .
+                    (isset($_GET) ? phpseclib_safe_serialize($_GET) : '') .
+                    (isset($_COOKIE) ? phpseclib_safe_serialize($_COOKIE) : '') .
+                    phpseclib_safe_serialize($GLOBALS) .
+                    phpseclib_safe_serialize($_SESSION) .
+                    phpseclib_safe_serialize($_OLD_SESSION)
+                )
+            );
             if (!isset($_SESSION['count'])) {
                 $_SESSION['count'] = 0;
             }
@@ -185,27 +187,27 @@ class Random
             //
             // http://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator#Designs_based_on_cryptographic_primitives
             switch (true) {
-                case class_exists('\phpseclib\Crypt\AES'):
-                    $crypto = new AES(Base::MODE_CTR);
-                    break;
-                case class_exists('\phpseclib\Crypt\Twofish'):
-                    $crypto = new Twofish(Base::MODE_CTR);
-                    break;
-                case class_exists('\phpseclib\Crypt\Blowfish'):
-                    $crypto = new Blowfish(Base::MODE_CTR);
-                    break;
-                case class_exists('\phpseclib\Crypt\TripleDES'):
-                    $crypto = new TripleDES(Base::MODE_CTR);
-                    break;
-                case class_exists('\phpseclib\Crypt\DES'):
-                    $crypto = new DES(Base::MODE_CTR);
-                    break;
-                case class_exists('\phpseclib\Crypt\RC4'):
-                    $crypto = new RC4();
-                    break;
-                default:
-                    user_error(__CLASS__ . ' requires at least one symmetric cipher be loaded');
-                    return false;
+            case class_exists('\phpseclib\Crypt\AES'):
+                $crypto = new AES(Base::MODE_CTR);
+                break;
+            case class_exists('\phpseclib\Crypt\Twofish'):
+                $crypto = new Twofish(Base::MODE_CTR);
+                break;
+            case class_exists('\phpseclib\Crypt\Blowfish'):
+                $crypto = new Blowfish(Base::MODE_CTR);
+                break;
+            case class_exists('\phpseclib\Crypt\TripleDES'):
+                $crypto = new TripleDES(Base::MODE_CTR);
+                break;
+            case class_exists('\phpseclib\Crypt\DES'):
+                $crypto = new DES(Base::MODE_CTR);
+                break;
+            case class_exists('\phpseclib\Crypt\RC4'):
+                $crypto = new RC4();
+                break;
+            default:
+                user_error(__CLASS__ . ' requires at least one symmetric cipher be loaded');
+                return false;
             }
 
             $crypto->setKey($key);
@@ -241,7 +243,7 @@ if (!function_exists('phpseclib_safe_serialize')) {
      * If a class has a private __sleep() method it'll give a fatal error on PHP 5.2 and earlier.
      * PHP 5.3 will emit a warning.
      *
-     * @param mixed $arr
+     * @param  mixed $arr
      * @access public
      */
     function phpseclib_safe_serialize(&$arr)

@@ -18,8 +18,10 @@ use Psr\Http\Message\UriInterface;
 function str(MessageInterface $message)
 {
     if ($message instanceof RequestInterface) {
-        $msg = trim($message->getMethod() . ' '
-                . $message->getRequestTarget())
+        $msg = trim(
+            $message->getMethod() . ' '
+            . $message->getRequestTarget()
+        )
             . ' HTTP/' . $message->getProtocolVersion();
         if (!$message->hasHeader('host')) {
             $msg .= "\r\nHost: " . $message->getUri()->getHost();
@@ -87,26 +89,28 @@ function stream_for($resource = '', array $options = [])
     }
 
     switch (gettype($resource)) {
-        case 'resource':
-            return new Stream($resource, $options);
-        case 'object':
-            if ($resource instanceof StreamInterface) {
-                return $resource;
-            } elseif ($resource instanceof \Iterator) {
-                return new PumpStream(function () use ($resource) {
+    case 'resource':
+        return new Stream($resource, $options);
+    case 'object':
+        if ($resource instanceof StreamInterface) {
+            return $resource;
+        } elseif ($resource instanceof \Iterator) {
+            return new PumpStream(
+                function () use ($resource) {
                     if (!$resource->valid()) {
                         return false;
                     }
-                    $result = $resource->current();
-                    $resource->next();
-                    return $result;
-                }, $options);
-            } elseif (method_exists($resource, '__toString')) {
-                return stream_for((string) $resource, $options);
-            }
-            break;
-        case 'NULL':
-            return new Stream(fopen('php://temp', 'r+'), $options);
+                        $result = $resource->current();
+                        $resource->next();
+                        return $result;
+                }, $options
+            );
+        } elseif (method_exists($resource, '__toString')) {
+            return stream_for((string) $resource, $options);
+        }
+        break;
+    case 'NULL':
+        return new Stream(fopen('php://temp', 'r+'), $options);
     }
 
     if (is_callable($resource)) {
@@ -295,20 +299,26 @@ function rewind_body(MessageInterface $message)
 function try_fopen($filename, $mode)
 {
     $ex = null;
-    set_error_handler(function () use ($filename, $mode, &$ex) {
-        $ex = new \RuntimeException(sprintf(
-            'Unable to open %s using mode %s: %s',
-            $filename,
-            $mode,
-            func_get_args()[1]
-        ));
-    });
+    set_error_handler(
+        function () use ($filename, $mode, &$ex) {
+            $ex = new \RuntimeException(
+                sprintf(
+                    'Unable to open %s using mode %s: %s',
+                    $filename,
+                    $mode,
+                    func_get_args()[1]
+                )
+            );
+        }
+    );
 
     $handle = fopen($filename, $mode);
     restore_error_handler();
 
     if ($ex) {
-        /** @var $ex \RuntimeException */
+        /**
+ * @var $ex \RuntimeException 
+*/
         throw $ex;
     }
 
@@ -319,9 +329,9 @@ function try_fopen($filename, $mode)
  * Copy the contents of a stream into a string until the given number of
  * bytes have been read.
  *
- * @param StreamInterface $stream Stream to read
- * @param int             $maxLen Maximum number of bytes to read. Pass -1
- *                                to read the entire stream.
+ * @param  StreamInterface $stream Stream to read
+ * @param  int             $maxLen Maximum number of bytes to read. Pass -1
+ *                                 to read the entire stream.
  * @return string
  * @throws \RuntimeException on error.
  */
@@ -538,7 +548,9 @@ function parse_query($str, $urlEncoding = true)
     } elseif ($urlEncoding == PHP_QUERY_RFC1738) {
         $decoder = 'urldecode';
     } else {
-        $decoder = function ($str) { return $str; };
+        $decoder = function ($str) {
+            return $str; 
+        };
     }
 
     foreach (explode('&', $str) as $kvp) {
@@ -565,10 +577,10 @@ function parse_query($str, $urlEncoding = true)
  * string. This function does not modify the provided keys when an array is
  * encountered (like http_build_query would).
  *
- * @param array     $params   Query string parameters.
- * @param int|false $encoding Set to false to not encode, PHP_QUERY_RFC3986
- *                            to encode using RFC3986, or PHP_QUERY_RFC1738
- *                            to encode using RFC1738.
+ * @param  array     $params   Query string parameters.
+ * @param  int|false $encoding Set to false to not encode, PHP_QUERY_RFC3986
+ *                             to encode using RFC3986, or PHP_QUERY_RFC1738
+ *                             to encode using RFC1738.
  * @return string
  */
 function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
@@ -578,7 +590,9 @@ function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
     }
 
     if ($encoding === false) {
-        $encoder = function ($str) { return $str; };
+        $encoder = function ($str) {
+            return $str; 
+        };
     } elseif ($encoding === PHP_QUERY_RFC3986) {
         $encoder = 'rawurlencode';
     } elseif ($encoding === PHP_QUERY_RFC1738) {
@@ -628,7 +642,7 @@ function mimetype_from_filename($filename)
  * @param $extension string The file extension.
  *
  * @return string|null
- * @link http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types
+ * @link   http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types
  */
 function mimetype_from_extension($extension)
 {
@@ -749,7 +763,7 @@ function mimetype_from_extension($extension)
  *
  * @param string $message HTTP request or response to parse.
  *
- * @return array
+ * @return   array
  * @internal
  */
 function _parse_message($message)
@@ -789,14 +803,16 @@ function _parse_message($message)
  * @param string $path    Path from the start-line
  * @param array  $headers Array of headers (each value an array).
  *
- * @return string
+ * @return   string
  * @internal
  */
 function _parse_request_uri($path, array $headers)
 {
-    $hostKey = array_filter(array_keys($headers), function ($k) {
-        return strtolower($k) === 'host';
-    });
+    $hostKey = array_filter(
+        array_keys($headers), function ($k) {
+            return strtolower($k) === 'host';
+        }
+    );
 
     // If no host is found, then a full URI cannot be constructed.
     if (!$hostKey) {
@@ -809,7 +825,9 @@ function _parse_request_uri($path, array $headers)
     return $scheme . '://' . $host . '/' . ltrim($path, '/');
 }
 
-/** @internal */
+/**
+ * @internal 
+ */
 function _caseless_remove($keys, array $data)
 {
     $result = [];

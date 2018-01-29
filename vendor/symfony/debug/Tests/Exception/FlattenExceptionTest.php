@@ -178,7 +178,8 @@ class FlattenExceptionTest extends TestCase
         $flattened = FlattenException::create($exception);
         $flattened->setTrace(array(), 'foo.php', 123);
 
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             array(
                 'message' => 'test',
                 'class' => 'Exception',
@@ -187,7 +188,8 @@ class FlattenExceptionTest extends TestCase
                     'args' => array(),
                 )),
             ),
-        ), $flattened->toArray());
+            ), $flattened->toArray()
+        );
     }
 
     public function flattenDataProvider()
@@ -204,13 +206,15 @@ class FlattenExceptionTest extends TestCase
 
         $incomplete = unserialize('O:14:"BogusTestClass":0:{}');
 
-        $exception = $this->createException(array(
+        $exception = $this->createException(
+            array(
             (object) array('foo' => 1),
             new NotFoundHttpException(),
             $incomplete,
             $dh,
             $fh,
-            function () {},
+            function () {
+            },
             array(1, 2),
             array('foo' => 123),
             null,
@@ -222,7 +226,8 @@ class FlattenExceptionTest extends TestCase
             '',
             INF,
             NAN,
-        ));
+            )
+        );
 
         $flattened = FlattenException::create($exception);
         $trace = $flattened->getTrace();

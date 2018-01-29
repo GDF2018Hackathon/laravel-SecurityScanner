@@ -15,13 +15,19 @@
  */
 class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
 {
-    /** Signal to place pointer at start of file */
+    /**
+ * Signal to place pointer at start of file 
+*/
     const POSITION_START = 0;
 
-    /** Signal to place pointer at end of file */
+    /**
+ * Signal to place pointer at end of file 
+*/
     const POSITION_END = 1;
 
-    /** Signal to leave pointer in whatever position it currently is */
+    /**
+ * Signal to leave pointer in whatever position it currently is 
+*/
     const POSITION_CURRENT = 2;
 
     /**
@@ -74,17 +80,17 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
     {
         $this->prepareCache($nsKey);
         switch ($mode) {
-            case self::MODE_WRITE:
-                $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_START);
-                break;
-            case self::MODE_APPEND:
-                $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_END);
-                break;
-            default:
-                throw new Swift_SwiftException(
-                    'Invalid mode ['.$mode.'] used to set nsKey='.
+        case self::MODE_WRITE:
+            $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_START);
+            break;
+        case self::MODE_APPEND:
+            $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_END);
+            break;
+        default:
+            throw new Swift_SwiftException(
+                'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
-                    );
+            );
                 break;
         }
         fwrite($fp, $string);
@@ -107,17 +113,17 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
     {
         $this->prepareCache($nsKey);
         switch ($mode) {
-            case self::MODE_WRITE:
-                $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_START);
-                break;
-            case self::MODE_APPEND:
-                $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_END);
-                break;
-            default:
-                throw new Swift_SwiftException(
-                    'Invalid mode ['.$mode.'] used to set nsKey='.
+        case self::MODE_WRITE:
+            $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_START);
+            break;
+        case self::MODE_APPEND:
+            $fp = $this->getHandle($nsKey, $itemKey, self::POSITION_END);
+            break;
+        default:
+            throw new Swift_SwiftException(
+                'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
-                    );
+            );
                 break;
         }
         while (false !== $bytes = $os->read(8192)) {

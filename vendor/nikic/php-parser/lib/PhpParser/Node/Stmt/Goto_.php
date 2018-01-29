@@ -6,7 +6,9 @@ use PhpParser\Node\Stmt;
 
 class Goto_ extends Stmt
 {
-    /** @var string Name of label to jump to */
+    /**
+     * @var string Name of label to jump to 
+     */
     public $name;
 
     /**
@@ -15,12 +17,14 @@ class Goto_ extends Stmt
      * @param string $name       Name of label to jump to
      * @param array  $attributes Additional attributes
      */
-    public function __construct($name, array $attributes = array()) {
+    public function __construct($name, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->name = $name;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('name');
     }
 }

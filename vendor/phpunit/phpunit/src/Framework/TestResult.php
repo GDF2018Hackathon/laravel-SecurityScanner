@@ -671,25 +671,26 @@ class TestResult implements Countable
         PHP_Timer::start();
 
         try {
-            if (!$test instanceof WarningTestCase &&
-                $test->getSize() != \PHPUnit\Util\Test::UNKNOWN &&
-                $this->enforceTimeLimit &&
-                \extension_loaded('pcntl') && \class_exists('PHP_Invoker')) {
+            if (!$test instanceof WarningTestCase 
+                && $test->getSize() != \PHPUnit\Util\Test::UNKNOWN 
+                && $this->enforceTimeLimit 
+                && \extension_loaded('pcntl') && \class_exists('PHP_Invoker')
+            ) {
                 switch ($test->getSize()) {
-                    case \PHPUnit\Util\Test::SMALL:
-                        $_timeout = $this->timeoutForSmallTests;
+                case \PHPUnit\Util\Test::SMALL:
+                    $_timeout = $this->timeoutForSmallTests;
 
-                        break;
+                    break;
 
-                    case \PHPUnit\Util\Test::MEDIUM:
-                        $_timeout = $this->timeoutForMediumTests;
+                case \PHPUnit\Util\Test::MEDIUM:
+                    $_timeout = $this->timeoutForMediumTests;
 
-                        break;
+                    break;
 
-                    case \PHPUnit\Util\Test::LARGE:
-                        $_timeout = $this->timeoutForLargeTests;
+                case \PHPUnit\Util\Test::LARGE:
+                    $_timeout = $this->timeoutForLargeTests;
 
-                        break;
+                    break;
                 }
 
                 $invoker = new PHP_Invoker;
@@ -772,8 +773,9 @@ class TestResult implements Countable
             }
         }
 
-        if ($this->beStrictAboutTestsThatDoNotTestAnything &&
-            $test->getNumAssertions() == 0) {
+        if ($this->beStrictAboutTestsThatDoNotTestAnything 
+            && $test->getNumAssertions() == 0
+        ) {
             $risky = true;
         }
 
@@ -857,9 +859,10 @@ class TestResult implements Countable
             $this->addFailure($test, $e, $time);
         } elseif ($warning === true) {
             $this->addWarning($test, $e, $time);
-        } elseif ($this->beStrictAboutTestsThatDoNotTestAnything &&
-            !$test->doesNotPerformAssertions() &&
-            $test->getNumAssertions() == 0) {
+        } elseif ($this->beStrictAboutTestsThatDoNotTestAnything 
+            && !$test->doesNotPerformAssertions() 
+            && $test->getNumAssertions() == 0
+        ) {
             $this->addFailure(
                 $test,
                 new RiskyTestError(

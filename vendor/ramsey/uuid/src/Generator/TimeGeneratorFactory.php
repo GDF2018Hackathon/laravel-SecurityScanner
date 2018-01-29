@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Generator;
@@ -42,9 +42,9 @@ class TimeGeneratorFactory
      * Constructs a `TimeGeneratorFactory` using a node provider, time converter,
      * and time provider
      *
-     * @param NodeProviderInterface $nodeProvider
+     * @param NodeProviderInterface  $nodeProvider
      * @param TimeConverterInterface $timeConverter
-     * @param TimeProviderInterface $timeProvider
+     * @param TimeProviderInterface  $timeProvider
      */
     public function __construct(
         NodeProviderInterface $nodeProvider,

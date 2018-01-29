@@ -200,7 +200,7 @@ class ValidationDataTest extends \PHPUnit_Framework_TestCase
      * @param string $sub
      * @param string $iss
      * @param string $aud
-     * @param int $time
+     * @param int    $time
      *
      * @return array
      */

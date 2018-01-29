@@ -191,16 +191,20 @@ class LoggerTest extends TestCase
 
     public function testFormatter()
     {
-        $this->logger = new Logger(LogLevel::DEBUG, $this->tmpFile, function ($level, $message, $context) {
-            return json_encode(array('level' => $level, 'message' => $message, 'context' => $context)).\PHP_EOL;
-        });
+        $this->logger = new Logger(
+            LogLevel::DEBUG, $this->tmpFile, function ($level, $message, $context) {
+                return json_encode(array('level' => $level, 'message' => $message, 'context' => $context)).\PHP_EOL;
+            }
+        );
 
         $this->logger->error('An error', array('foo' => 'bar'));
         $this->logger->warning('A warning', array('baz' => 'bar'));
-        $this->assertSame(array(
+        $this->assertSame(
+            array(
             '{"level":"error","message":"An error","context":{"foo":"bar"}}',
             '{"level":"warning","message":"A warning","context":{"baz":"bar"}}',
-        ), $this->getLogs());
+            ), $this->getLogs()
+        );
     }
 }
 

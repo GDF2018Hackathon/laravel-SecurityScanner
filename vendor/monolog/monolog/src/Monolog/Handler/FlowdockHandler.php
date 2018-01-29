@@ -24,7 +24,7 @@ use Monolog\Formatter\FormatterInterface;
  * API token - Flowdock API token
  *
  * @author Dominik Liebler <liebler.dominik@gmail.com>
- * @see https://www.flowdock.com/api/push
+ * @see    https://www.flowdock.com/api/push
  */
 class FlowdockHandler extends SocketHandler
 {
@@ -87,7 +87,7 @@ class FlowdockHandler extends SocketHandler
     /**
      * {@inheritdoc}
      *
-     * @param  array  $record
+     * @param  array $record
      * @return string
      */
     protected function generateDataStream($record)
@@ -100,7 +100,7 @@ class FlowdockHandler extends SocketHandler
     /**
      * Builds the body of API call
      *
-     * @param  array  $record
+     * @param  array $record
      * @return string
      */
     private function buildContent($record)

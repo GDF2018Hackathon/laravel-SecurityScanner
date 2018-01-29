@@ -165,7 +165,8 @@ class ValidClassNamePass extends NamespaceAwarePass
     {
         // there is no need to check exists for ::class const for php 5.5 or newer
         if (strtolower($stmt->name) === 'class'
-            && version_compare(PHP_VERSION, '5.5', '>=')) {
+            && version_compare(PHP_VERSION, '5.5', '>=')
+        ) {
             return;
         }
 
@@ -287,12 +288,14 @@ class ValidClassNamePass extends NamespaceAwarePass
      * @throws FatalErrorException
      *
      * @param $interfaces
-     * @param Stmt $stmt
+     * @param Stmt       $stmt
      */
     protected function ensureInterfacesExist($interfaces, $stmt)
     {
         foreach ($interfaces as $interface) {
-            /** @var string $name */
+            /**
+ * @var string $name 
+*/
             $name = $this->getFullyQualifiedName($interface);
             if (!$this->interfaceExists($name)) {
                 throw $this->createError(sprintf('Interface \'%s\' not found', $name), $stmt);

@@ -31,10 +31,12 @@ class XmlTest extends TestCase
         } catch (Exception $e) {
         }
 
-        $this->assertNull($e, \sprintf(
-            'PHPUnit_Util_XML::prepareString("\x%02x") should not crash DomDocument',
-            \ord($char)
-        ));
+        $this->assertNull(
+            $e, \sprintf(
+                'PHPUnit_Util_XML::prepareString("\x%02x") should not crash DomDocument',
+                \ord($char)
+            )
+        );
     }
 
     public function charProvider()

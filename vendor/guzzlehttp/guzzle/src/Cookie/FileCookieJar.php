@@ -6,18 +6,22 @@ namespace GuzzleHttp\Cookie;
  */
 class FileCookieJar extends CookieJar
 {
-    /** @var string filename */
+    /**
+     * @var string filename 
+     */
     private $filename;
 
-    /** @var bool Control whether to persist session cookies or not. */
+    /**
+     * @var bool Control whether to persist session cookies or not. 
+     */
     private $storeSessionCookies;
 
     /**
      * Create a new FileCookieJar object
      *
-     * @param string $cookieFile        File to store the cookie data
-     * @param bool $storeSessionCookies Set to true to store session cookies
-     *                                  in the cookie jar.
+     * @param string $cookieFile          File to store the cookie data
+     * @param bool   $storeSessionCookies Set to true to store session cookies
+     *                                    in the cookie jar.
      *
      * @throws \RuntimeException if the file cannot be found or created
      */
@@ -42,14 +46,16 @@ class FileCookieJar extends CookieJar
     /**
      * Saves the cookies to a file.
      *
-     * @param string $filename File to save
+     * @param  string $filename File to save
      * @throws \RuntimeException if the file cannot be found or created
      */
     public function save($filename)
     {
         $json = [];
         foreach ($this as $cookie) {
-            /** @var SetCookie $cookie */
+            /**
+ * @var SetCookie $cookie 
+*/
             if (CookieJar::shouldPersist($cookie, $this->storeSessionCookies)) {
                 $json[] = $cookie->toArray();
             }
@@ -66,7 +72,7 @@ class FileCookieJar extends CookieJar
      *
      * Old cookies are kept unless overwritten by newly loaded ones.
      *
-     * @param string $filename Cookie file to load.
+     * @param  string $filename Cookie file to load.
      * @throws \RuntimeException if the file cannot be loaded.
      */
     public function load($filename)

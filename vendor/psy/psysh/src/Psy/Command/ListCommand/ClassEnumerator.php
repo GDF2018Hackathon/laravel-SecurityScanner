@@ -75,19 +75,23 @@ class ClassEnumerator extends Enumerator
         $ret = array();
 
         if ($internal) {
-            $ret['Internal ' . $key] = array_filter($classes, function ($class) {
-                $refl = new \ReflectionClass($class);
+            $ret['Internal ' . $key] = array_filter(
+                $classes, function ($class) {
+                    $refl = new \ReflectionClass($class);
 
-                return $refl->isInternal();
-            });
+                    return $refl->isInternal();
+                }
+            );
         }
 
         if ($user) {
-            $ret['User ' . $key] = array_filter($classes, function ($class) {
-                $refl = new \ReflectionClass($class);
+            $ret['User ' . $key] = array_filter(
+                $classes, function ($class) {
+                    $refl = new \ReflectionClass($class);
 
-                return !$refl->isInternal();
-            });
+                    return !$refl->isInternal();
+                }
+            );
         }
 
         if (!$user && !$internal) {

@@ -27,11 +27,17 @@ use PHPUnit_Framework_MockObject_MockObject;
  */
 class PHPConsoleHandlerTest extends TestCase
 {
-    /** @var  Connector|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  Connector|PHPUnit_Framework_MockObject_MockObject 
+     */
     protected $connector;
-    /** @var  DebugDispatcher|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  DebugDispatcher|PHPUnit_Framework_MockObject_MockObject 
+     */
     protected $debugDispatcher;
-    /** @var  ErrorDispatcher|PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var  ErrorDispatcher|PHPUnit_Framework_MockObject_MockObject 
+     */
     protected $errorDispatcher;
 
     protected function setUp()
@@ -70,7 +76,8 @@ class PHPConsoleHandlerTest extends TestCase
     {
         $connector = $this->getMockBuilder('PhpConsole\Connector')
             ->disableOriginalConstructor()
-            ->setMethods(array(
+            ->setMethods(
+                array(
                 'sendMessage',
                 'onShutDown',
                 'isActiveClient',
@@ -81,7 +88,8 @@ class PHPConsoleHandlerTest extends TestCase
                 'setAllowedIpMasks',
                 'setHeadersLimit',
                 'startEvalRequestsListener',
-            ))
+                )
+            )
             ->getMock();
 
         $connector->expects($this->any())
@@ -101,9 +109,11 @@ class PHPConsoleHandlerTest extends TestCase
 
     protected function initLogger($handlerOptions = array(), $level = Logger::DEBUG)
     {
-        return new Logger('test', array(
+        return new Logger(
+            'test', array(
             new PHPConsoleHandler($handlerOptions, $this->connector, $level),
-        ));
+            )
+        );
     }
 
     public function testInitWithDefaultConnector()
@@ -214,10 +224,18 @@ class PHPConsoleHandlerTest extends TestCase
     public function testOptionUseOwnErrorsAndExceptionsHandler()
     {
         $this->initLogger(array('useOwnErrorsHandler' => true, 'useOwnExceptionsHandler' => true));
-        $this->assertEquals(array(Handler::getInstance(), 'handleError'), set_error_handler(function () {
-        }));
-        $this->assertEquals(array(Handler::getInstance(), 'handleException'), set_exception_handler(function () {
-        }));
+        $this->assertEquals(
+            array(Handler::getInstance(), 'handleError'), set_error_handler(
+                function () {
+                }
+            )
+        );
+        $this->assertEquals(
+            array(Handler::getInstance(), 'handleException'), set_exception_handler(
+                function () {
+                }
+            )
+        );
     }
 
     public static function provideConnectorMethodsOptionsSets()

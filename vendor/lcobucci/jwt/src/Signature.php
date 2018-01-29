@@ -11,7 +11,7 @@ namespace Lcobucci\JWT;
  * This class represents a token signature
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  */
 class Signature
 {

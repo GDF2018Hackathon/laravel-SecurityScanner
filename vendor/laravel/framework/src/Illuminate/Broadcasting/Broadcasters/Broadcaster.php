@@ -29,8 +29,8 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Register a channel authenticator.
      *
-     * @param  string  $channel
-     * @param  callable  $callback
+     * @param  string   $channel
+     * @param  callable $callback
      * @return $this
      */
     public function channel($channel, callable $callback)
@@ -43,8 +43,8 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $channel
+     * @param  \Illuminate\Http\Request $request
+     * @param  string                   $channel
      * @return mixed
      * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
@@ -68,27 +68,31 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Extract the parameters from the given pattern and channel.
      *
-     * @param  string  $pattern
-     * @param  string  $channel
-     * @param  callable  $callback
+     * @param  string   $pattern
+     * @param  string   $channel
+     * @param  callable $callback
      * @return array
      */
     protected function extractAuthParameters($pattern, $channel, $callback)
     {
         $callbackParameters = (new ReflectionFunction($callback))->getParameters();
 
-        return collect($this->extractChannelKeys($pattern, $channel))->reject(function ($value, $key) {
-            return is_numeric($key);
-        })->map(function ($value, $key) use ($callbackParameters) {
-            return $this->resolveBinding($key, $value, $callbackParameters);
-        })->values()->all();
+        return collect($this->extractChannelKeys($pattern, $channel))->reject(
+            function ($value, $key) {
+                return is_numeric($key);
+            }
+        )->map(
+            function ($value, $key) use ($callbackParameters) {
+                    return $this->resolveBinding($key, $value, $callbackParameters);
+            }
+        )->values()->all();
     }
 
     /**
      * Extract the channel keys from the incoming channel name.
      *
-     * @param  string  $pattern
-     * @param  string  $channel
+     * @param  string $pattern
+     * @param  string $channel
      * @return array
      */
     protected function extractChannelKeys($pattern, $channel)
@@ -101,8 +105,8 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Resolve the given parameter binding.
      *
-     * @param  string  $key
-     * @param  string  $value
+     * @param  string $key
+     * @param  string $value
      * @param  array  $callbackParameters
      * @return mixed
      */
@@ -118,7 +122,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Resolve an explicit parameter binding if applicable.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  mixed  $value
      * @return mixed
      */
@@ -136,7 +140,7 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Resolve an implicit parameter binding if applicable.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  mixed  $value
      * @param  array  $callbackParameters
      * @return mixed
@@ -164,8 +168,8 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Determine if a given key and parameter is implicitly bindable.
      *
-     * @param  string  $key
-     * @param  \ReflectionParameter  $parameter
+     * @param  string               $key
+     * @param  \ReflectionParameter $parameter
      * @return bool
      */
     protected function isImplicitlyBindable($key, $parameter)
@@ -177,14 +181,16 @@ abstract class Broadcaster implements BroadcasterContract
     /**
      * Format the channel array into an array of strings.
      *
-     * @param  array  $channels
+     * @param  array $channels
      * @return array
      */
     protected function formatChannels(array $channels)
     {
-        return array_map(function ($channel) {
-            return (string) $channel;
-        }, $channels);
+        return array_map(
+            function ($channel) {
+                return (string) $channel;
+            }, $channels
+        );
     }
 
     /**

@@ -837,11 +837,13 @@ class QuestionHelperTest extends AbstractQuestionHelperTest
         $dialog = new QuestionHelper();
 
         $question = new Question('What\'s your name?');
-        $question->setValidator(function () {
-            if (!$value) {
-                throw new \Exception('A value is required.');
+        $question->setValidator(
+            function () {
+                if (!$value) {
+                    throw new \Exception('A value is required.');
+                }
             }
-        });
+        );
 
         $dialog->ask($this->createStreamableInputInterfaceMock($this->getInputStream('')), $this->createOutputInterface(), $question);
     }

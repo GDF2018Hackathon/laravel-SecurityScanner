@@ -6,15 +6,25 @@ use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract
 {
-    /** @var null|string|Name|NullableType Typehint */
+    /**
+     * @var null|string|Name|NullableType Typehint 
+     */
     public $type;
-    /** @var bool Whether parameter is passed by reference */
+    /**
+     * @var bool Whether parameter is passed by reference 
+     */
     public $byRef;
-    /** @var bool Whether this is a variadic argument */
+    /**
+     * @var bool Whether this is a variadic argument 
+     */
     public $variadic;
-    /** @var string Name */
+    /**
+     * @var string Name 
+     */
     public $name;
-    /** @var null|Expr Default value */
+    /**
+     * @var null|Expr Default value 
+     */
     public $default;
 
     /**
@@ -27,7 +37,8 @@ class Param extends NodeAbstract
      * @param bool                          $variadic   Whether this is a variadic argument
      * @param array                         $attributes Additional attributes
      */
-    public function __construct($name, Expr $default = null, $type = null, $byRef = false, $variadic = false, array $attributes = array()) {
+    public function __construct($name, Expr $default = null, $type = null, $byRef = false, $variadic = false, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->type = $type;
         $this->byRef = $byRef;
@@ -36,7 +47,8 @@ class Param extends NodeAbstract
         $this->default = $default;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('type', 'byRef', 'variadic', 'name', 'default');
     }
 }

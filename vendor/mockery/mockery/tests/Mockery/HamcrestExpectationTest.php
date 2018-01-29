@@ -36,7 +36,9 @@ class HamcrestExpectationTest extends MockeryTestCase
         parent::tearDown();
     }
 
-    /** Just a quickie roundup of a few Hamcrest matchers to check nothing obvious out of place **/
+    /**
+     * Just a quickie roundup of a few Hamcrest matchers to check nothing obvious out of place 
+     **/
 
     public function testAnythingConstraintMatchesArgument()
     {

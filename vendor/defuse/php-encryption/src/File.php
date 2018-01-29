@@ -9,9 +9,9 @@ final class File
     /**
      * Encrypts the input file, saving the ciphertext to the output file.
      *
-     * @param string $inputFilename
-     * @param string $outputFilename
-     * @param Key    $key
+     * @param  string $inputFilename
+     * @param  string $outputFilename
+     * @param  Key    $key
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -30,9 +30,9 @@ final class File
      * Encrypts a file with a password, using a slow key derivation function to
      * make password cracking more expensive.
      *
-     * @param string $inputFilename
-     * @param string $outputFilename
-     * @param string $password
+     * @param  string $inputFilename
+     * @param  string $outputFilename
+     * @param  string $password
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -50,9 +50,9 @@ final class File
     /**
      * Decrypts the input file, saving the plaintext to the output file.
      *
-     * @param string $inputFilename
-     * @param string $outputFilename
-     * @param Key    $key
+     * @param  string $inputFilename
+     * @param  string $outputFilename
+     * @param  Key    $key
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -72,9 +72,9 @@ final class File
      * Decrypts a file with a password, using a slow key derivation function to
      * make password cracking more expensive.
      *
-     * @param string $inputFilename
-     * @param string $outputFilename
-     * @param string $password
+     * @param  string $inputFilename
+     * @param  string $outputFilename
+     * @param  string $password
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -94,9 +94,9 @@ final class File
      * Takes two resource handles and encrypts the contents of the first,
      * writing the ciphertext into the second.
      *
-     * @param resource $inputHandle
-     * @param resource $outputHandle
-     * @param Key      $key
+     * @param  resource $inputHandle
+     * @param  resource $outputHandle
+     * @param  Key      $key
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -116,9 +116,9 @@ final class File
      * password, using a slow key derivation function to make password cracking
      * more expensive.
      *
-     * @param resource $inputHandle
-     * @param resource $outputHandle
-     * @param string   $password
+     * @param  resource $inputHandle
+     * @param  resource $outputHandle
+     * @param  string   $password
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -138,9 +138,9 @@ final class File
      * Takes two resource handles and decrypts the contents of the first,
      * writing the plaintext into the second.
      *
-     * @param resource $inputHandle
-     * @param resource $outputHandle
-     * @param Key      $key
+     * @param  resource $inputHandle
+     * @param  resource $outputHandle
+     * @param  Key      $key
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -160,9 +160,9 @@ final class File
      * Decrypts the contents of one resource into another with a password, using
      * a slow key derivation function to make password cracking more expensive.
      *
-     * @param resource $inputHandle
-     * @param resource $outputHandle
-     * @param string   $password
+     * @param  resource $inputHandle
+     * @param  resource $outputHandle
+     * @param  string   $password
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -181,9 +181,9 @@ final class File
     /**
      * Encrypts a file with either a key or a password.
      *
-     * @param string        $inputFilename
-     * @param string        $outputFilename
-     * @param KeyOrPassword $secret
+     * @param  string        $inputFilename
+     * @param  string        $outputFilename
+     * @param  KeyOrPassword $secret
      * @return void
      *
      * @throws Ex\CryptoException
@@ -246,9 +246,9 @@ final class File
     /**
      * Decrypts a file with either a key or a password.
      *
-     * @param string        $inputFilename
-     * @param string        $outputFilename
-     * @param KeyOrPassword $secret
+     * @param  string        $inputFilename
+     * @param  string        $outputFilename
+     * @param  KeyOrPassword $secret
      * @return void
      *
      * @throws Ex\CryptoException
@@ -313,9 +313,9 @@ final class File
     /**
      * Encrypts a resource with either a key or a password.
      *
-     * @param resource      $inputHandle
-     * @param resource      $outputHandle
-     * @param KeyOrPassword $secret
+     * @param  resource      $inputHandle
+     * @param  resource      $outputHandle
+     * @param  KeyOrPassword $secret
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -346,7 +346,9 @@ final class File
         $iv     = Core::secureRandom($ivsize);
 
         /* Initialize a streaming HMAC state. */
-        /** @var resource $hmac */
+        /**
+ * @var resource $hmac 
+*/
         $hmac = \hash_init(Core::HASH_FUNCTION_NAME, HASH_HMAC, $akey);
         if (!\is_resource($hmac)) {
             throw new Ex\EnvironmentIsBrokenException(
@@ -376,7 +378,9 @@ final class File
         $at_file_end = false;
         while (! (\feof($inputHandle) || $at_file_end)) {
             /* Find out if we can read a full buffer, or only a partial one. */
-            /** @var int */
+            /**
+ * @var int 
+*/
             $pos = \ftell($inputHandle);
             if (!\is_int($pos)) {
                 throw new Ex\IOException(
@@ -398,7 +402,9 @@ final class File
             }
 
             /* Encrypt this buffer. */
-            /** @var string */
+            /**
+ * @var string 
+*/
             $encrypted = \openssl_encrypt(
                 $read,
                 Core::CIPHER_METHOD,
@@ -433,9 +439,9 @@ final class File
     /**
      * Decrypts a file-backed resource with either a key or a password.
      *
-     * @param resource      $inputHandle
-     * @param resource      $outputHandle
-     * @param KeyOrPassword $secret
+     * @param  resource      $inputHandle
+     * @param  resource      $outputHandle
+     * @param  KeyOrPassword $secret
      * @return void
      *
      * @throws Ex\EnvironmentIsBrokenException
@@ -501,7 +507,9 @@ final class File
         }
 
         /* Get the position of the last byte in the actual ciphertext. */
-        /** @var int $cipher_end */
+        /**
+ * @var int $cipher_end 
+*/
         $cipher_end = \ftell($inputHandle);
         if (!\is_int($cipher_end)) {
             throw new Ex\IOException(
@@ -512,11 +520,15 @@ final class File
         --$cipher_end;
 
         /* Read the HMAC. */
-        /** @var string $stored_mac */
+        /**
+ * @var string $stored_mac 
+*/
         $stored_mac = self::readBytes($inputHandle, Core::MAC_BYTE_SIZE);
 
         /* Initialize a streaming HMAC state. */
-        /** @var resource $hmac */
+        /**
+ * @var resource $hmac 
+*/
         $hmac = \hash_init(Core::HASH_FUNCTION_NAME, HASH_HMAC, $akey);
         if (!\is_resource($hmac)) {
             throw new Ex\EnvironmentIsBrokenException(
@@ -543,12 +555,16 @@ final class File
         \hash_update($hmac, $header);
         \hash_update($hmac, $file_salt);
         \hash_update($hmac, $iv);
-        /** @var resource $hmac2 */
+        /**
+ * @var resource $hmac2 
+*/
         $hmac2 = \hash_copy($hmac);
 
         $break = false;
         while (! $break) {
-            /** @var int $pos */
+            /**
+ * @var int $pos 
+*/
             $pos = \ftell($inputHandle);
             if (!\is_int($pos)) {
                 throw new Ex\IOException(
@@ -574,7 +590,9 @@ final class File
             \hash_update($hmac, $read);
 
             /* Remember this buffer-sized chunk's HMAC. */
-            /** @var resource $chunk_mac */
+            /**
+ * @var resource $chunk_mac 
+*/
             $chunk_mac = \hash_copy($hmac);
             if (!\is_resource($chunk_mac)) {
                 throw new Ex\EnvironmentIsBrokenException(
@@ -585,7 +603,9 @@ final class File
         }
 
         /* Get the final HMAC, which should match the stored one. */
-        /** @var string $final_mac */
+        /**
+ * @var string $final_mac 
+*/
         $final_mac = \hash_final($hmac, true);
 
         /* Verify the HMAC. */
@@ -606,7 +626,9 @@ final class File
 
         $at_file_end = false;
         while (! $at_file_end) {
-            /** @var int $pos */
+            /**
+ * @var int $pos 
+*/
             $pos = \ftell($inputHandle);
             if (!\is_int($pos)) {
                 throw new Ex\IOException(
@@ -632,7 +654,9 @@ final class File
              * remembered from pass #1 to ensure attackers didn't change the
              * ciphertext after MAC verification. */
             \hash_update($hmac2, $read);
-            /** @var resource $calc_mac */
+            /**
+ * @var resource $calc_mac 
+*/
             $calc_mac = \hash_copy($hmac2);
             if (!\is_resource($calc_mac)) {
                 throw new Ex\EnvironmentIsBrokenException(
@@ -652,7 +676,9 @@ final class File
             }
 
             /* Decrypt this buffer-sized chunk. */
-            /** @var string $decrypted */
+            /**
+ * @var string $decrypted 
+*/
             $decrypted = \openssl_decrypt(
                 $read,
                 Core::CIPHER_METHOD,
@@ -674,7 +700,9 @@ final class File
             );
 
             /* Increment the IV by the amount of blocks in a buffer. */
-            /** @var string $thisIv */
+            /**
+ * @var string $thisIv 
+*/
             $thisIv = Core::incrementCounter($thisIv, $inc);
             /* WARNING: Usually, unless the file is a multiple of the buffer
              * size, $thisIv will contain an incorrect value here on the last
@@ -685,8 +713,8 @@ final class File
     /**
      * Read from a stream; prevent partial reads.
      *
-     * @param resource $stream
-     * @param int      $num_bytes
+     * @param  resource $stream
+     * @param  int      $num_bytes
      * @return string
      *
      * @throws Ex\IOException
@@ -706,7 +734,9 @@ final class File
         $buf       = '';
         $remaining = $num_bytes;
         while ($remaining > 0 && ! \feof($stream)) {
-            /** @var string $read */
+            /**
+ * @var string $read 
+*/
             $read = \fread($stream, $remaining);
             if (!\is_string($read)) {
                 throw new Ex\IOException(
@@ -727,9 +757,9 @@ final class File
     /**
      * Write to a stream; prevents partial writes.
      *
-     * @param resource $stream
-     * @param string   $buf
-     * @param int      $num_bytes
+     * @param  resource $stream
+     * @param  string   $buf
+     * @param  int      $num_bytes
      * @return int
      *
      * @throws Ex\IOException
@@ -754,7 +784,9 @@ final class File
         }
         $remaining = $num_bytes;
         while ($remaining > 0) {
-            /** @var int $written */
+            /**
+ * @var int $written 
+*/
             $written = \fwrite($stream, $buf, $remaining);
             if (!\is_int($written)) {
                 throw new Ex\IOException(

@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Generator;
@@ -45,9 +45,9 @@ class DefaultTimeGenerator implements TimeGeneratorInterface
      * Constructs a `DefaultTimeGenerator` using a node provider, time converter,
      * and time provider
      *
-     * @param NodeProviderInterface $nodeProvider
+     * @param NodeProviderInterface  $nodeProvider
      * @param TimeConverterInterface $timeConverter
-     * @param TimeProviderInterface $timeProvider
+     * @param TimeProviderInterface  $timeProvider
      */
     public function __construct(
         NodeProviderInterface $nodeProvider,
@@ -66,11 +66,12 @@ class DefaultTimeGenerator implements TimeGeneratorInterface
      * address. If $clockSeq is given, it is used as the sequence number;
      * otherwise a random 14-bit sequence number is chosen.
      *
-     * @param int|string $node A 48-bit number representing the hardware address
-     *     This number may be represented as an integer or a hexadecimal string.
-     * @param int $clockSeq A 14-bit number used to help avoid duplicates that
-     *     could arise when the clock is set backwards in time or if the node ID
-     *     changes.
+     * @param  int|string $node     A 48-bit number representing the hardware address
+     *                              This number may be represented as an integer or a
+     *                              hexadecimal string.
+     * @param  int        $clockSeq A 14-bit number used to help avoid duplicates that
+     *                              could arise when the clock is set backwards in
+     *                              time or if the node ID changes.
      * @return string A binary string
      */
     public function generate($node = null, $clockSeq = null)
@@ -79,7 +80,7 @@ class DefaultTimeGenerator implements TimeGeneratorInterface
 
         if ($clockSeq === null) {
             // Not using "stable storage"; see RFC 4122, Section 4.2.1.1
-            $clockSeq = mt_rand(0, 1 << 14);
+            $clockSeq = random_int(0, 0x3fff);
         }
 
         // Create a 60-bit time value as a count of 100-nanosecond intervals
@@ -109,7 +110,7 @@ class DefaultTimeGenerator implements TimeGeneratorInterface
      * Uses the node provider given when constructing this instance to get
      * the node ID (usually a MAC address)
      *
-     * @param string|int $node A node value that may be used to override the node provider
+     * @param  string|int $node A node value that may be used to override the node provider
      * @return string Hexadecimal representation of the node ID
      */
     protected function getValidNode($node)

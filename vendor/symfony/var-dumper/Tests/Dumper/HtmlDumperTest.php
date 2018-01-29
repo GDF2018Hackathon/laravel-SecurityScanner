@@ -22,19 +22,21 @@ class HtmlDumperTest extends TestCase
 {
     public function testGet()
     {
-        require __DIR__.'/../Fixtures/dumb-var.php';
+        include __DIR__.'/../Fixtures/dumb-var.php';
 
         $dumper = new HtmlDumper('php://output');
         $dumper->setDumpHeader('<foo></foo>');
         $dumper->setDumpBoundaries('<bar>', '</bar>');
         $cloner = new VarCloner();
-        $cloner->addCasters(array(
+        $cloner->addCasters(
+            array(
             ':stream' => function ($res, $a) {
                 unset($a['uri'], $a['wrapper_data']);
 
                 return $a;
             },
-        ));
+            )
+        );
         $data = $cloner->cloneVar($var);
 
         ob_start();
@@ -108,7 +110,6 @@ class HtmlDumperTest extends TestCase
 
 EOTXT
             ,
-
             $out
         );
     }
@@ -150,7 +151,8 @@ EOTXT
 
         $out = stream_get_contents($out, -1, 0);
 
-        $this->assertSame(<<<'EOTXT'
+        $this->assertSame(
+            <<<'EOTXT'
 <foo></foo><bar><span class=sf-dump-num>123</span>
 </bar>
 <bar><span class=sf-dump-num>456</span>

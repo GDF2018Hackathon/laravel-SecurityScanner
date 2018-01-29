@@ -29,7 +29,7 @@ abstract class AbstractSerializer
      * Retrieves a line from the stream; a line is defined as a sequence of
      * characters ending in a CRLF sequence.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return string
      * @throws UnexpectedValueException if the sequence contains a CR or LF in
      *     isolation, or ends in a CR.
@@ -82,7 +82,7 @@ abstract class AbstractSerializer
      * - The first is an array of headers
      * - The second is a StreamInterface containing the body content
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return array
      * @throws UnexpectedValueException For invalid headers.
      */
@@ -121,7 +121,7 @@ abstract class AbstractSerializer
     /**
      * Serialize headers to string values.
      *
-     * @param array $headers
+     * @param  array $headers
      * @return string
      */
     protected static function serializeHeaders(array $headers)
@@ -140,7 +140,7 @@ abstract class AbstractSerializer
     /**
      * Filter a header name to wordcase
      *
-     * @param string $header
+     * @param  string $header
      * @return string
      */
     protected static function filterHeader($header)

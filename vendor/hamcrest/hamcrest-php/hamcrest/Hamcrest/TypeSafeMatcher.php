@@ -74,33 +74,33 @@ abstract class TypeSafeMatcher extends BaseMatcher
     {
         switch ($this->_expectedType) {
 
-            case self::TYPE_ANY:
-                return true;
+        case self::TYPE_ANY:
+            return true;
 
-            case self::TYPE_STRING:
-                return is_string($value) || is_numeric($value);
+        case self::TYPE_STRING:
+            return is_string($value) || is_numeric($value);
 
-            case self::TYPE_NUMERIC:
-                return is_numeric($value) || is_string($value);
+        case self::TYPE_NUMERIC:
+            return is_numeric($value) || is_string($value);
 
-            case self::TYPE_ARRAY:
-                return is_array($value);
+        case self::TYPE_ARRAY:
+            return is_array($value);
 
-            case self::TYPE_OBJECT:
-                return is_object($value)
+        case self::TYPE_OBJECT:
+            return is_object($value)
                         && ($this->_expectedSubtype === null
                                 || $value instanceof $this->_expectedSubtype);
 
-            case self::TYPE_RESOURCE:
-                return is_resource($value)
+        case self::TYPE_RESOURCE:
+            return is_resource($value)
                         && ($this->_expectedSubtype === null
                                 || get_resource_type($value) == $this->_expectedSubtype);
 
-            case self::TYPE_BOOLEAN:
-                return true;
+        case self::TYPE_BOOLEAN:
+            return true;
 
-            default:
-                return true;
+        default:
+            return true;
 
         }
     }

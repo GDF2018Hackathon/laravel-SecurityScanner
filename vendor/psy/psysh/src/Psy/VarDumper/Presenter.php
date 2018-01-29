@@ -59,17 +59,19 @@ class Presenter
         setlocale(LC_NUMERIC, $oldLocale);
 
         $this->cloner = new Cloner();
-        $this->cloner->addCasters(array('*' => function ($obj, array $a, Stub $stub, $isNested, $filter = 0) {
-            if ($filter || $isNested) {
-                if ($obj instanceof \Exception) {
-                    $a = Caster::filter($a, Caster::EXCLUDE_NOT_IMPORTANT | Caster::EXCLUDE_EMPTY, $this->exceptionsImportants);
-                } else {
-                    $a = Caster::filter($a, Caster::EXCLUDE_PROTECTED | Caster::EXCLUDE_PRIVATE);
+        $this->cloner->addCasters(
+            array('*' => function ($obj, array $a, Stub $stub, $isNested, $filter = 0) {
+                if ($filter || $isNested) {
+                    if ($obj instanceof \Exception) {
+                        $a = Caster::filter($a, Caster::EXCLUDE_NOT_IMPORTANT | Caster::EXCLUDE_EMPTY, $this->exceptionsImportants);
+                    } else {
+                        $a = Caster::filter($a, Caster::EXCLUDE_PROTECTED | Caster::EXCLUDE_PRIVATE);
+                    }
                 }
-            }
 
-            return $a;
-        }));
+                return $a;
+            })
+        );
     }
 
     /**
@@ -120,14 +122,16 @@ class Presenter
         setlocale(LC_NUMERIC, 'C');
 
         $output = '';
-        $this->dumper->dump($data, function ($line, $depth) use (&$output) {
-            if ($depth >= 0) {
-                if ('' !== $output) {
-                    $output .= PHP_EOL;
+        $this->dumper->dump(
+            $data, function ($line, $depth) use (&$output) {
+                if ($depth >= 0) {
+                    if ('' !== $output) {
+                        $output .= PHP_EOL;
+                    }
+                    $output .= str_repeat('  ', $depth) . $line;
                 }
-                $output .= str_repeat('  ', $depth) . $line;
             }
-        });
+        );
 
         // Now put the locale back
         setlocale(LC_NUMERIC, $oldLocale);

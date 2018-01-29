@@ -15,16 +15,24 @@
  */
 class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
 {
-    /** The format parameter last specified by the user */
+    /**
+     * The format parameter last specified by the user 
+     */
     protected $userFormat;
 
-    /** The charset last specified by the user */
+    /**
+     * The charset last specified by the user 
+     */
     protected $userCharset;
 
-    /** The delsp parameter last specified by the user */
+    /**
+     * The delsp parameter last specified by the user 
+     */
     protected $userDelSp;
 
-    /** The nesting level of this MimePart */
+    /**
+     * The nesting level of this MimePart 
+     */
     private $nestingLevel = self::LEVEL_ALTERNATIVE;
 
     /**
@@ -169,7 +177,9 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
         $this->setCharset($charset);
     }
 
-    /** Fix the content-type and encoding of this entity */
+    /**
+     * Fix the content-type and encoding of this entity 
+     */
     protected function fixHeaders()
     {
         parent::fixHeaders();
@@ -184,13 +194,17 @@ class Swift_Mime_MimePart extends Swift_Mime_SimpleMimeEntity
         }
     }
 
-    /** Set the nesting level of this entity */
+    /**
+     * Set the nesting level of this entity 
+     */
     protected function setNestingLevel($level)
     {
         $this->nestingLevel = $level;
     }
 
-    /** Encode charset when charset is not utf-8 */
+    /**
+     * Encode charset when charset is not utf-8 
+     */
     protected function convertString($string)
     {
         $charset = strtolower($this->getCharset());

@@ -23,8 +23,9 @@ final class Property
 
     /**
      * Property constructor.
-     * @param                  $name
-     * @param                  $value
+     *
+     * @param $name
+     * @param $value
      * @param Specificity|null $specificity
      */
     public function __construct($name, $value, Specificity $specificity = null)

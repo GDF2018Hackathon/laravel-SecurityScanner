@@ -6,13 +6,21 @@ use PhpParser\Node;
 
 class If_ extends Node\Stmt
 {
-    /** @var Node\Expr Condition expression */
+    /**
+     * @var Node\Expr Condition expression 
+     */
     public $cond;
-    /** @var Node[] Statements */
+    /**
+     * @var Node[] Statements 
+     */
     public $stmts;
-    /** @var ElseIf_[] Elseif clauses */
+    /**
+     * @var ElseIf_[] Elseif clauses 
+     */
     public $elseifs;
-    /** @var null|Else_ Else clause */
+    /**
+     * @var null|Else_ Else clause 
+     */
     public $else;
 
     /**
@@ -25,7 +33,8 @@ class If_ extends Node\Stmt
      *                              'else'    => null   : Else clause
      * @param array     $attributes Additional attributes
      */
-    public function __construct(Node\Expr $cond, array $subNodes = array(), array $attributes = array()) {
+    public function __construct(Node\Expr $cond, array $subNodes = array(), array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->cond = $cond;
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
@@ -33,7 +42,8 @@ class If_ extends Node\Stmt
         $this->else = isset($subNodes['else']) ? $subNodes['else'] : null;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('cond', 'stmts', 'elseifs', 'else');
     }
 }

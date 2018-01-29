@@ -173,8 +173,9 @@ abstract class Assert
      */
     public static function assertContains($needle, $haystack, $message = '', $ignoreCase = false, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
     {
-        if (\is_array($haystack) ||
-            (\is_object($haystack) && $haystack instanceof Traversable)) {
+        if (\is_array($haystack) 
+            || (\is_object($haystack) && $haystack instanceof Traversable)
+        ) {
             $constraint = new TraversableContains(
                 $needle,
                 $checkForObjectIdentity,
@@ -238,8 +239,9 @@ abstract class Assert
      */
     public static function assertNotContains($needle, $haystack, $message = '', $ignoreCase = false, $checkForObjectIdentity = true, $checkForNonObjectIdentity = false)
     {
-        if (\is_array($haystack) ||
-            (\is_object($haystack) && $haystack instanceof Traversable)) {
+        if (\is_array($haystack) 
+            || (\is_object($haystack) && $haystack instanceof Traversable)
+        ) {
             $constraint = new LogicalNot(
                 new TraversableContains(
                     $needle,
@@ -305,8 +307,9 @@ abstract class Assert
      */
     public static function assertContainsOnly($type, $haystack, $isNativeType = null, $message = '')
     {
-        if (!\is_array($haystack) &&
-            !(\is_object($haystack) && $haystack instanceof Traversable)) {
+        if (!\is_array($haystack) 
+            && !(\is_object($haystack) && $haystack instanceof Traversable)
+        ) {
             throw InvalidArgumentHelper::factory(
                 2,
                 'array or traversable'
@@ -336,8 +339,9 @@ abstract class Assert
      */
     public static function assertContainsOnlyInstancesOf($classname, $haystack, $message = '')
     {
-        if (!\is_array($haystack) &&
-            !(\is_object($haystack) && $haystack instanceof Traversable)) {
+        if (!\is_array($haystack) 
+            && !(\is_object($haystack) && $haystack instanceof Traversable)
+        ) {
             throw InvalidArgumentHelper::factory(
                 2,
                 'array or traversable'
@@ -384,8 +388,9 @@ abstract class Assert
      */
     public static function assertNotContainsOnly($type, $haystack, $isNativeType = null, $message = '')
     {
-        if (!\is_array($haystack) &&
-            !(\is_object($haystack) && $haystack instanceof Traversable)) {
+        if (!\is_array($haystack) 
+            && !(\is_object($haystack) && $haystack instanceof Traversable)
+        ) {
             throw InvalidArgumentHelper::factory(
                 2,
                 'array or traversable'
@@ -442,9 +447,10 @@ abstract class Assert
             throw InvalidArgumentHelper::factory(1, 'integer');
         }
 
-        if (!$haystack instanceof Countable &&
-            !$haystack instanceof Traversable &&
-            !\is_array($haystack)) {
+        if (!$haystack instanceof Countable 
+            && !$haystack instanceof Traversable 
+            && !\is_array($haystack)
+        ) {
             throw InvalidArgumentHelper::factory(2, 'countable or traversable');
         }
 
@@ -486,9 +492,10 @@ abstract class Assert
             throw InvalidArgumentHelper::factory(1, 'integer');
         }
 
-        if (!$haystack instanceof Countable &&
-            !$haystack instanceof Traversable &&
-            !\is_array($haystack)) {
+        if (!$haystack instanceof Countable 
+            && !$haystack instanceof Traversable 
+            && !\is_array($haystack)
+        ) {
             throw InvalidArgumentHelper::factory(2, 'countable or traversable');
         }
 
@@ -1698,15 +1705,17 @@ abstract class Assert
      */
     public static function assertSameSize($expected, $actual, $message = '')
     {
-        if (!$expected instanceof Countable &&
-            !$expected instanceof Traversable &&
-            !\is_array($expected)) {
+        if (!$expected instanceof Countable 
+            && !$expected instanceof Traversable 
+            && !\is_array($expected)
+        ) {
             throw InvalidArgumentHelper::factory(1, 'countable or traversable');
         }
 
-        if (!$actual instanceof Countable &&
-            !$actual instanceof Traversable &&
-            !\is_array($actual)) {
+        if (!$actual instanceof Countable 
+            && !$actual instanceof Traversable 
+            && !\is_array($actual)
+        ) {
             throw InvalidArgumentHelper::factory(2, 'countable or traversable');
         }
 
@@ -1727,15 +1736,17 @@ abstract class Assert
      */
     public static function assertNotSameSize($expected, $actual, $message = '')
     {
-        if (!$expected instanceof Countable &&
-            !$expected instanceof Traversable &&
-            !\is_array($expected)) {
+        if (!$expected instanceof Countable 
+            && !$expected instanceof Traversable 
+            && !\is_array($expected)
+        ) {
             throw InvalidArgumentHelper::factory(1, 'countable or traversable');
         }
 
-        if (!$actual instanceof Countable &&
-            !$actual instanceof Traversable &&
-            !\is_array($actual)) {
+        if (!$actual instanceof Countable 
+            && !$actual instanceof Traversable 
+            && !\is_array($actual)
+        ) {
             throw InvalidArgumentHelper::factory(2, 'countable or traversable');
         }
 

@@ -30,16 +30,21 @@ class NodeTraverser implements NodeTraverserInterface
      */
     const REMOVE_NODE = false;
 
-    /** @var NodeVisitor[] Visitors */
+    /**
+     * @var NodeVisitor[] Visitors 
+     */
     protected $visitors;
 
-    /** @var bool Whether traversal should be stopped */
+    /**
+     * @var bool Whether traversal should be stopped 
+     */
     protected $stopTraversal;
 
     /**
      * Constructs a node traverser.
      */
-    public function __construct() {
+    public function __construct() 
+    {
         $this->visitors = array();
     }
 
@@ -48,7 +53,8 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @param NodeVisitor $visitor Visitor to add
      */
-    public function addVisitor(NodeVisitor $visitor) {
+    public function addVisitor(NodeVisitor $visitor) 
+    {
         $this->visitors[] = $visitor;
     }
 
@@ -57,7 +63,8 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @param NodeVisitor $visitor
      */
-    public function removeVisitor(NodeVisitor $visitor) {
+    public function removeVisitor(NodeVisitor $visitor) 
+    {
         foreach ($this->visitors as $index => $storedVisitor) {
             if ($storedVisitor === $visitor) {
                 unset($this->visitors[$index]);
@@ -73,7 +80,8 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @return Node[] Traversed array of nodes
      */
-    public function traverse(array $nodes) {
+    public function traverse(array $nodes) 
+    {
         $this->stopTraversal = false;
 
         foreach ($this->visitors as $visitor) {
@@ -93,7 +101,8 @@ class NodeTraverser implements NodeTraverserInterface
         return $nodes;
     }
 
-    protected function traverseNode(Node $node) {
+    protected function traverseNode(Node $node) 
+    {
         foreach ($node->getSubNodeNames() as $name) {
             $subNode =& $node->$name;
 
@@ -144,7 +153,8 @@ class NodeTraverser implements NodeTraverserInterface
         return $node;
     }
 
-    protected function traverseArray(array $nodes) {
+    protected function traverseArray(array $nodes) 
+    {
         $doNodes = array();
 
         foreach ($nodes as $i => &$node) {

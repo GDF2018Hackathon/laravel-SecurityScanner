@@ -17,13 +17,17 @@ use Symfony\Component\CssSelector\XPath\Translator;
 
 class TranslatorTest extends TestCase
 {
-    /** @dataProvider getXpathLiteralTestData */
+    /**
+     * @dataProvider getXpathLiteralTestData 
+     */
     public function testXpathLiteral($value, $literal)
     {
         $this->assertEquals($literal, Translator::getXpathLiteral($value));
     }
 
-    /** @dataProvider getCssToXPathTestData */
+    /**
+     * @dataProvider getCssToXPathTestData 
+     */
     public function testCssToXPath($css, $xpath)
     {
         $translator = new Translator();
@@ -31,7 +35,9 @@ class TranslatorTest extends TestCase
         $this->assertEquals($xpath, $translator->cssToXPath($css, ''));
     }
 
-    /** @dataProvider getXmlLangTestData */
+    /**
+     * @dataProvider getXmlLangTestData 
+     */
     public function testXmlLang($css, array $elementsId)
     {
         $translator = new Translator();
@@ -43,7 +49,9 @@ class TranslatorTest extends TestCase
         }
     }
 
-    /** @dataProvider getHtmlIdsTestData */
+    /**
+     * @dataProvider getHtmlIdsTestData 
+     */
     public function testHtmlIds($css, array $elementsId)
     {
         $translator = new Translator();
@@ -64,7 +72,9 @@ class TranslatorTest extends TestCase
         libxml_use_internal_errors($internalErrors);
     }
 
-    /** @dataProvider getHtmlShakespearTestData */
+    /**
+     * @dataProvider getHtmlShakespearTestData 
+     */
     public function testHtmlShakespear($css, $count)
     {
         $translator = new Translator();

@@ -11,26 +11,38 @@
 /**
  * Allows reading and writing of bytes to and from a file.
  *
- * @author     Chris Corbyn
+ * @author Chris Corbyn
  */
 class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterableInputStream implements Swift_FileStream
 {
-    /** The internal pointer offset */
+    /**
+     * The internal pointer offset 
+     */
     private $offset = 0;
 
-    /** The path to the file */
+    /**
+     * The path to the file 
+     */
     private $path;
 
-    /** The mode this file is opened in for writing */
+    /**
+     * The mode this file is opened in for writing 
+     */
     private $mode;
 
-    /** A lazy-loaded resource handle for reading the file */
+    /**
+     * A lazy-loaded resource handle for reading the file 
+     */
     private $reader;
 
-    /** A lazy-loaded resource handle for writing the file */
+    /**
+     * A lazy-loaded resource handle for writing the file 
+     */
     private $writer;
 
-    /** If stream is seekable true/false, or null if not known */
+    /**
+     * If stream is seekable true/false, or null if not known 
+     */
     private $seekable = null;
 
     /**
@@ -110,19 +122,25 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         $this->offset = $byteOffset;
     }
 
-    /** Just write the bytes to the file */
+    /**
+     * Just write the bytes to the file 
+     */
     protected function doCommit($bytes)
     {
         fwrite($this->getWriteHandle(), $bytes);
         $this->resetReadHandle();
     }
 
-    /** Not used */
+    /**
+     * Not used 
+     */
     protected function flush()
     {
     }
 
-    /** Get the resource for reading */
+    /**
+     * Get the resource for reading 
+     */
     private function getReadHandle()
     {
         if (!isset($this->reader)) {
@@ -140,7 +158,9 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         return $this->reader;
     }
 
-    /** Get the resource for writing */
+    /**
+     * Get the resource for writing 
+     */
     private function getWriteHandle()
     {
         if (!isset($this->writer)) {
@@ -154,7 +174,9 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         return $this->writer;
     }
 
-    /** Force a reload of the resource for reading */
+    /**
+     * Force a reload of the resource for reading 
+     */
     private function resetReadHandle()
     {
         if (isset($this->reader)) {
@@ -163,14 +185,18 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         }
     }
 
-    /** Check if ReadOnly Stream is seekable */
+    /**
+     * Check if ReadOnly Stream is seekable 
+     */
     private function getReadStreamSeekableStatus()
     {
         $metas = stream_get_meta_data($this->reader);
         $this->seekable = $metas['seekable'];
     }
 
-    /** Streams in a readOnly stream ensuring copy if needed */
+    /**
+     * Streams in a readOnly stream ensuring copy if needed 
+     */
     private function seekReadStreamToPosition($offset)
     {
         if ($this->seekable === null) {
@@ -189,7 +215,9 @@ class Swift_ByteStream_FileByteStream extends Swift_ByteStream_AbstractFilterabl
         fseek($this->reader, $offset, SEEK_SET);
     }
 
-    /** Copy a readOnly Stream to ensure seekability */
+    /**
+     * Copy a readOnly Stream to ensure seekability 
+     */
     private function copyReadStream()
     {
         if ($tmpFile = fopen('php://temp/maxmemory:4096', 'w+b')) {

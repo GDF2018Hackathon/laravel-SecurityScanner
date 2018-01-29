@@ -9,7 +9,8 @@ class CodeParsingTest extends CodeTestAbstract
     /**
      * @dataProvider provideTestParse
      */
-    public function testParse($name, $code, $expected, $modeLine) {
+    public function testParse($name, $code, $expected, $modeLine) 
+    {
         if (null !== $modeLine) {
             $modes = array_fill_keys(explode(',', $modeLine), true);
         } else {
@@ -17,9 +18,11 @@ class CodeParsingTest extends CodeTestAbstract
         }
 
 
-        $lexer = new Lexer\Emulative(array('usedAttributes' => array(
+        $lexer = new Lexer\Emulative(
+            array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
-        )));
+            ))
+        );
         $parser5 = new Parser\Php5($lexer);
         $parser7 = new Parser\Php7($lexer);
 
@@ -39,7 +42,8 @@ class CodeParsingTest extends CodeTestAbstract
         }
     }
 
-    private function getParseOutput(Parser $parser, $code, $dumpPositions) {
+    private function getParseOutput(Parser $parser, $code, $dumpPositions) 
+    {
         $errors = new ErrorHandler\Collecting;
         $stmts = $parser->parse($code, $errors);
 
@@ -56,11 +60,13 @@ class CodeParsingTest extends CodeTestAbstract
         return canonicalize($output);
     }
 
-    public function provideTestParse() {
+    public function provideTestParse() 
+    {
         return $this->getTests(__DIR__ . '/../code/parser', 'test');
     }
 
-    private function formatErrorMessage(Error $e, $code) {
+    private function formatErrorMessage(Error $e, $code) 
+    {
         if ($e->hasColumnInfo()) {
             return $e->getMessageWithColumnInfo($code);
         } else {

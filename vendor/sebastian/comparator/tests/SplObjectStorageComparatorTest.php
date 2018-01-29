@@ -90,10 +90,10 @@ class SplObjectStorageComparatorTest extends TestCase
     public function testAcceptsSucceeds()
     {
         $this->assertTrue(
-          $this->comparator->accepts(
-            new SplObjectStorage,
-            new SplObjectStorage
-          )
+            $this->comparator->accepts(
+                new SplObjectStorage,
+                new SplObjectStorage
+            )
         );
     }
 
@@ -104,7 +104,7 @@ class SplObjectStorageComparatorTest extends TestCase
     public function testAcceptsFails($expected, $actual)
     {
         $this->assertFalse(
-          $this->comparator->accepts($expected, $actual)
+            $this->comparator->accepts($expected, $actual)
         );
     }
 

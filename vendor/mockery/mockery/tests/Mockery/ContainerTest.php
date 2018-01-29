@@ -237,9 +237,11 @@ class ContainerTest extends MockeryTestCase
 
     public function testPassingClosureAsFinalParameterUsedToDefineExpectations()
     {
-        $m = mock('foo', function ($m) {
-            $m->shouldReceive('foo')->once()->andReturn('bar');
-        });
+        $m = mock(
+            'foo', function ($m) {
+                $m->shouldReceive('foo')->once()->andReturn('bar');
+            }
+        );
         $this->assertEquals('bar', $m->foo());
     }
 
@@ -748,10 +750,12 @@ class ContainerTest extends MockeryTestCase
     {
         $m = mock('MockeryTestRef1');
         $m->shouldReceive('foo')->with(
-            Mockery::on(function (&$a) {
-                $a += 1;
-                return true;
-            }),
+            Mockery::on(
+                function (&$a) {
+                    $a += 1;
+                    return true;
+                }
+            ),
             Mockery::any()
         );
         $a = 1;
@@ -764,11 +768,13 @@ class ContainerTest extends MockeryTestCase
     public function testMethodParamsPassedByReferenceThroughWithArgsHaveReferencePreserved()
     {
         $m = mock('MockeryTestRef1');
-        $m->shouldReceive('foo')->withArgs(function (&$a, $b) {
-            $a += 1;
-            $b += 1;
-            return true;
-        });
+        $m->shouldReceive('foo')->withArgs(
+            function (&$a, $b) {
+                $a += 1;
+                $b += 1;
+                return true;
+            }
+        );
         $a = 1;
         $b = 1;
         $m->foo($a, $b);
@@ -792,10 +798,12 @@ class ContainerTest extends MockeryTestCase
         @$m = mock('DateTime');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('modify')->with(
-            Mockery::on(function (&$string) {
-                $string = 'foo';
-                return true;
-            })
+            Mockery::on(
+                function (&$string) {
+                    $string = 'foo';
+                    return true;
+                }
+            )
         );
         $data ='bar';
         $m->modify($data);
@@ -819,10 +827,12 @@ class ContainerTest extends MockeryTestCase
         @$m = mock('MongoCollection');
         $this->assertInstanceOf("Mockery\MockInterface", $m, "Mocking failed, remove @ error suppresion to debug");
         $m->shouldReceive('insert')->with(
-            Mockery::on(function (&$data) {
-                $data['_id'] = 123;
-                return true;
-            }),
+            Mockery::on(
+                function (&$data) {
+                    $data['_id'] = 123;
+                    return true;
+                }
+            ),
             Mockery::type('array')
         );
         $data = array('a'=>1,'b'=>2);
@@ -1073,12 +1083,18 @@ class ContainerTest extends MockeryTestCase
     public function testMockeryShouldDistinguishBetweenConstructorParamsAndClosures()
     {
         $obj = new MockeryTestFoo();
-        $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_ClassMultipleConstructorParams[dave]', [
-            &$obj, 'foo'
-        ]));
+        $this->assertInstanceOf(
+            MockInterface::class, mock(
+                'MockeryTest_ClassMultipleConstructorParams[dave]', [
+                &$obj, 'foo'
+                ]
+            )
+        );
     }
 
-    /** @group nette */
+    /**
+     * @group nette 
+     */
     public function testMockeryShouldNotMockCallstaticMagicMethod()
     {
         $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_CallStatic'));
@@ -1092,33 +1108,43 @@ class ContainerTest extends MockeryTestCase
         $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_OldStyleConstructor'));
     }
 
-    /** @group issue/144 */
+    /**
+     * @group issue/144 
+     */
     public function testMockeryShouldInterpretEmptyArrayAsConstructorArgs()
     {
         $mock = mock("EmptyConstructorTest", array());
         $this->assertSame(0, $mock->numberOfConstructorArgs);
     }
 
-    /** @group issue/144 */
+    /**
+     * @group issue/144 
+     */
     public function testMockeryShouldCallConstructorByDefaultWhenRequestingPartials()
     {
         $mock = mock("EmptyConstructorTest[foo]");
         $this->assertSame(0, $mock->numberOfConstructorArgs);
     }
 
-    /** @group issue/158 */
+    /**
+     * @group issue/158 
+     */
     public function testMockeryShouldRespectInterfaceWithMethodParamSelf()
     {
         $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_InterfaceWithMethodParamSelf'));
     }
 
-    /** @group issue/162 */
+    /**
+     * @group issue/162 
+     */
     public function testMockeryDoesntTryAndMockLowercaseToString()
     {
         $this->assertInstanceOf(MockInterface::class, mock('MockeryTest_Lowercase_ToString'));
     }
 
-    /** @group issue/175 */
+    /**
+     * @group issue/175 
+     */
     public function testExistingStaticMethodMocking()
     {
         $mock = mock('MockeryTest_PartialStatic[mockMe]');

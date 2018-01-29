@@ -33,9 +33,15 @@ class ClassCodeGenerator
         $classname = array_pop($parts);
         $namespace = implode('\\', $parts);
 
-        $code = sprintf("class %s extends \%s implements %s {\n",
-            $classname, $class->getParentClass(), implode(', ',
-                array_map(function ($interface) {return '\\'.$interface;}, $class->getInterfaces())
+        $code = sprintf(
+            "class %s extends \%s implements %s {\n",
+            $classname, $class->getParentClass(), implode(
+                ', ',
+                array_map(
+                    function ($interface) {
+                        return '\\'.$interface;
+                    }, $class->getInterfaces()
+                )
             )
         );
 
@@ -54,7 +60,8 @@ class ClassCodeGenerator
 
     private function generateMethod(Node\MethodNode $method)
     {
-        $php = sprintf("%s %s function %s%s(%s)%s {\n",
+        $php = sprintf(
+            "%s %s function %s%s(%s)%s {\n",
             $method->getVisibility(),
             $method->isStatic() ? 'static' : '',
             $method->returnsReference() ? '&':'',
@@ -91,15 +98,16 @@ class ClassCodeGenerator
 
     private function generateArguments(array $arguments)
     {
-        return array_map(function (Node\ArgumentNode $argument) {
-            $php = '';
+        return array_map(
+            function (Node\ArgumentNode $argument) {
+                $php = '';
 
-            if (version_compare(PHP_VERSION, '7.1', '>=')) {
-                $php .= $argument->isNullable() ? '?' : '';
-            }
+                if (version_compare(PHP_VERSION, '7.1', '>=')) {
+                    $php .= $argument->isNullable() ? '?' : '';
+                }
 
-            if ($hint = $argument->getTypeHint()) {
-                switch ($hint) {
+                if ($hint = $argument->getTypeHint()) {
+                    switch ($hint) {
                     case 'array':
                     case 'callable':
                         $php .= $hint;
@@ -126,20 +134,21 @@ class ClassCodeGenerator
 
                     default:
                         $php .= '\\'.$hint;
+                    }
                 }
-            }
 
-            $php .= ' '.($argument->isPassedByReference() ? '&' : '');
+                $php .= ' '.($argument->isPassedByReference() ? '&' : '');
 
-            $php .= $argument->isVariadic() ? '...' : '';
+                $php .= $argument->isVariadic() ? '...' : '';
 
-            $php .= '$'.$argument->getName();
+                $php .= '$'.$argument->getName();
 
-            if ($argument->isOptional() && !$argument->isVariadic()) {
-                $php .= ' = '.var_export($argument->getDefault(), true);
-            }
+                if ($argument->isOptional() && !$argument->isVariadic()) {
+                    $php .= ' = '.var_export($argument->getDefault(), true);
+                }
 
-            return $php;
-        }, $arguments);
+                return $php;
+            }, $arguments
+        );
     }
 }

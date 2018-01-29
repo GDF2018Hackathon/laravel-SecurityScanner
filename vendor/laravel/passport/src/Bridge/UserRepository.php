@@ -19,7 +19,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * Create a new repository instance.
      *
-     * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
+     * @param  \Illuminate\Contracts\Hashing\Hasher $hasher
      * @return void
      */
     public function __construct(Hasher $hasher)

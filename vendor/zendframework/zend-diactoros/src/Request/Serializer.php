@@ -32,7 +32,7 @@ final class Serializer extends AbstractSerializer
      *
      * Internally, casts the message to a stream and invokes fromStream().
      *
-     * @param string $message
+     * @param  string $message
      * @return Request
      * @throws UnexpectedValueException when errors occur parsing the message.
      */
@@ -46,7 +46,7 @@ final class Serializer extends AbstractSerializer
     /**
      * Deserialize a request stream to a request instance.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return Request
      * @throws UnexpectedValueException when errors occur parsing the message.
      */
@@ -71,7 +71,7 @@ final class Serializer extends AbstractSerializer
     /**
      * Serialize a request message to a string.
      *
-     * @param RequestInterface $request
+     * @param  RequestInterface $request
      * @return string
      */
     public static function toString(RequestInterface $request)
@@ -108,7 +108,7 @@ final class Serializer extends AbstractSerializer
      * exception if it does not follow specifications; if valid, returns a list
      * with the method, target, and version, in that order.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return array
      */
     private static function getRequestLine(StreamInterface $stream)
@@ -119,7 +119,8 @@ final class Serializer extends AbstractSerializer
             '#^(?P<method>[!\#$%&\'*+.^_`|~a-zA-Z0-9-]+) (?P<target>[^\s]+) HTTP/(?P<version>[1-9]\d*\.\d+)$#',
             $requestLine,
             $matches
-        )) {
+        )
+        ) {
             throw new UnexpectedValueException('Invalid request line detected');
         }
 
@@ -133,7 +134,7 @@ final class Serializer extends AbstractSerializer
      * instance is returned; otherwise, the value is used to create and return
      * a new Uri instance.
      *
-     * @param string $requestTarget
+     * @param  string $requestTarget
      * @return Uri
      */
     private static function createUriFromRequestTarget($requestTarget)

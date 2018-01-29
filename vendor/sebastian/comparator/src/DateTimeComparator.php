@@ -43,8 +43,12 @@ class DateTimeComparator extends ObjectComparator
      */
     public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false, array &$processed = [])
     {
-        /** @var \DateTimeInterface $expected */
-        /** @var \DateTimeInterface $actual */
+        /**
+ * @var \DateTimeInterface $expected 
+*/
+        /**
+ * @var \DateTimeInterface $actual 
+*/
         $delta = new \DateInterval(\sprintf('PT%dS', \abs($delta)));
 
         $actualClone = (clone $actual)

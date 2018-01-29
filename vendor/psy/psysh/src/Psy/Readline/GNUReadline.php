@@ -20,11 +20,17 @@ namespace Psy\Readline;
  */
 class GNUReadline implements Readline
 {
-    /** @var string|false */
+    /**
+     * @var string|false 
+     */
     protected $historyFile;
-    /** @var int */
+    /**
+     * @var int 
+     */
     protected $historySize;
-    /** @var bool */
+    /**
+     * @var bool 
+     */
     protected $eraseDups;
 
     /**

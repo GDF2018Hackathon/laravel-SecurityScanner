@@ -61,15 +61,15 @@ class ClassNamesMatcher extends AbstractMatcher
         );
 
         switch (true) {
-            case self::hasToken(array($blacklistedTokens), $token):
-            case self::hasToken(array($blacklistedTokens), $prevToken):
-            case is_string($token) && $token === '$':
-                return false;
-            case self::hasToken(array(self::T_NEW, self::T_OPEN_TAG, self::T_NS_SEPARATOR), $prevToken):
-            case self::hasToken(array(self::T_NEW, self::T_OPEN_TAG, self::T_NS_SEPARATOR), $token):
-            case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $token):
-            case self::isOperator($token):
-                return true;
+        case self::hasToken(array($blacklistedTokens), $token):
+        case self::hasToken(array($blacklistedTokens), $prevToken):
+        case is_string($token) && $token === '$':
+            return false;
+        case self::hasToken(array(self::T_NEW, self::T_OPEN_TAG, self::T_NS_SEPARATOR), $prevToken):
+        case self::hasToken(array(self::T_NEW, self::T_OPEN_TAG, self::T_NS_SEPARATOR), $token):
+        case self::hasToken(array(self::T_OPEN_TAG, self::T_VARIABLE), $token):
+        case self::isOperator($token):
+            return true;
         }
 
         return false;

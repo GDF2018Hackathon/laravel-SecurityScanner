@@ -54,20 +54,20 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
     {
         $this->prepareCache($nsKey);
         switch ($mode) {
-            case self::MODE_WRITE:
-                $this->contents[$nsKey][$itemKey] = $string;
-                break;
-            case self::MODE_APPEND:
-                if (!$this->hasKey($nsKey, $itemKey)) {
-                    $this->contents[$nsKey][$itemKey] = '';
-                }
-                $this->contents[$nsKey][$itemKey] .= $string;
-                break;
-            default:
-                throw new Swift_SwiftException(
-                    'Invalid mode ['.$mode.'] used to set nsKey='.
+        case self::MODE_WRITE:
+            $this->contents[$nsKey][$itemKey] = $string;
+            break;
+        case self::MODE_APPEND:
+            if (!$this->hasKey($nsKey, $itemKey)) {
+                $this->contents[$nsKey][$itemKey] = '';
+            }
+            $this->contents[$nsKey][$itemKey] .= $string;
+            break;
+        default:
+            throw new Swift_SwiftException(
+                'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
-                    );
+            );
         }
     }
 
@@ -85,21 +85,21 @@ class Swift_KeyCache_ArrayKeyCache implements Swift_KeyCache
     {
         $this->prepareCache($nsKey);
         switch ($mode) {
-            case self::MODE_WRITE:
-                $this->clearKey($nsKey, $itemKey);
-            case self::MODE_APPEND:
-                if (!$this->hasKey($nsKey, $itemKey)) {
-                    $this->contents[$nsKey][$itemKey] = '';
-                }
-                while (false !== $bytes = $os->read(8192)) {
-                    $this->contents[$nsKey][$itemKey] .= $bytes;
-                }
-                break;
-            default:
-                throw new Swift_SwiftException(
-                    'Invalid mode ['.$mode.'] used to set nsKey='.
+        case self::MODE_WRITE:
+            $this->clearKey($nsKey, $itemKey);
+        case self::MODE_APPEND:
+            if (!$this->hasKey($nsKey, $itemKey)) {
+                $this->contents[$nsKey][$itemKey] = '';
+            }
+            while (false !== $bytes = $os->read(8192)) {
+                $this->contents[$nsKey][$itemKey] .= $bytes;
+            }
+            break;
+        default:
+            throw new Swift_SwiftException(
+                'Invalid mode ['.$mode.'] used to set nsKey='.
                     $nsKey.', itemKey='.$itemKey
-                    );
+            );
         }
     }
 

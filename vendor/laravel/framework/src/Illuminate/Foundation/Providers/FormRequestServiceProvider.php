@@ -27,22 +27,26 @@ class FormRequestServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->afterResolving(ValidatesWhenResolved::class, function ($resolved) {
-            $resolved->validate();
-        });
+        $this->app->afterResolving(
+            ValidatesWhenResolved::class, function ($resolved) {
+                $resolved->validate();
+            }
+        );
 
-        $this->app->resolving(FormRequest::class, function ($request, $app) {
-            $this->initializeRequest($request, $app['request']);
+        $this->app->resolving(
+            FormRequest::class, function ($request, $app) {
+                $this->initializeRequest($request, $app['request']);
 
-            $request->setContainer($app)->setRedirector($app->make(Redirector::class));
-        });
+                $request->setContainer($app)->setRedirector($app->make(Redirector::class));
+            }
+        );
     }
 
     /**
      * Initialize the form request with data from the given request.
      *
-     * @param  \Illuminate\Foundation\Http\FormRequest  $form
-     * @param  \Symfony\Component\HttpFoundation\Request  $current
+     * @param  \Illuminate\Foundation\Http\FormRequest   $form
+     * @param  \Symfony\Component\HttpFoundation\Request $current
      * @return void
      */
     protected function initializeRequest(FormRequest $form, Request $current)

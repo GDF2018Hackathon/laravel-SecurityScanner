@@ -11,7 +11,7 @@ namespace Lcobucci\JWT;
  * Class that wraps validation values
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.0.0
+ * @since  2.0.0
  */
 class ValidationData
 {

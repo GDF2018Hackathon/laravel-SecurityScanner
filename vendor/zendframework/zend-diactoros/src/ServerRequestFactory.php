@@ -38,12 +38,12 @@ abstract class ServerRequestFactory
      * The ServerRequest created is then passed to the fromServer() method in
      * order to marshal the request URI and headers.
      *
-     * @see fromServer()
-     * @param array $server $_SERVER superglobal
-     * @param array $query $_GET superglobal
-     * @param array $body $_POST superglobal
-     * @param array $cookies $_COOKIE superglobal
-     * @param array $files $_FILES superglobal
+     * @see    fromServer()
+     * @param  array $server  $_SERVER superglobal
+     * @param  array $query   $_GET superglobal
+     * @param  array $body    $_POST superglobal
+     * @param  array $cookies $_COOKIE superglobal
+     * @param  array $files   $_FILES superglobal
      * @return ServerRequest
      * @throws InvalidArgumentException for invalid file values
      */
@@ -81,9 +81,9 @@ abstract class ServerRequestFactory
      *
      * Will also do a case-insensitive search if a case sensitive search fails.
      *
-     * @param string $key
-     * @param array $values
-     * @param mixed $default
+     * @param  string $key
+     * @param  array  $values
+     * @param  mixed  $default
      * @return mixed
      */
     public static function get($key, array $values, $default = null)
@@ -104,9 +104,9 @@ abstract class ServerRequestFactory
      *
      * If not, the $default is returned.
      *
-     * @param string $header
-     * @param array $headers
-     * @param mixed $default
+     * @param  string $header
+     * @param  array  $headers
+     * @param  mixed  $default
      * @return string
      */
     public static function getHeader($header, array $headers, $default = null)
@@ -126,7 +126,7 @@ abstract class ServerRequestFactory
      *
      * Pre-processes and returns the $_SERVER superglobal.
      *
-     * @param array $server
+     * @param  array $server
      * @return array
      */
     public static function normalizeServer(array $server)
@@ -159,7 +159,7 @@ abstract class ServerRequestFactory
      * Transforms each value into an UploadedFileInterface instance, and ensures
      * that nested arrays are normalized.
      *
-     * @param array $files
+     * @param  array $files
      * @return array
      * @throws InvalidArgumentException for unrecognized values
      */
@@ -190,7 +190,7 @@ abstract class ServerRequestFactory
     /**
      * Marshal headers from $_SERVER
      *
-     * @param array $server
+     * @param  array $server
      * @return array
      */
     public static function marshalHeaders(array $server)
@@ -228,8 +228,8 @@ abstract class ServerRequestFactory
     /**
      * Marshal the URI from the $_SERVER array and headers
      *
-     * @param array $server
-     * @param array $headers
+     * @param  array $server
+     * @param  array $headers
      * @return Uri
      */
     public static function marshalUriFromServer(array $server, array $headers)
@@ -286,8 +286,8 @@ abstract class ServerRequestFactory
      * Marshal the host and port from HTTP headers and/or the PHP environment
      *
      * @param stdClass $accumulator
-     * @param array $server
-     * @param array $headers
+     * @param array    $server
+     * @param array    $headers
      */
     public static function marshalHostAndPortFromHeaders(stdClass $accumulator, array $server, array $headers)
     {
@@ -321,10 +321,11 @@ abstract class ServerRequestFactory
      * URI, including rewrite URIs, proxy URIs, etc.
      *
      * From ZF2's Zend\Http\PhpEnvironment\Request class
+     *
      * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
      * @license   http://framework.zend.com/license/new-bsd New BSD License
      *
-     * @param array $server
+     * @param  array $server
      * @return string
      */
     public static function marshalRequestUri(array $server)
@@ -366,7 +367,7 @@ abstract class ServerRequestFactory
     /**
      * Strip the query string from a path
      *
-     * @param mixed $path
+     * @param  mixed $path
      * @return string
      */
     public static function stripQueryString($path)
@@ -380,8 +381,8 @@ abstract class ServerRequestFactory
     /**
      * Marshal the host and port from the request header
      *
-     * @param stdClass $accumulator
-     * @param string|array $host
+     * @param  stdClass     $accumulator
+     * @param  string|array $host
      * @return void
      */
     private static function marshalHostAndPortFromHeader(stdClass $accumulator, $host)
@@ -404,7 +405,7 @@ abstract class ServerRequestFactory
      * Marshal host/port from misinterpreted IPv6 address
      *
      * @param stdClass $accumulator
-     * @param array $server
+     * @param array    $server
      */
     private static function marshalIpv6HostAndPort(stdClass $accumulator, array $server)
     {
@@ -423,7 +424,7 @@ abstract class ServerRequestFactory
      * If the specification represents an array of values, this method will
      * delegate to normalizeNestedFileSpec() and return that return value.
      *
-     * @param array $value $_FILES struct
+     * @param  array $value $_FILES struct
      * @return array|UploadedFileInterface
      */
     private static function createUploadedFileFromSpec(array $value)
@@ -447,7 +448,7 @@ abstract class ServerRequestFactory
      * Loops through all nested files and returns a normalized array of
      * UploadedFileInterface instances.
      *
-     * @param array $files
+     * @param  array $files
      * @return UploadedFileInterface[]
      */
     private static function normalizeNestedFileSpec(array $files = [])
@@ -469,7 +470,7 @@ abstract class ServerRequestFactory
     /**
      * Return HTTP protocol version (X.Y)
      *
-     * @param array $server
+     * @param  array $server
      * @return string
      */
     private static function marshalProtocolVersion(array $server)
@@ -479,10 +480,12 @@ abstract class ServerRequestFactory
         }
 
         if (! preg_match('#^(HTTP/)?(?P<version>[1-9]\d*(?:\.\d)?)$#', $server['SERVER_PROTOCOL'], $matches)) {
-            throw new UnexpectedValueException(sprintf(
-                'Unrecognized protocol version (%s)',
-                $server['SERVER_PROTOCOL']
-            ));
+            throw new UnexpectedValueException(
+                sprintf(
+                    'Unrecognized protocol version (%s)',
+                    $server['SERVER_PROTOCOL']
+                )
+            );
         }
 
         return $matches['version'];
@@ -494,12 +497,13 @@ abstract class ServerRequestFactory
      * PHP will replace special characters in cookie names, which results in other cookies not being available due to
      * overwriting. Thus, the server request should take the cookies from the request header instead.
      *
-     * @param $cookieHeader
+     * @param  $cookieHeader
      * @return array
      */
     private static function parseCookieHeader($cookieHeader)
     {
-        preg_match_all('(
+        preg_match_all(
+            '(
             (?:^\\n?[ \t]*|;[ ])
             (?P<name>[!#$%&\'*+-.0-9A-Z^_`a-z|~]+)
             =
@@ -507,7 +511,8 @@ abstract class ServerRequestFactory
                 (?P<value>[\x21\x23-\x2b\x2d-\x3a\x3c-\x5b\x5d-\x7e]*)
             (?P=DQUOTE)
             (?=\\n?[ \t]*$|;[ ])
-        )x', $cookieHeader, $matches, PREG_SET_ORDER);
+        )x', $cookieHeader, $matches, PREG_SET_ORDER
+        );
 
         $cookies = [];
 

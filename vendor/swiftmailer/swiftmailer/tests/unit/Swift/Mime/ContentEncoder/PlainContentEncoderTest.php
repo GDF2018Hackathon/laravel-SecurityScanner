@@ -31,14 +31,14 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest extends \SwiftMailerTest
             $collection = new Swift_StreamCollector();
 
             $is->shouldReceive('write')
-               ->zeroOrMoreTimes()
-               ->andReturnUsing($collection);
+                ->zeroOrMoreTimes()
+                ->andReturnUsing($collection);
             $os->shouldReceive('read')
-               ->once()
-               ->andReturn($byte);
+                ->once()
+                ->andReturn($byte);
             $os->shouldReceive('read')
-               ->zeroOrMoreTimes()
-               ->andReturn(false);
+                ->zeroOrMoreTimes()
+                ->andReturn(false);
 
             $encoder->encodeByteStream($os, $is);
             $this->assertIdenticalBinary($byte, $collection->content);
@@ -60,7 +60,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest extends \SwiftMailerTest
             'a a a a a a a a a a a a a a a a a a a a a a a a a',            //99
             $encoder->encodeString($input, 0, 50),
             '%s: Lines should be wrapped at 50 chars'
-            );
+        );
     }
 
     public function testLineLengthCanBeSpecifiedInByteStream()
@@ -72,44 +72,49 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest extends \SwiftMailerTest
         $collection = new Swift_StreamCollector();
 
         $is->shouldReceive('write')
-           ->zeroOrMoreTimes()
-           ->andReturnUsing($collection);
+            ->zeroOrMoreTimes()
+            ->andReturnUsing($collection);
 
         for ($i = 0; $i < 50; ++$i) {
             $os->shouldReceive('read')
-               ->once()
-               ->andReturn('a ');
+                ->once()
+                ->andReturn('a ');
         }
 
         $os->shouldReceive('read')
-           ->zeroOrMoreTimes()
-           ->andReturn(false);
+            ->zeroOrMoreTimes()
+            ->andReturn(false);
 
         $encoder->encodeByteStream($os, $is, 0, 50);
         $this->assertEquals(
             str_repeat('a ', 25)."\r\n".str_repeat('a ', 25),
             $collection->content
-            );
+        );
     }
 
     public function testencodeStringGeneratesCorrectCrlf()
     {
         $encoder = $this->getEncoder('7bit', true);
-        $this->assertEquals("a\r\nb", $encoder->encodeString("a\rb"),
+        $this->assertEquals(
+            "a\r\nb", $encoder->encodeString("a\rb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEquals("a\r\nb", $encoder->encodeString("a\nb"),
+        );
+        $this->assertEquals(
+            "a\r\nb", $encoder->encodeString("a\nb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEquals("a\r\n\r\nb", $encoder->encodeString("a\n\rb"),
+        );
+        $this->assertEquals(
+            "a\r\n\r\nb", $encoder->encodeString("a\n\rb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEquals("a\r\n\r\nb", $encoder->encodeString("a\r\rb"),
+        );
+        $this->assertEquals(
+            "a\r\n\r\nb", $encoder->encodeString("a\r\rb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEquals("a\r\n\r\nb", $encoder->encodeString("a\n\nb"),
+        );
+        $this->assertEquals(
+            "a\r\n\r\nb", $encoder->encodeString("a\n\nb"),
             '%s: Line endings should be standardized'
-            );
+        );
     }
 
     public function crlfProvider()
@@ -135,20 +140,20 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest extends \SwiftMailerTest
         $collection = new Swift_StreamCollector();
 
         $is->shouldReceive('write')
-           ->zeroOrMoreTimes()
-           ->andReturnUsing($collection);
+            ->zeroOrMoreTimes()
+            ->andReturnUsing($collection);
         $os->shouldReceive('read')
-           ->once()
-           ->andReturn('a');
+            ->once()
+            ->andReturn('a');
         $os->shouldReceive('read')
-           ->once()
-           ->andReturn($test);
+            ->once()
+            ->andReturn($test);
         $os->shouldReceive('read')
-           ->once()
-           ->andReturn('b');
+            ->once()
+            ->andReturn('b');
         $os->shouldReceive('read')
-           ->zeroOrMoreTimes()
-           ->andReturn(false);
+            ->zeroOrMoreTimes()
+            ->andReturn(false);
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEquals($expected, $collection->content);

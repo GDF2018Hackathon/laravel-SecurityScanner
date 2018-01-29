@@ -11,7 +11,7 @@
 /**
  * A CharacterStream implementation which stores characters in an internal array.
  *
- * @author     Xavier De Cock <xdecock@gmail.com>
+ * @author Xavier De Cock <xdecock@gmail.com>
  */
 class Swift_CharacterStream_NgCharacterStream implements Swift_CharacterStream
 {
@@ -167,44 +167,46 @@ class Swift_CharacterStream_NgCharacterStream implements Swift_CharacterStream
         $ret = false;
         $length = ($this->currentPos + $length > $this->charCount) ? $this->charCount - $this->currentPos : $length;
         switch ($this->mapType) {
-            case Swift_CharacterReader::MAP_TYPE_FIXED_LEN:
-                $len = $length * $this->map;
-                $ret = substr($this->datas,
-                        $this->currentPos * $this->map,
-                        $len);
-                $this->currentPos += $length;
-                break;
+        case Swift_CharacterReader::MAP_TYPE_FIXED_LEN:
+            $len = $length * $this->map;
+            $ret = substr(
+                $this->datas,
+                $this->currentPos * $this->map,
+                $len
+            );
+            $this->currentPos += $length;
+            break;
 
-            case Swift_CharacterReader::MAP_TYPE_INVALID:
-                $ret = '';
-                for (; $this->currentPos < $length; ++$this->currentPos) {
-                    if (isset($this->map[$this->currentPos])) {
-                        $ret .= '?';
-                    } else {
-                        $ret .= $this->datas[$this->currentPos];
-                    }
+        case Swift_CharacterReader::MAP_TYPE_INVALID:
+            $ret = '';
+            for (; $this->currentPos < $length; ++$this->currentPos) {
+                if (isset($this->map[$this->currentPos])) {
+                    $ret .= '?';
+                } else {
+                    $ret .= $this->datas[$this->currentPos];
                 }
-                break;
+            }
+            break;
 
-            case Swift_CharacterReader::MAP_TYPE_POSITIONS:
-                $end = $this->currentPos + $length;
-                $end = $end > $this->charCount ? $this->charCount : $end;
-                $ret = '';
-                $start = 0;
-                if ($this->currentPos > 0) {
-                    $start = $this->map['p'][$this->currentPos - 1];
+        case Swift_CharacterReader::MAP_TYPE_POSITIONS:
+            $end = $this->currentPos + $length;
+            $end = $end > $this->charCount ? $this->charCount : $end;
+            $ret = '';
+            $start = 0;
+            if ($this->currentPos > 0) {
+                $start = $this->map['p'][$this->currentPos - 1];
+            }
+            $to = $start;
+            for (; $this->currentPos < $end; ++$this->currentPos) {
+                if (isset($this->map['i'][$this->currentPos])) {
+                    $ret .= substr($this->datas, $start, $to - $start).'?';
+                    $start = $this->map['p'][$this->currentPos];
+                } else {
+                    $to = $this->map['p'][$this->currentPos];
                 }
-                $to = $start;
-                for (; $this->currentPos < $end; ++$this->currentPos) {
-                    if (isset($this->map['i'][$this->currentPos])) {
-                        $ret .= substr($this->datas, $start, $to - $start).'?';
-                        $start = $this->map['p'][$this->currentPos];
-                    } else {
-                        $to = $this->map['p'][$this->currentPos];
-                    }
-                }
-                $ret .= substr($this->datas, $start, $to - $start);
-                break;
+            }
+            $ret .= substr($this->datas, $start, $to - $start);
+            break;
         }
 
         return $ret;
@@ -251,7 +253,8 @@ class Swift_CharacterStream_NgCharacterStream implements Swift_CharacterStream
     {
         if (!isset($this->charReader)) {
             $this->charReader = $this->charReaderFactory->getReaderFor(
-                $this->charset);
+                $this->charset
+            );
             $this->map = array();
             $this->mapType = $this->charReader->getMapType();
         }

@@ -24,7 +24,7 @@ class GelfHandlerLegacyTest extends TestCase
             $this->markTestSkipped("mlehner/gelf-php not installed");
         }
 
-        require_once __DIR__ . '/GelfMockMessagePublisher.php';
+        include_once __DIR__ . '/GelfMockMessagePublisher.php';
     }
 
     /**

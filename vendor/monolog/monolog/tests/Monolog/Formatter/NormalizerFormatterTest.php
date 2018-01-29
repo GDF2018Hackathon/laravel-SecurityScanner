@@ -26,7 +26,8 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
     public function testFormat()
     {
         $formatter = new NormalizerFormatter('Y-m-d');
-        $formatted = $formatter->format(array(
+        $formatted = $formatter->format(
+            array(
             'level_name' => 'ERROR',
             'channel' => 'meh',
             'message' => 'foo',
@@ -39,9 +40,11 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
                 '-inf' => -INF,
                 'nan' => acos(4),
             ),
-        ));
+            )
+        );
 
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'level_name' => 'ERROR',
             'channel' => 'meh',
             'message' => 'foo',
@@ -59,7 +62,8 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
                 '-inf' => '-INF',
                 'nan' => 'NaN',
             ),
-        ), $formatted);
+            ), $formatted
+        );
     }
 
     public function testFormatExceptions()
@@ -67,22 +71,26 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
         $formatter = new NormalizerFormatter('Y-m-d');
         $e = new \LogicException('bar');
         $e2 = new \RuntimeException('foo', 0, $e);
-        $formatted = $formatter->format(array(
+        $formatted = $formatter->format(
+            array(
             'exception' => $e2,
-        ));
+            )
+        );
 
         $this->assertGreaterThan(5, count($formatted['exception']['trace']));
         $this->assertTrue(isset($formatted['exception']['previous']));
         unset($formatted['exception']['trace'], $formatted['exception']['previous']);
 
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'exception' => array(
                 'class'   => get_class($e2),
                 'message' => $e2->getMessage(),
                 'code'    => $e2->getCode(),
                 'file'    => $e2->getFile().':'.$e2->getLine(),
             ),
-        ), $formatted);
+            ), $formatted
+        );
     }
 
     public function testFormatSoapFaultException()
@@ -93,13 +101,16 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
 
         $formatter = new NormalizerFormatter('Y-m-d');
         $e = new \SoapFault('foo', 'bar', 'hello', 'world');
-        $formatted = $formatter->format(array(
+        $formatted = $formatter->format(
+            array(
             'exception' => $e,
-        ));
+            )
+        );
 
         unset($formatted['exception']['trace']);
 
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'exception' => array(
                 'class' => 'SoapFault',
                 'message' => 'bar',
@@ -109,22 +120,26 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
                 'faultactor' => 'hello',
                 'detail' => 'world',
             ),
-        ), $formatted);
+            ), $formatted
+        );
     }
 
     public function testFormatToStringExceptionHandle()
     {
         $formatter = new NormalizerFormatter('Y-m-d');
         $this->setExpectedException('RuntimeException', 'Could not convert to string');
-        $formatter->format(array(
+        $formatter->format(
+            array(
             'myObject' => new TestToStringError(),
-        ));
+            )
+        );
     }
 
     public function testBatchFormat()
     {
         $formatter = new NormalizerFormatter('Y-m-d');
-        $formatted = $formatter->formatBatch(array(
+        $formatted = $formatter->formatBatch(
+            array(
             array(
                 'level_name' => 'CRITICAL',
                 'channel' => 'test',
@@ -141,8 +156,10 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
                 'datetime' => new \DateTime,
                 'extra' => array(),
             ),
-        ));
-        $this->assertEquals(array(
+            )
+        );
+        $this->assertEquals(
+            array(
             array(
                 'level_name' => 'CRITICAL',
                 'channel' => 'test',
@@ -159,7 +176,8 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
                 'datetime' => date('Y-m-d'),
                 'extra' => array(),
             ),
-        ), $formatted);
+            ), $formatted
+        );
     }
 
     /**
@@ -176,12 +194,14 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
 
         // set an error handler to assert that the error is not raised anymore
         $that = $this;
-        set_error_handler(function ($level, $message, $file, $line, $context) use ($that) {
-            if (error_reporting() & $level) {
-                restore_error_handler();
-                $that->fail("$message should not be raised");
+        set_error_handler(
+            function ($level, $message, $file, $line, $context) use ($that) {
+                if (error_reporting() & $level) {
+                    restore_error_handler();
+                    $that->fail("$message should not be raised");
+                }
             }
-        });
+        );
 
         $formatter = new NormalizerFormatter();
         $reflMethod = new \ReflectionMethod($formatter, 'toJson');
@@ -200,12 +220,14 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
 
         // set an error handler to assert that the error is not raised anymore
         $that = $this;
-        set_error_handler(function ($level, $message, $file, $line, $context) use ($that) {
-            if (error_reporting() & $level) {
-                restore_error_handler();
-                $that->fail("$message should not be raised");
+        set_error_handler(
+            function ($level, $message, $file, $line, $context) use ($that) {
+                if (error_reporting() & $level) {
+                    restore_error_handler();
+                    $that->fail("$message should not be raised");
+                }
             }
-        });
+        );
 
         $formatter = new NormalizerFormatter();
         $reflMethod = new \ReflectionMethod($formatter, 'toJson');
@@ -222,14 +244,16 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
         $formatter = new NormalizerFormatter();
         $largeArray = range(1, 2000);
 
-        $res = $formatter->format(array(
+        $res = $formatter->format(
+            array(
             'level_name' => 'CRITICAL',
             'channel' => 'test',
             'message' => 'bar',
             'context' => array($largeArray),
             'datetime' => new \DateTime,
             'extra' => array(),
-        ));
+            )
+        );
 
         $this->assertCount(1000, $res['context'][0]);
         $this->assertEquals('Over 1000 items (2000 total), aborting normalization', $res['context'][0]['...']);
@@ -343,9 +367,11 @@ class NormalizerFormatterTest extends \PHPUnit_Framework_TestCase
 
         // This happens i.e. in React promises or Guzzle streams where stream wrappers are registered
         // and no file or line are included in the trace because it's treated as internal function
-        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-            throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
-        });
+        set_error_handler(
+            function ($errno, $errstr, $errfile, $errline) {
+                throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
+            }
+        );
 
         try {
             // This will contain $resource and $wrappedResource as arguments in the trace item

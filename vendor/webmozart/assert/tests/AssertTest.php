@@ -93,7 +93,8 @@ class AssertTest extends PHPUnit_Framework_TestCase
             array('resource', array(1), false),
             array('isCallable', array('strlen'), true),
             array('isCallable', array(array($this, 'getTests')), true),
-            array('isCallable', array(function () {}), true),
+            array('isCallable', array(function () {
+            }), true),
             array('isCallable', array(1234), false),
             array('isCallable', array('foobar'), false),
             array('isArray', array(array()), true),
@@ -291,12 +292,24 @@ class AssertTest extends PHPUnit_Framework_TestCase
             array('uuid', array('ff6f8cb0-c57da-51e1-9b21-0800200c9a66'), false),
             array('uuid', array('af6f8cb-c57d-11e1-9b21-0800200c9a66'), false),
             array('uuid', array('3f6f8cb0-c57d-11e1-9b21-0800200c9a6'), false),
-            array('throws', array(function() { throw new LogicException('test'); }, 'LogicException'), true),
-            array('throws', array(function() { throw new LogicException('test'); }, 'IllogicException'), false),
-            array('throws', array(function() { throw new Exception('test'); }), true),
-            array('throws', array(function() { trigger_error('test'); }, 'Throwable'), true, false, 70000),
-            array('throws', array(function() { trigger_error('test'); }, 'Unthrowable'), false, false, 70000),
-            array('throws', array(function() { throw new Error(); }, 'Throwable'), true, true, 70000),
+            array('throws', array(function () {
+                throw new LogicException('test'); 
+            }, 'LogicException'), true),
+            array('throws', array(function () {
+                throw new LogicException('test'); 
+            }, 'IllogicException'), false),
+            array('throws', array(function () {
+                throw new Exception('test'); 
+            }), true),
+            array('throws', array(function () {
+                trigger_error('test'); 
+            }, 'Throwable'), true, false, 70000),
+            array('throws', array(function () {
+                trigger_error('test'); 
+            }, 'Unthrowable'), false, false, 70000),
+            array('throws', array(function () {
+                throw new Error(); 
+            }, 'Throwable'), true, true, 70000),
         );
     }
 

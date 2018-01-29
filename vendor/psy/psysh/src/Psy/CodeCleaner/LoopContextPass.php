@@ -55,39 +55,39 @@ class LoopContextPass extends CodeCleanerPass
     public function enterNode(Node $node)
     {
         switch (true) {
-            case $node instanceof Do_:
-            case $node instanceof For_:
-            case $node instanceof Foreach_:
-            case $node instanceof Switch_:
-            case $node instanceof While_:
-                $this->loopDepth++;
-                break;
+        case $node instanceof Do_:
+        case $node instanceof For_:
+        case $node instanceof Foreach_:
+        case $node instanceof Switch_:
+        case $node instanceof While_:
+            $this->loopDepth++;
+            break;
 
-            case $node instanceof Break_:
-            case $node instanceof Continue_:
-                $operator = $node instanceof Break_ ? 'break' : 'continue';
+        case $node instanceof Break_:
+        case $node instanceof Continue_:
+            $operator = $node instanceof Break_ ? 'break' : 'continue';
 
-                if ($this->loopDepth === 0) {
-                    $msg = sprintf("'%s' not in the 'loop' or 'switch' context", $operator);
+            if ($this->loopDepth === 0) {
+                $msg = sprintf("'%s' not in the 'loop' or 'switch' context", $operator);
+                throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+            }
+
+            if ($node->num instanceof LNumber || $node->num instanceof DNumber) {
+                $num = $node->num->value;
+                if ($this->isPHP54 && ($node->num instanceof DNumber || $num < 1)) {
+                    $msg = sprintf("'%s' operator accepts only positive numbers", $operator);
                     throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
                 }
 
-                if ($node->num instanceof LNumber || $node->num instanceof DNumber) {
-                    $num = $node->num->value;
-                    if ($this->isPHP54 && ($node->num instanceof DNumber || $num < 1)) {
-                        $msg = sprintf("'%s' operator accepts only positive numbers", $operator);
-                        throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
-                    }
-
-                    if ($num > $this->loopDepth) {
-                        $msg = sprintf("Cannot '%s' %d levels", $operator, $num);
-                        throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
-                    }
-                } elseif ($node->num && $this->isPHP54) {
-                    $msg = sprintf("'%s' operator with non-constant operand is no longer supported", $operator);
+                if ($num > $this->loopDepth) {
+                    $msg = sprintf("Cannot '%s' %d levels", $operator, $num);
                     throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
                 }
-                break;
+            } elseif ($node->num && $this->isPHP54) {
+                $msg = sprintf("'%s' operator with non-constant operand is no longer supported", $operator);
+                throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
+            }
+            break;
         }
     }
 
@@ -97,13 +97,13 @@ class LoopContextPass extends CodeCleanerPass
     public function leaveNode(Node $node)
     {
         switch (true) {
-            case $node instanceof Do_:
-            case $node instanceof For_:
-            case $node instanceof Foreach_:
-            case $node instanceof Switch_:
-            case $node instanceof While_:
-                $this->loopDepth--;
-                break;
+        case $node instanceof Do_:
+        case $node instanceof For_:
+        case $node instanceof Foreach_:
+        case $node instanceof Switch_:
+        case $node instanceof While_:
+            $this->loopDepth--;
+            break;
         }
     }
 }

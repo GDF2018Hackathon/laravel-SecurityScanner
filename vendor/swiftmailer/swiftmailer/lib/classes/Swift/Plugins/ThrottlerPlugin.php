@@ -15,13 +15,19 @@
  */
 class Swift_Plugins_ThrottlerPlugin extends Swift_Plugins_BandwidthMonitorPlugin implements Swift_Plugins_Sleeper, Swift_Plugins_Timer
 {
-    /** Flag for throttling in bytes per minute */
+    /**
+ * Flag for throttling in bytes per minute 
+*/
     const BYTES_PER_MINUTE = 0x01;
 
-    /** Flag for throttling in emails per second (Amazon SES) */
+    /**
+ * Flag for throttling in emails per second (Amazon SES) 
+*/
     const MESSAGES_PER_SECOND = 0x11;
 
-    /** Flag for throttling in emails per minute */
+    /**
+ * Flag for throttling in emails per minute 
+*/
     const MESSAGES_PER_MINUTE = 0x10;
 
     /**
@@ -98,18 +104,18 @@ class Swift_Plugins_ThrottlerPlugin extends Swift_Plugins_BandwidthMonitorPlugin
         $duration = $time - $this->start;
 
         switch ($this->mode) {
-            case self::BYTES_PER_MINUTE:
-                $sleep = $this->throttleBytesPerMinute($duration);
-                break;
-            case self::MESSAGES_PER_SECOND:
-                $sleep = $this->throttleMessagesPerSecond($duration);
-                break;
-            case self::MESSAGES_PER_MINUTE:
-                $sleep = $this->throttleMessagesPerMinute($duration);
-                break;
-            default:
-                $sleep = 0;
-                break;
+        case self::BYTES_PER_MINUTE:
+            $sleep = $this->throttleBytesPerMinute($duration);
+            break;
+        case self::MESSAGES_PER_SECOND:
+            $sleep = $this->throttleMessagesPerSecond($duration);
+            break;
+        case self::MESSAGES_PER_MINUTE:
+            $sleep = $this->throttleMessagesPerMinute($duration);
+            break;
+        default:
+            $sleep = 0;
+            break;
         }
 
         if ($sleep > 0) {

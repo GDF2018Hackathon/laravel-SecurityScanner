@@ -185,8 +185,9 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
 
             if ($tokenClass == 'PHP_Token_HALT_COMPILER') {
                 break;
-            } elseif ($tokenClass == 'PHP_Token_COMMENT' ||
-                $tokenClass == 'PHP_Token_DOC_COMMENT') {
+            } elseif ($tokenClass == 'PHP_Token_COMMENT' 
+                || $tokenClass == 'PHP_Token_DOC_COMMENT'
+            ) {
                 $this->linesOfCode['cloc'] += $lines + 1;
             }
 
@@ -304,12 +305,12 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
 
             foreach ($this->tokens as $token) {
                 switch (get_class($token)) {
-                    case 'PHP_Token_REQUIRE_ONCE':
-                    case 'PHP_Token_REQUIRE':
-                    case 'PHP_Token_INCLUDE_ONCE':
-                    case 'PHP_Token_INCLUDE':
-                        $this->includes[$token->getType()][] = $token->getName();
-                        break;
+                case 'PHP_Token_REQUIRE_ONCE':
+                case 'PHP_Token_REQUIRE':
+                case 'PHP_Token_INCLUDE_ONCE':
+                case 'PHP_Token_INCLUDE':
+                    $this->includes[$token->getType()][] = $token->getName();
+                    break;
                 }
             }
         }
@@ -359,110 +360,114 @@ class PHP_Token_Stream implements ArrayAccess, Countable, SeekableIterator
 
         foreach ($this->tokens as $token) {
             switch (get_class($token)) {
-                case 'PHP_Token_HALT_COMPILER':
-                    return;
+            case 'PHP_Token_HALT_COMPILER':
+                return;
 
-                case 'PHP_Token_INTERFACE':
-                    $interface        = $token->getName();
-                    $interfaceEndLine = $token->getEndLine();
+            case 'PHP_Token_INTERFACE':
+                $interface        = $token->getName();
+                $interfaceEndLine = $token->getEndLine();
 
-                    $this->interfaces[$interface] = [
-                      'methods'   => [],
-                      'parent'    => $token->getParent(),
-                      'keywords'  => $token->getKeywords(),
-                      'docblock'  => $token->getDocblock(),
-                      'startLine' => $token->getLine(),
-                      'endLine'   => $interfaceEndLine,
-                      'package'   => $token->getPackage(),
-                      'file'      => $this->filename
-                    ];
-                    break;
+                $this->interfaces[$interface] = [
+                  'methods'   => [],
+                  'parent'    => $token->getParent(),
+                  'keywords'  => $token->getKeywords(),
+                  'docblock'  => $token->getDocblock(),
+                  'startLine' => $token->getLine(),
+                  'endLine'   => $interfaceEndLine,
+                  'package'   => $token->getPackage(),
+                  'file'      => $this->filename
+                ];
+                break;
 
-                case 'PHP_Token_CLASS':
-                case 'PHP_Token_TRAIT':
-                    $tmp = [
-                      'methods'   => [],
-                      'parent'    => $token->getParent(),
-                      'interfaces'=> $token->getInterfaces(),
-                      'keywords'  => $token->getKeywords(),
-                      'docblock'  => $token->getDocblock(),
-                      'startLine' => $token->getLine(),
-                      'endLine'   => $token->getEndLine(),
-                      'package'   => $token->getPackage(),
-                      'file'      => $this->filename
-                    ];
+            case 'PHP_Token_CLASS':
+            case 'PHP_Token_TRAIT':
+                $tmp = [
+                  'methods'   => [],
+                  'parent'    => $token->getParent(),
+                  'interfaces'=> $token->getInterfaces(),
+                  'keywords'  => $token->getKeywords(),
+                  'docblock'  => $token->getDocblock(),
+                  'startLine' => $token->getLine(),
+                  'endLine'   => $token->getEndLine(),
+                  'package'   => $token->getPackage(),
+                  'file'      => $this->filename
+                ];
 
-                    if ($token instanceof PHP_Token_CLASS) {
-                        $class[]        = $token->getName();
-                        $classEndLine[] = $token->getEndLine();
+                if ($token instanceof PHP_Token_CLASS) {
+                    $class[]        = $token->getName();
+                    $classEndLine[] = $token->getEndLine();
 
-                        $this->classes[$class[count($class) - 1]] = $tmp;
-                    } else {
-                        $trait                = $token->getName();
-                        $traitEndLine         = $token->getEndLine();
-                        $this->traits[$trait] = $tmp;
-                    }
-                    break;
+                    $this->classes[$class[count($class) - 1]] = $tmp;
+                } else {
+                    $trait                = $token->getName();
+                    $traitEndLine         = $token->getEndLine();
+                    $this->traits[$trait] = $tmp;
+                }
+                break;
 
-                case 'PHP_Token_FUNCTION':
-                    $name = $token->getName();
-                    $tmp  = [
-                      'docblock'  => $token->getDocblock(),
-                      'keywords'  => $token->getKeywords(),
-                      'visibility'=> $token->getVisibility(),
-                      'signature' => $token->getSignature(),
-                      'startLine' => $token->getLine(),
-                      'endLine'   => $token->getEndLine(),
-                      'ccn'       => $token->getCCN(),
-                      'file'      => $this->filename
-                    ];
+            case 'PHP_Token_FUNCTION':
+                $name = $token->getName();
+                $tmp  = [
+                  'docblock'  => $token->getDocblock(),
+                  'keywords'  => $token->getKeywords(),
+                  'visibility'=> $token->getVisibility(),
+                  'signature' => $token->getSignature(),
+                  'startLine' => $token->getLine(),
+                  'endLine'   => $token->getEndLine(),
+                  'ccn'       => $token->getCCN(),
+                  'file'      => $this->filename
+                ];
 
-                    if (empty($class) &&
-                        $trait === false &&
-                        $interface === false) {
-                        $this->functions[$name] = $tmp;
+                if (empty($class) 
+                    && $trait === false 
+                    && $interface === false
+                ) {
+                    $this->functions[$name] = $tmp;
 
-                        $this->addFunctionToMap(
-                            $name,
-                            $tmp['startLine'],
-                            $tmp['endLine']
-                        );
-                    } elseif (!empty($class)) {
-                        $this->classes[$class[count($class) - 1]]['methods'][$name] = $tmp;
+                    $this->addFunctionToMap(
+                        $name,
+                        $tmp['startLine'],
+                        $tmp['endLine']
+                    );
+                } elseif (!empty($class)) {
+                    $this->classes[$class[count($class) - 1]]['methods'][$name] = $tmp;
 
-                        $this->addFunctionToMap(
-                            $class[count($class) - 1] . '::' . $name,
-                            $tmp['startLine'],
-                            $tmp['endLine']
-                        );
-                    } elseif ($trait !== false) {
-                        $this->traits[$trait]['methods'][$name] = $tmp;
+                    $this->addFunctionToMap(
+                        $class[count($class) - 1] . '::' . $name,
+                        $tmp['startLine'],
+                        $tmp['endLine']
+                    );
+                } elseif ($trait !== false) {
+                    $this->traits[$trait]['methods'][$name] = $tmp;
 
-                        $this->addFunctionToMap(
-                            $trait . '::' . $name,
-                            $tmp['startLine'],
-                            $tmp['endLine']
-                        );
-                    } else {
-                        $this->interfaces[$interface]['methods'][$name] = $tmp;
-                    }
-                    break;
+                    $this->addFunctionToMap(
+                        $trait . '::' . $name,
+                        $tmp['startLine'],
+                        $tmp['endLine']
+                    );
+                } else {
+                    $this->interfaces[$interface]['methods'][$name] = $tmp;
+                }
+                break;
 
-                case 'PHP_Token_CLOSE_CURLY':
-                    if (!empty($classEndLine) &&
-                        $classEndLine[count($classEndLine) - 1] == $token->getLine()) {
-                        array_pop($classEndLine);
-                        array_pop($class);
-                    } elseif ($traitEndLine !== false &&
-                        $traitEndLine == $token->getLine()) {
-                        $trait        = false;
-                        $traitEndLine = false;
-                    } elseif ($interfaceEndLine !== false &&
-                        $interfaceEndLine == $token->getLine()) {
-                        $interface        = false;
-                        $interfaceEndLine = false;
-                    }
-                    break;
+            case 'PHP_Token_CLOSE_CURLY':
+                if (!empty($classEndLine) 
+                    && $classEndLine[count($classEndLine) - 1] == $token->getLine()
+                ) {
+                    array_pop($classEndLine);
+                    array_pop($class);
+                } elseif ($traitEndLine !== false 
+                    && $traitEndLine == $token->getLine()
+                ) {
+                    $trait        = false;
+                    $traitEndLine = false;
+                } elseif ($interfaceEndLine !== false 
+                    && $interfaceEndLine == $token->getLine()
+                ) {
+                    $interface        = false;
+                    $interfaceEndLine = false;
+                }
+                break;
             }
         }
     }

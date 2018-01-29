@@ -53,7 +53,7 @@ class VendorPublishCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \Illuminate\Filesystem\Filesystem $files
      * @return void
      */
     public function __construct(Filesystem $files)
@@ -135,7 +135,7 @@ class VendorPublishCommand extends Command
     /**
      * Parse the answer that was given via the prompt.
      *
-     * @param  string  $choice
+     * @param  string $choice
      * @return void
      */
     protected function parseChoice($choice)
@@ -152,7 +152,7 @@ class VendorPublishCommand extends Command
     /**
      * Publishes the assets for a tag.
      *
-     * @param  string  $tag
+     * @param  string $tag
      * @return mixed
      */
     protected function publishTag($tag)
@@ -165,7 +165,7 @@ class VendorPublishCommand extends Command
     /**
      * Get all of the paths to publish.
      *
-     * @param  string  $tag
+     * @param  string $tag
      * @return array
      */
     protected function pathsToPublish($tag)
@@ -178,8 +178,8 @@ class VendorPublishCommand extends Command
     /**
      * Publish the given item from and to the given location.
      *
-     * @param  string  $from
-     * @param  string  $to
+     * @param  string $from
+     * @param  string $to
      * @return void
      */
     protected function publishItem($from, $to)
@@ -196,8 +196,8 @@ class VendorPublishCommand extends Command
     /**
      * Publish the file to the given path.
      *
-     * @param  string  $from
-     * @param  string  $to
+     * @param  string $from
+     * @param  string $to
      * @return void
      */
     protected function publishFile($from, $to)
@@ -214,16 +214,20 @@ class VendorPublishCommand extends Command
     /**
      * Publish the directory to the given directory.
      *
-     * @param  string  $from
-     * @param  string  $to
+     * @param  string $from
+     * @param  string $to
      * @return void
      */
     protected function publishDirectory($from, $to)
     {
-        $this->moveManagedFiles(new MountManager([
-            'from' => new Flysystem(new LocalAdapter($from)),
-            'to' => new Flysystem(new LocalAdapter($to)),
-        ]));
+        $this->moveManagedFiles(
+            new MountManager(
+                [
+                'from' => new Flysystem(new LocalAdapter($from)),
+                'to' => new Flysystem(new LocalAdapter($to)),
+                ]
+            )
+        );
 
         $this->status($from, $to, 'Directory');
     }
@@ -231,7 +235,7 @@ class VendorPublishCommand extends Command
     /**
      * Move all the files in the given MountManager.
      *
-     * @param  \League\Flysystem\MountManager  $manager
+     * @param  \League\Flysystem\MountManager $manager
      * @return void
      */
     protected function moveManagedFiles($manager)
@@ -246,7 +250,7 @@ class VendorPublishCommand extends Command
     /**
      * Create the directory to house the published files if needed.
      *
-     * @param  string  $directory
+     * @param  string $directory
      * @return void
      */
     protected function createParentDirectory($directory)
@@ -259,9 +263,9 @@ class VendorPublishCommand extends Command
     /**
      * Write a status message to the console.
      *
-     * @param  string  $from
-     * @param  string  $to
-     * @param  string  $type
+     * @param  string $from
+     * @param  string $to
+     * @param  string $type
      * @return void
      */
     protected function status($from, $to, $type)

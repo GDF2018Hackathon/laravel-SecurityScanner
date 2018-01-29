@@ -12,7 +12,7 @@
  * FilterIterator implementation that filters files based on prefix(es) and/or
  * suffix(es). Hidden files and files from hidden directories are also filtered.
  *
- * @since     Class available since Release 1.0.0
+ * @since Class available since Release 1.0.0
  */
 class File_Iterator extends FilterIterator
 {
@@ -46,16 +46,16 @@ class File_Iterator extends FilterIterator
      * @param array    $exclude
      * @param string   $basepath
      */
-    public function __construct(Iterator $iterator, array $suffixes = array(), array $prefixes = array(), array $exclude = array(), $basepath = NULL)
+    public function __construct(Iterator $iterator, array $suffixes = array(), array $prefixes = array(), array $exclude = array(), $basepath = null)
     {
         $exclude = array_filter(array_map('realpath', $exclude));
 
-        if ($basepath !== NULL) {
+        if ($basepath !== null) {
             $basepath = realpath($basepath);
         }
 
-        if ($basepath === FALSE) {
-            $basepath = NULL;
+        if ($basepath === false) {
+            $basepath = null;
         } else {
             foreach ($exclude as &$_exclude) {
                 $_exclude = str_replace($basepath, '', $_exclude);
@@ -79,13 +79,13 @@ class File_Iterator extends FilterIterator
         $filename = $current->getFilename();
         $realpath = $current->getRealPath();
 
-        if ($this->basepath !== NULL) {
+        if ($this->basepath !== null) {
             $realpath = str_replace($this->basepath, '', $realpath);
         }
 
         // Filter files in hidden directories.
         if (preg_match('=/\.[^/]*/=', $realpath)) {
-            return FALSE;
+            return false;
         }
 
         return $this->acceptPath($realpath) &&
@@ -102,11 +102,11 @@ class File_Iterator extends FilterIterator
     {
         foreach ($this->exclude as $exclude) {
             if (strpos($path, $exclude) === 0) {
-                return FALSE;
+                return false;
             }
         }
 
-        return TRUE;
+        return true;
     }
 
     /**
@@ -139,16 +139,17 @@ class File_Iterator extends FilterIterator
     protected function acceptSubString($filename, array $subStrings, $type)
     {
         if (empty($subStrings)) {
-            return TRUE;
+            return true;
         }
 
-        $matched = FALSE;
+        $matched = false;
 
         foreach ($subStrings as $string) {
-            if (($type == self::PREFIX && strpos($filename, $string) === 0) ||
-                ($type == self::SUFFIX &&
-                 substr($filename, -1 * strlen($string)) == $string)) {
-                $matched = TRUE;
+            if (($type == self::PREFIX && strpos($filename, $string) === 0) 
+                || ($type == self::SUFFIX 
+                && substr($filename, -1 * strlen($string)) == $string)
+            ) {
+                $matched = true;
                 break;
             }
         }

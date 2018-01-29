@@ -25,13 +25,15 @@ use phpDocumentor\Reflection\Type;
  */
 final class Compound implements Type, IteratorAggregate
 {
-    /** @var Type[] */
+    /**
+     * @var Type[] 
+     */
     private $types;
 
     /**
      * Initializes a compound type (i.e. `string|int`) and tests if the provided types all implement the Type interface.
      *
-     * @param Type[] $types
+     * @param  Type[] $types
      * @throws \InvalidArgumentException when types are not all instance of Type
      */
     public function __construct(array $types)

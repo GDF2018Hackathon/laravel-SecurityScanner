@@ -11,7 +11,6 @@
 /**
  * General utility class in Swift Mailer, not to be instantiated.
  *
- *
  * @author Chris Corbyn
  */
 abstract class Swift
@@ -52,7 +51,7 @@ abstract class Swift
             return;
         }
 
-        require $path;
+        include $path;
 
         if (self::$inits && !self::$initialized) {
             self::$initialized = true;

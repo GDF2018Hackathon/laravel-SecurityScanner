@@ -104,7 +104,9 @@ class ApplicationDescription
         foreach ($this->sortCommands($all) as $namespace => $commands) {
             $names = array();
 
-            /** @var Command $command */
+            /**
+ * @var Command $command 
+*/
             foreach ($commands as $name => $command) {
                 if (!$command->getName() || (!$this->showHidden && $command->isHidden())) {
                     continue;

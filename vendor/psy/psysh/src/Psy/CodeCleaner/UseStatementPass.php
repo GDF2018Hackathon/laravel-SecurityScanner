@@ -76,10 +76,12 @@ class UseStatementPass extends CodeCleanerPass
             // Expand every "use" statement in the group into a full, standalone
             // "use" and store 'em with the others.
             foreach ($node->uses as $use) {
-                $this->aliases[strtolower($use->alias)] = Name::concat($node->prefix, $use->name, array(
+                $this->aliases[strtolower($use->alias)] = Name::concat(
+                    $node->prefix, $use->name, array(
                     'startLine' => $node->prefix->getAttribute('startLine'),
                     'endLine'   => $use->name->getAttribute('endLine'),
-                ));
+                    )
+                );
             }
 
             return false;

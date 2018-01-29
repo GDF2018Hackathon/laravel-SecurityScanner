@@ -27,9 +27,8 @@
  */
 
 if (!is_callable('RandomCompat_strlen')) {
-    if (
-        defined('MB_OVERLOAD_STRING') &&
-        ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
+    if (defined('MB_OVERLOAD_STRING') 
+        && ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
     ) {
         /**
          * strlen() implementation that isn't brittle to mbstring.func_overload
@@ -80,10 +79,8 @@ if (!is_callable('RandomCompat_strlen')) {
 
 if (!is_callable('RandomCompat_substr')) {
 
-    if (
-        defined('MB_OVERLOAD_STRING')
-        &&
-        ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
+    if (defined('MB_OVERLOAD_STRING')
+        && ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
     ) {
         /**
          * substr() implementation that isn't brittle to mbstring.func_overload
@@ -92,8 +89,8 @@ if (!is_callable('RandomCompat_substr')) {
          * binary rather than UTF-8, ISO-8859-1, etc
          *
          * @param string $binary_string
-         * @param int $start
-         * @param int $length (optional)
+         * @param int    $start
+         * @param int    $length        (optional)
          *
          * @throws TypeError
          *
@@ -144,8 +141,8 @@ if (!is_callable('RandomCompat_substr')) {
          * This version just uses the default substr()
          *
          * @param string $binary_string
-         * @param int $start
-         * @param int $length (optional)
+         * @param int    $start
+         * @param int    $length        (optional)
          *
          * @throws TypeError
          *

@@ -10,7 +10,9 @@ class Array_ extends Expr
     const KIND_LONG = 1;  // array() syntax
     const KIND_SHORT = 2; // [] syntax
 
-    /** @var ArrayItem[] Items */
+    /**
+     * @var ArrayItem[] Items 
+     */
     public $items;
 
     /**
@@ -19,12 +21,14 @@ class Array_ extends Expr
      * @param ArrayItem[] $items      Items of the array
      * @param array       $attributes Additional attributes
      */
-    public function __construct(array $items = array(), array $attributes = array()) {
+    public function __construct(array $items = array(), array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->items = $items;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('items');
     }
 }

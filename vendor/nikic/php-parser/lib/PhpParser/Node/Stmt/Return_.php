@@ -6,7 +6,9 @@ use PhpParser\Node;
 
 class Return_ extends Node\Stmt
 {
-    /** @var null|Node\Expr Expression */
+    /**
+     * @var null|Node\Expr Expression 
+     */
     public $expr;
 
     /**
@@ -15,12 +17,14 @@ class Return_ extends Node\Stmt
      * @param null|Node\Expr $expr       Expression
      * @param array          $attributes Additional attributes
      */
-    public function __construct(Node\Expr $expr = null, array $attributes = array()) {
+    public function __construct(Node\Expr $expr = null, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->expr = $expr;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('expr');
     }
 }

@@ -29,9 +29,8 @@ class IsSame extends BaseMatcher
     public function describeTo(Description $description)
     {
         $description->appendText('sameInstance(')
-                                ->appendValue($this->_object)
-                                ->appendText(')')
-                                ;
+            ->appendValue($this->_object)
+            ->appendText(')');
     }
 
     /**
@@ -41,7 +40,7 @@ class IsSame extends BaseMatcher
      *   The predicate evaluates to true only when the argument is
      *   this object.
      *
-     * @return \Hamcrest\Core\IsSame
+     * @return  \Hamcrest\Core\IsSame
      * @factory
      */
     public static function sameInstance($object)

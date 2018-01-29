@@ -132,9 +132,11 @@ class FingersCrossedHandler extends AbstractHandler
     {
         if (null !== $this->passthruLevel) {
             $level = $this->passthruLevel;
-            $this->buffer = array_filter($this->buffer, function ($record) use ($level) {
-                return $record['level'] >= $level;
-            });
+            $this->buffer = array_filter(
+                $this->buffer, function ($record) use ($level) {
+                    return $record['level'] >= $level;
+                }
+            );
             if (count($this->buffer) > 0) {
                 $this->handler->handleBatch($this->buffer);
                 $this->buffer = array();

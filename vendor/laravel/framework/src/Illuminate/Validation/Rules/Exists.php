@@ -13,10 +13,13 @@ class Exists
      */
     public function __toString()
     {
-        return rtrim(sprintf('exists:%s,%s,%s',
-            $this->table,
-            $this->column,
-            $this->formatWheres()
-        ), ',');
+        return rtrim(
+            sprintf(
+                'exists:%s,%s,%s',
+                $this->table,
+                $this->column,
+                $this->formatWheres()
+            ), ','
+        );
     }
 }

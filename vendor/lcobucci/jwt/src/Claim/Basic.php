@@ -13,7 +13,7 @@ use Lcobucci\JWT\Claim;
  * The default claim
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.0.0
+ * @since  2.0.0
  */
 class Basic implements Claim
 {
@@ -31,7 +31,7 @@ class Basic implements Claim
      * Initializes the claim
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function __construct($name, $value)
     {

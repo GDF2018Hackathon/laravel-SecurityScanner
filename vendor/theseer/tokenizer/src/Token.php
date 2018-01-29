@@ -1,7 +1,8 @@
 <?php declare(strict_types = 1);
 namespace TheSeer\Tokenizer;
 
-class Token {
+class Token
+{
 
     /**
      * @var int
@@ -25,7 +26,8 @@ class Token {
      * @param string $name
      * @param string $value
      */
-    public function __construct(int $line, string $name, string $value) {
+    public function __construct(int $line, string $name, string $value) 
+    {
         $this->line  = $line;
         $this->name  = $name;
         $this->value = $value;
@@ -34,21 +36,24 @@ class Token {
     /**
      * @return int
      */
-    public function getLine(): int {
+    public function getLine(): int 
+    {
         return $this->line;
     }
 
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string 
+    {
         return $this->name;
     }
 
     /**
      * @return string
      */
-    public function getValue(): string {
+    public function getValue(): string 
+    {
         return $this->value;
     }
 

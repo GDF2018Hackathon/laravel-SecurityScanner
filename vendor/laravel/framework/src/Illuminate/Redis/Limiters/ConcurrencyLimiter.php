@@ -37,10 +37,10 @@ class ConcurrencyLimiter
     /**
      * Create a new concurrency limiter instance.
      *
-     * @param  \Illuminate\Redis\Connections\Connection  $redis
-     * @param  string  $name
-     * @param  int  $maxLocks
-     * @param  int  $releaseAfter
+     * @param  \Illuminate\Redis\Connections\Connection $redis
+     * @param  string                                   $name
+     * @param  int                                      $maxLocks
+     * @param  int                                      $releaseAfter
      * @return void
      */
     public function __construct($redis, $name, $maxLocks, $releaseAfter)
@@ -54,8 +54,8 @@ class ConcurrencyLimiter
     /**
      * Attempt to acquire the lock for the given number of seconds.
      *
-     * @param  int  $timeout
-     * @param  callable|null  $callback
+     * @param  int           $timeout
+     * @param  callable|null $callback
      * @return bool
      * @throws \Illuminate\Contracts\Redis\LimiterTimeoutException
      */
@@ -72,9 +72,11 @@ class ConcurrencyLimiter
         }
 
         if (is_callable($callback)) {
-            return tap($callback(), function () use ($slot) {
-                $this->release($slot);
-            });
+            return tap(
+                $callback(), function () use ($slot) {
+                    $this->release($slot);
+                }
+            );
         }
 
         return true;
@@ -87,11 +89,14 @@ class ConcurrencyLimiter
      */
     protected function acquire()
     {
-        $slots = array_map(function ($i) {
-            return $this->name.$i;
-        }, range(1, $this->maxLocks));
+        $slots = array_map(
+            function ($i) {
+                return $this->name.$i;
+            }, range(1, $this->maxLocks)
+        );
 
-        return $this->redis->eval($this->luaScript(), count($slots),
+        return $this->redis->eval(
+            $this->luaScript(), count($slots),
             ...array_merge($slots, [$this->name, $this->releaseAfter])
         );
     }
@@ -120,7 +125,7 @@ LUA;
     /**
      * Release the lock.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     protected function release($key)

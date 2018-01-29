@@ -9,14 +9,18 @@ use Psr\Http\Message\ResponseInterface;
  */
 class CookieJar implements CookieJarInterface
 {
-    /** @var SetCookie[] Loaded cookie data */
+    /**
+     * @var SetCookie[] Loaded cookie data 
+     */
     private $cookies = [];
 
-    /** @var bool */
+    /**
+     * @var bool 
+     */
     private $strictMode;
 
     /**
-     * @param bool $strictMode   Set to true to throw exceptions when invalid
+     * @param bool  $strictMode  Set to true to throw exceptions when invalid
      *                           cookies are added to the cookie jar.
      * @param array $cookieArray Array of SetCookie objects or a hash of
      *                           arrays that can be used with the SetCookie
@@ -46,12 +50,16 @@ class CookieJar implements CookieJarInterface
     {
         $cookieJar = new self();
         foreach ($cookies as $name => $value) {
-            $cookieJar->setCookie(new SetCookie([
-                'Domain'  => $domain,
-                'Name'    => $name,
-                'Value'   => $value,
-                'Discard' => true
-            ]));
+            $cookieJar->setCookie(
+                new SetCookie(
+                    [
+                    'Domain'  => $domain,
+                    'Name'    => $name,
+                    'Value'   => $value,
+                    'Discard' => true
+                    ]
+                )
+            );
         }
 
         return $cookieJar;
@@ -69,8 +77,8 @@ class CookieJar implements CookieJarInterface
      * Evaluate if this cookie should be persisted to storage
      * that survives between requests.
      *
-     * @param SetCookie $cookie Being evaluated.
-     * @param bool $allowSessionCookies If we should persist session cookies
+     * @param  SetCookie $cookie              Being evaluated.
+     * @param  bool      $allowSessionCookies If we should persist session cookies
      * @return bool
      */
     public static function shouldPersist(
@@ -89,7 +97,7 @@ class CookieJar implements CookieJarInterface
     /**
      * Finds and returns the cookie based on the name
      *
-     * @param string $name cookie name to search for
+     * @param  string $name cookie name to search for
      * @return SetCookie|null cookie that was found or null if not found
      */
     public function getCookieByName($name)
@@ -107,9 +115,11 @@ class CookieJar implements CookieJarInterface
 
     public function toArray()
     {
-        return array_map(function (SetCookie $cookie) {
-            return $cookie->toArray();
-        }, $this->getIterator()->getArrayCopy());
+        return array_map(
+            function (SetCookie $cookie) {
+                return $cookie->toArray();
+            }, $this->getIterator()->getArrayCopy()
+        );
     }
 
     public function clear($domain = null, $path = null, $name = null)
@@ -179,9 +189,9 @@ class CookieJar implements CookieJarInterface
 
             // Two cookies are identical, when their path, and domain are
             // identical.
-            if ($c->getPath() != $cookie->getPath() ||
-                $c->getDomain() != $cookie->getDomain() ||
-                $c->getName() != $cookie->getName()
+            if ($c->getPath() != $cookie->getPath() 
+                || $c->getDomain() != $cookie->getDomain() 
+                || $c->getName() != $cookie->getName()
             ) {
                 continue;
             }
@@ -248,7 +258,7 @@ class CookieJar implements CookieJarInterface
      *
      * @link https://tools.ietf.org/html/rfc6265#section-5.1.4
      *
-     * @param RequestInterface $request
+     * @param  RequestInterface $request
      * @return string
      */
     private function getCookiePathFromRequest(RequestInterface $request)
@@ -279,10 +289,10 @@ class CookieJar implements CookieJarInterface
         $path = $uri->getPath() ?: '/';
 
         foreach ($this->cookies as $cookie) {
-            if ($cookie->matchesPath($path) &&
-                $cookie->matchesDomain($host) &&
-                !$cookie->isExpired() &&
-                (!$cookie->getSecure() || $scheme === 'https')
+            if ($cookie->matchesPath($path) 
+                && $cookie->matchesDomain($host) 
+                && !$cookie->isExpired() 
+                && (!$cookie->getSecure() || $scheme === 'https')
             ) {
                 $values[] = $cookie->getName() . '='
                     . $cookie->getValue();

@@ -14,7 +14,7 @@ use Lcobucci\JWT\ValidationData;
  * Validatable claim that checks if value is greater or equals the given data
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.0.0
+ * @since  2.0.0
  */
 class GreaterOrEqualsTo extends Basic implements Claim, Validatable
 {

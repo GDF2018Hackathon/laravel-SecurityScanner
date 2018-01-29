@@ -29,10 +29,12 @@ class VariousIterableDataProviderTest
 
     public static function asTraversableProvider()
     {
-        return new WrapperIteratorAggregate([
+        return new WrapperIteratorAggregate(
+            [
             ['G'],
             ['H'],
             ['I'],
-        ]);
+            ]
+        );
     }
 }

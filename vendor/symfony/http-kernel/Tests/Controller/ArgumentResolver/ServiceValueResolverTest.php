@@ -30,15 +30,21 @@ class ServiceValueResolverTest extends TestCase
 
     public function testExistingController()
     {
-        $resolver = new ServiceValueResolver(new ServiceLocator(array(
-            'App\\Controller\\Mine::method' => function () {
-                return new ServiceLocator(array(
-                    'dummy' => function () {
-                        return new DummyService();
-                    },
-                ));
-            },
-        )));
+        $resolver = new ServiceValueResolver(
+            new ServiceLocator(
+                array(
+                'App\\Controller\\Mine::method' => function () {
+                    return new ServiceLocator(
+                        array(
+                        'dummy' => function () {
+                            return new DummyService();
+                        },
+                        )
+                    );
+                },
+                )
+            )
+        );
 
         $request = $this->requestWithAttributes(array('_controller' => 'App\\Controller\\Mine::method'));
         $argument = new ArgumentMetadata('dummy', DummyService::class, false, false, null);
@@ -49,15 +55,21 @@ class ServiceValueResolverTest extends TestCase
 
     public function testControllerNameIsAnArray()
     {
-        $resolver = new ServiceValueResolver(new ServiceLocator(array(
-            'App\\Controller\\Mine::method' => function () {
-                return new ServiceLocator(array(
-                    'dummy' => function () {
-                        return new DummyService();
-                    },
-                ));
-            },
-        )));
+        $resolver = new ServiceValueResolver(
+            new ServiceLocator(
+                array(
+                'App\\Controller\\Mine::method' => function () {
+                    return new ServiceLocator(
+                        array(
+                        'dummy' => function () {
+                            return new DummyService();
+                        },
+                        )
+                    );
+                },
+                )
+            )
+        );
 
         $request = $this->requestWithAttributes(array('_controller' => array('App\\Controller\\Mine', 'method')));
         $argument = new ArgumentMetadata('dummy', DummyService::class, false, false, null);

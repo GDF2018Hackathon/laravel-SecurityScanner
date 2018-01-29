@@ -30,7 +30,7 @@ class ModelIdentifier
     /**
      * Create a new model identifier.
      *
-     * @param  string  $class
+     * @param  string $class
      * @param  mixed  $id
      * @param  mixed  $connection
      * @return void

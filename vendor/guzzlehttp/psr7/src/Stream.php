@@ -18,7 +18,9 @@ class Stream implements StreamInterface
     private $uri;
     private $customMetadata;
 
-    /** @var array Hash of readable and writable stream types */
+    /**
+     * @var array Hash of readable and writable stream types 
+     */
     private static $readWriteHash = [
         'read' => [
             'r' => true, 'w+' => true, 'r+' => true, 'x+' => true, 'c+' => true,
@@ -197,8 +199,10 @@ class Stream implements StreamInterface
         if (!$this->seekable) {
             throw new \RuntimeException('Stream is not seekable');
         } elseif (fseek($this->stream, $offset, $whence) === -1) {
-            throw new \RuntimeException('Unable to seek to stream position '
-                . $offset . ' with whence ' . var_export($whence, true));
+            throw new \RuntimeException(
+                'Unable to seek to stream position '
+                . $offset . ' with whence ' . var_export($whence, true)
+            );
         }
     }
 

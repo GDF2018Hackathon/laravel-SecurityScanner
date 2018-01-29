@@ -37,9 +37,11 @@ class CallTypeHintPassTest extends TestCase
     public function shouldRemoveCallTypeHintIfRequired()
     {
         $pass = new CallTypeHintPass;
-        $config = m::mock("Mockery\Generator\MockConfiguration", array(
+        $config = m::mock(
+            "Mockery\Generator\MockConfiguration", array(
             "requiresCallTypeHintRemoval" => true,
-        ))->shouldDeferMissing();
+            )
+        )->shouldDeferMissing();
         $code = $pass->apply(static::CODE, $config);
         $this->assertContains('__call($method, $args)', $code);
     }
@@ -50,9 +52,11 @@ class CallTypeHintPassTest extends TestCase
     public function shouldRemoveCallStaticTypeHintIfRequired()
     {
         $pass = new CallTypeHintPass;
-        $config = m::mock("Mockery\Generator\MockConfiguration", array(
+        $config = m::mock(
+            "Mockery\Generator\MockConfiguration", array(
             "requiresCallStaticTypeHintRemoval" => true,
-        ))->shouldDeferMissing();
+            )
+        )->shouldDeferMissing();
         $code = $pass->apply(static::CODE, $config);
         $this->assertContains('__callStatic($method, $args)', $code);
     }

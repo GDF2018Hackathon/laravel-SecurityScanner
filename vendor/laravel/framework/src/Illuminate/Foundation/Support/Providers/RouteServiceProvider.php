@@ -32,10 +32,12 @@ class RouteServiceProvider extends ServiceProvider
         } else {
             $this->loadRoutes();
 
-            $this->app->booted(function () {
-                $this->app['router']->getRoutes()->refreshNameLookups();
-                $this->app['router']->getRoutes()->refreshActionLookups();
-            });
+            $this->app->booted(
+                function () {
+                    $this->app['router']->getRoutes()->refreshNameLookups();
+                    $this->app['router']->getRoutes()->refreshActionLookups();
+                }
+            );
         }
     }
 
@@ -58,9 +60,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function loadCachedRoutes()
     {
-        $this->app->booted(function () {
-            require $this->app->getCachedRoutesPath();
-        });
+        $this->app->booted(
+            function () {
+                include $this->app->getCachedRoutesPath();
+            }
+        );
     }
 
     /**
@@ -88,7 +92,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Pass dynamic methods onto the router instance.
      *
-     * @param  string  $method
+     * @param  string $method
      * @param  array  $parameters
      * @return mixed
      */

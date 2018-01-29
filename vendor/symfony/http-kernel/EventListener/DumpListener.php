@@ -38,9 +38,11 @@ class DumpListener implements EventSubscriberInterface
         $cloner = $this->cloner;
         $dumper = $this->dumper;
 
-        VarDumper::setHandler(function ($var) use ($cloner, $dumper) {
-            $dumper->dump($cloner->cloneVar($var));
-        });
+        VarDumper::setHandler(
+            function ($var) use ($cloner, $dumper) {
+                $dumper->dump($cloner->cloneVar($var));
+            }
+        );
     }
 
     public static function getSubscribedEvents()

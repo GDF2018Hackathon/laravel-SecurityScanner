@@ -10,13 +10,19 @@ class ConsoleColor
 
     const RESET_STYLE = 0;
 
-    /** @var bool */
+    /**
+     * @var bool 
+     */
     private $isSupported;
 
-    /** @var bool */
+    /**
+     * @var bool 
+     */
     private $forceStyle = false;
 
-    /** @var array */
+    /**
+     * @var array 
+     */
     private $styles = array(
         'none' => null,
         'bold' => '1',
@@ -66,7 +72,9 @@ class ConsoleColor
         'bg_white' => '107',
     );
 
-    /** @var array */
+    /**
+     * @var array 
+     */
     private $themes = array();
 
     public function __construct()
@@ -76,7 +84,7 @@ class ConsoleColor
 
     /**
      * @param string|array $style
-     * @param string $text
+     * @param string       $text
      * @return string
      * @throws InvalidStyleException
      * @throws \InvalidArgumentException
@@ -106,9 +114,11 @@ class ConsoleColor
             }
         }
 
-        $sequences = array_filter($sequences, function ($val) {
-            return $val !== null;
-        });
+        $sequences = array_filter(
+            $sequences, function ($val) {
+                return $val !== null;
+            }
+        );
 
         if (empty($sequences)) {
             return $text;
@@ -147,7 +157,7 @@ class ConsoleColor
     }
 
     /**
-     * @param string $name
+     * @param string       $name
      * @param array|string $styles
      * @throws \InvalidArgumentException
      * @throws InvalidStyleException

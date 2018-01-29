@@ -9,7 +9,7 @@ class Processor
     /**
      * Split a string into seperate properties
      *
-     * @param string $propertiesString
+     * @param  string $propertiesString
      * @return array
      */
     public function splitIntoSeparateProperties($propertiesString)
@@ -60,7 +60,7 @@ class Processor
     /**
      * Convert a property-string into an object
      *
-     * @param string $property
+     * @param  string $property
      * @return Property|null
      */
     public function convertToObject($property, Specificity $specificity = null)
@@ -84,7 +84,7 @@ class Processor
     /**
      * Convert an array of property-strings into objects
      *
-     * @param array $properties
+     * @param  array $properties
      * @return Property[]
      */
     public function convertArrayToObjects(array $properties, Specificity $specificity = null)
@@ -106,7 +106,7 @@ class Processor
     /**
      * Build the property-string for multiple properties
      *
-     * @param array $properties
+     * @param  array $properties
      * @return string
      */
     public function buildPropertiesString(array $properties)

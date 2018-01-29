@@ -23,10 +23,10 @@ class Request implements RequestInterface
     use RequestTrait;
 
     /**
-     * @param null|string|UriInterface $uri URI for the request, if any.
-     * @param null|string $method HTTP method for the request, if any.
-     * @param string|resource|StreamInterface $body Message body, if any.
-     * @param array $headers Headers for the message, if any.
+     * @param null|string|UriInterface        $uri     URI for the request, if any.
+     * @param null|string                     $method  HTTP method for the request, if any.
+     * @param string|resource|StreamInterface $body    Message body, if any.
+     * @param array                           $headers Headers for the message, if any.
      * @throws \InvalidArgumentException for any invalid value.
      */
     public function __construct($uri = null, $method = null, $body = 'php://temp', array $headers = [])

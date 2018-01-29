@@ -9,8 +9,10 @@ class Swift_MessageAcceptanceTest extends Swift_Mime_SimpleMessageAcceptanceTest
     {
         $message = $this->createMessage();
         $message->setSubject('just a test subject');
-        $message->setFrom(array(
-            'chris.corbyn@swiftmailer.org' => 'Chris Corbyn', ));
+        $message->setFrom(
+            array(
+            'chris.corbyn@swiftmailer.org' => 'Chris Corbyn', )
+        );
 
         $id = $message->getId();
         $date = $message->getDate();
@@ -42,7 +44,7 @@ class Swift_MessageAcceptanceTest extends Swift_Mime_SimpleMessageAcceptanceTest
             "\r\n\r\n".
             '--'.$boundary.'--'."\r\n",
             $message->toString()
-            );
+        );
     }
 
     protected function createMessage()

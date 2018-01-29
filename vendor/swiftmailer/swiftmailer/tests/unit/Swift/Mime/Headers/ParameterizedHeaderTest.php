@@ -7,17 +7,19 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
     public function testTypeIsParameterizedHeader()
     {
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $this->assertEquals(Swift_Mime_Header::TYPE_PARAMETERIZED, $header->getFieldType());
     }
 
     public function testValueIsReturnedVerbatim()
     {
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setValue('text/plain');
         $this->assertEquals('text/plain', $header->getValue());
     }
@@ -27,25 +29,26 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
         /* -- RFC 2045, 5.1
         parameter := attribute "=" value
 
-     attribute := token
+        attribute := token
                                     ; Matching of attributes
                                     ; is ALWAYS case-insensitive.
 
-     value := token / quoted-string
+        value := token / quoted-string
 
-     token := 1*<any (US-ASCII) CHAR except SPACE, CTLs,
+        token := 1*<any (US-ASCII) CHAR except SPACE, CTLs,
                  or tspecials>
 
-     tspecials :=  "(" / ")" / "<" / ">" / "@" /
+        tspecials :=  "(" / ")" / "<" / ">" / "@" /
                    "," / ";" / ":" / "\" / <">
                    "/" / "[" / "]" / "?" / "="
                    ; Must be in quoted-string,
                    ; to use within parameter values
         */
 
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setValue('text/plain');
         $header->setParameters(array('charset' => 'utf-8'));
         $this->assertEquals('text/plain; charset=utf-8', $header->getFieldBody());
@@ -53,14 +56,16 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
     public function testSpaceInParamResultsInQuotedString()
     {
-        $header = $this->getHeader('Content-Disposition',
+        $header = $this->getHeader(
+            'Content-Disposition',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setValue('attachment');
         $header->setParameters(array('filename' => 'my file.txt'));
-        $this->assertEquals('attachment; filename="my file.txt"',
+        $this->assertEquals(
+            'attachment; filename="my file.txt"',
             $header->getFieldBody()
-            );
+        );
     }
 
     public function testLongParamsAreBrokenIntoMultipleAttributeStrings()
@@ -96,14 +101,17 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getParameterEncoder();
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, \Mockery::any(), 63, \Mockery::any())
-                ->andReturn(str_repeat('a', 63)."\r\n".
-                    str_repeat('a', 63)."\r\n".str_repeat('a', 54));
-
-        $header = $this->getHeader('Content-Disposition',
-            $this->getHeaderEncoder('Q', true), $encoder
+            ->once()
+            ->with($value, \Mockery::any(), 63, \Mockery::any())
+            ->andReturn(
+                str_repeat('a', 63)."\r\n".
+                str_repeat('a', 63)."\r\n".str_repeat('a', 54)
             );
+
+        $header = $this->getHeader(
+            'Content-Disposition',
+            $this->getHeaderEncoder('Q', true), $encoder
+        );
         $header->setValue('attachment');
         $header->setParameters(array('filename' => $value));
         $header->setMaxLineLength(78);
@@ -113,7 +121,7 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
             'filename*1*='.str_repeat('a', 63).";\r\n ".
             'filename*2*='.str_repeat('a', 54),
             $header->getFieldBody()
-            );
+        );
     }
 
     public function testEncodedParamDataIncludesCharsetAndLanguage()
@@ -145,13 +153,14 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getParameterEncoder();
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, 12, 62, \Mockery::any())
-                ->andReturn(str_repeat('a', 20).'%8F'.str_repeat('a', 10));
+            ->once()
+            ->with($value, 12, 62, \Mockery::any())
+            ->andReturn(str_repeat('a', 20).'%8F'.str_repeat('a', 10));
 
-        $header = $this->getHeader('Content-Disposition',
+        $header = $this->getHeader(
+            'Content-Disposition',
             $this->getHeaderEncoder('Q', true), $encoder
-            );
+        );
         $header->setValue('attachment');
         $header->setParameters(array('filename' => $value));
         $header->setMaxLineLength(78);
@@ -160,7 +169,7 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
             'attachment; filename*='.$this->charset."'".$this->lang."'".
             str_repeat('a', 20).'%8F'.str_repeat('a', 10),
             $header->getFieldBody()
-            );
+        );
     }
 
     public function testMultipleEncodedParamLinesAreFormattedCorrectly()
@@ -170,26 +179,26 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
         parameter continuation mechanism. For example:
 
         Content-Type: application/x-stuff
-     title*0*=us-ascii'en'This%20is%20even%20more%20
-     title*1*=%2A%2A%2Afun%2A%2A%2A%20
-     title*2="isn't it!"
+        title*0*=us-ascii'en'This%20is%20even%20more%20
+        title*1*=%2A%2A%2Afun%2A%2A%2A%20
+        title*2="isn't it!"
 
         Note that:
 
-     (1)   Language and character set information only appear at
+        (1)   Language and character set information only appear at
            the beginning of a given parameter value.
 
-     (2)   Continuations do not provide a facility for using more
+        (2)   Continuations do not provide a facility for using more
            than one character set or language in the same
            parameter value.
 
-     (3)   A value presented using multiple continuations may
+        (3)   A value presented using multiple continuations may
            contain a mixture of encoded and unencoded segments.
 
-     (4)   The first segment of a continuation MUST be encoded if
+        (4)   The first segment of a continuation MUST be encoded if
            language and character set information are given.
 
-     (5)   If the first segment of a continued parameter value is
+        (5)   If the first segment of a continued parameter value is
            encoded the language and character set field delimiters
            MUST be present even when the fields are left blank.
         */
@@ -198,14 +207,17 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getParameterEncoder();
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, 12, 62, \Mockery::any())
-                ->andReturn(str_repeat('a', 20).'%8F'.str_repeat('a', 28)."\r\n".
-                    str_repeat('a', 32));
-
-        $header = $this->getHeader('Content-Disposition',
-            $this->getHeaderEncoder('Q', true), $encoder
+            ->once()
+            ->with($value, 12, 62, \Mockery::any())
+            ->andReturn(
+                str_repeat('a', 20).'%8F'.str_repeat('a', 28)."\r\n".
+                str_repeat('a', 32)
             );
+
+        $header = $this->getHeader(
+            'Content-Disposition',
+            $this->getHeaderEncoder('Q', true), $encoder
+        );
         $header->setValue('attachment');
         $header->setParameters(array('filename' => $value));
         $header->setMaxLineLength(78);
@@ -215,19 +227,21 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
             str_repeat('a', 20).'%8F'.str_repeat('a', 28).";\r\n ".
             'filename*1*='.str_repeat('a', 32),
             $header->getFieldBody()
-            );
+        );
     }
 
     public function testToString()
     {
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setValue('text/html');
         $header->setParameters(array('charset' => 'utf-8'));
-        $this->assertEquals('Content-Type: text/html; charset=utf-8'."\r\n",
+        $this->assertEquals(
+            'Content-Type: text/html; charset=utf-8'."\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testValueCanBeEncodedIfNonAscii()
@@ -236,16 +250,17 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('fo=8Fbar');
+            ->once()
+            ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('fo=8Fbar');
 
         $header = $this->getHeader('X-Foo', $encoder, $this->getParameterEncoder(true));
         $header->setValue($value);
         $header->setParameters(array('lookslike' => 'foobar'));
-        $this->assertEquals('X-Foo: =?utf-8?Q?fo=8Fbar?=; lookslike=foobar'."\r\n",
+        $this->assertEquals(
+            'X-Foo: =?utf-8?Q?fo=8Fbar?=; lookslike=foobar'."\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testValueAndParamCanBeEncodedIfNonAscii()
@@ -254,22 +269,23 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('fo=8Fbar');
+            ->once()
+            ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('fo=8Fbar');
 
         $paramEncoder = $this->getParameterEncoder();
         $paramEncoder->shouldReceive('encodeString')
-                     ->once()
-                     ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                     ->andReturn('fo%8Fbar');
+            ->once()
+            ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('fo%8Fbar');
 
         $header = $this->getHeader('X-Foo', $encoder, $paramEncoder);
         $header->setValue($value);
         $header->setParameters(array('says' => $value));
-        $this->assertEquals("X-Foo: =?utf-8?Q?fo=8Fbar?=; says*=utf-8''fo%8Fbar\r\n",
+        $this->assertEquals(
+            "X-Foo: =?utf-8?Q?fo=8Fbar?=; says*=utf-8''fo%8Fbar\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testParamsAreEncodedWithEncodedWordsIfNoParamEncoderSet()
@@ -278,16 +294,17 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('fo=8Fbar');
+            ->once()
+            ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('fo=8Fbar');
 
         $header = $this->getHeader('X-Foo', $encoder, null);
         $header->setValue('bar');
         $header->setParameters(array('says' => $value));
-        $this->assertEquals("X-Foo: bar; says=\"=?utf-8?Q?fo=8Fbar?=\"\r\n",
+        $this->assertEquals(
+            "X-Foo: bar; says=\"=?utf-8?Q?fo=8Fbar?=\"\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testLanguageInformationAppearsInEncodedWords()
@@ -313,60 +330,66 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getHeaderEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('fo=8Fbar');
+            ->once()
+            ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('fo=8Fbar');
 
         $paramEncoder = $this->getParameterEncoder();
         $paramEncoder->shouldReceive('encodeString')
-                     ->once()
-                     ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                     ->andReturn('fo%8Fbar');
+            ->once()
+            ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('fo%8Fbar');
 
         $header = $this->getHeader('X-Foo', $encoder, $paramEncoder);
         $header->setLanguage('en');
         $header->setValue($value);
         $header->setParameters(array('says' => $value));
-        $this->assertEquals("X-Foo: =?utf-8*en?Q?fo=8Fbar?=; says*=utf-8'en'fo%8Fbar\r\n",
+        $this->assertEquals(
+            "X-Foo: =?utf-8*en?Q?fo=8Fbar?=; says*=utf-8'en'fo%8Fbar\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testSetBodyModel()
     {
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setFieldBodyModel('text/html');
         $this->assertEquals('text/html', $header->getValue());
     }
 
     public function testGetBodyModel()
     {
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setValue('text/plain');
         $this->assertEquals('text/plain', $header->getFieldBodyModel());
     }
 
     public function testSetParameter()
     {
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setParameters(array('charset' => 'utf-8', 'delsp' => 'yes'));
         $header->setParameter('delsp', 'no');
-        $this->assertEquals(array('charset' => 'utf-8', 'delsp' => 'no'),
+        $this->assertEquals(
+            array('charset' => 'utf-8', 'delsp' => 'no'),
             $header->getParameters()
-            );
+        );
     }
 
     public function testGetParameter()
     {
-        $header = $this->getHeader('Content-Type',
+        $header = $this->getHeader(
+            'Content-Type',
             $this->getHeaderEncoder('Q', true), $this->getParameterEncoder(true)
-            );
+        );
         $header->setParameters(array('charset' => 'utf-8', 'delsp' => 'yes'));
         $this->assertEquals('utf-8', $header->getParameter('charset'));
     }
@@ -383,8 +406,8 @@ class Swift_Mime_Headers_ParameterizedHeaderTest extends \SwiftMailerTestCase
     {
         $encoder = $this->getMockery('Swift_Mime_HeaderEncoder')->shouldIgnoreMissing();
         $encoder->shouldReceive('getName')
-                ->zeroOrMoreTimes()
-                ->andReturn($type);
+            ->zeroOrMoreTimes()
+            ->andReturn($type);
 
         return $encoder;
     }

@@ -31,11 +31,11 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     /**
      * Create a new paginator instance.
      *
-     * @param  mixed  $items
-     * @param  int  $total
-     * @param  int  $perPage
-     * @param  int|null  $currentPage
-     * @param  array  $options (path, query, fragment, pageName)
+     * @param  mixed    $items
+     * @param  int      $total
+     * @param  int      $perPage
+     * @param  int|null $currentPage
+     * @param  array    $options     (path, query, fragment, pageName)
      * @return void
      */
     public function __construct($items, $total, $perPage, $currentPage = null, array $options = [])
@@ -55,8 +55,8 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     /**
      * Get the current page for the request.
      *
-     * @param  int  $currentPage
-     * @param  string  $pageName
+     * @param  int    $currentPage
+     * @param  string $pageName
      * @return int
      */
     protected function setCurrentPage($currentPage, $pageName)
@@ -69,8 +69,8 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     /**
      * Render the paginator using the given view.
      *
-     * @param  string|null  $view
-     * @param  array  $data
+     * @param  string|null $view
+     * @param  array       $data
      * @return \Illuminate\Support\HtmlString
      */
     public function links($view = null, $data = [])
@@ -81,16 +81,22 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     /**
      * Render the paginator using the given view.
      *
-     * @param  string|null  $view
-     * @param  array  $data
+     * @param  string|null $view
+     * @param  array       $data
      * @return \Illuminate\Support\HtmlString
      */
     public function render($view = null, $data = [])
     {
-        return new HtmlString(static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, [
-            'paginator' => $this,
-            'elements' => $this->elements(),
-        ]))->render());
+        return new HtmlString(
+            static::viewFactory()->make(
+                $view ?: static::$defaultView, array_merge(
+                    $data, [
+                    'paginator' => $this,
+                    'elements' => $this->elements(),
+                    ]
+                )
+            )->render()
+        );
     }
 
     /**
@@ -102,13 +108,15 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     {
         $window = UrlWindow::make($this);
 
-        return array_filter([
+        return array_filter(
+            [
             $window['first'],
             is_array($window['slider']) ? '...' : null,
             $window['slider'],
             is_array($window['last']) ? '...' : null,
             $window['last'],
-        ]);
+            ]
+        );
     }
 
     /**
@@ -189,7 +197,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     /**
      * Convert the object to its JSON representation.
      *
-     * @param  int  $options
+     * @param  int $options
      * @return string
      */
     public function toJson($options = 0)

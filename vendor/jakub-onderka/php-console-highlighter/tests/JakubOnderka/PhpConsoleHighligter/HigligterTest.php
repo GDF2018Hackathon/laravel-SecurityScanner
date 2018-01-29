@@ -3,7 +3,9 @@ namespace JakubOnderka\PhpConsoleHighlighter;
 
 class HighlighterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Highlighter */
+    /**
+     * @var Highlighter 
+     */
     private $uut;
 
     protected function getConsoleColorMock()
@@ -12,9 +14,13 @@ class HighlighterTest extends \PHPUnit_Framework_TestCase
 
         $mock->expects($this->any())
             ->method('apply')
-            ->will($this->returnCallback(function ($style, $text) {
-                return "<$style>$text</$style>";
-            }));
+            ->will(
+                $this->returnCallback(
+                    function ($style, $text) {
+                        return "<$style>$text</$style>";
+                    }
+                )
+            );
 
         $mock->expects($this->any())
             ->method('hasTheme')
@@ -255,8 +261,7 @@ EOL
     public function testEmpty()
     {
         $this->compare(
-            ''
-            ,
+            '',
             ''
         );
     }

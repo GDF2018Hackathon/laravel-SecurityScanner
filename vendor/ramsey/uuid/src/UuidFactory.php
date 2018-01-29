@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid;
@@ -235,8 +235,8 @@ class UuidFactory implements UuidFactoryInterface
      * Uses the configured builder and codec and the provided array of hexadecimal
      * value UUID fields to construct a `Uuid` object.
      *
-     * @param array $fields An array of fields from which to construct a UUID;
-     *     see {@see \Ramsey\Uuid\UuidInterface::getFieldsHex()} for array structure.
+     * @param  array $fields An array of fields from which to construct a UUID;
+     *                       see {@see \Ramsey\Uuid\UuidInterface::getFieldsHex()} for array structure.
      * @return UuidInterface
      */
     public function uuid(array $fields)
@@ -247,11 +247,11 @@ class UuidFactory implements UuidFactoryInterface
     /**
      * Returns a version 3 or 5 namespaced `Uuid`
      *
-     * @param string|UuidInterface $ns The UUID namespace to use
-     * @param string $name The string to hash together with the namespace
-     * @param int $version The version of UUID to create (3 or 5)
-     * @param string $hashFunction The hash function to use when hashing together
-     *     the namespace and name
+     * @param  string|UuidInterface $ns           The UUID namespace to use
+     * @param  string               $name         The string to hash together with the namespace
+     * @param  int                  $version      The version of UUID to create (3 or 5)
+     * @param  string               $hashFunction The hash function to use when hashing together
+     *                                            the namespace and name
      * @return UuidInterface
      */
     protected function uuidFromNsAndName($ns, $name, $version, $hashFunction)
@@ -269,8 +269,8 @@ class UuidFactory implements UuidFactoryInterface
      * Returns a `Uuid` created from `$hash` with the version field set to `$version`
      * and the variant field set for RFC 4122
      *
-     * @param string $hash The hash to use when creating the UUID
-     * @param int $version The UUID version to set for this hash (1, 3, 4, or 5)
+     * @param  string $hash    The hash to use when creating the UUID
+     * @param  int    $version The UUID version to set for this hash (1, 3, 4, or 5)
      * @return UuidInterface
      */
     protected function uuidFromHashedName($hash, $version)

@@ -536,20 +536,20 @@ class Configuration
         foreach (['var', 'post', 'get', 'cookie', 'server', 'files', 'request'] as $array) {
             // See https://github.com/sebastianbergmann/phpunit/issues/277
             switch ($array) {
-                case 'var':
-                    $target = &$GLOBALS;
+            case 'var':
+                $target = &$GLOBALS;
 
-                    break;
+                break;
 
-                case 'server':
-                    $target = &$_SERVER;
+            case 'server':
+                $target = &$_SERVER;
 
-                    break;
+                break;
 
-                default:
-                    $target = &$GLOBALS['_' . \strtoupper($array)];
+            default:
+                $target = &$GLOBALS['_' . \strtoupper($array)];
 
-                    break;
+                break;
             }
 
             foreach ($configuration[$array] as $name => $data) {
@@ -1178,8 +1178,9 @@ class Configuration
         //  - C:\windows
         //  - C:/windows
         //  - c:/windows
-        if (\defined('PHP_WINDOWS_VERSION_BUILD') &&
-            ($path[0] === '\\' || (\strlen($path) >= 3 && \preg_match('#^[A-Z]\:[/\\\]#i', \substr($path, 0, 3))))) {
+        if (\defined('PHP_WINDOWS_VERSION_BUILD') 
+            && ($path[0] === '\\' || (\strlen($path) >= 3 && \preg_match('#^[A-Z]\:[/\\\]#i', \substr($path, 0, 3))))
+        ) {
             return $path;
         }
 

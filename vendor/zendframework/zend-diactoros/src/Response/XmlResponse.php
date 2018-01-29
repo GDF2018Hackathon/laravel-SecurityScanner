@@ -28,9 +28,9 @@ class XmlResponse extends Response
      * Produces an XML response with a Content-Type of application/xml and a default
      * status of 200.
      *
-     * @param string|StreamInterface $xml String or stream for the message body.
-     * @param int $status Integer status code for the response; 200 by default.
-     * @param array $headers Array of headers to use at initialization.
+     * @param  string|StreamInterface $xml     String or stream for the message body.
+     * @param  int                    $status  Integer status code for the response; 200 by default.
+     * @param  array                  $headers Array of headers to use at initialization.
      * @throws InvalidArgumentException if $text is neither a string or stream.
      */
     public function __construct(
@@ -48,7 +48,7 @@ class XmlResponse extends Response
     /**
      * Create the message body.
      *
-     * @param string|StreamInterface $xml
+     * @param  string|StreamInterface $xml
      * @return StreamInterface
      * @throws InvalidArgumentException if $xml is neither a string or stream.
      */
@@ -59,11 +59,13 @@ class XmlResponse extends Response
         }
 
         if (! is_string($xml)) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid content (%s) provided to %s',
-                (is_object($xml) ? get_class($xml) : gettype($xml)),
-                __CLASS__
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid content (%s) provided to %s',
+                    (is_object($xml) ? get_class($xml) : gettype($xml)),
+                    __CLASS__
+                )
+            );
         }
 
         $body = new Stream('php://temp', 'wb+');

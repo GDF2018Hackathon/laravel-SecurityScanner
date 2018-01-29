@@ -35,10 +35,12 @@ class ResettableServicePassTest extends TestCase
 
         $this->assertEquals(
             array(
-                new IteratorArgument(array(
+                new IteratorArgument(
+                    array(
                     'one' => new Reference('one', ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE),
                     'two' => new Reference('two', ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE),
-                )),
+                    )
+                ),
                 array(
                     'one' => 'reset',
                     'two' => 'clear',

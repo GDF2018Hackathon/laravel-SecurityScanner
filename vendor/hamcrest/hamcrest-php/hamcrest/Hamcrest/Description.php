@@ -45,9 +45,9 @@ interface Description
     /**
      * Appends a list of values to the description.
      *
-     * @param string $start
-     * @param string $separator
-     * @param string $end
+     * @param string                             $start
+     * @param string                             $separator
+     * @param string                             $end
      * @param array|\IteratorAggregate|\Iterator $values
      *
      * @return \Hamcrest\Description
@@ -58,9 +58,9 @@ interface Description
      * Appends a list of {@link Hamcrest\SelfDescribing} objects to the
      * description.
      *
-     * @param string $start
-     * @param string $separator
-     * @param string $end
+     * @param string                               $start
+     * @param string                               $separator
+     * @param string                               $end
      * @param array|\\IteratorAggregate|\\Iterator $values
      *   must be instances of {@link Hamcrest\SelfDescribing}
      *

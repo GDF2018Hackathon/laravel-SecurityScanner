@@ -41,9 +41,11 @@ namespace phpseclib\Net;
  */
 class SCP
 {
-    /**#@+
+    /**
+* #@+
+     *
      * @access public
-     * @see \phpseclib\Net\SCP::put()
+     * @see    \phpseclib\Net\SCP::put()
      */
     /**
      * Reads data from a local file.
@@ -53,12 +55,16 @@ class SCP
      * Reads data from a string.
      */
     const SOURCE_STRING = 2;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
+     *
      * @access private
-     * @see \phpseclib\Net\SCP::_send()
-     * @see \phpseclib\Net\SCP::_receive()
+     * @see    \phpseclib\Net\SCP::_send()
+     * @see    \phpseclib\Net\SCP::_receive()
     */
     /**
      * SSH1 is being used.
@@ -68,12 +74,14 @@ class SCP
      * SSH2 is being used.
      */
     const MODE_SSH2 =  2;
-    /**#@-*/
+    /**
+     * #@-
+     */
 
     /**
      * SSH Object
      *
-     * @var object
+     * @var    object
      * @access private
      */
     var $ssh;
@@ -81,7 +89,7 @@ class SCP
     /**
      * Packet Size
      *
-     * @var int
+     * @var    int
      * @access private
      */
     var $packet_size;
@@ -89,7 +97,7 @@ class SCP
     /**
      * Mode
      *
-     * @var int
+     * @var    int
      * @access private
      */
     var $mode;
@@ -99,7 +107,7 @@ class SCP
      *
      * Connects to an SSH server
      *
-     * @param \phpseclib\Net\SSH1|\phpseclib\Net\SSH2 $ssh
+     * @param  \phpseclib\Net\SSH1|\phpseclib\Net\SSH2 $ssh
      * @return \phpseclib\Net\SCP
      * @access public
      */
@@ -131,10 +139,10 @@ class SCP
      * Currently, only binary mode is supported.  As such, if the line endings need to be adjusted, you will need to take
      * care of that, yourself.
      *
-     * @param string $remote_file
-     * @param string $data
-     * @param int $mode
-     * @param callable $callback
+     * @param  string   $remote_file
+     * @param  string   $data
+     * @param  int      $mode
+     * @param  callable $callback
      * @return bool
      * @access public
      */
@@ -207,8 +215,8 @@ class SCP
      * the operation was unsuccessful.  If $local_file is defined, returns true or false depending on the success of the
      * operation
      *
-     * @param string $remote_file
-     * @param string $local_file
+     * @param  string $remote_file
+     * @param  string $local_file
      * @return mixed
      * @access public
      */
@@ -265,18 +273,18 @@ class SCP
     /**
      * Sends a packet to an SSH server
      *
-     * @param string $data
+     * @param  string $data
      * @access private
      */
     function _send($data)
     {
         switch ($this->mode) {
-            case self::MODE_SSH2:
-                $this->ssh->_send_channel_packet(SSH2::CHANNEL_EXEC, $data);
-                break;
-            case self::MODE_SSH1:
-                $data = pack('CNa*', NET_SSH1_CMSG_STDIN_DATA, strlen($data), $data);
-                $this->ssh->_send_binary_packet($data);
+        case self::MODE_SSH2:
+            $this->ssh->_send_channel_packet(SSH2::CHANNEL_EXEC, $data);
+            break;
+        case self::MODE_SSH1:
+            $data = pack('CNa*', NET_SSH1_CMSG_STDIN_DATA, strlen($data), $data);
+            $this->ssh->_send_binary_packet($data);
         }
     }
 
@@ -289,33 +297,33 @@ class SCP
     function _receive()
     {
         switch ($this->mode) {
-            case self::MODE_SSH2:
-                return $this->ssh->_get_channel_packet(SSH2::CHANNEL_EXEC, true);
-            case self::MODE_SSH1:
-                if (!$this->ssh->bitmap) {
+        case self::MODE_SSH2:
+            return $this->ssh->_get_channel_packet(SSH2::CHANNEL_EXEC, true);
+        case self::MODE_SSH1:
+            if (!$this->ssh->bitmap) {
+                return false;
+            }
+            while (true) {
+                $response = $this->ssh->_get_binary_packet();
+                switch ($response[SSH1::RESPONSE_TYPE]) {
+                case NET_SSH1_SMSG_STDOUT_DATA:
+                    if (strlen($response[SSH1::RESPONSE_DATA]) < 4) {
+                        return false;
+                    }
+                    extract(unpack('Nlength', $response[SSH1::RESPONSE_DATA]));
+                    return $this->ssh->_string_shift($response[SSH1::RESPONSE_DATA], $length);
+                case NET_SSH1_SMSG_STDERR_DATA:
+                    break;
+                case NET_SSH1_SMSG_EXITSTATUS:
+                    $this->ssh->_send_binary_packet(chr(NET_SSH1_CMSG_EXIT_CONFIRMATION));
+                    fclose($this->ssh->fsock);
+                    $this->ssh->bitmap = 0;
+                    return false;
+                default:
+                    user_error('Unknown packet received', E_USER_NOTICE);
                     return false;
                 }
-                while (true) {
-                    $response = $this->ssh->_get_binary_packet();
-                    switch ($response[SSH1::RESPONSE_TYPE]) {
-                        case NET_SSH1_SMSG_STDOUT_DATA:
-                            if (strlen($response[SSH1::RESPONSE_DATA]) < 4) {
-                                return false;
-                            }
-                            extract(unpack('Nlength', $response[SSH1::RESPONSE_DATA]));
-                            return $this->ssh->_string_shift($response[SSH1::RESPONSE_DATA], $length);
-                        case NET_SSH1_SMSG_STDERR_DATA:
-                            break;
-                        case NET_SSH1_SMSG_EXITSTATUS:
-                            $this->ssh->_send_binary_packet(chr(NET_SSH1_CMSG_EXIT_CONFIRMATION));
-                            fclose($this->ssh->fsock);
-                            $this->ssh->bitmap = 0;
-                            return false;
-                        default:
-                            user_error('Unknown packet received', E_USER_NOTICE);
-                            return false;
-                    }
-                }
+            }
         }
     }
 
@@ -327,11 +335,11 @@ class SCP
     function _close()
     {
         switch ($this->mode) {
-            case self::MODE_SSH2:
-                $this->ssh->_close_channel(SSH2::CHANNEL_EXEC, true);
-                break;
-            case self::MODE_SSH1:
-                $this->ssh->disconnect();
+        case self::MODE_SSH2:
+            $this->ssh->_close_channel(SSH2::CHANNEL_EXEC, true);
+            break;
+        case self::MODE_SSH1:
+            $this->ssh->disconnect();
         }
     }
 }

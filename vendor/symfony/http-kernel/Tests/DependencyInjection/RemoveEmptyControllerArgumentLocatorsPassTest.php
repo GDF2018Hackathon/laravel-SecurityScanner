@@ -66,8 +66,7 @@ class RemoveEmptyControllerArgumentLocatorsPassTest extends TestCase
         $resolver = $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register(RegisterTestController::class, RegisterTestController::class)
-            ->addTag('controller.service_arguments')
-        ;
+            ->addTag('controller.service_arguments');
 
         (new RegisterControllerArgumentLocatorsPass())->process($container);
         (new RemoveEmptyControllerArgumentLocatorsPass())->process($container);
@@ -85,8 +84,7 @@ class RemoveEmptyControllerArgumentLocatorsPassTest extends TestCase
         $resolver = $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('invokable', InvokableRegisterTestController::class)
-            ->addTag('controller.service_arguments')
-        ;
+            ->addTag('controller.service_arguments');
 
         (new RegisterControllerArgumentLocatorsPass())->process($container);
         (new RemoveEmptyControllerArgumentLocatorsPass())->process($container);
@@ -103,8 +101,7 @@ class RemoveEmptyControllerArgumentLocatorsPassTest extends TestCase
         $resolver = $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register(InvokableRegisterTestController::class, InvokableRegisterTestController::class)
-            ->addTag('controller.service_arguments')
-        ;
+            ->addTag('controller.service_arguments');
 
         (new RegisterControllerArgumentLocatorsPass())->process($container);
         (new RemoveEmptyControllerArgumentLocatorsPass())->process($container);

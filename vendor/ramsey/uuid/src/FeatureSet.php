@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid;
@@ -99,15 +99,15 @@ class FeatureSet
      * Constructs a `FeatureSet` for use by a `UuidFactory` to determine or set
      * features available to the environment
      *
-     * @param bool $useGuids Whether to build UUIDs using the `GuidStringCodec`
-     * @param bool $force32Bit Whether to force the use of 32-bit functionality
-     *     (primarily for testing purposes)
+     * @param bool $useGuids         Whether to build UUIDs using the `GuidStringCodec`
+     * @param bool $force32Bit       Whether to force the use of 32-bit functionality
+     *                               (primarily for testing purposes)
      * @param bool $forceNoBigNumber Whether to disable the use of moontoast/math
-     *     `BigNumber` (primarily for testing purposes)
+     *                               `BigNumber` (primarily for testing purposes)
      * @param bool $ignoreSystemNode Whether to disable attempts to check for
-     *     the system host ID (primarily for testing purposes)
-     * @param bool $enablePecl Whether to enable the use of the `PeclUuidTimeGenerator`
-     *     to generate version 1 UUIDs
+     *                               the system host ID (primarily for testing purposes)
+     * @param bool $enablePecl       Whether to enable the use of the `PeclUuidTimeGenerator`
+     *                               to generate version 1 UUIDs
      */
     public function __construct(
         $useGuids = false,
@@ -203,7 +203,7 @@ class FeatureSet
      * Determines which UUID coder-decoder to use and returns the configured
      * codec for this environment
      *
-     * @param bool $useGuids Whether to build UUIDs using the `GuidStringCodec`
+     * @param  bool $useGuids Whether to build UUIDs using the `GuidStringCodec`
      * @return CodecInterface
      */
     protected function buildCodec($useGuids = false)
@@ -227,10 +227,12 @@ class FeatureSet
             return new RandomNodeProvider();
         }
 
-        return new FallbackNodeProvider([
+        return new FallbackNodeProvider(
+            [
             new SystemNodeProvider(),
             new RandomNodeProvider()
-        ]);
+            ]
+        );
     }
 
     /**
@@ -263,7 +265,7 @@ class FeatureSet
      * Determines which time-based UUID generator to use and returns the configured
      * time-based UUID generator for this environment
      *
-     * @param TimeProviderInterface $timeProvider
+     * @param  TimeProviderInterface $timeProvider
      * @return TimeGeneratorInterface
      */
     protected function buildTimeGenerator(TimeProviderInterface $timeProvider)

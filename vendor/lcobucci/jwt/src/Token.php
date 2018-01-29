@@ -18,7 +18,7 @@ use OutOfBoundsException;
  * Basic structure of the JWT
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  */
 class Token
 {
@@ -53,9 +53,9 @@ class Token
     /**
      * Initializes the object
      *
-     * @param array $headers
-     * @param array $claims
-     * @param array $payload
+     * @param array     $headers
+     * @param array     $claims
+     * @param array     $payload
      * @param Signature $signature
      */
     public function __construct(
@@ -96,7 +96,7 @@ class Token
      * Returns the value of a token header
      *
      * @param string $name
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      *
@@ -159,7 +159,7 @@ class Token
      * Returns the value of a token claim
      *
      * @param string $name
-     * @param mixed $default
+     * @param mixed  $default
      *
      * @return mixed
      *

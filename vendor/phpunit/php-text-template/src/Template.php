@@ -38,7 +38,7 @@ class Text_Template
     /**
      * Constructor.
      *
-     * @param  string                   $file
+     * @param  string $file
      * @throws InvalidArgumentException
      */
     public function __construct($file = '', $openDelimiter = '{', $closeDelimiter = '}')
@@ -51,7 +51,7 @@ class Text_Template
     /**
      * Sets the template file.
      *
-     * @param  string                   $file
+     * @param  string $file
      * @throws InvalidArgumentException
      */
     public function setFile($file)
@@ -68,7 +68,7 @@ class Text_Template
 
         else {
             throw new InvalidArgumentException(
-              'Template file could not be loaded.'
+                'Template file could not be loaded.'
             );
         }
     }
@@ -79,7 +79,7 @@ class Text_Template
      * @param array $values
      * @param bool  $merge
      */
-    public function setVar(array $values, $merge = TRUE)
+    public function setVar(array $values, $merge = true)
     {
         if (!$merge || empty($this->values)) {
             $this->values = $values;
@@ -120,14 +120,14 @@ class Text_Template
             $error = error_get_last();
 
             throw new RuntimeException(
-              sprintf(
-                'Could not write to %s: %s',
-                $target,
-                substr(
-                  $error['message'],
-                  strpos($error['message'], ':') + 2
+                sprintf(
+                    'Could not write to %s: %s',
+                    $target,
+                    substr(
+                        $error['message'],
+                        strpos($error['message'], ':') + 2
+                    )
                 )
-              )
             );
         }
     }

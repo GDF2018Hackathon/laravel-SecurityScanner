@@ -17,7 +17,7 @@ class Populator
     protected $generateId = array();
 
     /**
-     * @param \Faker\Generator $generator
+     * @param \Faker\Generator   $generator
      * @param ObjectManager|null $manager
      */
     public function __construct(\Faker\Generator $generator, ObjectManager $manager = null)

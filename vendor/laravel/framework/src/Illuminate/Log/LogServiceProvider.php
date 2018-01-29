@@ -14,9 +14,11 @@ class LogServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('log', function () {
-            return $this->createLogger();
-        });
+        $this->app->singleton(
+            'log', function () {
+                return $this->createLogger();
+            }
+        );
     }
 
     /**
@@ -46,8 +48,9 @@ class LogServiceProvider extends ServiceProvider
      */
     protected function channel()
     {
-        if ($this->app->bound('config') &&
-            $channel = $this->app->make('config')->get('app.log_channel')) {
+        if ($this->app->bound('config') 
+            && $channel = $this->app->make('config')->get('app.log_channel')
+        ) {
             return $channel;
         }
 
@@ -57,7 +60,7 @@ class LogServiceProvider extends ServiceProvider
     /**
      * Configure the Monolog handlers for the application.
      *
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Illuminate\Log\Writer $log
      * @return void
      */
     protected function configureHandler(Writer $log)
@@ -68,7 +71,7 @@ class LogServiceProvider extends ServiceProvider
     /**
      * Configure the Monolog handlers for the application.
      *
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Illuminate\Log\Writer $log
      * @return void
      */
     protected function configureSingleHandler(Writer $log)
@@ -82,7 +85,7 @@ class LogServiceProvider extends ServiceProvider
     /**
      * Configure the Monolog handlers for the application.
      *
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Illuminate\Log\Writer $log
      * @return void
      */
     protected function configureDailyHandler(Writer $log)
@@ -96,7 +99,7 @@ class LogServiceProvider extends ServiceProvider
     /**
      * Configure the Monolog handlers for the application.
      *
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Illuminate\Log\Writer $log
      * @return void
      */
     protected function configureSyslogHandler(Writer $log)
@@ -107,7 +110,7 @@ class LogServiceProvider extends ServiceProvider
     /**
      * Configure the Monolog handlers for the application.
      *
-     * @param  \Illuminate\Log\Writer  $log
+     * @param  \Illuminate\Log\Writer $log
      * @return void
      */
     protected function configureErrorlogHandler(Writer $log)

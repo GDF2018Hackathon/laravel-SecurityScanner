@@ -13,23 +13,33 @@
  *
  * This stream filter deals with Byte arrays rather than simple strings.
  *
- * @author  Chris Corbyn
+ * @author Chris Corbyn
  */
 class Swift_StreamFilters_ByteArrayReplacementFilter implements Swift_StreamFilter
 {
-    /** The needle(s) to search for */
+    /**
+     * The needle(s) to search for 
+     */
     private $search;
 
-    /** The replacement(s) to make */
+    /**
+     * The replacement(s) to make 
+     */
     private $replace;
 
-    /** The Index for searching */
+    /**
+     * The Index for searching 
+     */
     private $index;
 
-    /** The Search Tree */
+    /**
+     * The Search Tree 
+     */
     private $tree = array();
 
-    /**  Gives the size of the largest search */
+    /**
+     * Gives the size of the largest search 
+     */
     private $treeMaxLen = 0;
 
     private $repSize;
@@ -135,7 +145,8 @@ class Swift_StreamFilters_ByteArrayReplacementFilter implements Swift_StreamFilt
                     $search_pos = $search_pos[$buffer[$p]];
                     // We have a complete pattern, save, in case we don't find a better match later
                     if (isset($search_pos[-1]) && $search_pos[-1] < $last_found
-                        && $search_pos[-1] > $minReplaces) {
+                        && $search_pos[-1] > $minReplaces
+                    ) {
                         $last_found = $search_pos[-1];
                         $last_size = $search_pos[-2];
                     }

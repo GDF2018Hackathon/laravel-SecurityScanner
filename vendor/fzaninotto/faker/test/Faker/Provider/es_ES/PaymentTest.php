@@ -28,6 +28,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Validation taken from https://github.com/amnesty/drupal-nif-nie-cif-validator/
+     *
      * @link https://github.com/amnesty/drupal-nif-nie-cif-validator/blob/master/includes/nif-nie-cif.php
      */
     function isValidCIF($docNumber)
@@ -46,13 +47,13 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     function respectsDocPattern($givenString, $pattern)
     {
-        $isValid = FALSE;
+        $isValid = false;
         $fixedString = strtoupper($givenString);
         if (is_int(substr($fixedString, 0, 1))) {
             $fixedString = substr("000000000" . $givenString, -9);
         }
         if (preg_match($pattern, $fixedString)) {
-            $isValid = TRUE;
+            $isValid = true;
         }
         return $isValid;
     }

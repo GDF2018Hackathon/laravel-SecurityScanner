@@ -118,10 +118,12 @@ class DebugClassLoaderTest extends TestCase
             // that again triggers autoloading for ContextErrorException.
             // Error stacking works around the bug above and everything is fine.
 
-            eval('
+            eval(
+                '
                 namespace '.__NAMESPACE__.';
                 class ChildTestingStacking extends TestingStacking { function foo($bar) {} }
-            ');
+            '
+            );
             $this->fail('ContextErrorException expected');
         } catch (\ErrorException $exception) {
             // if an exception is thrown, the test passed
@@ -190,7 +192,11 @@ class DebugClassLoaderTest extends TestCase
      */
     public function testDeprecatedSuper($class, $super, $type)
     {
-        set_error_handler(function () { return false; });
+        set_error_handler(
+            function () {
+                return false; 
+            }
+        );
         $e = error_reporting(0);
         trigger_error('', E_USER_DEPRECATED);
 
@@ -220,7 +226,11 @@ class DebugClassLoaderTest extends TestCase
 
     public function testInterfaceExtendsDeprecatedInterface()
     {
-        set_error_handler(function () { return false; });
+        set_error_handler(
+            function () {
+                return false; 
+            }
+        );
         $e = error_reporting(0);
         trigger_error('', E_USER_NOTICE);
 
@@ -242,7 +252,11 @@ class DebugClassLoaderTest extends TestCase
 
     public function testDeprecatedSuperInSameNamespace()
     {
-        set_error_handler(function () { return false; });
+        set_error_handler(
+            function () {
+                return false; 
+            }
+        );
         $e = error_reporting(0);
         trigger_error('', E_USER_NOTICE);
 
@@ -268,7 +282,11 @@ class DebugClassLoaderTest extends TestCase
             $this->markTestSkipped('PHP7 already prevents using reserved names.');
         }
 
-        set_error_handler(function () { return false; });
+        set_error_handler(
+            function () {
+                return false; 
+            }
+        );
         $e = error_reporting(0);
         trigger_error('', E_USER_NOTICE);
 
@@ -290,7 +308,11 @@ class DebugClassLoaderTest extends TestCase
 
     public function testExtendedFinalClass()
     {
-        set_error_handler(function () { return false; });
+        set_error_handler(
+            function () {
+                return false; 
+            }
+        );
         $e = error_reporting(0);
         trigger_error('', E_USER_NOTICE);
 
@@ -312,7 +334,11 @@ class DebugClassLoaderTest extends TestCase
 
     public function testExtendedFinalMethod()
     {
-        set_error_handler(function () { return false; });
+        set_error_handler(
+            function () {
+                return false; 
+            }
+        );
         $e = error_reporting(0);
         trigger_error('', E_USER_NOTICE);
 
@@ -334,7 +360,11 @@ class DebugClassLoaderTest extends TestCase
 
     public function testExtendedDeprecatedMethodDoesntTriggerAnyNotice()
     {
-        set_error_handler(function () { return false; });
+        set_error_handler(
+            function () {
+                return false; 
+            }
+        );
         $e = error_reporting(0);
         trigger_error('', E_USER_NOTICE);
 
@@ -352,7 +382,11 @@ class DebugClassLoaderTest extends TestCase
     public function testInternalsUse()
     {
         $deprecations = array();
-        set_error_handler(function ($type, $msg) use (&$deprecations) { $deprecations[] = $msg; });
+        set_error_handler(
+            function ($type, $msg) use (&$deprecations) {
+                $deprecations[] = $msg; 
+            }
+        );
         $e = error_reporting(E_USER_DEPRECATED);
 
         class_exists('Test\\'.__NAMESPACE__.'\\ExtendsInternals', true);
@@ -360,12 +394,14 @@ class DebugClassLoaderTest extends TestCase
         error_reporting($e);
         restore_error_handler();
 
-        $this->assertSame($deprecations, array(
+        $this->assertSame(
+            $deprecations, array(
             'The "Symfony\Component\Debug\Tests\Fixtures\InternalClass" class is considered internal since version 3.4. It may change without further notice. You should not use it from "Test\Symfony\Component\Debug\Tests\ExtendsInternalsParent".',
             'The "Symfony\Component\Debug\Tests\Fixtures\InternalInterface" interface is considered internal. It may change without further notice. You should not use it from "Test\Symfony\Component\Debug\Tests\ExtendsInternalsParent".',
             'The "Symfony\Component\Debug\Tests\Fixtures\InternalTrait" trait is considered internal. It may change without further notice. You should not use it from "Test\Symfony\Component\Debug\Tests\ExtendsInternals".',
             'The "Symfony\Component\Debug\Tests\Fixtures\InternalTrait2::internalMethod()" method is considered internal since version 3.4. It may change without further notice. You should not extend it from "Test\Symfony\Component\Debug\Tests\ExtendsInternals".',
-        ));
+            )
+        );
     }
 }
 
@@ -409,15 +445,19 @@ class ClassLoader
         } elseif ('Test\\'.__NAMESPACE__.'\ExtendsFinalClass' === $class) {
             eval('namespace Test\\'.__NAMESPACE__.'; class ExtendsFinalClass extends \\'.__NAMESPACE__.'\Fixtures\FinalClass {}');
         } elseif ('Test\\'.__NAMESPACE__.'\ExtendsAnnotatedClass' === $class) {
-            eval('namespace Test\\'.__NAMESPACE__.'; class ExtendsAnnotatedClass extends \\'.__NAMESPACE__.'\Fixtures\AnnotatedClass {
+            eval(
+                'namespace Test\\'.__NAMESPACE__.'; class ExtendsAnnotatedClass extends \\'.__NAMESPACE__.'\Fixtures\AnnotatedClass {
                 public function deprecatedMethod() { }
-            }');
+            }'
+            );
         } elseif ('Test\\'.__NAMESPACE__.'\ExtendsInternals' === $class) {
-            eval('namespace Test\\'.__NAMESPACE__.'; class ExtendsInternals extends ExtendsInternalsParent {
+            eval(
+                'namespace Test\\'.__NAMESPACE__.'; class ExtendsInternals extends ExtendsInternalsParent {
                 use \\'.__NAMESPACE__.'\Fixtures\InternalTrait;
 
                 public function internalMethod() { }
-            }');
+            }'
+            );
         } elseif ('Test\\'.__NAMESPACE__.'\ExtendsInternalsParent' === $class) {
             eval('namespace Test\\'.__NAMESPACE__.'; class ExtendsInternalsParent extends \\'.__NAMESPACE__.'\Fixtures\InternalClass implements \\'.__NAMESPACE__.'\Fixtures\InternalInterface { }');
         }

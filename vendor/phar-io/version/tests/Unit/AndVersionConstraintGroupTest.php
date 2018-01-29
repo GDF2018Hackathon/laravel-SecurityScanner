@@ -15,8 +15,10 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers PharIo\Version\AndVersionConstraintGroup
  */
-class AndVersionConstraintGroupTest extends TestCase {
-    public function testReturnsFalseIfOneConstraintReturnsFalse() {
+class AndVersionConstraintGroupTest extends TestCase
+{
+    public function testReturnsFalseIfOneConstraintReturnsFalse() 
+    {
         $firstConstraint  = $this->createMock(VersionConstraint::class);
         $secondConstraint = $this->createMock(VersionConstraint::class);
 
@@ -33,7 +35,8 @@ class AndVersionConstraintGroupTest extends TestCase {
         $this->assertFalse($group->complies(new Version('1.0.0')));
     }
 
-    public function testReturnsTrueIfAllConstraintsReturnsTrue() {
+    public function testReturnsTrueIfAllConstraintsReturnsTrue() 
+    {
         $firstConstraint  = $this->createMock(VersionConstraint::class);
         $secondConstraint = $this->createMock(VersionConstraint::class);
 

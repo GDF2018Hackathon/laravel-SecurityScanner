@@ -7,9 +7,13 @@ use PhpParser\Node;
 
 class TraitUse extends Node\Stmt
 {
-    /** @var Node\Name[] Traits */
+    /**
+     * @var Node\Name[] Traits 
+     */
     public $traits;
-    /** @var TraitUseAdaptation[] Adaptations */
+    /**
+     * @var TraitUseAdaptation[] Adaptations 
+     */
     public $adaptations;
 
     /**
@@ -19,13 +23,15 @@ class TraitUse extends Node\Stmt
      * @param TraitUseAdaptation[] $adaptations Adaptations
      * @param array                $attributes  Additional attributes
      */
-    public function __construct(array $traits, array $adaptations = array(), array $attributes = array()) {
+    public function __construct(array $traits, array $adaptations = array(), array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->traits = $traits;
         $this->adaptations = $adaptations;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('traits', 'adaptations');
     }
 }

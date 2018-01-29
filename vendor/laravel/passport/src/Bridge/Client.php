@@ -13,9 +13,9 @@ class Client implements ClientEntityInterface
     /**
      * Create a new client instance.
      *
-     * @param  string  $identifier
-     * @param  string  $name
-     * @param  string  $redirectUri
+     * @param  string $identifier
+     * @param  string $name
+     * @param  string $redirectUri
      * @return void
      */
     public function __construct($identifier, $name, $redirectUri)

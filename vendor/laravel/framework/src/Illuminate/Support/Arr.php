@@ -13,7 +13,7 @@ class Arr
     /**
      * Determine whether the given value is array accessible.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return bool
      */
     public static function accessible($value)
@@ -24,9 +24,9 @@ class Arr
     /**
      * Add an element to an array using "dot" notation if it doesn't exist.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  array  $array
+     * @param  string $key
+     * @param  mixed  $value
      * @return array
      */
     public static function add($array, $key, $value)
@@ -41,7 +41,7 @@ class Arr
     /**
      * Collapse an array of arrays into a single array.
      *
-     * @param  array  $array
+     * @param  array $array
      * @return array
      */
     public static function collapse($array)
@@ -64,7 +64,7 @@ class Arr
     /**
      * Cross join the given arrays, returning all possible permutations.
      *
-     * @param  array  ...$arrays
+     * @param  array ...$arrays
      * @return array
      */
     public static function crossJoin(...$arrays)
@@ -91,7 +91,7 @@ class Arr
     /**
      * Divide an array into two arrays. One with keys and the other with values.
      *
-     * @param  array  $array
+     * @param  array $array
      * @return array
      */
     public static function divide($array)
@@ -102,8 +102,8 @@ class Arr
     /**
      * Flatten a multi-dimensional associative array with dots.
      *
-     * @param  array   $array
-     * @param  string  $prepend
+     * @param  array  $array
+     * @param  string $prepend
      * @return array
      */
     public static function dot($array, $prepend = '')
@@ -124,8 +124,8 @@ class Arr
     /**
      * Get all of the given array except for a specified array of keys.
      *
-     * @param  array  $array
-     * @param  array|string  $keys
+     * @param  array        $array
+     * @param  array|string $keys
      * @return array
      */
     public static function except($array, $keys)
@@ -138,8 +138,8 @@ class Arr
     /**
      * Determine if the given key exists in the provided array.
      *
-     * @param  \ArrayAccess|array  $array
-     * @param  string|int  $key
+     * @param  \ArrayAccess|array $array
+     * @param  string|int         $key
      * @return bool
      */
     public static function exists($array, $key)
@@ -154,9 +154,9 @@ class Arr
     /**
      * Return the first element in an array passing a given truth test.
      *
-     * @param  array  $array
-     * @param  callable|null  $callback
-     * @param  mixed  $default
+     * @param  array         $array
+     * @param  callable|null $callback
+     * @param  mixed         $default
      * @return mixed
      */
     public static function first($array, callable $callback = null, $default = null)
@@ -183,9 +183,9 @@ class Arr
     /**
      * Return the last element in an array passing a given truth test.
      *
-     * @param  array  $array
-     * @param  callable|null  $callback
-     * @param  mixed  $default
+     * @param  array         $array
+     * @param  callable|null $callback
+     * @param  mixed         $default
      * @return mixed
      */
     public static function last($array, callable $callback = null, $default = null)
@@ -200,8 +200,8 @@ class Arr
     /**
      * Flatten a multi-dimensional array into a single level.
      *
-     * @param  array  $array
-     * @param  int  $depth
+     * @param  array $array
+     * @param  int   $depth
      * @return array
      */
     public static function flatten($array, $depth = INF)
@@ -226,8 +226,8 @@ class Arr
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
-     * @param  array  $array
-     * @param  array|string  $keys
+     * @param  array        $array
+     * @param  array|string $keys
      * @return void
      */
     public static function forget(&$array, $keys)
@@ -270,9 +270,9 @@ class Arr
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param  \ArrayAccess|array  $array
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  \ArrayAccess|array $array
+     * @param  string             $key
+     * @param  mixed              $default
      * @return mixed
      */
     public static function get($array, $key, $default = null)
@@ -307,8 +307,8 @@ class Arr
     /**
      * Check if an item or items exist in an array using "dot" notation.
      *
-     * @param  \ArrayAccess|array  $array
-     * @param  string|array  $keys
+     * @param  \ArrayAccess|array $array
+     * @param  string|array       $keys
      * @return bool
      */
     public static function has($array, $keys)
@@ -351,7 +351,7 @@ class Arr
      *
      * An array is "associative" if it doesn't have sequential numerical keys beginning with zero.
      *
-     * @param  array  $array
+     * @param  array $array
      * @return bool
      */
     public static function isAssoc(array $array)
@@ -364,8 +364,8 @@ class Arr
     /**
      * Get a subset of the items from the given array.
      *
-     * @param  array  $array
-     * @param  array|string  $keys
+     * @param  array        $array
+     * @param  array|string $keys
      * @return array
      */
     public static function only($array, $keys)
@@ -376,9 +376,9 @@ class Arr
     /**
      * Pluck an array of values from an array.
      *
-     * @param  array  $array
-     * @param  string|array  $value
-     * @param  string|array|null  $key
+     * @param  array             $array
+     * @param  string|array      $value
+     * @param  string|array|null $key
      * @return array
      */
     public static function pluck($array, $value, $key = null)
@@ -412,8 +412,8 @@ class Arr
     /**
      * Explode the "value" and "key" arguments passed to "pluck".
      *
-     * @param  string|array  $value
-     * @param  string|array|null  $key
+     * @param  string|array      $value
+     * @param  string|array|null $key
      * @return array
      */
     protected static function explodePluckParameters($value, $key)
@@ -428,9 +428,9 @@ class Arr
     /**
      * Push an item onto the beginning of an array.
      *
-     * @param  array  $array
-     * @param  mixed  $value
-     * @param  mixed  $key
+     * @param  array $array
+     * @param  mixed $value
+     * @param  mixed $key
      * @return array
      */
     public static function prepend($array, $value, $key = null)
@@ -447,9 +447,9 @@ class Arr
     /**
      * Get a value from the array, and remove it.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  array  $array
+     * @param  string $key
+     * @param  mixed  $default
      * @return mixed
      */
     public static function pull(&$array, $key, $default = null)
@@ -464,8 +464,8 @@ class Arr
     /**
      * Get one or a specified number of random values from an array.
      *
-     * @param  array  $array
-     * @param  int|null  $number
+     * @param  array    $array
+     * @param  int|null $number
      * @return mixed
      *
      * @throws \InvalidArgumentException
@@ -506,9 +506,9 @@ class Arr
      *
      * If no key is given to the method, the entire array will be replaced.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  array  $array
+     * @param  string $key
+     * @param  mixed  $value
      * @return array
      */
     public static function set(&$array, $key, $value)
@@ -540,7 +540,7 @@ class Arr
     /**
      * Shuffle the given array and return the result.
      *
-     * @param  array  $array
+     * @param  array $array
      * @return array
      */
     public static function shuffle($array)
@@ -553,8 +553,8 @@ class Arr
     /**
      * Sort the array using the given callback or "dot" notation.
      *
-     * @param  array  $array
-     * @param  callable|string|null  $callback
+     * @param  array                $array
+     * @param  callable|string|null $callback
      * @return array
      */
     public static function sort($array, $callback = null)
@@ -565,7 +565,7 @@ class Arr
     /**
      * Recursively sort an array by keys and values.
      *
-     * @param  array  $array
+     * @param  array $array
      * @return array
      */
     public static function sortRecursive($array)
@@ -588,8 +588,8 @@ class Arr
     /**
      * Filter the array using the given callback.
      *
-     * @param  array  $array
-     * @param  callable  $callback
+     * @param  array    $array
+     * @param  callable $callback
      * @return array
      */
     public static function where($array, callable $callback)
@@ -600,7 +600,7 @@ class Arr
     /**
      * If the given value is not an array, wrap it in one.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return array
      */
     public static function wrap($value)

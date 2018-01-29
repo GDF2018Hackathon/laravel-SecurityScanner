@@ -9,7 +9,9 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 class Php72LanguageFeaturesTest extends MockeryTestCase
 {
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_can_mock_a_class_with_an_object_argument_type_hint()
     {
         $mock = mock(ArgumentObjectTypeHint::class);
@@ -19,7 +21,9 @@ class Php72LanguageFeaturesTest extends MockeryTestCase
         $mock->foo($object);
     }
     
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_can_mock_a_class_with_an_object_return_type_hint()
     {
         $mock = spy(ReturnTypeObjectTypeHint::class);
@@ -30,12 +34,16 @@ class Php72LanguageFeaturesTest extends MockeryTestCase
     }
 }
 
-class ArgumentObjectTypeHint 
+class ArgumentObjectTypeHint
 {
-    function foo(object $foo) {}
+    function foo(object $foo) 
+    {
+    }
 }
 
-class ReturnTypeObjectTypeHint 
+class ReturnTypeObjectTypeHint
 {
-    function foo(): object {}
+    function foo(): object 
+    {
+    }
 }

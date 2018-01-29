@@ -32,6 +32,7 @@ if (!is_callable('random_bytes')) {
      * solution.
      *
      * libsodium-php project:
+     *
      * @ref https://github.com/jedisct1/libsodium-php
      *
      * @param int $bytes

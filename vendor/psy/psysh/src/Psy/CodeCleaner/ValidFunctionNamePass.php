@@ -49,8 +49,9 @@ class ValidFunctionNamePass extends NamespaceAwarePass
             // @todo add an "else" here which adds a runtime check for instances where we can't tell
             // whether a function is being redefined by static analysis alone.
             if ($this->conditionalScopes === 0) {
-                if (function_exists($name) ||
-                    isset($this->currentScope[strtolower($name)])) {
+                if (function_exists($name) 
+                    || isset($this->currentScope[strtolower($name)])
+                ) {
                     $msg = sprintf('Cannot redeclare %s()', $name);
                     throw new FatalErrorException($msg, 0, E_ERROR, null, $node->getLine());
                 }

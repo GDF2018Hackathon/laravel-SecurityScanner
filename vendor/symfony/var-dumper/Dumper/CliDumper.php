@@ -64,7 +64,8 @@ class CliDumper extends AbstractDumper
 
         if ('\\' === DIRECTORY_SEPARATOR && 'ON' !== @getenv('ConEmuANSI') && 'xterm' !== @getenv('TERM')) {
             // Use only the base 16 xterm colors when using ANSICON or standard Windows 10 CLI
-            $this->setStyles(array(
+            $this->setStyles(
+                array(
                 'default' => '31',
                 'num' => '1;34',
                 'const' => '1;31',
@@ -74,7 +75,8 @@ class CliDumper extends AbstractDumper
                 'meta' => '35',
                 'key' => '32',
                 'index' => '34',
-            ));
+                )
+            );
         }
     }
 
@@ -119,42 +121,45 @@ class CliDumper extends AbstractDumper
         $attr = $cursor->attr;
 
         switch ($type) {
-            case 'default':
-                $style = 'default';
+        case 'default':
+            $style = 'default';
+            break;
+
+        case 'integer':
+            $style = 'num';
+            break;
+
+        case 'double':
+            $style = 'num';
+
+            switch (true) {
+            case INF === $value:  $value = 'INF'; 
                 break;
-
-            case 'integer':
-                $style = 'num';
+            case -INF === $value: $value = '-INF'; 
                 break;
-
-            case 'double':
-                $style = 'num';
-
-                switch (true) {
-                    case INF === $value:  $value = 'INF'; break;
-                    case -INF === $value: $value = '-INF'; break;
-                    case is_nan($value):  $value = 'NAN'; break;
-                    default:
-                        $value = (string) $value;
-                        if (false === strpos($value, $this->decimalPoint)) {
-                            $value .= $this->decimalPoint.'0';
-                        }
-                        break;
+            case is_nan($value):  $value = 'NAN'; 
+                break;
+            default:
+                $value = (string) $value;
+                if (false === strpos($value, $this->decimalPoint)) {
+                    $value .= $this->decimalPoint.'0';
                 }
                 break;
+            }
+            break;
 
-            case 'NULL':
-                $value = 'null';
-                break;
+        case 'NULL':
+            $value = 'null';
+            break;
 
-            case 'boolean':
-                $value = $value ? 'true' : 'false';
-                break;
+        case 'boolean':
+            $value = $value ? 'true' : 'false';
+            break;
 
-            default:
-                $attr += array('value' => $this->utf8Encode($value));
-                $value = $this->utf8Encode($type);
-                break;
+        default:
+            $attr += array('value' => $this->utf8Encode($value));
+            $value = $this->utf8Encode($type);
+            break;
         }
 
         $this->line .= $this->style($style, $value, $attr);
@@ -331,67 +336,67 @@ class CliDumper extends AbstractDumper
             $bin = $cursor->hashKeyIsBinary ? 'b' : '';
             $style = 'key';
             switch ($cursor->hashType) {
-                default:
-                case Cursor::HASH_INDEXED:
-                    if (self::DUMP_LIGHT_ARRAY & $this->flags) {
+            default:
+            case Cursor::HASH_INDEXED:
+                if (self::DUMP_LIGHT_ARRAY & $this->flags) {
+                    break;
+                }
+                $style = 'index';
+                // no break
+            case Cursor::HASH_ASSOC:
+                if (is_int($key)) {
+                    $this->line .= $this->style($style, $key).' => ';
+                } else {
+                    $this->line .= $bin.'"'.$this->style($style, $key).'" => ';
+                }
+                break;
+
+            case Cursor::HASH_RESOURCE:
+                $key = "\0~\0".$key;
+                // no break
+            case Cursor::HASH_OBJECT:
+                if (!isset($key[0]) || "\0" !== $key[0]) {
+                    $this->line .= '+'.$bin.$this->style('public', $key).': ';
+                } elseif (0 < strpos($key, "\0", 1)) {
+                    $key = explode("\0", substr($key, 1), 2);
+
+                    switch ($key[0][0]) {
+                    case '+': // User inserted keys
+                        $attr['dynamic'] = true;
+                        $this->line .= '+'.$bin.'"'.$this->style('public', $key[1], $attr).'": ';
+                        break 2;
+                    case '~':
+                        $style = 'meta';
+                        if (isset($key[0][1])) {
+                            parse_str(substr($key[0], 1), $attr);
+                            $attr += array('binary' => $cursor->hashKeyIsBinary);
+                        }
+                        break;
+                    case '*':
+                        $style = 'protected';
+                        $bin = '#'.$bin;
+                        break;
+                    default:
+                        $attr['class'] = $key[0];
+                        $style = 'private';
+                        $bin = '-'.$bin;
                         break;
                     }
-                    $style = 'index';
-                    // no break
-                case Cursor::HASH_ASSOC:
-                    if (is_int($key)) {
-                        $this->line .= $this->style($style, $key).' => ';
-                    } else {
-                        $this->line .= $bin.'"'.$this->style($style, $key).'" => ';
-                    }
-                    break;
 
-                case Cursor::HASH_RESOURCE:
-                    $key = "\0~\0".$key;
-                    // no break
-                case Cursor::HASH_OBJECT:
-                    if (!isset($key[0]) || "\0" !== $key[0]) {
-                        $this->line .= '+'.$bin.$this->style('public', $key).': ';
-                    } elseif (0 < strpos($key, "\0", 1)) {
-                        $key = explode("\0", substr($key, 1), 2);
-
-                        switch ($key[0][0]) {
-                            case '+': // User inserted keys
-                                $attr['dynamic'] = true;
-                                $this->line .= '+'.$bin.'"'.$this->style('public', $key[1], $attr).'": ';
-                                break 2;
-                            case '~':
-                                $style = 'meta';
-                                if (isset($key[0][1])) {
-                                    parse_str(substr($key[0], 1), $attr);
-                                    $attr += array('binary' => $cursor->hashKeyIsBinary);
-                                }
-                                break;
-                            case '*':
-                                $style = 'protected';
-                                $bin = '#'.$bin;
-                                break;
-                            default:
-                                $attr['class'] = $key[0];
-                                $style = 'private';
-                                $bin = '-'.$bin;
-                                break;
+                    if (isset($attr['collapse'])) {
+                        if ($attr['collapse']) {
+                            $this->collapseNextHash = true;
+                        } else {
+                            $this->expandNextHash = true;
                         }
-
-                        if (isset($attr['collapse'])) {
-                            if ($attr['collapse']) {
-                                $this->collapseNextHash = true;
-                            } else {
-                                $this->expandNextHash = true;
-                            }
-                        }
-
-                        $this->line .= $bin.$this->style($style, $key[1], $attr).(isset($attr['separator']) ? $attr['separator'] : ': ');
-                    } else {
-                        // This case should not happen
-                        $this->line .= '-'.$bin.'"'.$this->style('private', $key, array('class' => '')).'": ';
                     }
-                    break;
+
+                    $this->line .= $bin.$this->style($style, $key[1], $attr).(isset($attr['separator']) ? $attr['separator'] : ': ');
+                } else {
+                    // This case should not happen
+                    $this->line .= '-'.$bin.'"'.$this->style('private', $key, array('class' => '')).'": ';
+                }
+                break;
             }
 
             if ($cursor->hardRefTo) {
@@ -435,15 +440,17 @@ class CliDumper extends AbstractDumper
         $map = static::$controlCharsMap;
         $startCchr = $this->colors ? "\033[m\033[{$this->styles['default']}m" : '';
         $endCchr = $this->colors ? "\033[m\033[{$style}m" : '';
-        $value = preg_replace_callback(static::$controlCharsRx, function ($c) use ($map, $startCchr, $endCchr) {
-            $s = $startCchr;
-            $c = $c[$i = 0];
-            do {
-                $s .= isset($map[$c[$i]]) ? $map[$c[$i]] : sprintf('\x%02X', ord($c[$i]));
-            } while (isset($c[++$i]));
+        $value = preg_replace_callback(
+            static::$controlCharsRx, function ($c) use ($map, $startCchr, $endCchr) {
+                $s = $startCchr;
+                $c = $c[$i = 0];
+                do {
+                    $s .= isset($map[$c[$i]]) ? $map[$c[$i]] : sprintf('\x%02X', ord($c[$i]));
+                } while (isset($c[++$i]));
 
-            return $s.$endCchr;
-        }, $value, -1, $cchrCount);
+                return $s.$endCchr;
+            }, $value, -1, $cchrCount
+        );
 
         if ($this->colors) {
             if ($cchrCount && "\033" === $value[0]) {
@@ -478,18 +485,18 @@ class CliDumper extends AbstractDumper
             while (--$i > 0) {
                 if (isset($colors[$i][5])) {
                     switch ($colors[$i]) {
-                        case '--ansi':
-                        case '--color':
-                        case '--color=yes':
-                        case '--color=force':
-                        case '--color=always':
-                            return static::$defaultColors = true;
+                    case '--ansi':
+                    case '--color':
+                    case '--color=yes':
+                    case '--color=force':
+                    case '--color=always':
+                        return static::$defaultColors = true;
 
-                        case '--no-ansi':
-                        case '--color=no':
-                        case '--color=none':
-                        case '--color=never':
-                            return static::$defaultColors = false;
+                    case '--no-ansi':
+                    case '--color=no':
+                    case '--color=none':
+                    case '--color=never':
+                        return static::$defaultColors = false;
                     }
                 }
             }

@@ -1552,9 +1552,11 @@ EOF
 
     public function testConstraintCallbackFailure()
     {
-        $constraint = Assert::callback(function () {
-            return false;
-        });
+        $constraint = Assert::callback(
+            function () {
+                return false;
+            }
+        );
 
         $this->expectException(ExpectationFailedException::class);
         $this->expectExceptionMessage('Failed asserting that \'This fails\' is accepted by specified callback.');

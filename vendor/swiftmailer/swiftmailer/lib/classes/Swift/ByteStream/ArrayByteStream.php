@@ -11,7 +11,7 @@
 /**
  * Allows reading and writing of bytes to and from an array.
  *
- * @author     Chris Corbyn
+ * @author Chris Corbyn
  */
 class Swift_ByteStream_ArrayByteStream implements Swift_InputByteStream, Swift_OutputByteStream
 {

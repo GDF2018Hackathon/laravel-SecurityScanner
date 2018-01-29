@@ -29,11 +29,13 @@ class RouterTest extends TestCase
 
     public function testSetOptionsWithSupportedOptions()
     {
-        $this->router->setOptions(array(
+        $this->router->setOptions(
+            array(
             'cache_dir' => './cache',
             'debug' => true,
             'resource_type' => 'ResourceType',
-        ));
+            )
+        );
 
         $this->assertSame('./cache', $this->router->getOption('cache_dir'));
         $this->assertTrue($this->router->getOption('debug'));
@@ -46,12 +48,14 @@ class RouterTest extends TestCase
      */
     public function testSetOptionsWithUnsupportedOptions()
     {
-        $this->router->setOptions(array(
+        $this->router->setOptions(
+            array(
             'cache_dir' => './cache',
             'option_foo' => true,
             'option_bar' => 'baz',
             'resource_type' => 'ResourceType',
-        ));
+            )
+        );
     }
 
     public function testSetOptionWithSupportedOption()

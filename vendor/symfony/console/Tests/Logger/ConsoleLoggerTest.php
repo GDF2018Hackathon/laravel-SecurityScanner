@@ -39,7 +39,8 @@ class ConsoleLoggerTest extends TestCase
     {
         $this->output = new DummyOutput(OutputInterface::VERBOSITY_VERBOSE);
 
-        return new ConsoleLogger($this->output, array(
+        return new ConsoleLogger(
+            $this->output, array(
             LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
             LogLevel::ALERT => OutputInterface::VERBOSITY_NORMAL,
             LogLevel::CRITICAL => OutputInterface::VERBOSITY_NORMAL,
@@ -48,7 +49,8 @@ class ConsoleLoggerTest extends TestCase
             LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
             LogLevel::INFO => OutputInterface::VERBOSITY_NORMAL,
             LogLevel::DEBUG => OutputInterface::VERBOSITY_NORMAL,
-        ));
+            )
+        );
     }
 
     /**

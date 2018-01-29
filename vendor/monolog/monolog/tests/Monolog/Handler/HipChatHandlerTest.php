@@ -21,7 +21,9 @@ use Monolog\Logger;
 class HipChatHandlerTest extends TestCase
 {
     private $res;
-    /** @var  HipChatHandler */
+    /**
+     * @var  HipChatHandler 
+     */
     private $handler;
 
     public function testWriteHeader()

@@ -75,10 +75,12 @@ class ImplicitReturnPass extends CodeCleanerPass
                 }
             }
         } elseif ($last instanceof Expr && !($last instanceof Exit_)) {
-            $nodes[count($nodes) - 1] = new Return_($last, array(
+            $nodes[count($nodes) - 1] = new Return_(
+                $last, array(
                 'startLine' => $last->getLine(),
                 'endLine'   => $last->getLine(),
-            ));
+                )
+            );
         } elseif ($last instanceof Namespace_) {
             $last->stmts = $this->addImplicitReturn($last->stmts);
         }

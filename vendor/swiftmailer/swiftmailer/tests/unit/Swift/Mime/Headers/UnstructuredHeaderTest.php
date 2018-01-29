@@ -48,21 +48,22 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
 
         $value = 'The quick brown fox jumped over the fence, he was a very very '.
             'scary brown fox with a bushy tail';
-        $header = $this->getHeader('X-Custom-Header',
+        $header = $this->getHeader(
+            'X-Custom-Header',
             $this->getEncoder('Q', true)
-            );
+        );
         $header->setValue($value);
         $header->setMaxLineLength(78); //A safe [RFC 2822, 2.2.3] default
         /*
         X-Custom-Header: The quick brown fox jumped over the fence, he was a very very
-     scary brown fox with a bushy tail
+        scary brown fox with a bushy tail
         */
         $this->assertEquals(
             'X-Custom-Header: The quick brown fox jumped over the fence, he was a'.
             ' very very'."\r\n".//Folding
             ' scary brown fox with a bushy tail'."\r\n",
             $header->toString(), '%s: The header should have been folded at 78th char'
-            );
+        );
     }
 
     public function testPrintableAsciiOnlyAppearsInHeaders()
@@ -80,7 +81,7 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
         $this->assertRegExp(
             '~^[^:\x00-\x20\x80-\xFF]+: [^\x80-\xFF\r\n]+\r\n$~s',
             $header->toString()
-            );
+        );
     }
 
     public function testEncodedWordsFollowGeneralStructure()
@@ -97,7 +98,7 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
         $this->assertRegExp(
             '~^X-Test: \=?.*?\?.*?\?.*?\?=\r\n$~s',
             $header->toString()
-            );
+        );
     }
 
     public function testEncodedWordIncludesCharsetAndEncodingMethodAndText()
@@ -114,16 +115,16 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($nonAsciiChar, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('=8F');
+            ->once()
+            ->with($nonAsciiChar, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('=8F');
 
         $header = $this->getHeader('X-Test', $encoder);
         $header->setValue($nonAsciiChar);
         $this->assertEquals(
             'X-Test: =?'.$this->charset.'?Q?=8F?='."\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testEncodedWordsAreUsedToEncodedNonPrintableAscii()
@@ -131,7 +132,7 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
         //SPACE and TAB permitted
         $nonPrintableBytes = array_merge(
             range(0x00, 0x08), range(0x10, 0x19), array(0x7F)
-            );
+        );
 
         foreach ($nonPrintableBytes as $byte) {
             $char = pack('C', $byte);
@@ -149,7 +150,7 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
             $this->assertEquals(
                 'X-A: =?'.$this->charset.'?Q?'.$encodedChar.'?='."\r\n",
                 $header->toString(), '%s: Non-printable ascii should be encoded'
-                );
+            );
         }
     }
 
@@ -171,7 +172,7 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
             $this->assertEquals(
                 'X-A: =?'.$this->charset.'?Q?'.$encodedChar.'?='."\r\n",
                 $header->toString(), '%s: 8-bit octets should be encoded'
-                );
+            );
         }
     }
 
@@ -192,9 +193,9 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($nonAsciiChar, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('=8F');
+            ->once()
+            ->with($nonAsciiChar, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('=8F');
         //Note that multi-line headers begin with LWSP which makes 75 + 1 = 76
         //Note also that =?utf-8?q??= is 12 chars which makes 75 - 12 = 63
 
@@ -205,7 +206,7 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
         $this->assertEquals(
             'X-Test: =?'.$this->charset.'?Q?=8F?='."\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testFWSPIsUsedWhenEncoderReturnsMultipleLines()
@@ -222,9 +223,9 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($nonAsciiChar, 8, 63, \Mockery::any())
-                ->andReturn('line_one_here'."\r\n".'line_two_here');
+            ->once()
+            ->with($nonAsciiChar, 8, 63, \Mockery::any())
+            ->andReturn('line_one_here'."\r\n".'line_two_here');
 
         //Note that multi-line headers begin with LWSP which makes 75 + 1 = 76
         //Note also that =?utf-8?q??= is 12 chars which makes 75 - 12 = 63
@@ -237,23 +238,23 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
             'X-Test: =?'.$this->charset.'?Q?line_one_here?='."\r\n".
             ' =?'.$this->charset.'?Q?line_two_here?='."\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testAdjacentWordsAreEncodedTogether()
     {
         /* -- RFC 2047, 5 (1)
-     Ordinary ASCII text and 'encoded-word's may appear together in the
-     same header field.  However, an 'encoded-word' that appears in a
-     header field defined as '*text' MUST be separated from any adjacent
-     'encoded-word' or 'text' by 'linear-white-space'.
+        Ordinary ASCII text and 'encoded-word's may appear together in the
+        same header field.  However, an 'encoded-word' that appears in a
+        header field defined as '*text' MUST be separated from any adjacent
+        'encoded-word' or 'text' by 'linear-white-space'.
 
-     -- RFC 2047, 2.
-     IMPORTANT: 'encoded-word's are designed to be recognized as 'atom's
-     by an RFC 822 parser.  As a consequence, unencoded white space
-     characters (such as SPACE and HTAB) are FORBIDDEN within an
-     'encoded-word'.
-     */
+        -- RFC 2047, 2.
+        IMPORTANT: 'encoded-word's are designed to be recognized as 'atom's
+        by an RFC 822 parser.  As a consequence, unencoded white space
+        characters (such as SPACE and HTAB) are FORBIDDEN within an
+        'encoded-word'.
+        */
 
         //It would be valid to encode all words needed, however it's probably
         // easiest to encode the longest amount required at a time
@@ -264,24 +265,25 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($word.' '.$word, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('w=8Frd_w=8Frd');
+            ->once()
+            ->with($word.' '.$word, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('w=8Frd_w=8Frd');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($word, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('w=8Frd');
+            ->once()
+            ->with($word, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('w=8Frd');
 
         $header = $this->getHeader('X-Test', $encoder);
         $header->setValue($text);
 
         $headerString = $header->toString();
 
-        $this->assertEquals('X-Test: start =?'.$this->charset.'?Q?'.
+        $this->assertEquals(
+            'X-Test: start =?'.$this->charset.'?Q?'.
             'w=8Frd_w=8Frd?= then end =?'.$this->charset.'?Q?'.
             'w=8Frd?='."\r\n", $headerString,
             '%s: Adjacent encoded words should appear grouped with WSP encoded'
-            );
+        );
     }
 
     public function testLanguageInformationAppearsInEncodedWords()
@@ -307,16 +309,17 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
 
         $encoder = $this->getEncoder('Q');
         $encoder->shouldReceive('encodeString')
-                ->once()
-                ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
-                ->andReturn('fo=8Fbar');
+            ->once()
+            ->with($value, \Mockery::any(), \Mockery::any(), \Mockery::any())
+            ->andReturn('fo=8Fbar');
 
         $header = $this->getHeader('Subject', $encoder);
         $header->setLanguage('en');
         $header->setValue($value);
-        $this->assertEquals("Subject: =?utf-8*en?Q?fo=8Fbar?=\r\n",
+        $this->assertEquals(
+            "Subject: =?utf-8*en?Q?fo=8Fbar?=\r\n",
             $header->toString()
-            );
+        );
     }
 
     public function testSetBodyModel()
@@ -345,8 +348,8 @@ class Swift_Mime_Headers_UnstructuredHeaderTest extends \SwiftMailerTestCase
     {
         $encoder = $this->getMockery('Swift_Mime_HeaderEncoder')->shouldIgnoreMissing();
         $encoder->shouldReceive('getName')
-                ->zeroOrMoreTimes()
-                ->andReturn($type);
+            ->zeroOrMoreTimes()
+            ->andReturn($type);
 
         return $encoder;
     }

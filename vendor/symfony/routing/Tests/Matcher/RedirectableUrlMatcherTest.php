@@ -52,8 +52,7 @@ class RedirectableUrlMatcherTest extends TestCase
             ->expects($this->once())
             ->method('redirect')
             ->with('/foo', 'foo', 'ftp')
-            ->will($this->returnValue(array('_route' => 'foo')))
-        ;
+            ->will($this->returnValue(array('_route' => 'foo')));
         $matcher->match('/foo');
     }
 
@@ -79,8 +78,7 @@ class RedirectableUrlMatcherTest extends TestCase
             ->expects($this->once())
             ->method('redirect')
             ->with('/foo/baz', 'foo', 'https')
-            ->will($this->returnValue(array('redirect' => 'value')))
-        ;
+            ->will($this->returnValue(array('redirect' => 'value')));
         $this->assertEquals(array('_route' => 'foo', 'bar' => 'baz', 'redirect' => 'value'), $matcher->match('/foo/baz'));
     }
 
@@ -94,8 +92,7 @@ class RedirectableUrlMatcherTest extends TestCase
             ->expects($this->once())
             ->method('redirect')
             ->with('/foo/baz/', 'foo', null)
-            ->will($this->returnValue(array('redirect' => 'value')))
-        ;
+            ->will($this->returnValue(array('redirect' => 'value')));
         $this->assertEquals(array('_route' => 'foo', 'bar' => 'baz', 'redirect' => 'value'), $matcher->match('/foo/baz'));
     }
 

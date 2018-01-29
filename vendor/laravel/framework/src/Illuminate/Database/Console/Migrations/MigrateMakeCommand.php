@@ -42,8 +42,8 @@ class MigrateMakeCommand extends BaseCommand
     /**
      * Create a new migration install command instance.
      *
-     * @param  \Illuminate\Database\Migrations\MigrationCreator  $creator
-     * @param  \Illuminate\Support\Composer  $composer
+     * @param  \Illuminate\Database\Migrations\MigrationCreator $creator
+     * @param  \Illuminate\Support\Composer                     $composer
      * @return void
      */
     public function __construct(MigrationCreator $creator, Composer $composer)
@@ -101,16 +101,18 @@ class MigrateMakeCommand extends BaseCommand
     /**
      * Write the migration file to disk.
      *
-     * @param  string  $name
-     * @param  string  $table
-     * @param  bool    $create
+     * @param  string $name
+     * @param  string $table
+     * @param  bool   $create
      * @return string
      */
     protected function writeMigration($name, $table, $create)
     {
-        $file = pathinfo($this->creator->create(
-            $name, $this->getMigrationPath(), $table, $create
-        ), PATHINFO_FILENAME);
+        $file = pathinfo(
+            $this->creator->create(
+                $name, $this->getMigrationPath(), $table, $create
+            ), PATHINFO_FILENAME
+        );
 
         $this->line("<info>Created Migration:</info> {$file}");
     }

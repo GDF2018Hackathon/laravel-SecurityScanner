@@ -6,7 +6,9 @@ use PhpParser\Node;
 
 class Unset_ extends Node\Stmt
 {
-    /** @var Node\Expr[] Variables to unset */
+    /**
+     * @var Node\Expr[] Variables to unset 
+     */
     public $vars;
 
     /**
@@ -15,12 +17,14 @@ class Unset_ extends Node\Stmt
      * @param Node\Expr[] $vars       Variables to unset
      * @param array       $attributes Additional attributes
      */
-    public function __construct(array $vars, array $attributes = array()) {
+    public function __construct(array $vars, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->vars = $vars;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('vars');
     }
 }

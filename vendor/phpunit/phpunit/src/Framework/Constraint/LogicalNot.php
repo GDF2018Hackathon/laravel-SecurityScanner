@@ -137,15 +137,15 @@ class LogicalNot extends Constraint
     protected function failureDescription($other)
     {
         switch (\get_class($this->constraint)) {
-            case LogicalAnd::class:
-            case self::class:
-            case LogicalOr::class:
-                return 'not( ' . $this->constraint->failureDescription($other) . ' )';
+        case LogicalAnd::class:
+        case self::class:
+        case LogicalOr::class:
+            return 'not( ' . $this->constraint->failureDescription($other) . ' )';
 
-            default:
-                return self::negate(
-                    $this->constraint->failureDescription($other)
-                );
+        default:
+            return self::negate(
+                $this->constraint->failureDescription($other)
+            );
         }
     }
 
@@ -157,15 +157,15 @@ class LogicalNot extends Constraint
     public function toString()
     {
         switch (\get_class($this->constraint)) {
-            case LogicalAnd::class:
-            case self::class:
-            case LogicalOr::class:
-                return 'not( ' . $this->constraint->toString() . ' )';
+        case LogicalAnd::class:
+        case self::class:
+        case LogicalOr::class:
+            return 'not( ' . $this->constraint->toString() . ' )';
 
-            default:
-                return self::negate(
-                    $this->constraint->toString()
-                );
+        default:
+            return self::negate(
+                $this->constraint->toString()
+            );
         }
     }
 

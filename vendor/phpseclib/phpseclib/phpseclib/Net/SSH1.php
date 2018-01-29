@@ -62,10 +62,11 @@ use phpseclib\Math\BigInteger;
  */
 class SSH1
 {
-    /**#@+
+    /**
+* #@+
      * Encryption Methods
      *
-     * @see \phpseclib\Net\SSH1::getSupportedCiphers()
+     * @see    \phpseclib\Net\SSH1::getSupportedCiphers()
      * @access public
      */
     /**
@@ -120,12 +121,15 @@ class SSH1
      * uses it (see cipher.c)
      */
     const CIPHER_BLOWFISH = 6;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
      * Authentication Methods
      *
-     * @see \phpseclib\Net\SSH1::getSupportedAuthentications()
+     * @see    \phpseclib\Net\SSH1::getSupportedAuthentications()
      * @access public
     */
     /**
@@ -146,21 +150,26 @@ class SSH1
      * .rhosts with RSA host authentication
      */
     const AUTH_RHOSTS_RSA = 4;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
      * Terminal Modes
      *
-     * @link http://3sp.com/content/developer/maverick-net/docs/Maverick.SSH.PseudoTerminalModesMembers.html
+     * @link   http://3sp.com/content/developer/maverick-net/docs/Maverick.SSH.PseudoTerminalModesMembers.html
      * @access private
     */
     const TTY_OP_END = 0;
-    /**#@-*/
+    /**
+* #@-
+*/
 
     /**
      * The Response Type
      *
-     * @see \phpseclib\Net\SSH1::_get_binary_packet()
+     * @see    \phpseclib\Net\SSH1::_get_binary_packet()
      * @access private
      */
     const RESPONSE_TYPE = 1;
@@ -168,26 +177,31 @@ class SSH1
     /**
      * The Response Data
      *
-     * @see \phpseclib\Net\SSH1::_get_binary_packet()
+     * @see    \phpseclib\Net\SSH1::_get_binary_packet()
      * @access private
      */
     const RESPONSE_DATA = 2;
 
-    /**#@+
+    /**
+* #@+
      * Execution Bitmap Masks
      *
-     * @see \phpseclib\Net\SSH1::bitmap
+     * @see    \phpseclib\Net\SSH1::bitmap
      * @access private
     */
     const MASK_CONSTRUCTOR = 0x00000001;
     const MASK_CONNECTED   = 0x00000002;
     const MASK_LOGIN       = 0x00000004;
     const MASK_SHELL       = 0x00000008;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
+     *
      * @access public
-     * @see \phpseclib\Net\SSH1::getLog()
+     * @see    \phpseclib\Net\SSH1::getLog()
     */
     /**
      * Returns the message numbers
@@ -205,11 +219,15 @@ class SSH1
      * Dumps the content real-time to a file
      */
     const LOG_REALTIME_FILE = 4;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**#@+
+    /**
+* #@+
+     *
      * @access public
-     * @see \phpseclib\Net\SSH1::read()
+     * @see    \phpseclib\Net\SSH1::read()
     */
     /**
      * Returns when a string matching $expect exactly is found
@@ -219,12 +237,14 @@ class SSH1
      * Returns when a string matching the regular expression $expect is found
      */
     const READ_REGEX = 2;
-    /**#@-*/
+    /**
+     * #@-
+     */
 
     /**
      * The SSH identifier
      *
-     * @var string
+     * @var    string
      * @access private
      */
     var $identifier = 'SSH-1.5-phpseclib';
@@ -232,7 +252,7 @@ class SSH1
     /**
      * The Socket Object
      *
-     * @var object
+     * @var    object
      * @access private
      */
     var $fsock;
@@ -240,7 +260,7 @@ class SSH1
     /**
      * The cryptography object
      *
-     * @var object
+     * @var    object
      * @access private
      */
     var $crypto = false;
@@ -251,7 +271,7 @@ class SSH1
      * The bits that are set represent functions that have been called already.  This is used to determine
      * if a requisite function has been successfully executed.  If not, an error should be thrown.
      *
-     * @var int
+     * @var    int
      * @access private
      */
     var $bitmap = 0;
@@ -261,8 +281,8 @@ class SSH1
      *
      * Logged for debug purposes
      *
-     * @see self::getServerKeyPublicExponent()
-     * @var string
+     * @see    self::getServerKeyPublicExponent()
+     * @var    string
      * @access private
      */
     var $server_key_public_exponent;
@@ -272,8 +292,8 @@ class SSH1
      *
      * Logged for debug purposes
      *
-     * @see self::getServerKeyPublicModulus()
-     * @var string
+     * @see    self::getServerKeyPublicModulus()
+     * @var    string
      * @access private
      */
     var $server_key_public_modulus;
@@ -283,8 +303,8 @@ class SSH1
      *
      * Logged for debug purposes
      *
-     * @see self::getHostKeyPublicExponent()
-     * @var string
+     * @see    self::getHostKeyPublicExponent()
+     * @var    string
      * @access private
      */
     var $host_key_public_exponent;
@@ -294,8 +314,8 @@ class SSH1
      *
      * Logged for debug purposes
      *
-     * @see self::getHostKeyPublicModulus()
-     * @var string
+     * @see    self::getHostKeyPublicModulus()
+     * @var    string
      * @access private
      */
     var $host_key_public_modulus;
@@ -305,8 +325,8 @@ class SSH1
      *
      * Logged for debug purposes
      *
-     * @see self::getSupportedCiphers()
-     * @var array
+     * @see    self::getSupportedCiphers()
+     * @var    array
      * @access private
      */
     var $supported_ciphers = array(
@@ -324,8 +344,8 @@ class SSH1
      *
      * Logged for debug purposes
      *
-     * @see self::getSupportedAuthentications()
-     * @var array
+     * @see    self::getSupportedAuthentications()
+     * @var    array
      * @access private
      */
     var $supported_authentications = array(
@@ -338,8 +358,8 @@ class SSH1
     /**
      * Server Identification
      *
-     * @see self::getServerIdentification()
-     * @var string
+     * @see    self::getServerIdentification()
+     * @var    string
      * @access private
      */
     var $server_identification = '';
@@ -347,8 +367,8 @@ class SSH1
     /**
      * Protocol Flags
      *
-     * @see self::__construct()
-     * @var array
+     * @see    self::__construct()
+     * @var    array
      * @access private
      */
     var $protocol_flags = array();
@@ -356,8 +376,8 @@ class SSH1
     /**
      * Protocol Flag Log
      *
-     * @see self::getLog()
-     * @var array
+     * @see    self::getLog()
+     * @var    array
      * @access private
      */
     var $protocol_flag_log = array();
@@ -365,8 +385,8 @@ class SSH1
     /**
      * Message Log
      *
-     * @see self::getLog()
-     * @var array
+     * @see    self::getLog()
+     * @var    array
      * @access private
      */
     var $message_log = array();
@@ -374,8 +394,8 @@ class SSH1
     /**
      * Real-time log file pointer
      *
-     * @see self::_append_log()
-     * @var resource
+     * @see    self::_append_log()
+     * @var    resource
      * @access private
      */
     var $realtime_log_file;
@@ -383,8 +403,8 @@ class SSH1
     /**
      * Real-time log file size
      *
-     * @see self::_append_log()
-     * @var int
+     * @see    self::_append_log()
+     * @var    int
      * @access private
      */
     var $realtime_log_size;
@@ -392,8 +412,8 @@ class SSH1
     /**
      * Real-time log file wrap boolean
      *
-     * @see self::_append_log()
-     * @var bool
+     * @see    self::_append_log()
+     * @var    bool
      * @access private
      */
     var $realtime_log_wrap;
@@ -401,8 +421,8 @@ class SSH1
     /**
      * Interactive Buffer
      *
-     * @see self::read()
-     * @var array
+     * @see    self::read()
+     * @var    array
      * @access private
      */
     var $interactiveBuffer = '';
@@ -410,7 +430,7 @@ class SSH1
     /**
      * Timeout
      *
-     * @see self::setTimeout()
+     * @see    self::setTimeout()
      * @access private
      */
     var $timeout;
@@ -418,7 +438,7 @@ class SSH1
     /**
      * Current Timeout
      *
-     * @see self::_get_channel_packet()
+     * @see    self::_get_channel_packet()
      * @access private
      */
     var $curTimeout;
@@ -426,7 +446,7 @@ class SSH1
     /**
      * Log Boundary
      *
-     * @see self::_format_log()
+     * @see    self::_format_log()
      * @access private
      */
     var $log_boundary = ':';
@@ -434,7 +454,7 @@ class SSH1
     /**
      * Log Long Width
      *
-     * @see self::_format_log()
+     * @see    self::_format_log()
      * @access private
      */
     var $log_long_width = 65;
@@ -442,7 +462,7 @@ class SSH1
     /**
      * Log Short Width
      *
-     * @see self::_format_log()
+     * @see    self::_format_log()
      * @access private
      */
     var $log_short_width = 16;
@@ -450,9 +470,9 @@ class SSH1
     /**
      * Hostname
      *
-     * @see self::__construct()
-     * @see self::_connect()
-     * @var string
+     * @see    self::__construct()
+     * @see    self::_connect()
+     * @var    string
      * @access private
      */
     var $host;
@@ -460,9 +480,9 @@ class SSH1
     /**
      * Port Number
      *
-     * @see self::__construct()
-     * @see self::_connect()
-     * @var int
+     * @see    self::__construct()
+     * @see    self::_connect()
+     * @var    int
      * @access private
      */
     var $port;
@@ -475,9 +495,9 @@ class SSH1
      * however, is non-optional. There will be a timeout, whether or not you set it. If you don't it'll be
      * 10 seconds. It is used by fsockopen() in that function.
      *
-     * @see self::__construct()
-     * @see self::_connect()
-     * @var int
+     * @see    self::__construct()
+     * @see    self::_connect()
+     * @var    int
      * @access private
      */
     var $connectionTimeout;
@@ -485,9 +505,9 @@ class SSH1
     /**
      * Default cipher
      *
-     * @see self::__construct()
-     * @see self::_connect()
-     * @var int
+     * @see    self::__construct()
+     * @see    self::_connect()
+     * @var    int
      * @access private
      */
     var $cipher;
@@ -497,10 +517,10 @@ class SSH1
      *
      * Connects to an SSHv1 server
      *
-     * @param string $host
-     * @param int $port
-     * @param int $timeout
-     * @param int $cipher
+     * @param  string $host
+     * @param  int    $port
+     * @param  int    $timeout
+     * @param  int    $cipher
      * @return \phpseclib\Net\SSH1
      * @access public
      */
@@ -681,18 +701,18 @@ class SSH1
             //case self::CIPHER_NONE:
             //    $this->crypto = new \phpseclib\Crypt\Null();
             //    break;
-            case self::CIPHER_DES:
-                $this->crypto = new DES();
-                $this->crypto->disablePadding();
-                $this->crypto->enableContinuousBuffer();
-                $this->crypto->setKey(substr($session_key, 0,  8));
-                break;
-            case self::CIPHER_3DES:
-                $this->crypto = new TripleDES(TripleDES::MODE_3CBC);
-                $this->crypto->disablePadding();
-                $this->crypto->enableContinuousBuffer();
-                $this->crypto->setKey(substr($session_key, 0, 24));
-                break;
+        case self::CIPHER_DES:
+            $this->crypto = new DES();
+            $this->crypto->disablePadding();
+            $this->crypto->enableContinuousBuffer();
+            $this->crypto->setKey(substr($session_key, 0,  8));
+            break;
+        case self::CIPHER_3DES:
+            $this->crypto = new TripleDES(TripleDES::MODE_3CBC);
+            $this->crypto->disablePadding();
+            $this->crypto->enableContinuousBuffer();
+            $this->crypto->setKey(substr($session_key, 0, 24));
+            break;
             //case self::CIPHER_RC4:
             //    $this->crypto = new RC4();
             //    $this->crypto->enableContinuousBuffer();
@@ -715,8 +735,8 @@ class SSH1
     /**
      * Login
      *
-     * @param string $username
-     * @param string $password
+     * @param  string $username
+     * @param  string $password
      * @return bool
      * @access public
      */
@@ -809,9 +829,9 @@ class SSH1
      *
      * Returns false on failure and the output, otherwise.
      *
-     * @see self::interactiveRead()
-     * @see self::interactiveWrite()
-     * @param string $cmd
+     * @see    self::interactiveRead()
+     * @see    self::interactiveWrite()
+     * @param  string $cmd
      * @return mixed
      * @access public
      */
@@ -859,8 +879,8 @@ class SSH1
     /**
      * Creates an interactive shell
      *
-     * @see self::interactiveRead()
-     * @see self::interactiveWrite()
+     * @see    self::interactiveRead()
+     * @see    self::interactiveWrite()
      * @return bool
      * @access private
      */
@@ -903,8 +923,8 @@ class SSH1
     /**
      * Inputs a command into an interactive shell.
      *
-     * @see self::interactiveWrite()
-     * @param string $cmd
+     * @see    self::interactiveWrite()
+     * @param  string $cmd
      * @return bool
      * @access public
      */
@@ -919,9 +939,9 @@ class SSH1
      * $expect can take the form of a string literal or, if $mode == self::READ_REGEX,
      * a regular expression.
      *
-     * @see self::write()
-     * @param string $expect
-     * @param int $mode
+     * @see    self::write()
+     * @param  string $expect
+     * @param  int    $mode
      * @return bool
      * @access public
      */
@@ -959,8 +979,8 @@ class SSH1
     /**
      * Inputs a command into an interactive shell.
      *
-     * @see self::interactiveRead()
-     * @param string $cmd
+     * @see    self::interactiveRead()
+     * @param  string $cmd
      * @return bool
      * @access public
      */
@@ -995,7 +1015,7 @@ class SSH1
      * does not support ANSI escape sequences in Win32 Console applications", so if you're a Windows user,
      * there's not going to be much recourse.
      *
-     * @see self::interactiveRead()
+     * @see    self::interactiveRead()
      * @return string
      * @access public
      */
@@ -1047,7 +1067,7 @@ class SSH1
     /**
      * Disconnect
      *
-     * @param string $msg
+     * @param  string $msg
      * @access private
      */
     function _disconnect($msg = 'Client Quit')
@@ -1084,7 +1104,7 @@ class SSH1
      * Also, this function could be improved upon by adding detection for the following exploit:
      * http://www.securiteam.com/securitynews/5LP042K3FY.html
      *
-     * @see self::_send_binary_packet()
+     * @see    self::_send_binary_packet()
      * @return array
      * @access private
      */
@@ -1167,8 +1187,8 @@ class SSH1
      *
      * Returns true on success, false on failure.
      *
-     * @see self::_get_binary_packet()
-     * @param string $data
+     * @see    self::_get_binary_packet()
+     * @param  string $data
      * @return bool
      * @access private
      */
@@ -1214,9 +1234,9 @@ class SSH1
      * we've reimplemented it. A more detailed discussion of the differences can be found after
      * $crc_lookup_table's initialization.
      *
-     * @see self::_get_binary_packet()
-     * @see self::_send_binary_packet()
-     * @param string $data
+     * @see    self::_get_binary_packet()
+     * @see    self::_send_binary_packet()
+     * @param  string $data
      * @return int
      * @access private
      */
@@ -1312,8 +1332,8 @@ class SSH1
      *
      * Inspired by array_shift
      *
-     * @param string $string
-     * @param int $index
+     * @param  string $string
+     * @param  int    $index
      * @return string
      * @access private
      */
@@ -1331,9 +1351,9 @@ class SSH1
      * should be a number with the property that gcd($e, ($p - 1) * ($q - 1)) == 1.  Could just make anything that
      * calls this call modexp, instead, but I think this makes things clearer, maybe...
      *
-     * @see self::__construct()
-     * @param BigInteger $m
-     * @param array $key
+     * @see    self::__construct()
+     * @param  BigInteger $m
+     * @param  array      $key
      * @return BigInteger
      * @access private
      */
@@ -1382,7 +1402,7 @@ class SSH1
      * named constants from it, using the value as the name of the constant and the index as the value of the constant.
      * If any of the constants that would be defined already exists, none of the constants will be defined.
      *
-     * @param array $array
+     * @param  array $array
      * @access private
      */
     function _define_array()
@@ -1414,22 +1434,22 @@ class SSH1
         }
 
         switch (NET_SSH1_LOGGING) {
-            case self::LOG_SIMPLE:
-                return $this->message_number_log;
+        case self::LOG_SIMPLE:
+            return $this->message_number_log;
                 break;
-            case self::LOG_COMPLEX:
-                return $this->_format_log($this->message_log, $this->protocol_flags_log);
+        case self::LOG_COMPLEX:
+            return $this->_format_log($this->message_log, $this->protocol_flags_log);
                 break;
-            default:
-                return false;
+        default:
+            return false;
         }
     }
 
     /**
      * Formats a log for printing
      *
-     * @param array $message_log
-     * @param array $message_number_log
+     * @param  array $message_log
+     * @param  array $message_number_log
      * @access private
      * @return string
      */
@@ -1464,7 +1484,7 @@ class SSH1
      *
      * For use with preg_replace_callback()
      *
-     * @param array $matches
+     * @param  array $matches
      * @access private
      * @return string
      */
@@ -1479,7 +1499,7 @@ class SSH1
      * Returns, by default, the base-10 representation.  If $raw_output is set to true, returns, instead,
      * the raw bytes.  This behavior is similar to PHP's md5() function.
      *
-     * @param bool $raw_output
+     * @param  bool $raw_output
      * @return string
      * @access public
      */
@@ -1494,7 +1514,7 @@ class SSH1
      * Returns, by default, the base-10 representation.  If $raw_output is set to true, returns, instead,
      * the raw bytes.  This behavior is similar to PHP's md5() function.
      *
-     * @param bool $raw_output
+     * @param  bool $raw_output
      * @return string
      * @access public
      */
@@ -1509,7 +1529,7 @@ class SSH1
      * Returns, by default, the base-10 representation.  If $raw_output is set to true, returns, instead,
      * the raw bytes.  This behavior is similar to PHP's md5() function.
      *
-     * @param bool $raw_output
+     * @param  bool $raw_output
      * @return string
      * @access public
      */
@@ -1524,7 +1544,7 @@ class SSH1
      * Returns, by default, the base-10 representation.  If $raw_output is set to true, returns, instead,
      * the raw bytes.  This behavior is similar to PHP's md5() function.
      *
-     * @param bool $raw_output
+     * @param  bool $raw_output
      * @return string
      * @access public
      */
@@ -1540,7 +1560,7 @@ class SSH1
      * is set to true, returns, instead, an array of constants.  ie. instead of array('Triple-DES in CBC mode'), you'll
      * get array(self::CIPHER_3DES).
      *
-     * @param bool $raw_output
+     * @param  bool $raw_output
      * @return array
      * @access public
      */
@@ -1556,7 +1576,7 @@ class SSH1
      * is set to true, returns, instead, an array of constants.  ie. instead of array('password authentication'), you'll
      * get array(self::AUTH_PASSWORD).
      *
-     * @param bool $raw_output
+     * @param  bool $raw_output
      * @return array
      * @access public
      */
@@ -1581,62 +1601,62 @@ class SSH1
      *
      * Makes sure that only the last 1MB worth of packets will be logged
      *
-     * @param string $data
+     * @param  string $data
      * @access private
      */
     function _append_log($protocol_flags, $message)
     {
         switch (NET_SSH1_LOGGING) {
             // useful for benchmarks
-            case self::LOG_SIMPLE:
-                $this->protocol_flags_log[] = $protocol_flags;
-                break;
+        case self::LOG_SIMPLE:
+            $this->protocol_flags_log[] = $protocol_flags;
+            break;
             // the most useful log for SSH1
-            case self::LOG_COMPLEX:
-                $this->protocol_flags_log[] = $protocol_flags;
-                $this->_string_shift($message);
-                $this->log_size+= strlen($message);
-                $this->message_log[] = $message;
-                while ($this->log_size > self::LOG_MAX_SIZE) {
-                    $this->log_size-= strlen(array_shift($this->message_log));
-                    array_shift($this->protocol_flags_log);
-                }
-                break;
+        case self::LOG_COMPLEX:
+            $this->protocol_flags_log[] = $protocol_flags;
+            $this->_string_shift($message);
+            $this->log_size+= strlen($message);
+            $this->message_log[] = $message;
+            while ($this->log_size > self::LOG_MAX_SIZE) {
+                $this->log_size-= strlen(array_shift($this->message_log));
+                array_shift($this->protocol_flags_log);
+            }
+            break;
             // dump the output out realtime; packets may be interspersed with non packets,
             // passwords won't be filtered out and select other packets may not be correctly
             // identified
-            case self::LOG_REALTIME:
-                echo "<pre>\r\n" . $this->_format_log(array($message), array($protocol_flags)) . "\r\n</pre>\r\n";
-                @flush();
-                @ob_flush();
-                break;
+        case self::LOG_REALTIME:
+            echo "<pre>\r\n" . $this->_format_log(array($message), array($protocol_flags)) . "\r\n</pre>\r\n";
+            @flush();
+            @ob_flush();
+            break;
             // basically the same thing as self::LOG_REALTIME with the caveat that self::LOG_REALTIME_FILE
             // needs to be defined and that the resultant log file will be capped out at self::LOG_MAX_SIZE.
             // the earliest part of the log file is denoted by the first <<< START >>> and is not going to necessarily
             // at the beginning of the file
-            case self::LOG_REALTIME_FILE:
-                if (!isset($this->realtime_log_file)) {
-                    // PHP doesn't seem to like using constants in fopen()
-                    $filename = self::LOG_REALTIME_FILE;
-                    $fp = fopen($filename, 'w');
-                    $this->realtime_log_file = $fp;
-                }
-                if (!is_resource($this->realtime_log_file)) {
-                    break;
-                }
-                $entry = $this->_format_log(array($message), array($protocol_flags));
-                if ($this->realtime_log_wrap) {
-                    $temp = "<<< START >>>\r\n";
-                    $entry.= $temp;
-                    fseek($this->realtime_log_file, ftell($this->realtime_log_file) - strlen($temp));
-                }
-                $this->realtime_log_size+= strlen($entry);
-                if ($this->realtime_log_size > self::LOG_MAX_SIZE) {
-                    fseek($this->realtime_log_file, 0);
-                    $this->realtime_log_size = strlen($entry);
-                    $this->realtime_log_wrap = true;
-                }
-                fputs($this->realtime_log_file, $entry);
+        case self::LOG_REALTIME_FILE:
+            if (!isset($this->realtime_log_file)) {
+                // PHP doesn't seem to like using constants in fopen()
+                $filename = self::LOG_REALTIME_FILE;
+                $fp = fopen($filename, 'w');
+                $this->realtime_log_file = $fp;
+            }
+            if (!is_resource($this->realtime_log_file)) {
+                break;
+            }
+            $entry = $this->_format_log(array($message), array($protocol_flags));
+            if ($this->realtime_log_wrap) {
+                $temp = "<<< START >>>\r\n";
+                $entry.= $temp;
+                fseek($this->realtime_log_file, ftell($this->realtime_log_file) - strlen($temp));
+            }
+            $this->realtime_log_size+= strlen($entry);
+            if ($this->realtime_log_size > self::LOG_MAX_SIZE) {
+                fseek($this->realtime_log_file, 0);
+                $this->realtime_log_size = strlen($entry);
+                $this->realtime_log_wrap = true;
+            }
+            fputs($this->realtime_log_file, $entry);
         }
     }
 }

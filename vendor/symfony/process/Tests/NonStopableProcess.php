@@ -19,15 +19,15 @@
 function handleSignal($signal)
 {
     switch ($signal) {
-        case SIGTERM:
-            $name = 'SIGTERM';
-            break;
-        case SIGINT:
-            $name = 'SIGINT';
-            break;
-        default:
-            $name = $signal.' (unknown)';
-            break;
+    case SIGTERM:
+        $name = 'SIGTERM';
+        break;
+    case SIGINT:
+        $name = 'SIGINT';
+        break;
+    default:
+        $name = $signal.' (unknown)';
+        break;
     }
 
     echo "signal $name\n";

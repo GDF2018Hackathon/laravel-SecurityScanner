@@ -63,8 +63,8 @@ class RestorerTest extends TestCase
      * The real test is the second, but the first has to be executed to backup the globals.
      *
      * @backupGlobals enabled
-     * @covers \SebastianBergmann\GlobalState\Restorer::restoreGlobalVariables
-     * @covers \SebastianBergmann\GlobalState\Restorer::restoreSuperGlobalArray
+     * @covers        \SebastianBergmann\GlobalState\Restorer::restoreGlobalVariables
+     * @covers        \SebastianBergmann\GlobalState\Restorer::restoreSuperGlobalArray
      *
      * @uses \SebastianBergmann\GlobalState\Blacklist::addClassNamePrefix
      * @uses \SebastianBergmann\GlobalState\Blacklist::isGlobalVariableBlacklisted

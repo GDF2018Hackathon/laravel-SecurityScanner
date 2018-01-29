@@ -1,7 +1,8 @@
 <?php declare(strict_types = 1);
 namespace TheSeer\Tokenizer;
 
-class Tokenizer {
+class Tokenizer
+{
 
     /**
      * Token Map for "non-tokens"
@@ -39,7 +40,8 @@ class Tokenizer {
         '`' => 'T_BACKTICK'
     ];
 
-    public function parse(string $source): TokenCollection {
+    public function parse(string $source): TokenCollection 
+    {
         $result = new TokenCollection();
         $tokens = token_get_all($source);
 

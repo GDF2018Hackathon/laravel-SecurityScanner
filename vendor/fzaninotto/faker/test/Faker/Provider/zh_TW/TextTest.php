@@ -11,7 +11,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->textClass = new \ReflectionClass('Faker\Provider\zh_TW\Text');
     }
 
-    protected function getMethod($name) {
+    protected function getMethod($name) 
+    {
         $method = $this->textClass->getMethod($name);
 
         $method->setAccessible(true);
@@ -19,7 +20,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
         return $method;
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     function testItShouldExplodeTheStringToArray()
     {
         $this->assertSame(
@@ -33,7 +36,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     function testItShouldReturnTheStringLength()
     {
         $this->assertContains(
@@ -42,7 +47,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     function testItShouldReturnTheCharacterIsValidStartOrNot()
     {
         $this->assertTrue($this->getMethod('validStart')->invokeArgs(null, array('中')));
@@ -56,7 +63,9 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->getMethod('validStart')->invokeArgs(null, array('！')));
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     function testItShouldAppendEndPunctToTheEndOfString()
     {
         $this->assertSame(

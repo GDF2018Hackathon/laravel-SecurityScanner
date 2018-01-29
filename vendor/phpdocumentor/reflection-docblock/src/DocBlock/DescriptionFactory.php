@@ -33,7 +33,9 @@ use phpDocumentor\Reflection\Types\Context as TypeContext;
  */
 class DescriptionFactory
 {
-    /** @var TagFactory */
+    /**
+     * @var TagFactory 
+     */
     private $tagFactory;
 
     /**
@@ -49,7 +51,7 @@ class DescriptionFactory
     /**
      * Returns the parsed text of this description.
      *
-     * @param string $contents
+     * @param string      $contents
      * @param TypeContext $context
      *
      * @return Description
@@ -111,7 +113,7 @@ class DescriptionFactory
     /**
      * Parses the stream of tokens in to a new set of tokens containing Tags.
      *
-     * @param string[] $tokens
+     * @param string[]    $tokens
      * @param TypeContext $context
      *
      * @return string[]|Tag[]

@@ -13,22 +13,22 @@ class Swift_Mime_Headers_IdentificationHeaderTest extends \PHPUnit\Framework\Tes
     public function testValueMatchesMsgIdSpec()
     {
         /* -- RFC 2822, 3.6.4.
-     message-id      =       "Message-ID:" msg-id CRLF
+        message-id      =       "Message-ID:" msg-id CRLF
 
-     in-reply-to     =       "In-Reply-To:" 1*msg-id CRLF
+        in-reply-to     =       "In-Reply-To:" 1*msg-id CRLF
 
-     references      =       "References:" 1*msg-id CRLF
+        references      =       "References:" 1*msg-id CRLF
 
-     msg-id          =       [CFWS] "<" id-left "@" id-right ">" [CFWS]
+        msg-id          =       [CFWS] "<" id-left "@" id-right ">" [CFWS]
 
-     id-left         =       dot-atom-text / no-fold-quote / obs-id-left
+        id-left         =       dot-atom-text / no-fold-quote / obs-id-left
 
-     id-right        =       dot-atom-text / no-fold-literal / obs-id-right
+        id-right        =       dot-atom-text / no-fold-literal / obs-id-right
 
-     no-fold-quote   =       DQUOTE *(qtext / quoted-pair) DQUOTE
+        no-fold-quote   =       DQUOTE *(qtext / quoted-pair) DQUOTE
 
-     no-fold-literal =       "[" *(dtext / quoted-pair) "]"
-     */
+        no-fold-literal =       "[" *(dtext / quoted-pair) "]"
+        */
 
         $header = $this->getHeader('Message-ID');
         $header->setId('id-left@id-right');
@@ -52,15 +52,15 @@ class Swift_Mime_Headers_IdentificationHeaderTest extends \PHPUnit\Framework\Tes
     public function testSettingMultipleIdsProducesAListValue()
     {
         /* -- RFC 2822, 3.6.4.
-     The "References:" and "In-Reply-To:" field each contain one or more
-     unique message identifiers, optionally separated by CFWS.
+        The "References:" and "In-Reply-To:" field each contain one or more
+        unique message identifiers, optionally separated by CFWS.
 
-     .. SNIP ..
+        .. SNIP ..
 
-     in-reply-to     =       "In-Reply-To:" 1*msg-id CRLF
+        in-reply-to     =       "In-Reply-To:" 1*msg-id CRLF
 
-     references      =       "References:" 1*msg-id CRLF
-     */
+        references      =       "References:" 1*msg-id CRLF
+        */
 
         $header = $this->getHeader('References');
         $header->setIds(array('a@b', 'x@y'));
@@ -70,8 +70,8 @@ class Swift_Mime_Headers_IdentificationHeaderTest extends \PHPUnit\Framework\Tes
     public function testIdLeftCanBeQuoted()
     {
         /* -- RFC 2822, 3.6.4.
-     id-left         =       dot-atom-text / no-fold-quote / obs-id-left
-     */
+        id-left         =       dot-atom-text / no-fold-quote / obs-id-left
+        */
 
         $header = $this->getHeader('References');
         $header->setId('"ab"@c');
@@ -82,8 +82,8 @@ class Swift_Mime_Headers_IdentificationHeaderTest extends \PHPUnit\Framework\Tes
     public function testIdLeftCanContainAnglesAsQuotedPairs()
     {
         /* -- RFC 2822, 3.6.4.
-     no-fold-quote   =       DQUOTE *(qtext / quoted-pair) DQUOTE
-     */
+        no-fold-quote   =       DQUOTE *(qtext / quoted-pair) DQUOTE
+        */
 
         $header = $this->getHeader('References');
         $header->setId('"a\\<\\>b"@c');
@@ -112,8 +112,8 @@ class Swift_Mime_Headers_IdentificationHeaderTest extends \PHPUnit\Framework\Tes
     public function testIdRightCanBeDotAtom()
     {
         /* -- RFC 2822, 3.6.4.
-     id-right        =       dot-atom-text / no-fold-literal / obs-id-right
-     */
+        id-right        =       dot-atom-text / no-fold-literal / obs-id-right
+        */
 
         $header = $this->getHeader('References');
         $header->setId('a@b.c+&%$.d');
@@ -124,8 +124,8 @@ class Swift_Mime_Headers_IdentificationHeaderTest extends \PHPUnit\Framework\Tes
     public function testIdRightCanBeLiteral()
     {
         /* -- RFC 2822, 3.6.4.
-     no-fold-literal =       "[" *(dtext / quoted-pair) "]"
-     */
+        no-fold-literal =       "[" *(dtext / quoted-pair) "]"
+        */
 
         $header = $this->getHeader('References');
         $header->setId('a@[1.2.3.4]');
@@ -150,8 +150,8 @@ class Swift_Mime_Headers_IdentificationHeaderTest extends \PHPUnit\Framework\Tes
     public function testMissingAtSignThrowsException()
     {
         /* -- RFC 2822, 3.6.4.
-     msg-id          =       [CFWS] "<" id-left "@" id-right ">" [CFWS]
-     */
+        msg-id          =       [CFWS] "<" id-left "@" id-right ">" [CFWS]
+        */
         $header = $this->getHeader('References');
         $header->setId('abc');
     }

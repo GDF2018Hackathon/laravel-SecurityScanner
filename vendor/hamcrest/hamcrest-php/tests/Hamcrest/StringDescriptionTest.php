@@ -124,36 +124,41 @@ class StringDescriptionTest extends \PhpUnit_Framework_TestCase
     {
         $this->_description
             ->appendDescriptionOf(new \Hamcrest\SampleSelfDescriber('foo'))
-            ->appendDescriptionOf(new \Hamcrest\SampleSelfDescriber('bar'))
-            ;
+            ->appendDescriptionOf(new \Hamcrest\SampleSelfDescriber('bar'));
         $this->assertEquals('foobar', (string) $this->_description);
     }
 
     public function testSelfDescribingObjectsCanBeAppendedAsLists()
     {
-        $this->_description->appendList('@start@', '@sep@ ', '@end@', array(
+        $this->_description->appendList(
+            '@start@', '@sep@ ', '@end@', array(
             new \Hamcrest\SampleSelfDescriber('foo'),
             new \Hamcrest\SampleSelfDescriber('bar')
-        ));
+            )
+        );
         $this->assertEquals('@start@foo@sep@ bar@end@', (string) $this->_description);
     }
 
     public function testSelfDescribingObjectsCanBeAppendedAsIteratedLists()
     {
-        $items = new \ArrayObject(array(
+        $items = new \ArrayObject(
+            array(
             new \Hamcrest\SampleSelfDescriber('foo'),
             new \Hamcrest\SampleSelfDescriber('bar')
-        ));
+            )
+        );
         $this->_description->appendList('@start@', '@sep@ ', '@end@', $items);
         $this->assertEquals('@start@foo@sep@ bar@end@', (string) $this->_description);
     }
 
     public function testSelfDescribingObjectsCanBeAppendedAsIterators()
     {
-        $items = new \ArrayObject(array(
+        $items = new \ArrayObject(
+            array(
             new \Hamcrest\SampleSelfDescriber('foo'),
             new \Hamcrest\SampleSelfDescriber('bar')
-        ));
+            )
+        );
         $this->_description->appendList('@start@', '@sep@ ', '@end@', $items->getIterator());
         $this->assertEquals('@start@foo@sep@ bar@end@', (string) $this->_description);
     }

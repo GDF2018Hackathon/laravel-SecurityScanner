@@ -23,7 +23,7 @@ class RavenHandlerTest extends TestCase
             $this->markTestSkipped('raven/raven not installed');
         }
 
-        require_once __DIR__ . '/MockRavenClient.php';
+        include_once __DIR__ . '/MockRavenClient.php';
     }
 
     /**
@@ -173,9 +173,13 @@ class RavenHandlerTest extends TestCase
         $logFormatter->expects($this->once())->method('formatBatch');
 
         $formatter = $this->getMock('Monolog\\Formatter\\FormatterInterface');
-        $formatter->expects($this->once())->method('format')->with($this->callback(function ($record) {
-            return $record['level'] == 400;
-        }));
+        $formatter->expects($this->once())->method('format')->with(
+            $this->callback(
+                function ($record) {
+                    return $record['level'] == 400;
+                }
+            )
+        );
 
         $handler = $this->getHandler($this->getRavenClient());
         $handler->setBatchFormatter($logFormatter);
@@ -213,9 +217,13 @@ class RavenHandlerTest extends TestCase
         $logFormatter->expects($this->once())->method('formatBatch');
 
         $formatter = $this->getMock('Monolog\\Formatter\\FormatterInterface');
-        $formatter->expects($this->once())->method('format')->with($this->callback(function ($record) use ($records) {
-            return $record['message'] == 'error 1';
-        }));
+        $formatter->expects($this->once())->method('format')->with(
+            $this->callback(
+                function ($record) use ($records) {
+                    return $record['message'] == 'error 1';
+                }
+            )
+        );
 
         $handler = $this->getHandler($this->getRavenClient());
         $handler->setBatchFormatter($logFormatter);

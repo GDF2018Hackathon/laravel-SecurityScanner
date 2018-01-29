@@ -27,18 +27,20 @@ class CliDumperTest extends TestCase
 
     public function testGet()
     {
-        require __DIR__.'/../Fixtures/dumb-var.php';
+        include __DIR__.'/../Fixtures/dumb-var.php';
 
         $dumper = new CliDumper('php://output');
         $dumper->setColors(false);
         $cloner = new VarCloner();
-        $cloner->addCasters(array(
+        $cloner->addCasters(
+            array(
             ':stream' => function ($res, $a) {
                 unset($a['uri'], $a['wrapper_data']);
 
                 return $a;
             },
-        ));
+            )
+        );
         $data = $cloner->cloneVar($var);
 
         ob_start();
@@ -140,7 +142,8 @@ EOTXT
 
         $dump = $dumper->dump($cloner->cloneVar($ex)->withRefHandles(false), true);
 
-        $this->assertStringMatchesFormat(<<<'EOTXT'
+        $this->assertStringMatchesFormat(
+            <<<'EOTXT'
 RuntimeException {
   #message: "foo"
   #code: 0
@@ -157,7 +160,8 @@ RuntimeException {
 }
 
 EOTXT
-            , $dump);
+            , $dump
+        );
     }
 
     public function provideDumpWithCommaFlagTests()
@@ -356,28 +360,34 @@ EOTXT
     {
         $out = fopen('php://memory', 'r+b');
 
-        require_once __DIR__.'/../Fixtures/Twig.php';
+        include_once __DIR__.'/../Fixtures/Twig.php';
         $twig = new \__TwigTemplate_VarDumperFixture_u75a09(new Environment(new FilesystemLoader()));
 
         $dumper = new CliDumper();
         $dumper->setColors(false);
         $cloner = new VarCloner();
-        $cloner->addCasters(array(
+        $cloner->addCasters(
+            array(
             ':stream' => function ($res, $a) {
                 unset($a['wrapper_data']);
 
                 return $a;
             },
-        ));
-        $cloner->addCasters(array(
-            ':stream' => eval('return function () use ($twig) {
+            )
+        );
+        $cloner->addCasters(
+            array(
+            ':stream' => eval(
+                'return function () use ($twig) {
                 try {
                     $twig->render(array());
                 } catch (\Twig\Error\RuntimeError $e) {
                     throw $e->getPrevious();
                 }
-            };'),
-        ));
+            };'
+            ),
+            )
+        );
         $ref = (int) $out;
 
         $data = $cloner->cloneVar($out);
@@ -483,11 +493,13 @@ EOTXT
         unset($var[0]);
         $out = '';
 
-        $dumper = new CliDumper(function ($line, $depth) use (&$out) {
-            if ($depth >= 0) {
-                $out .= str_repeat('  ', $depth).$line."\n";
+        $dumper = new CliDumper(
+            function ($line, $depth) use (&$out) {
+                if ($depth >= 0) {
+                    $out .= str_repeat('  ', $depth).$line."\n";
+                }
             }
-        });
+        );
         $dumper->setColors(false);
         $cloner = new VarCloner();
 
@@ -534,11 +546,13 @@ EOTXT
 
         $data = $cloner->cloneVar($var)->withMaxDepth(3);
         $out = '';
-        $dumper->dump($data, function ($line, $depth) use (&$out) {
-            if ($depth >= 0) {
-                $out .= str_repeat('  ', $depth).$line."\n";
+        $dumper->dump(
+            $data, function ($line, $depth) use (&$out) {
+                if ($depth >= 0) {
+                    $out .= str_repeat('  ', $depth).$line."\n";
+                }
             }
-        });
+        );
 
         $this->assertSame(
             <<<'EOTXT'

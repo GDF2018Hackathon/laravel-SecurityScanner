@@ -13,7 +13,9 @@ use Psr\Http\Message\RequestInterface;
  */
 class CurlHandler
 {
-    /** @var CurlFactoryInterface */
+    /**
+     * @var CurlFactoryInterface 
+     */
     private $factory;
 
     /**

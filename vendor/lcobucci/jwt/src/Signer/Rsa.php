@@ -13,7 +13,7 @@ use InvalidArgumentException;
  * Base class for RSASSA-PKCS1 signers
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
+ * @since  2.1.0
  */
 abstract class Rsa extends BaseSigner
 {

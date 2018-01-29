@@ -336,8 +336,9 @@ class File extends AbstractNode
 
             foreach ($this->classes as $class) {
                 foreach ($class['methods'] as $method) {
-                    if ($method['executableLines'] > 0 &&
-                        $method['coverage'] == 100) {
+                    if ($method['executableLines'] > 0 
+                        && $method['coverage'] == 100
+                    ) {
                         $this->numTestedMethods++;
                     }
                 }
@@ -345,8 +346,9 @@ class File extends AbstractNode
 
             foreach ($this->traits as $trait) {
                 foreach ($trait['methods'] as $method) {
-                    if ($method['executableLines'] > 0 &&
-                        $method['coverage'] == 100) {
+                    if ($method['executableLines'] > 0 
+                        && $method['coverage'] == 100
+                    ) {
                         $this->numTestedMethods++;
                     }
                 }
@@ -377,8 +379,9 @@ class File extends AbstractNode
             $this->numTestedFunctions = 0;
 
             foreach ($this->functions as $function) {
-                if ($function['executableLines'] > 0 &&
-                    $function['coverage'] == 100) {
+                if ($function['executableLines'] > 0 
+                    && $function['coverage'] == 100
+                ) {
                     $this->numTestedFunctions++;
                 }
             }

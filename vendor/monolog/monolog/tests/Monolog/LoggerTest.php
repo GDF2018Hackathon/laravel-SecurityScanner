@@ -167,10 +167,12 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         // handler1 has been removed
         $this->assertEquals(array($handler2), $logger->getHandlers());
 
-        $logger->setHandlers(array(
+        $logger->setHandlers(
+            array(
             "AMapKey" => $handler1,
             "Woop" => $handler2,
-        ));
+            )
+        );
 
         // Keys have been scrubbed
         $this->assertEquals(array($handler1, $handler2), $logger->getHandlers());
@@ -214,11 +216,13 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $logger = new Logger(__METHOD__);
         $handler = new TestHandler;
         $logger->pushHandler($handler);
-        $logger->pushProcessor(function ($record) {
-            $record['extra']['win'] = true;
+        $logger->pushProcessor(
+            function ($record) {
+                $record['extra']['win'] = true;
 
-            return $record;
-        });
+                return $record;
+            }
+        );
         $logger->addError('test');
         list($record) = $handler->getRecords();
         $this->assertTrue($record['extra']['win']);
@@ -233,23 +237,19 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler->expects($this->any())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $handler->expects($this->any())
             ->method('handle')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $logger->pushHandler($handler);
 
         $processor = $this->getMockBuilder('Monolog\Processor\WebProcessor')
             ->disableOriginalConstructor()
             ->setMethods(array('__invoke'))
-            ->getMock()
-        ;
+            ->getMock();
         $processor->expects($this->once())
             ->method('__invoke')
-            ->will($this->returnArgument(0))
-        ;
+            ->will($this->returnArgument(0));
         $logger->pushProcessor($processor);
 
         $logger->addError('test');
@@ -264,13 +264,14 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler->expects($this->once())
             ->method('isHandling')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $logger->pushHandler($handler);
         $that = $this;
-        $logger->pushProcessor(function ($record) use ($that) {
-            $that->fail('The processor should not be called');
-        });
+        $logger->pushProcessor(
+            function ($record) use ($that) {
+                $that->fail('The processor should not be called');
+            }
+        );
         $logger->addAlert('test');
     }
 
@@ -284,33 +285,27 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler1 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler1->expects($this->never())
             ->method('isHandling')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $handler1->expects($this->once())
             ->method('handle')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $logger->pushHandler($handler1);
 
         $handler2 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler2->expects($this->once())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $handler2->expects($this->once())
             ->method('handle')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $logger->pushHandler($handler2);
 
         $handler3 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler3->expects($this->once())
             ->method('isHandling')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $handler3->expects($this->never())
-            ->method('handle')
-        ;
+            ->method('handle');
         $logger->pushHandler($handler3);
 
         $logger->debug('test');
@@ -324,31 +319,25 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler1 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler1->expects($this->never())
             ->method('isHandling')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $handler1->expects($this->once())
             ->method('handle')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $handler2 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler2->expects($this->once())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $handler2->expects($this->once())
             ->method('handle')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $handler3 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler3->expects($this->once())
             ->method('isHandling')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $handler3->expects($this->never())
-            ->method('handle')
-        ;
+            ->method('handle');
 
         $logger = new Logger(__METHOD__, array('last' => $handler3, 'second' => $handler2, 'first' => $handler1));
 
@@ -365,23 +354,19 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler1 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler1->expects($this->any())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $handler1->expects($this->once())
             ->method('handle')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $logger->pushHandler($handler1);
 
         $handler2 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler2->expects($this->any())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $handler2->expects($this->once())
             ->method('handle')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
         $logger->pushHandler($handler2);
 
         $logger->debug('test');
@@ -397,22 +382,18 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler1 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler1->expects($this->any())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $handler1->expects($this->never())
-            ->method('handle')
-        ;
+            ->method('handle');
         $logger->pushHandler($handler1);
 
         $handler2 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler2->expects($this->any())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $handler2->expects($this->once())
             ->method('handle')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
         $logger->pushHandler($handler2);
 
         $logger->debug('test');
@@ -428,8 +409,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler1 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler1->expects($this->any())
             ->method('isHandling')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $logger->pushHandler($handler1);
         $this->assertFalse($logger->isHandling(Logger::DEBUG));
@@ -437,8 +417,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $handler2 = $this->getMock('Monolog\Handler\HandlerInterface');
         $handler2->expects($this->any())
             ->method('isHandling')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $logger->pushHandler($handler2);
         $this->assertTrue($logger->isHandling(Logger::DEBUG));
@@ -516,7 +495,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     public function setTimezoneProvider()
     {
         return array_map(
-            function ($tz) { return array(new \DateTimeZone($tz)); },
+            function ($tz) {
+                return array(new \DateTimeZone($tz)); 
+            },
             \DateTimeZone::listIdentifiers()
         );
     }

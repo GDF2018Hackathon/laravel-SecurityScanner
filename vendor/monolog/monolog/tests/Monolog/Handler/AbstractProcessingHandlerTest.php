@@ -60,20 +60,27 @@ class AbstractProcessingHandlerTest extends TestCase
     public function testProcessRecord()
     {
         $handler = $this->getMockForAbstractClass('Monolog\Handler\AbstractProcessingHandler');
-        $handler->pushProcessor(new WebProcessor(array(
-            'REQUEST_URI' => '',
-            'REQUEST_METHOD' => '',
-            'REMOTE_ADDR' => '',
-            'SERVER_NAME' => '',
-            'UNIQUE_ID' => '',
-        )));
+        $handler->pushProcessor(
+            new WebProcessor(
+                array(
+                'REQUEST_URI' => '',
+                'REQUEST_METHOD' => '',
+                'REMOTE_ADDR' => '',
+                'SERVER_NAME' => '',
+                'UNIQUE_ID' => '',
+                )
+            )
+        );
         $handledRecord = null;
         $handler->expects($this->once())
             ->method('write')
-            ->will($this->returnCallback(function ($record) use (&$handledRecord) {
-                $handledRecord = $record;
-            }))
-        ;
+            ->will(
+                $this->returnCallback(
+                    function ($record) use (&$handledRecord) {
+                        $handledRecord = $record;
+                    }
+                )
+            );
         $handler->handle($this->getRecord());
         $this->assertEquals(6, count($handledRecord['extra']));
     }

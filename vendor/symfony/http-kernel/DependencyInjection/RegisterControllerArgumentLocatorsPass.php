@@ -113,12 +113,16 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
             }
 
             foreach ($methods as list($r, $parameters)) {
-                /** @var \ReflectionMethod $r */
+                /**
+ * @var \ReflectionMethod $r 
+*/
 
                 // create a per-method map of argument-names to service/type-references
                 $args = array();
                 foreach ($parameters as $p) {
-                    /** @var \ReflectionParameter $p */
+                    /**
+ * @var \ReflectionParameter $p 
+*/
                     $type = $target = ProxyHelper::getTypeHint($r, $p, true);
                     $invalidBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
 

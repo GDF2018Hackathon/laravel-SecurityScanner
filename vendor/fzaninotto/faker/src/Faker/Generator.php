@@ -187,7 +187,6 @@ namespace Faker;
  * @property string $colorName
  *
  * @method string randomHtml($maxDepth = 4, $maxWidth = 4)
- *
  */
 class Generator
 {
@@ -270,7 +269,7 @@ class Generator
 
     /**
      * @param string $method
-     * @param array $attributes
+     * @param array  $attributes
      *
      * @return mixed
      */

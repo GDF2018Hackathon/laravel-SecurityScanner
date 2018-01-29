@@ -49,7 +49,8 @@ class EditCommand extends Command implements ContextAware
     {
         $this
             ->setName('edit')
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputArgument('file', InputArgument::OPTIONAL, 'The file to open for editing. If this is not given, edits a temporary file.', null),
                 new InputOption(
                     'exec',
@@ -65,7 +66,8 @@ class EditCommand extends Command implements ContextAware
                     'Do not execute the file content after editing. This is the default when a file name argument is given.',
                     null
                 ),
-            ))
+                )
+            )
             ->setDescription('Open an external editor. Afterwards, get produced code in input buffer.')
             ->setHelp('Set the EDITOR environment variable to something you\'d like to use.');
     }
@@ -79,8 +81,9 @@ class EditCommand extends Command implements ContextAware
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getOption('exec') &&
-            $input->getOption('no-exec')) {
+        if ($input->getOption('exec') 
+            && $input->getOption('no-exec')
+        ) {
             throw new \InvalidArgumentException('The --exec and --no-exec flags are mutually exclusive.');
         }
 
@@ -137,9 +140,10 @@ class EditCommand extends Command implements ContextAware
     private function extractFilePath($fileArgument)
     {
         // If the file argument was a variable, get it from the context
-        if ($fileArgument !== null &&
-            strlen($fileArgument) > 0 &&
-            $fileArgument[0] === '$') {
+        if ($fileArgument !== null 
+            && strlen($fileArgument) > 0 
+            && $fileArgument[0] === '$'
+        ) {
             $fileArgument = $this->context->get(preg_replace('/^\$/', '', $fileArgument));
         }
 

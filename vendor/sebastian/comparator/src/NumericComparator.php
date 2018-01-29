@@ -49,9 +49,10 @@ class NumericComparator extends ScalarComparator
             return;
         }
 
-        if ((\is_infinite($actual) xor \is_infinite($expected)) ||
-            (\is_nan($actual) or \is_nan($expected)) ||
-            \abs($actual - $expected) > $delta) {
+        if ((\is_infinite($actual) xor \is_infinite($expected)) 
+            || (\is_nan($actual) or \is_nan($expected)) 
+            || \abs($actual - $expected) > $delta
+        ) {
             throw new ComparisonFailure(
                 $expected,
                 $actual,

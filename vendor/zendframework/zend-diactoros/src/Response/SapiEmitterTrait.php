@@ -51,12 +51,14 @@ trait SapiEmitterTrait
         $reasonPhrase = $response->getReasonPhrase();
         $statusCode   = $response->getStatusCode();
 
-        header(sprintf(
-            'HTTP/%s %d%s',
-            $response->getProtocolVersion(),
-            $statusCode,
-            ($reasonPhrase ? ' ' . $reasonPhrase : '')
-        ), true, $statusCode);
+        header(
+            sprintf(
+                'HTTP/%s %d%s',
+                $response->getProtocolVersion(),
+                $statusCode,
+                ($reasonPhrase ? ' ' . $reasonPhrase : '')
+            ), true, $statusCode
+        );
     }
 
     /**
@@ -77,11 +79,13 @@ trait SapiEmitterTrait
             $name  = $this->filterHeader($header);
             $first = $name === 'Set-Cookie' ? false : true;
             foreach ($values as $value) {
-                header(sprintf(
-                    '%s: %s',
-                    $name,
-                    $value
-                ), $first, $statusCode);
+                header(
+                    sprintf(
+                        '%s: %s',
+                        $name,
+                        $value
+                    ), $first, $statusCode
+                );
                 $first = false;
             }
         }
@@ -90,7 +94,7 @@ trait SapiEmitterTrait
     /**
      * Filter a header name to wordcase
      *
-     * @param string $header
+     * @param  string $header
      * @return string
      */
     private function filterHeader($header)

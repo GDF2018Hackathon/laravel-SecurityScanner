@@ -62,8 +62,7 @@ class AddConsoleCommandPassTest extends TestCase
             ->register('my-command', MyCommand::class)
             ->setPublic(false)
             ->addTag('console.command', array('command' => 'my:command'))
-            ->addTag('console.command', array('command' => 'my:alias'))
-        ;
+            ->addTag('console.command', array('command' => 'my:alias'));
 
         (new AddConsoleCommandPass())->process($container);
 
@@ -84,8 +83,7 @@ class AddConsoleCommandPassTest extends TestCase
         $container
             ->register('with-default-name', NamedCommand::class)
             ->setPublic(false)
-            ->addTag('console.command')
-        ;
+            ->addTag('console.command');
 
         $pass = new AddConsoleCommandPass();
         $pass->process($container);
@@ -103,8 +101,7 @@ class AddConsoleCommandPassTest extends TestCase
         $container
             ->register('with-default-name', NamedCommand::class)
             ->setPublic(false)
-            ->addTag('console.command', array('command' => 'new-name'))
-        ;
+            ->addTag('console.command', array('command' => 'new-name'));
 
         $pass->process($container);
 

@@ -76,18 +76,18 @@ class Swift_Transport_EsmtpTransportTest extends Swift_Transport_AbstractSmtpEve
          the command may be interpreted as saying "Hello, I am <domain>" (and,
          in the case of EHLO, "and I support service extension requests").
 
-       -- RFC 2281, 4.1.1.1.
+        -- RFC 2281, 4.1.1.1.
 
-       ehlo            = "EHLO" SP Domain CRLF
-       helo            = "HELO" SP Domain CRLF
+        ehlo            = "EHLO" SP Domain CRLF
+        helo            = "HELO" SP Domain CRLF
 
-       -- RFC 2821, 4.3.2.
+        -- RFC 2821, 4.3.2.
 
-       EHLO or HELO
+        EHLO or HELO
            S: 250
            E: 504, 550
 
-     */
+        */
 
         $buf = $this->getBuffer();
         $smtp = $this->getTransport($buf);
@@ -119,10 +119,10 @@ class Swift_Transport_EsmtpTransportTest extends Swift_Transport_AbstractSmtpEve
     {
         /* -- RFC 2821, 4.1.4.
 
-       If the EHLO command is not acceptable to the SMTP server, 501, 500,
-       or 502 failure replies MUST be returned as appropriate.  The SMTP
-       server MUST stay in the same state after transmitting these replies
-       that it was in before the EHLO was received.
+        If the EHLO command is not acceptable to the SMTP server, 501, 500,
+        or 502 failure replies MUST be returned as appropriate.  The SMTP
+        server MUST stay in the same state after transmitting these replies
+        that it was in before the EHLO was received.
         */
 
         $buf = $this->getBuffer();
@@ -157,7 +157,7 @@ class Swift_Transport_EsmtpTransportTest extends Swift_Transport_AbstractSmtpEve
         } catch (Exception $e) {
             $this->fail(
                 'Starting Esmtp should fallback to HELO if needed and accept 250 response'
-                );
+            );
         }
     }
 
@@ -204,13 +204,13 @@ class Swift_Transport_EsmtpTransportTest extends Swift_Transport_AbstractSmtpEve
     {
         /* -- RFC 2821, 4.1.4.
 
-       The SMTP client MUST, if possible, ensure that the domain parameter
-       to the EHLO command is a valid principal host name (not a CNAME or MX
-       name) for its host.  If this is not possible (e.g., when the client's
-       address is dynamically assigned and the client does not have an
-       obvious name), an address literal SHOULD be substituted for the
-       domain name and supplemental information provided that will assist in
-       identifying the client.
+        The SMTP client MUST, if possible, ensure that the domain parameter
+        to the EHLO command is a valid principal host name (not a CNAME or MX
+        name) for its host.  If this is not possible (e.g., when the client's
+        address is dynamically assigned and the client does not have an
+        obvious name), an address literal SHOULD be substituted for the
+        domain name and supplemental information provided that will assist in
+        identifying the client.
         */
 
         $buf = $this->getBuffer();
@@ -240,13 +240,13 @@ class Swift_Transport_EsmtpTransportTest extends Swift_Transport_AbstractSmtpEve
         //Overridden to include ESMTP
         /* -- RFC 2821, 4.1.4.
 
-       The SMTP client MUST, if possible, ensure that the domain parameter
-       to the EHLO command is a valid principal host name (not a CNAME or MX
-       name) for its host.  If this is not possible (e.g., when the client's
-       address is dynamically assigned and the client does not have an
-       obvious name), an address literal SHOULD be substituted for the
-       domain name and supplemental information provided that will assist in
-       identifying the client.
+        The SMTP client MUST, if possible, ensure that the domain parameter
+        to the EHLO command is a valid principal host name (not a CNAME or MX
+        name) for its host.  If this is not possible (e.g., when the client's
+        address is dynamically assigned and the client does not have an
+        obvious name), an address literal SHOULD be substituted for the
+        domain name and supplemental information provided that will assist in
+        identifying the client.
         */
 
         $buf = $this->getBuffer();
@@ -291,8 +291,7 @@ class Swift_Transport_EsmtpTransportTest extends Swift_Transport_AbstractSmtpEve
             ->setHost('foo')
             ->setPort(25)
             ->setEncryption('tls')
-            ->setTimeout(30)
-            ;
+            ->setTimeout(30);
         $this->assertEquals($ref, $smtp);
     }
 }

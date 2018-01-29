@@ -63,10 +63,10 @@ class UploadedFile implements UploadedFileInterface
 
     /**
      * @param string|resource $streamOrFile
-     * @param int $size
-     * @param int $errorStatus
-     * @param string|null $clientFilename
-     * @param string|null $clientMediaType
+     * @param int             $size
+     * @param int             $errorStatus
+     * @param string|null     $clientFilename
+     * @param string|null     $clientMediaType
      * @throws InvalidArgumentException
      */
     public function __construct($streamOrFile, $size, $errorStatus, $clientFilename = null, $clientMediaType = null)
@@ -119,15 +119,18 @@ class UploadedFile implements UploadedFileInterface
 
     /**
      * {@inheritdoc}
+     *
      * @throws \RuntimeException if the upload was not successful.
      */
     public function getStream()
     {
         if ($this->error !== UPLOAD_ERR_OK) {
-            throw new RuntimeException(sprintf(
-                'Cannot retrieve stream due to upload error: %s',
-                self::ERROR_MESSAGES[$this->error]
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'Cannot retrieve stream due to upload error: %s',
+                    self::ERROR_MESSAGES[$this->error]
+                )
+            );
         }
 
         if ($this->moved) {
@@ -145,9 +148,9 @@ class UploadedFile implements UploadedFileInterface
     /**
      * {@inheritdoc}
      *
-     * @see http://php.net/is_uploaded_file
-     * @see http://php.net/move_uploaded_file
-     * @param string $targetPath Path to which to move the uploaded file.
+     * @see    http://php.net/is_uploaded_file
+     * @see    http://php.net/move_uploaded_file
+     * @param  string $targetPath Path to which to move the uploaded file.
      * @throws \RuntimeException if the upload was not successful.
      * @throws \InvalidArgumentException if the $path specified is invalid.
      * @throws \RuntimeException on any error during the move operation, or on
@@ -160,10 +163,12 @@ class UploadedFile implements UploadedFileInterface
         }
 
         if ($this->error !== UPLOAD_ERR_OK) {
-            throw new RuntimeException(sprintf(
-                'Cannot retrieve stream due to upload error: %s',
-                self::ERROR_MESSAGES[$this->error]
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'Cannot retrieve stream due to upload error: %s',
+                    self::ERROR_MESSAGES[$this->error]
+                )
+            );
         }
 
         if (! is_string($targetPath) || empty($targetPath)) {
@@ -174,24 +179,26 @@ class UploadedFile implements UploadedFileInterface
 
         $targetDirectory = dirname($targetPath);
         if (! is_dir($targetDirectory) || ! is_writable($targetDirectory)) {
-            throw new RuntimeException(sprintf(
-                'The target directory `%s` does not exists or is not writable',
-                $targetDirectory
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'The target directory `%s` does not exists or is not writable',
+                    $targetDirectory
+                )
+            );
         }
 
         $sapi = PHP_SAPI;
         switch (true) {
-            case (empty($sapi) || 0 === strpos($sapi, 'cli') || ! $this->file):
-                // Non-SAPI environment, or no filename present
-                $this->writeFile($targetPath);
-                break;
-            default:
-                // SAPI environment, with file present
-                if (false === move_uploaded_file($this->file, $targetPath)) {
-                    throw new RuntimeException('Error occurred while moving uploaded file');
-                }
-                break;
+        case (empty($sapi) || 0 === strpos($sapi, 'cli') || ! $this->file):
+            // Non-SAPI environment, or no filename present
+            $this->writeFile($targetPath);
+            break;
+        default:
+            // SAPI environment, with file present
+            if (false === move_uploaded_file($this->file, $targetPath)) {
+                throw new RuntimeException('Error occurred while moving uploaded file');
+            }
+            break;
         }
 
         $this->moved = true;
@@ -210,7 +217,7 @@ class UploadedFile implements UploadedFileInterface
     /**
      * {@inheritdoc}
      *
-     * @see http://php.net/manual/en/features.file-upload.errors.php
+     * @see    http://php.net/manual/en/features.file-upload.errors.php
      * @return int One of PHP's UPLOAD_ERR_XXX constants.
      */
     public function getError()

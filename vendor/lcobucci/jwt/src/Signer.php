@@ -14,7 +14,7 @@ use Lcobucci\JWT\Signer\Key;
  * Basic interface for token signers
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  */
 interface Signer
 {
@@ -35,7 +35,7 @@ interface Signer
     /**
      * Returns a signature for given data
      *
-     * @param string $payload
+     * @param string     $payload
      * @param Key|string $key
      *
      * @return Signature
@@ -47,8 +47,8 @@ interface Signer
     /**
      * Returns if the expected hash matches with the data and key
      *
-     * @param string $expected
-     * @param string $payload
+     * @param string     $expected
+     * @param string     $payload
      * @param Key|string $key
      *
      * @return boolean

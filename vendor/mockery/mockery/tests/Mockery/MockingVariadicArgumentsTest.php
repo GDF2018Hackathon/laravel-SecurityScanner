@@ -25,7 +25,9 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class MockingVariadicArgumentsTest extends MockeryTestCase
 {
-    /** @test */
+    /**
+     * @test 
+     */
     public function shouldAllowMockingVariadicArguments()
     {
         $mock = mock("test\Mockery\TestWithVariadicArguments");

@@ -13,7 +13,7 @@ use Lcobucci\JWT\Claim;
  * Class that create claims
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.0.0
+ * @since  2.0.0
  */
 class Factory
 {
@@ -49,7 +49,7 @@ class Factory
      * Create a new claim
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return Claim
      */
@@ -66,7 +66,7 @@ class Factory
      * Creates a claim that can be compared (greator or equals)
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return GreaterOrEqualsTo
      */
@@ -79,7 +79,7 @@ class Factory
      * Creates a claim that can be compared (greator or equals)
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return LesserOrEqualsTo
      */
@@ -92,7 +92,7 @@ class Factory
      * Creates a claim that can be compared (equals)
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return EqualsTo
      */
@@ -105,7 +105,7 @@ class Factory
      * Creates a basic claim
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return Basic
      */

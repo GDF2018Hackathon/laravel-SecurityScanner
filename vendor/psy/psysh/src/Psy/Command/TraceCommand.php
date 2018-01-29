@@ -44,14 +44,16 @@ class TraceCommand extends Command
 
         $this
             ->setName('trace')
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('include-psy', 'p', InputOption::VALUE_NONE,     'Include Psy in the call stack.'),
                 new InputOption('num',         'n', InputOption::VALUE_REQUIRED, 'Only include NUM lines.'),
 
                 $grep,
                 $insensitive,
                 $invert,
-            ))
+                )
+            )
             ->setDescription('Show the current call stack.')
             ->setHelp(
                 <<<'HELP'
@@ -101,12 +103,14 @@ HELP
         $lines = array();
 
         $trace = $e->getTrace();
-        array_unshift($trace, array(
+        array_unshift(
+            $trace, array(
             'function' => '',
             'file'     => $e->getFile() !== null ? $e->getFile() : 'n/a',
             'line'     => $e->getLine() !== null ? $e->getLine() : 'n/a',
             'args'     => array(),
-        ));
+            )
+        );
 
         if (!$includePsy) {
             for ($i = count($trace) - 1; $i >= 0; $i--) {

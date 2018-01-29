@@ -25,9 +25,9 @@ class CallbackEvent extends Event
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Console\Scheduling\Mutex  $mutex
-     * @param  string  $callback
-     * @param  array  $parameters
+     * @param  \Illuminate\Console\Scheduling\Mutex $mutex
+     * @param  string                               $callback
+     * @param  array                                $parameters
      * @return void
      *
      * @throws \InvalidArgumentException
@@ -48,21 +48,24 @@ class CallbackEvent extends Event
     /**
      * Run the given event.
      *
-     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @param  \Illuminate\Contracts\Container\Container $container
      * @return mixed
      *
      * @throws \Exception
      */
     public function run(Container $container)
     {
-        if ($this->description && $this->withoutOverlapping &&
-            ! $this->mutex->create($this)) {
+        if ($this->description && $this->withoutOverlapping 
+            && ! $this->mutex->create($this)
+        ) {
             return;
         }
 
-        register_shutdown_function(function () {
-            $this->removeMutex();
-        });
+        register_shutdown_function(
+            function () {
+                $this->removeMutex();
+            }
+        );
 
         parent::callBeforeCallbacks($container);
 
@@ -92,7 +95,7 @@ class CallbackEvent extends Event
     /**
      * Do not allow the event to overlap each other.
      *
-     * @param  int  $expiresAt
+     * @param  int $expiresAt
      * @return $this
      */
     public function withoutOverlapping($expiresAt = 1440)
@@ -107,9 +110,11 @@ class CallbackEvent extends Event
 
         $this->expiresAt = $expiresAt;
 
-        return $this->skip(function () {
-            return $this->mutex->exists($this);
-        });
+        return $this->skip(
+            function () {
+                return $this->mutex->exists($this);
+            }
+        );
     }
 
     /**

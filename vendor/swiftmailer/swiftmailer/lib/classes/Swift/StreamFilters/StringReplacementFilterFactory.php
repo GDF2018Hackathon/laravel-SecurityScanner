@@ -15,7 +15,9 @@
  */
 class Swift_StreamFilters_StringReplacementFilterFactory implements Swift_ReplacementFilterFactory
 {
-    /** Lazy-loaded filters */
+    /**
+     * Lazy-loaded filters 
+     */
     private $filters = array();
 
     /**

@@ -13,7 +13,7 @@ use Lcobucci\JWT\Signer\Ecdsa;
  * Signer for ECDSA SHA-256
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
+ * @since  2.1.0
  */
 class Sha256 extends Ecdsa
 {

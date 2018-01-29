@@ -21,7 +21,8 @@ class Swift_Encoder_QpEncoderAcceptanceTest extends \PHPUnit\Framework\TestCase
 
             $encoding = $encodingDir;
             $charStream = new Swift_CharacterStream_ArrayCharacterStream(
-                $this->factory, $encoding);
+                $this->factory, $encoding
+            );
             $encoder = new Swift_Encoder_QpEncoder($charStream);
 
             $sampleDir = $this->samplesDir.'/'.$encodingDir;
@@ -44,7 +45,7 @@ class Swift_Encoder_QpEncoderAcceptanceTest extends \PHPUnit\Framework\TestCase
                         quoted_printable_decode($encodedText), $text,
                         '%s: Encoded string should decode back to original string for sample '.
                         $sampleDir.'/'.$sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }

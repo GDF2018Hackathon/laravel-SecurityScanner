@@ -8,7 +8,9 @@ use Faker\Provider\fi_FI\Person;
 
 class PersonTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Generator */
+    /**
+     * @var Generator 
+     */
     protected $faker;
 
     public function setUp()

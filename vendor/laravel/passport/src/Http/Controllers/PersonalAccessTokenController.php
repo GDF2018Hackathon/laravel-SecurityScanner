@@ -28,8 +28,8 @@ class PersonalAccessTokenController
     /**
      * Create a controller instance.
      *
-     * @param  \Laravel\Passport\TokenRepository  $tokenRepository
-     * @param  \Illuminate\Contracts\Validation\Factory  $validation
+     * @param  \Laravel\Passport\TokenRepository        $tokenRepository
+     * @param  \Illuminate\Contracts\Validation\Factory $validation
      * @return void
      */
     public function __construct(TokenRepository $tokenRepository, ValidationFactory $validation)
@@ -41,30 +41,34 @@ class PersonalAccessTokenController
     /**
      * Get all of the personal access tokens for the authenticated user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function forUser(Request $request)
     {
         $tokens = $this->tokenRepository->forUser($request->user()->getKey());
 
-        return $tokens->load('client')->filter(function ($token) {
-            return $token->client->personal_access_client && ! $token->revoked;
-        })->values();
+        return $tokens->load('client')->filter(
+            function ($token) {
+                return $token->client->personal_access_client && ! $token->revoked;
+            }
+        )->values();
     }
 
     /**
      * Create a new personal access token for the user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Laravel\Passport\PersonalAccessTokenResult
      */
     public function store(Request $request)
     {
-        $this->validation->make($request->all(), [
+        $this->validation->make(
+            $request->all(), [
             'name' => 'required|max:255',
             'scopes' => 'array|in:'.implode(',', Passport::scopeIds()),
-        ])->validate();
+            ]
+        )->validate();
 
         return $request->user()->createToken(
             $request->name, $request->scopes ?: []
@@ -74,7 +78,7 @@ class PersonalAccessTokenController
     /**
      * Delete the given token.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  string  $tokenId
      * @return \Illuminate\Http\Response
      */

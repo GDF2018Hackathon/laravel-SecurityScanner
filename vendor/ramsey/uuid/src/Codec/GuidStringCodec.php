@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Codec;
@@ -26,7 +26,7 @@ class GuidStringCodec extends StringCodec
     /**
      * Encodes a UuidInterface as a string representation of a GUID
      *
-     * @param UuidInterface $uuid
+     * @param  UuidInterface $uuid
      * @return string Hexadecimal string representation of a GUID
      */
     public function encode(UuidInterface $uuid)
@@ -45,7 +45,7 @@ class GuidStringCodec extends StringCodec
     /**
      * Encodes a UuidInterface as a binary representation of a GUID
      *
-     * @param UuidInterface $uuid
+     * @param  UuidInterface $uuid
      * @return string Binary string representation of a GUID
      */
     public function encodeBinary(UuidInterface $uuid)
@@ -58,7 +58,7 @@ class GuidStringCodec extends StringCodec
     /**
      * Decodes a string representation of a GUID into a UuidInterface object instance
      *
-     * @param string $encodedUuid
+     * @param  string $encodedUuid
      * @return UuidInterface
      */
     public function decode($encodedUuid)
@@ -73,7 +73,7 @@ class GuidStringCodec extends StringCodec
     /**
      * Decodes a binary representation of a GUID into a UuidInterface object instance
      *
-     * @param string $bytes
+     * @param  string $bytes
      * @return UuidInterface
      */
     public function decodeBytes($bytes)
@@ -85,7 +85,7 @@ class GuidStringCodec extends StringCodec
     /**
      * Swaps fields to support GUID byte order
      *
-     * @param array $components An array of UUID components (the UUID exploded on its dashes)
+     * @param  array $components An array of UUID components (the UUID exploded on its dashes)
      * @return void
      */
     protected function swapFields(array &$components)

@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery;
@@ -60,7 +60,7 @@ class ExpectationDirector
     /**
      * Constructor
      *
-     * @param string $name
+     * @param string                 $name
      * @param \Mockery\MockInterface $mock
      */
     public function __construct($name, \Mockery\MockInterface $mock)
@@ -82,7 +82,7 @@ class ExpectationDirector
     /**
      * Handle a method call being directed by this instance
      *
-     * @param array $args
+     * @param  array $args
      * @return mixed
      */
     public function call(array $args)
@@ -128,7 +128,7 @@ class ExpectationDirector
     /**
      * Attempt to locate an expectation matching the provided args
      *
-     * @param array $args
+     * @param  array $args
      * @return mixed
      */
     public function findExpectation(array $args)
@@ -168,8 +168,8 @@ class ExpectationDirector
     /**
      * Search current array of expectations for a match
      *
-     * @param array $expectations
-     * @param array $args
+     * @param  array $expectations
+     * @param  array $args
      * @return mixed
      */
     protected function _findExpectationIn(array $expectations, array $args)

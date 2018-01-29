@@ -19,7 +19,7 @@ use Mdanter\Ecc\Random\RandomNumberGeneratorInterface;
  * Base class for ECDSA signers
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 2.1.0
+ * @since  2.1.0
  */
 abstract class Ecdsa extends BaseSigner
 {
@@ -39,9 +39,9 @@ abstract class Ecdsa extends BaseSigner
     private $parser;
 
     /**
-     * @param Adapter $adapter
+     * @param Adapter     $adapter
      * @param EcdsaSigner $signer
-     * @param KeyParser $parser
+     * @param KeyParser   $parser
      */
     public function __construct(Adapter $adapter = null, Signer $signer = null, KeyParser $parser = null)
     {

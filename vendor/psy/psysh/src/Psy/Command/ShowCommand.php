@@ -51,10 +51,12 @@ class ShowCommand extends ReflectingCommand
     {
         $this
             ->setName('show')
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputArgument('value', InputArgument::OPTIONAL, 'Function, class, instance, constant, method or property to show.'),
                 new InputOption('ex', null,  InputOption::VALUE_OPTIONAL, 'Show last exception context. Optionally specify a stack index.', 1),
-            ))
+                )
+            )
             ->setDescription('Show the code for an object, class, constant, method or property.')
             ->setHelp(
                 <<<HELP
@@ -144,10 +146,12 @@ HELP
         }
 
         $trace = $exception->getTrace();
-        array_unshift($trace, array(
+        array_unshift(
+            $trace, array(
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
-        ));
+            )
+        );
 
         if ($index >= count($trace)) {
             $index = 0;
@@ -169,13 +173,15 @@ HELP
         $file = isset($trace[$index]['file']) ? $this->replaceCwd($trace[$index]['file']) : 'n/a';
         $line = isset($trace[$index]['line']) ? $trace[$index]['line'] : 'n/a';
 
-        $output->writeln(sprintf(
-            'From <info>%s:%d</info> at <strong>level %d</strong> of backtrace (of %d).',
-            OutputFormatter::escape($file),
-            OutputFormatter::escape($line),
-            $index + 1,
-            count($trace)
-        ));
+        $output->writeln(
+            sprintf(
+                'From <info>%s:%d</info> at <strong>level %d</strong> of backtrace (of %d).',
+                OutputFormatter::escape($file),
+                OutputFormatter::escape($line),
+                $index + 1,
+                count($trace)
+            )
+        );
     }
 
     private function replaceCwd($file)

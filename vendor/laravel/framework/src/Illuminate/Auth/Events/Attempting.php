@@ -21,7 +21,7 @@ class Attempting
     /**
      * Create a new event instance.
      *
-     * @param  array  $credentials
+     * @param  array $credentials
      * @param  bool  $remember
      * @return void
      */

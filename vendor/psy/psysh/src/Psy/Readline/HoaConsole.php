@@ -19,7 +19,9 @@ use Psy\Exception\BreakException;
  */
 class HoaConsole implements Readline
 {
-    /** @var HoaReadline */
+    /**
+     * @var HoaReadline 
+     */
     private $hoaReadline;
 
     /**

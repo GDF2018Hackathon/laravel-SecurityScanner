@@ -11,7 +11,7 @@ namespace Lcobucci\JWT\Signer;
  * Base class for hmac signers
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  */
 abstract class Hmac extends BaseSigner
 {

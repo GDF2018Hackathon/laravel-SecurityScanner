@@ -6,9 +6,11 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \TheSeer\Tokenizer\Tokenizer
  */
-class TokenizerTest extends TestCase {
+class TokenizerTest extends TestCase
+{
 
-    public function testValidSourceGetsParsed() {
+    public function testValidSourceGetsParsed() 
+    {
         $tokenizer = new Tokenizer();
         $result = $tokenizer->parse(file_get_contents(__DIR__ . '/_files/test.php'));
 

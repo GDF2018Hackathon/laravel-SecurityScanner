@@ -11,8 +11,8 @@ trait ManagesTransactions
     /**
      * Execute a Closure within a transaction.
      *
-     * @param  \Closure  $callback
-     * @param  int  $attempts
+     * @param  \Closure $callback
+     * @param  int      $attempts
      * @return mixed
      *
      * @throws \Exception|\Throwable
@@ -26,9 +26,11 @@ trait ManagesTransactions
             // catch any exception we can rollback this transaction so that none of this
             // gets actually persisted to a database or stored in a permanent fashion.
             try {
-                return tap($callback($this), function ($result) {
-                    $this->commit();
-                });
+                return tap(
+                    $callback($this), function ($result) {
+                        $this->commit();
+                    }
+                );
             }
 
             // If we catch an exception we'll rollback this transaction and try again if we
@@ -49,9 +51,9 @@ trait ManagesTransactions
     /**
      * Handle an exception encountered when running a transacted statement.
      *
-     * @param  \Exception  $e
-     * @param  int  $currentAttempt
-     * @param  int  $maxAttempts
+     * @param  \Exception $e
+     * @param  int        $currentAttempt
+     * @param  int        $maxAttempts
      * @return void
      *
      * @throws \Exception
@@ -61,8 +63,9 @@ trait ManagesTransactions
         // On a deadlock, MySQL rolls back the entire transaction so we can't just
         // retry the query. We have to throw this exception all the way out and
         // let the developer handle it in another way. We will decrement too.
-        if ($this->causedByDeadlock($e) &&
-            $this->transactions > 1) {
+        if ($this->causedByDeadlock($e) 
+            && $this->transactions > 1
+        ) {
             $this->transactions--;
 
             throw $e;
@@ -73,8 +76,9 @@ trait ManagesTransactions
         // if we haven't we will return and try this query again in our loop.
         $this->rollBack();
 
-        if ($this->causedByDeadlock($e) &&
-            $currentAttempt < $maxAttempts) {
+        if ($this->causedByDeadlock($e) 
+            && $currentAttempt < $maxAttempts
+        ) {
             return;
         }
 
@@ -129,7 +133,7 @@ trait ManagesTransactions
     /**
      * Handle an exception from a transaction beginning.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
      * @return void
      *
      * @throws \Exception
@@ -164,7 +168,7 @@ trait ManagesTransactions
     /**
      * Rollback the active database transaction.
      *
-     * @param  int|null  $toLevel
+     * @param  int|null $toLevel
      * @return void
      */
     public function rollBack($toLevel = null)
@@ -193,7 +197,7 @@ trait ManagesTransactions
     /**
      * Perform a rollback within the database.
      *
-     * @param  int  $toLevel
+     * @param  int $toLevel
      * @return void
      */
     protected function performRollBack($toLevel)

@@ -30,11 +30,13 @@ class MockingVoidMethodsTest extends MockeryTestCase
 {
     protected function setUp()
     {
-        require_once __DIR__."/Fixtures/MethodWithVoidReturnType.php";
+        include_once __DIR__."/Fixtures/MethodWithVoidReturnType.php";
     }
 
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itShouldSuccessfullyBuildTheMock()
     {
         $mock = mock("test\Mockery\Fixtures\MethodWithVoidReturnType");
@@ -42,7 +44,9 @@ class MockingVoidMethodsTest extends MockeryTestCase
         $this->assertTrue($mock instanceof \test\Mockery\Fixtures\MethodWithVoidReturnType);
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_can_stub_and_mock_void_methods()
     {
         $mock = mock("test\Mockery\Fixtures\MethodWithVoidReturnType");

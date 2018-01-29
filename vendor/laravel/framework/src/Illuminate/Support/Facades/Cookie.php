@@ -10,7 +10,7 @@ class Cookie extends Facade
     /**
      * Determine if a cookie exists on the request.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return bool
      */
     public static function has($key)
@@ -21,8 +21,8 @@ class Cookie extends Facade
     /**
      * Retrieve a cookie from the request.
      *
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param  string $key
+     * @param  mixed  $default
      * @return string
      */
     public static function get($key = null, $default = null)

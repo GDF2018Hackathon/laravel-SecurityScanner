@@ -34,7 +34,7 @@ final class Key
      * commonly appended to files when working with text editors.
      *
      * @param string $saved_key_string
-     * @param bool $do_not_trim (default: false)
+     * @param bool   $do_not_trim      (default: false)
      *
      * @throws Ex\BadFormatException
      * @throws Ex\EnvironmentIsBrokenException

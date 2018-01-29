@@ -24,7 +24,7 @@ final class ArraySerializer
     /**
      * Serialize a request message to an array.
      *
-     * @param RequestInterface $request
+     * @param  RequestInterface $request
      * @return array
      */
     public static function toArray(RequestInterface $request)
@@ -42,7 +42,7 @@ final class ArraySerializer
     /**
      * Deserialize a request array to a request instance.
      *
-     * @param array $serializedRequest
+     * @param  array $serializedRequest
      * @return Request
      * @throws UnexpectedValueException when cannot deserialize response
      */
@@ -66,7 +66,7 @@ final class ArraySerializer
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $key
      * @param string $message
      * @return mixed

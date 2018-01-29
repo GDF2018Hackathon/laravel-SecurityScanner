@@ -17,58 +17,70 @@ Swift_DependencyContainer::getInstance()
 
     ->register('mime.idgenerator')
     ->asSharedInstanceOf('Swift_Mime_IdGenerator')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         'mime.idgenerator.idright',
-    ))
+        )
+    )
 
     ->register('mime.message')
     ->asNewInstanceOf('Swift_Mime_SimpleMessage')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         'mime.headerset',
         'mime.qpcontentencoder',
         'cache',
         'mime.idgenerator',
         'properties.charset',
-    ))
+        )
+    )
 
     ->register('mime.part')
     ->asNewInstanceOf('Swift_Mime_MimePart')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         'mime.headerset',
         'mime.qpcontentencoder',
         'cache',
         'mime.idgenerator',
         'properties.charset',
-    ))
+        )
+    )
 
     ->register('mime.attachment')
     ->asNewInstanceOf('Swift_Mime_Attachment')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         'mime.headerset',
         'mime.base64contentencoder',
         'cache',
         'mime.idgenerator',
-    ))
+        )
+    )
     ->addConstructorValue($swift_mime_types)
 
     ->register('mime.embeddedfile')
     ->asNewInstanceOf('Swift_Mime_EmbeddedFile')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
         'mime.headerset',
         'mime.base64contentencoder',
         'cache',
         'mime.idgenerator',
-    ))
+        )
+    )
     ->addConstructorValue($swift_mime_types)
 
     ->register('mime.headerfactory')
     ->asNewInstanceOf('Swift_Mime_SimpleHeaderFactory')
-    ->withDependencies(array(
+    ->withDependencies(
+        array(
             'mime.qpheaderencoder',
             'mime.rfc2231encoder',
             'email.validator',
             'properties.charset',
-        ))
+        )
+    )
 
     ->register('mime.headerset')
     ->asNewInstanceOf('Swift_Mime_SimpleHeaderSet')
@@ -124,7 +136,6 @@ Swift_DependencyContainer::getInstance()
 
     ->register('mime.rfc2231encoder')
     ->asNewInstanceOf('Swift_Encoder_Rfc2231Encoder')
-    ->withDependencies(array('mime.charstream'))
-;
+    ->withDependencies(array('mime.charstream'));
 
 unset($swift_mime_types);

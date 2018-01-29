@@ -111,19 +111,23 @@ class ReflectionCaster
         );
         if ($trace = $c->getTrace(DEBUG_BACKTRACE_IGNORE_ARGS)) {
             $function = new \ReflectionGenerator($c->getExecutingGenerator());
-            array_unshift($trace, array(
+            array_unshift(
+                $trace, array(
                 'function' => 'yield',
                 'file' => $function->getExecutingFile(),
                 'line' => $function->getExecutingLine() - 1,
-            ));
+                )
+            );
             $trace[] = $frame;
             $a[$prefix.'trace'] = new TraceStub($trace, false, 0, -1, -1);
         } else {
             $function = new FrameStub($frame, false, true);
             $function = ExceptionCaster::castFrameStub($function, array(), $function, true);
-            $a[$prefix.'executing'] = new EnumStub(array(
+            $a[$prefix.'executing'] = new EnumStub(
+                array(
                 "\0~separator= \0".$frame['class'].$frame['type'].$frame['function'].'()' => $function[$prefix.'src'],
-            ));
+                )
+            );
         }
 
         $a[Caster::PREFIX_VIRTUAL.'closed'] = false;
@@ -139,11 +143,13 @@ class ReflectionCaster
             $a[$prefix.'modifiers'] = implode(' ', $n);
         }
 
-        self::addMap($a, $c, array(
+        self::addMap(
+            $a, $c, array(
             'extends' => 'getParentClass',
             'implements' => 'getInterfaceNames',
             'constants' => 'getConstants',
-        ));
+            )
+        );
 
         foreach ($c->getProperties() as $n) {
             $a[$prefix.'properties'][$n->name] = $n;
@@ -164,12 +170,14 @@ class ReflectionCaster
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
-        self::addMap($a, $c, array(
+        self::addMap(
+            $a, $c, array(
             'returnsReference' => 'returnsReference',
             'returnType' => 'getReturnType',
             'class' => 'getClosureScopeClass',
             'this' => 'getClosureThis',
-        ));
+            )
+        );
 
         if (isset($a[$prefix.'returnType'])) {
             $v = $a[$prefix.'returnType'];
@@ -233,12 +241,14 @@ class ReflectionCaster
         // Added by HHVM
         unset($a['info']);
 
-        self::addMap($a, $c, array(
+        self::addMap(
+            $a, $c, array(
             'position' => 'getPosition',
             'isVariadic' => 'isVariadic',
             'byReference' => 'isPassedByReference',
             'allowsNull' => 'allowsNull',
-        ));
+            )
+        );
 
         if (method_exists($c, 'getType')) {
             if ($v = $c->getType()) {
@@ -283,7 +293,8 @@ class ReflectionCaster
 
     public static function castExtension(\ReflectionExtension $c, array $a, Stub $stub, $isNested)
     {
-        self::addMap($a, $c, array(
+        self::addMap(
+            $a, $c, array(
             'version' => 'getVersion',
             'dependencies' => 'getDependencies',
             'iniEntries' => 'getIniEntries',
@@ -292,19 +303,22 @@ class ReflectionCaster
             'constants' => 'getConstants',
             'functions' => 'getFunctions',
             'classes' => 'getClasses',
-        ));
+            )
+        );
 
         return $a;
     }
 
     public static function castZendExtension(\ReflectionZendExtension $c, array $a, Stub $stub, $isNested)
     {
-        self::addMap($a, $c, array(
+        self::addMap(
+            $a, $c, array(
             'version' => 'getVersion',
             'author' => 'getAuthor',
             'copyright' => 'getCopyright',
             'url' => 'getURL',
-        ));
+            )
+        );
 
         return $a;
     }

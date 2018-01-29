@@ -15,10 +15,14 @@
  */
 interface Swift_KeyCache
 {
-    /** Mode for replacing existing cached data */
+    /**
+ * Mode for replacing existing cached data 
+*/
     const MODE_WRITE = 1;
 
-    /** Mode for appending data to the end of existing cached data */
+    /**
+ * Mode for appending data to the end of existing cached data 
+*/
     const MODE_APPEND = 2;
 
     /**

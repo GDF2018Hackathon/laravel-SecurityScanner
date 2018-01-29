@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery\Matcher;
@@ -29,12 +29,13 @@ class PHPUnitConstraint extends MatcherAbstract
 
     /**
      * @param \PHPUnit\Framework\Constraint $constraint
-     * @param bool $rethrow
+     * @param bool                          $rethrow
      */
     public function __construct($constraint, $rethrow = false)
     {
         if (!($constraint instanceof \PHPUnit_Framework_Constraint)
-        && !($constraint instanceof \PHPUnit\Framework\Constraint)) {
+            && !($constraint instanceof \PHPUnit\Framework\Constraint)
+        ) {
             throw new InvalidArgumentException(
                 'Constraint must be one of \PHPUnit\Framework\Constraint or '.
                 '\PHPUnit_Framework_Constraint'

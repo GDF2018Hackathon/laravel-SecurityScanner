@@ -210,10 +210,10 @@ if (!function_exists('Psy\info')) {
 
                     foreach ($meta as $key => $val) {
                         switch ($key) {
-                            case 'built_at':
-                                $d = new \DateTime('@' . $val);
-                                $val = $d->format(\DateTime::RFC2822);
-                                break;
+                        case 'built_at':
+                            $d = new \DateTime('@' . $val);
+                            $val = $d->format(\DateTime::RFC2822);
+                            break;
                         }
                         $key = 'db ' . str_replace('_', ' ', $key);
                         $docs[$key] = $val;
@@ -253,16 +253,20 @@ if (!function_exists('Psy\bin')) {
 
             $input = new ArgvInput();
             try {
-                $input->bind(new InputDefinition(array(
-                    new InputOption('help',     'h',  InputOption::VALUE_NONE),
-                    new InputOption('config',   'c',  InputOption::VALUE_REQUIRED),
-                    new InputOption('version',  'v',  InputOption::VALUE_NONE),
-                    new InputOption('cwd',      null, InputOption::VALUE_REQUIRED),
-                    new InputOption('color',    null, InputOption::VALUE_NONE),
-                    new InputOption('no-color', null, InputOption::VALUE_NONE),
+                $input->bind(
+                    new InputDefinition(
+                        array(
+                        new InputOption('help',     'h',  InputOption::VALUE_NONE),
+                        new InputOption('config',   'c',  InputOption::VALUE_REQUIRED),
+                        new InputOption('version',  'v',  InputOption::VALUE_NONE),
+                        new InputOption('cwd',      null, InputOption::VALUE_REQUIRED),
+                        new InputOption('color',    null, InputOption::VALUE_NONE),
+                        new InputOption('no-color', null, InputOption::VALUE_NONE),
 
-                    new InputArgument('include', InputArgument::IS_ARRAY),
-                )));
+                        new InputArgument('include', InputArgument::IS_ARRAY),
+                        )
+                    )
+                );
             } catch (\RuntimeException $e) {
                 $usageException = $e;
             }

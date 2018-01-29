@@ -20,11 +20,11 @@ abstract class FeatureMatcher extends TypeSafeDiagnosingMatcher
     /**
      * Constructor.
      *
-     * @param string $type
-     * @param string $subtype
-     * @param \Hamcrest\Matcher $subMatcher The matcher to apply to the feature
-     * @param string $featureDescription Descriptive text to use in describeTo
-     * @param string $featureName Identifying text for mismatch message
+     * @param string            $type
+     * @param string            $subtype
+     * @param \Hamcrest\Matcher $subMatcher         The matcher to apply to the feature
+     * @param string            $featureDescription Descriptive text to use in describeTo
+     * @param string            $featureName        Identifying text for mismatch message
      */
     public function __construct($type, $subtype, Matcher $subMatcher, $featureDescription, $featureName)
     {
@@ -50,7 +50,7 @@ abstract class FeatureMatcher extends TypeSafeDiagnosingMatcher
 
         if (!$this->_subMatcher->matches($featureValue)) {
             $mismatchDescription->appendText($this->_featureName)
-                                                    ->appendText(' was ')->appendValue($featureValue);
+                ->appendText(' was ')->appendValue($featureValue);
 
             return false;
         }
@@ -61,7 +61,6 @@ abstract class FeatureMatcher extends TypeSafeDiagnosingMatcher
     final public function describeTo(Description $description)
     {
         $description->appendText($this->_featureDescription)->appendText(' ')
-                                ->appendDescriptionOf($this->_subMatcher)
-                             ;
+            ->appendDescriptionOf($this->_subMatcher);
     }
 }

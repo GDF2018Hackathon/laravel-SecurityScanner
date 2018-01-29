@@ -60,7 +60,7 @@ interface TagFactory
     /**
      * Factory method responsible for instantiating the correct sub type.
      *
-     * @param string $tagLine The text for this tag, including description.
+     * @param string      $tagLine The text for this tag, including description.
      * @param TypeContext $context
      *
      * @throws \InvalidArgumentException if an invalid tag line was presented.

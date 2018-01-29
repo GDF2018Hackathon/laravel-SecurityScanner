@@ -45,8 +45,8 @@ class EntityPopulator
     /**
      * Class constructor.
      *
-     * @param Mapper $mapper
-     * @param Locator $locator
+     * @param Mapper          $mapper
+     * @param Locator         $locator
      * @param $useExistingData
      */
     public function __construct(Mapper $mapper, Locator $locator, $useExistingData = false)
@@ -179,7 +179,7 @@ class EntityPopulator
     /**
      * Insert one new record using the Entity class.
      *
-     * @param $insertedEntities
+     * @param  $insertedEntities
      * @return string
      */
     public function execute($insertedEntities)

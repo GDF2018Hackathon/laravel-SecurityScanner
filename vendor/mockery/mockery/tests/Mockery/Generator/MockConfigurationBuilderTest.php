@@ -51,7 +51,9 @@ class MockConfigurationBuilderTest extends TestCase
         $this->assertEquals("foo", $methods[0]->getName());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function xdebugs_debug_info_is_black_listed_by_default()
     {
         $builder = new MockConfigurationBuilder;

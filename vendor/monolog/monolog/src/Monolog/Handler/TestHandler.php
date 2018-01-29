@@ -90,23 +90,29 @@ class TestHandler extends AbstractProcessingHandler
             $record = $record['message'];
         }
 
-        return $this->hasRecordThatPasses(function ($rec) use ($record) {
-            return $rec['message'] === $record;
-        }, $level);
+        return $this->hasRecordThatPasses(
+            function ($rec) use ($record) {
+                return $rec['message'] === $record;
+            }, $level
+        );
     }
 
     public function hasRecordThatContains($message, $level)
     {
-        return $this->hasRecordThatPasses(function ($rec) use ($message) {
-            return strpos($rec['message'], $message) !== false;
-        }, $level);
+        return $this->hasRecordThatPasses(
+            function ($rec) use ($message) {
+                return strpos($rec['message'], $message) !== false;
+            }, $level
+        );
     }
 
     public function hasRecordThatMatches($regex, $level)
     {
-        return $this->hasRecordThatPasses(function ($rec) use ($regex) {
-            return preg_match($regex, $rec['message']) > 0;
-        }, $level);
+        return $this->hasRecordThatPasses(
+            function ($rec) use ($regex) {
+                return preg_match($regex, $rec['message']) > 0;
+            }, $level
+        );
     }
 
     public function hasRecordThatPasses($predicate, $level)

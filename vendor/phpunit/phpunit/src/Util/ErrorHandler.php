@@ -105,13 +105,15 @@ class ErrorHandler
             }
         };
 
-        \set_error_handler(function ($errno, $errstr) use ($severity) {
-            if ($errno === $severity) {
-                return;
-            }
+        \set_error_handler(
+            function ($errno, $errstr) use ($severity) {
+                if ($errno === $severity) {
+                    return;
+                }
 
-            return false;
-        });
+                return false;
+            }
+        );
 
         return $terminator;
     }

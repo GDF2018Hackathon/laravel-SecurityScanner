@@ -202,7 +202,6 @@ class InputOption
             && $option->getDefault() === $this->getDefault()
             && $option->isArray() === $this->isArray()
             && $option->isValueRequired() === $this->isValueRequired()
-            && $option->isValueOptional() === $this->isValueOptional()
-        ;
+            && $option->isValueOptional() === $this->isValueOptional();
     }
 }

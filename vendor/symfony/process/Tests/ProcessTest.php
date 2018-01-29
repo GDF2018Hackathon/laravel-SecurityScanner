@@ -164,9 +164,11 @@ class ProcessTest extends TestCase
     public function testCallbacksAreExecutedWithStart()
     {
         $process = $this->getProcess('echo foo');
-        $process->start(function ($type, $buffer) use (&$data) {
-            $data .= $buffer;
-        });
+        $process->start(
+            function ($type, $buffer) use (&$data) {
+                $data .= $buffer;
+            }
+        );
 
         $process->wait();
 
@@ -234,11 +236,13 @@ class ProcessTest extends TestCase
 
         $p = $this->getProcessForCode('stream_copy_to_stream(STDIN, STDOUT);');
         $p->setInput($stream);
-        $p->start(function ($type, $data) use ($stream) {
-            if ('hello' === $data) {
-                fclose($stream);
+        $p->start(
+            function ($type, $data) use ($stream) {
+                if ('hello' === $data) {
+                    fclose($stream);
+                }
             }
-        });
+        );
         $p->wait();
 
         $this->assertSame('hello', $p->getOutput());
@@ -330,9 +334,11 @@ class ProcessTest extends TestCase
         $p = $this->getProcessForCode('echo \'foo\';');
 
         $called = false;
-        $p->run(function ($type, $buffer) use (&$called) {
-            $called = 'foo' === $buffer;
-        });
+        $p->run(
+            function ($type, $buffer) use (&$called) {
+                $called = 'foo' === $buffer;
+            }
+        );
 
         $this->assertTrue($called, 'The callback should be executed with the output');
     }
@@ -343,9 +349,11 @@ class ProcessTest extends TestCase
         $p->disableOutput();
 
         $called = false;
-        $p->run(function ($type, $buffer) use (&$called) {
-            $called = 'foo' === $buffer;
-        });
+        $p->run(
+            function ($type, $buffer) use (&$called) {
+                $called = 'foo' === $buffer;
+            }
+        );
 
         $this->assertTrue($called, 'The callback should be executed with the output');
     }
@@ -777,7 +785,8 @@ class ProcessTest extends TestCase
         $start = microtime(true);
         try {
             $process->start();
-            foreach ($process as $buffer);
+            foreach ($process as $buffer) {
+            }
             $this->fail('A RuntimeException should have been raised');
         } catch (RuntimeException $e) {
         }
@@ -1142,27 +1151,33 @@ class ProcessTest extends TestCase
     public function testStopTerminatesProcessCleanly()
     {
         $process = $this->getProcessForCode('echo 123; sleep(42);');
-        $process->run(function () use ($process) {
-            $process->stop();
-        });
+        $process->run(
+            function () use ($process) {
+                $process->stop();
+            }
+        );
         $this->assertTrue(true, 'A call to stop() is not expected to cause wait() to throw a RuntimeException');
     }
 
     public function testKillSignalTerminatesProcessCleanly()
     {
         $process = $this->getProcessForCode('echo 123; sleep(43);');
-        $process->run(function () use ($process) {
-            $process->signal(9); // SIGKILL
-        });
+        $process->run(
+            function () use ($process) {
+                $process->signal(9); // SIGKILL
+            }
+        );
         $this->assertTrue(true, 'A call to signal() is not expected to cause wait() to throw a RuntimeException');
     }
 
     public function testTermSignalTerminatesProcessCleanly()
     {
         $process = $this->getProcessForCode('echo 123; sleep(44);');
-        $process->run(function () use ($process) {
-            $process->signal(15); // SIGTERM
-        });
+        $process->run(
+            function () use ($process) {
+                $process->signal(15); // SIGTERM
+            }
+        );
         $this->assertTrue(true, 'A call to signal() is not expected to cause wait() to throw a RuntimeException');
     }
 
@@ -1246,14 +1261,16 @@ class ProcessTest extends TestCase
         $process = $this->getProcessForCode('echo \'ping\'; echo fread(STDIN, 4); echo fread(STDIN, 4);');
         $process->setInput($input);
 
-        $process->start(function ($type, $data) use ($input) {
-            if ('ping' === $data) {
-                $input->write('pang');
-            } elseif (!$input->isClosed()) {
-                $input->write('pong');
-                $input->close();
+        $process->start(
+            function ($type, $data) use ($input) {
+                if ('ping' === $data) {
+                    $input->write('pang');
+                } elseif (!$input->isClosed()) {
+                    $input->write('pong');
+                    $input->close();
+                }
             }
-        });
+        );
 
         $process->wait();
         $this->assertSame('pingpangpong', $process->getOutput());
@@ -1279,9 +1296,11 @@ class ProcessTest extends TestCase
 
         $process = $this->getProcessForCode('echo fread(STDIN, 3);');
         $process->setInput($input);
-        $process->start(function ($type, $data) use ($input) {
-            $input->close();
-        });
+        $process->start(
+            function ($type, $data) use ($input) {
+                $input->close();
+            }
+        );
 
         $process->wait();
         $this->assertSame('123', $process->getOutput());
@@ -1290,10 +1309,12 @@ class ProcessTest extends TestCase
     public function testInputStreamWithGenerator()
     {
         $input = new InputStream();
-        $input->onEmpty(function ($input) {
-            yield 'pong';
-            $input->close();
-        });
+        $input->onEmpty(
+            function ($input) {
+                yield 'pong';
+                $input->close();
+            }
+        );
 
         $process = $this->getProcessForCode('stream_copy_to_stream(STDIN, STDOUT);');
         $process->setInput($input);
@@ -1307,15 +1328,21 @@ class ProcessTest extends TestCase
     {
         $i = 0;
         $input = new InputStream();
-        $input->onEmpty(function () use (&$i) { ++$i; });
+        $input->onEmpty(
+            function () use (&$i) {
+                ++$i; 
+            }
+        );
 
         $process = $this->getProcessForCode('echo 123; echo fread(STDIN, 1); echo 456;');
         $process->setInput($input);
-        $process->start(function ($type, $data) use ($input) {
-            if ('123' === $data) {
-                $input->close();
+        $process->start(
+            function ($type, $data) use ($input) {
+                if ('123' === $data) {
+                    $input->close();
+                }
             }
-        });
+        );
         $process->wait();
 
         $this->assertSame(0, $i, 'InputStream->onEmpty callback should be called only when the input *becomes* empty');

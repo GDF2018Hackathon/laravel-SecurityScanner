@@ -25,10 +25,14 @@ use phpDocumentor\Reflection\Type;
  */
 final class Array_ implements Type
 {
-    /** @var Type */
+    /**
+     * @var Type 
+     */
     private $valueType;
 
-    /** @var Type */
+    /**
+     * @var Type 
+     */
     private $keyType;
 
     /**

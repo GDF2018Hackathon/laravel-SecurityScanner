@@ -11,8 +11,8 @@ class ImplicitRouteBinding
     /**
      * Resolve the implicit route bindings for the given route.
      *
-     * @param  \Illuminate\Container\Container  $container
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  \Illuminate\Container\Container $container
+     * @param  \Illuminate\Routing\Route       $route
      * @return void
      */
     public static function resolveForRoute($container, $route)
@@ -43,7 +43,7 @@ class ImplicitRouteBinding
     /**
      * Return the parameter name if it exists in the given parameters.
      *
-     * @param  string  $name
+     * @param  string $name
      * @param  array  $parameters
      * @return string|null
      */

@@ -16,19 +16,21 @@ class None extends Preset
         static::updatePackages();
         static::updateBootstrapping();
 
-        tap(new Filesystem, function ($filesystem) {
-            $filesystem->deleteDirectory(resource_path('assets/js/components'));
-            $filesystem->delete(resource_path('assets/sass/_variables.scss'));
-            $filesystem->deleteDirectory(base_path('node_modules'));
-            $filesystem->deleteDirectory(public_path('css'));
-            $filesystem->deleteDirectory(public_path('js'));
-        });
+        tap(
+            new Filesystem, function ($filesystem) {
+                $filesystem->deleteDirectory(resource_path('assets/js/components'));
+                $filesystem->delete(resource_path('assets/sass/_variables.scss'));
+                $filesystem->deleteDirectory(base_path('node_modules'));
+                $filesystem->deleteDirectory(public_path('css'));
+                $filesystem->deleteDirectory(public_path('js'));
+            }
+        );
     }
 
     /**
      * Update the given package array.
      *
-     * @param  array  $packages
+     * @param  array $packages
      * @return array
      */
     protected static function updatePackageArray(array $packages)

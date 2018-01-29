@@ -25,10 +25,14 @@ use Symfony\Bridge\PsrHttpMessage\Tests\Fixtures\Uri;
  */
 class HttpFoundationFactoryTest extends TestCase
 {
-    /** @var HttpFoundationFactory */
+    /**
+     * @var HttpFoundationFactory 
+     */
     private $factory;
 
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $tmpDir;
 
     public function setup()

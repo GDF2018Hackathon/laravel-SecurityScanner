@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Codec;
@@ -24,7 +24,7 @@ interface CodecInterface
     /**
      * Encodes a UuidInterface as a string representation of a UUID
      *
-     * @param UuidInterface $uuid
+     * @param  UuidInterface $uuid
      * @return string Hexadecimal string representation of a UUID
      */
     public function encode(UuidInterface $uuid);
@@ -32,7 +32,7 @@ interface CodecInterface
     /**
      * Encodes a UuidInterface as a binary representation of a UUID
      *
-     * @param UuidInterface $uuid
+     * @param  UuidInterface $uuid
      * @return string Binary string representation of a UUID
      */
     public function encodeBinary(UuidInterface $uuid);
@@ -40,7 +40,7 @@ interface CodecInterface
     /**
      * Decodes a string representation of a UUID into a UuidInterface object instance
      *
-     * @param string $encodedUuid
+     * @param  string $encodedUuid
      * @return UuidInterface
      */
     public function decode($encodedUuid);
@@ -48,7 +48,7 @@ interface CodecInterface
     /**
      * Decodes a binary representation of a UUID into a UuidInterface object instance
      *
-     * @param string $bytes
+     * @param  string $bytes
      * @return UuidInterface
      */
     public function decodeBytes($bytes);

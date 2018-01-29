@@ -49,9 +49,11 @@ class WhereamiCommand extends Command
     {
         $this
             ->setName('whereami')
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputOption('num', 'n', InputOption::VALUE_OPTIONAL, 'Number of lines before and after.', '5'),
-            ))
+                )
+            )
             ->setDescription('Show where you are in the code.')
             ->setHelp(
                 <<<'HELP'

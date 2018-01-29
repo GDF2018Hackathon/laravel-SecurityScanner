@@ -13,21 +13,21 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
     {
         $this->cache = new Swift_KeyCache_ArrayKeyCache(
             new Swift_KeyCache_SimpleKeyCacheInputStream()
-            );
+        );
         $factory = new Swift_CharacterReaderFactory_SimpleCharacterReaderFactory();
         $this->contentEncoder = new Swift_Mime_ContentEncoder_Base64ContentEncoder();
 
         $headerEncoder = new Swift_Mime_HeaderEncoder_QpHeaderEncoder(
             new Swift_CharacterStream_ArrayCharacterStream($factory, 'utf-8')
-            );
+        );
         $paramEncoder = new Swift_Encoder_Rfc2231Encoder(
             new Swift_CharacterStream_ArrayCharacterStream($factory, 'utf-8')
-            );
+        );
         $this->emailValidator = new EmailValidator();
         $this->idGenerator = new Swift_Mime_IdGenerator('example.com');
         $this->headers = new Swift_Mime_SimpleHeaderSet(
             new Swift_Mime_SimpleHeaderFactory($headerEncoder, $paramEncoder, $this->emailValidator)
-            );
+        );
     }
 
     public function testContentIdIsSetInHeader()
@@ -41,7 +41,7 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
             'Content-ID: <foo@bar>'."\r\n".
             'Content-Disposition: inline'."\r\n",
             $file->toString()
-            );
+        );
     }
 
     public function testDispositionIsSetInHeader()
@@ -56,7 +56,7 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
             'Content-ID: <'.$id.'>'."\r\n".
             'Content-Disposition: attachment'."\r\n",
             $file->toString()
-            );
+        );
     }
 
     public function testFilenameIsSetInHeader()
@@ -71,7 +71,7 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
             'Content-ID: <'.$id.'>'."\r\n".
             'Content-Disposition: inline; filename=foo.pdf'."\r\n",
             $file->toString()
-            );
+        );
     }
 
     public function testSizeIsSetInHeader()
@@ -86,7 +86,7 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
             'Content-ID: <'.$id.'>'."\r\n".
             'Content-Disposition: inline; size=12340'."\r\n",
             $file->toString()
-            );
+        );
     }
 
     public function testMultipleParametersInHeader()
@@ -103,7 +103,7 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
             'Content-ID: <'.$id.'>'."\r\n".
             'Content-Disposition: inline; filename=foo.pdf; size=12340'."\r\n",
             $file->toString()
-            );
+        );
     }
 
     public function testEndToEnd()
@@ -122,7 +122,7 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
             "\r\n".
             base64_encode('abcd'),
             $file->toString()
-            );
+        );
     }
 
     protected function createEmbeddedFile()
@@ -132,7 +132,7 @@ class Swift_Mime_EmbeddedFileAcceptanceTest extends \PHPUnit\Framework\TestCase
             $this->contentEncoder,
             $this->cache,
             $this->idGenerator
-            );
+        );
 
         return $entity;
     }

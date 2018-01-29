@@ -15,10 +15,14 @@
  */
 interface Swift_Plugins_Reporter
 {
-    /** The recipient was accepted for delivery */
+    /**
+ * The recipient was accepted for delivery 
+*/
     const RESULT_PASS = 0x01;
 
-    /** The recipient could not be accepted */
+    /**
+ * The recipient could not be accepted 
+*/
     const RESULT_FAIL = 0x10;
 
     /**

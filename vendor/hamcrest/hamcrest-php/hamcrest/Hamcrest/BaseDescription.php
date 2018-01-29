@@ -106,24 +106,24 @@ abstract class BaseDescription implements Description
         $str = '"';
         for ($i = 0, $len = strlen($value); $i < $len; ++$i) {
             switch ($value[$i]) {
-                case '"':
-                    $str .= '\\"';
-                    break;
+            case '"':
+                $str .= '\\"';
+                break;
 
-                case "\t":
-                    $str .= '\\t';
-                    break;
+            case "\t":
+                $str .= '\\t';
+                break;
 
-                case "\r":
-                    $str .= '\\r';
-                    break;
+            case "\r":
+                $str .= '\\r';
+                break;
 
-                case "\n":
-                    $str .= '\\n';
-                    break;
+            case "\n":
+                $str .= '\\n';
+                break;
 
-                default:
-                    $str .= $value[$i];
+            default:
+                $str .= $value[$i];
             }
         }
         $str .= '"';

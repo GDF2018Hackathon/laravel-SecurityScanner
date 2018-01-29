@@ -776,17 +776,19 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
             $result->convertErrorsToExceptions($this->useErrorHandler);
         }
 
-        if (!$this instanceof WarningTestCase &&
-            !$this instanceof SkippedTestCase &&
-            !$this->handleDependencies()) {
+        if (!$this instanceof WarningTestCase 
+            && !$this instanceof SkippedTestCase 
+            && !$this->handleDependencies()
+        ) {
             return;
         }
 
         $runEntireClass =  $this->runClassInSeparateProcess && !$this->runTestInSeparateProcess;
 
-        if (($this->runTestInSeparateProcess === true || $this->runClassInSeparateProcess === true) &&
-            $this->inIsolation !== true &&
-            !$this instanceof PhptTestCase) {
+        if (($this->runTestInSeparateProcess === true || $this->runClassInSeparateProcess === true) 
+            && $this->inIsolation !== true 
+            && !$this instanceof PhptTestCase
+        ) {
             $class = new ReflectionClass($this);
 
             if ($runEntireClass) {
@@ -1195,7 +1197,7 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
     /**
      * Sets the name of a TestCase.
      *
-     * @param  string
+     * @param string
      */
     public function setName($name)
     {
@@ -1259,8 +1261,9 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
      */
     public function setBackupStaticAttributes($backupStaticAttributes)
     {
-        if (null === $this->backupStaticAttributes &&
-            \is_bool($backupStaticAttributes)) {
+        if (null === $this->backupStaticAttributes 
+            && \is_bool($backupStaticAttributes)
+        ) {
             $this->backupStaticAttributes = $backupStaticAttributes;
         }
     }
@@ -1490,11 +1493,11 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
     protected function createMock($originalClassName)
     {
         return $this->getMockBuilder($originalClassName)
-                    ->disableOriginalConstructor()
-                    ->disableOriginalClone()
-                    ->disableArgumentCloning()
-                    ->disallowMockingUnknownTypes()
-                    ->getMock();
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->getMock();
     }
 
     /**
@@ -1531,12 +1534,12 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
     protected function createPartialMock($originalClassName, array $methods)
     {
         return $this->getMockBuilder($originalClassName)
-                    ->disableOriginalConstructor()
-                    ->disableOriginalClone()
-                    ->disableArgumentCloning()
-                    ->disallowMockingUnknownTypes()
-                    ->setMethods(empty($methods) ? null : $methods)
-                    ->getMock();
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setMethods(empty($methods) ? null : $methods)
+            ->getMock();
     }
 
     /**
@@ -1552,9 +1555,9 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
     protected function createTestProxy($originalClassName, array $constructorArguments = [])
     {
         return $this->getMockBuilder($originalClassName)
-                    ->setConstructorArgs($constructorArguments)
-                    ->enableProxyingToOriginalMethods()
-                    ->getMock();
+            ->setConstructorArgs($constructorArguments)
+            ->enableProxyingToOriginalMethods()
+            ->getMock();
     }
 
     /**
@@ -2071,9 +2074,10 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
                 }
 
                 if (isset($passed[$dependency])) {
-                    if ($passed[$dependency]['size'] != \PHPUnit\Util\Test::UNKNOWN &&
-                        $this->getSize() != \PHPUnit\Util\Test::UNKNOWN &&
-                        $passed[$dependency]['size'] > $this->getSize()) {
+                    if ($passed[$dependency]['size'] != \PHPUnit\Util\Test::UNKNOWN 
+                        && $this->getSize() != \PHPUnit\Util\Test::UNKNOWN 
+                        && $passed[$dependency]['size'] > $this->getSize()
+                    ) {
                         $this->result->addError(
                             $this,
                             new SkippedTestError(
@@ -2228,9 +2232,10 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
 
     private function snapshotGlobalState()
     {
-        if ($this->runTestInSeparateProcess ||
-            $this->inIsolation ||
-            (!$this->backupGlobals === true && !$this->backupStaticAttributes)) {
+        if ($this->runTestInSeparateProcess 
+            || $this->inIsolation 
+            || (!$this->backupGlobals === true && !$this->backupStaticAttributes)
+        ) {
             return;
         }
 
@@ -2470,8 +2475,9 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
             return false;
         }
 
-        if ($reflector->hasMethod('__clone') &&
-            $reflector->getMethod('__clone')->isPublic()) {
+        if ($reflector->hasMethod('__clone') 
+            && $reflector->getMethod('__clone')->isPublic()
+        ) {
             return true;
         }
 
@@ -2522,9 +2528,10 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
         if (\is_string($this->expectedException)) {
             $reflector = new ReflectionClass($this->expectedException);
 
-            if ($this->expectedException === 'PHPUnit\Framework\Exception' ||
-                $this->expectedException === '\PHPUnit\Framework\Exception' ||
-                $reflector->isSubclassOf('PHPUnit\Framework\Exception')) {
+            if ($this->expectedException === 'PHPUnit\Framework\Exception' 
+                || $this->expectedException === '\PHPUnit\Framework\Exception' 
+                || $reflector->isSubclassOf('PHPUnit\Framework\Exception')
+            ) {
                 $result = true;
             }
         }

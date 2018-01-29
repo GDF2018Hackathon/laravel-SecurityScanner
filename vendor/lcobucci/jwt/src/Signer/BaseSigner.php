@@ -14,7 +14,7 @@ use Lcobucci\JWT\Signer;
  * Base class for signers
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  */
 abstract class BaseSigner implements Signer
 {
@@ -60,7 +60,7 @@ abstract class BaseSigner implements Signer
      * Creates a hash with the given data
      *
      * @param string $payload
-     * @param Key $key
+     * @param Key    $key
      *
      * @return string
      */
@@ -70,7 +70,7 @@ abstract class BaseSigner implements Signer
      * Creates a hash with the given data
      *
      * @param string $payload
-     * @param Key $key
+     * @param Key    $key
      *
      * @return boolean
      */

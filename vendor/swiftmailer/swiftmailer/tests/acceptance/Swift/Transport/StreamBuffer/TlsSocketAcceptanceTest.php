@@ -10,13 +10,13 @@ class Swift_Transport_StreamBuffer_TlsSocketAcceptanceTest extends Swift_Transpo
         if (!in_array('tls', $streams)) {
             $this->markTestSkipped(
                 'TLS is not configured for your system.  It is not possible to run this test'
-             );
+            );
         }
         if (!defined('SWIFT_TLS_HOST')) {
             $this->markTestSkipped(
                 'Cannot run test without a TLS enabled SMTP host to connect to (define '.
                 'SWIFT_TLS_HOST in tests/acceptance.conf.php if you wish to run this test)'
-             );
+            );
         }
         parent::setUp();
     }
@@ -27,13 +27,15 @@ class Swift_Transport_StreamBuffer_TlsSocketAcceptanceTest extends Swift_Transpo
         $host = $parts[0];
         $port = isset($parts[1]) ? $parts[1] : 25;
 
-        $this->buffer->initialize(array(
+        $this->buffer->initialize(
+            array(
             'type' => Swift_Transport_IoBuffer::TYPE_SOCKET,
             'host' => $host,
             'port' => $port,
             'protocol' => 'tls',
             'blocking' => 1,
             'timeout' => 15,
-            ));
+            )
+        );
     }
 }

@@ -17,19 +17,29 @@ use Egulias\EmailValidator\EmailValidator;
  */
 class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_CharsetObserver
 {
-    /** The HeaderEncoder used by these headers */
+    /**
+     * The HeaderEncoder used by these headers 
+     */
     private $encoder;
 
-    /** The Encoder used by parameters */
+    /**
+     * The Encoder used by parameters 
+     */
     private $paramEncoder;
 
-    /** The Grammar */
+    /**
+     * The Grammar 
+     */
     private $grammar;
 
-    /** Strict EmailValidator */
+    /**
+     * Strict EmailValidator 
+     */
     private $emailValidator;
 
-    /** The charset of created Headers */
+    /**
+     * The charset of created Headers 
+     */
     private $charset;
 
     /**
@@ -187,7 +197,9 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_CharsetObserver
         $this->paramEncoder = clone $this->paramEncoder;
     }
 
-    /** Apply the charset to the Header */
+    /**
+     * Apply the charset to the Header 
+     */
     private function setHeaderCharset(Swift_Mime_Header $header)
     {
         if (isset($this->charset)) {

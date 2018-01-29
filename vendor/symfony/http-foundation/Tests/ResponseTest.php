@@ -932,12 +932,16 @@ class ResponseTest extends ResponseTestCase
 
         $ianaHttpStatusCodes = new \DOMDocument();
 
-        libxml_set_streams_context(stream_context_create(array(
-            'http' => array(
+        libxml_set_streams_context(
+            stream_context_create(
+                array(
+                'http' => array(
                 'method' => 'GET',
                 'timeout' => 30,
-            ),
-        )));
+                ),
+                )
+            )
+        );
 
         $ianaHttpStatusCodes->load('https://www.iana.org/assignments/http-status-codes/http-status-codes.xml');
         if (!$ianaHttpStatusCodes->relaxNGValidate(__DIR__.'/schema/http-status-codes.rng')) {

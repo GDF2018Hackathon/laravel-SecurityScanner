@@ -71,10 +71,10 @@ class Rijndael extends Base
      * or not for the current $block_size/$key_length.
      * In case of, $cipher_name_mcrypt will be set dynamically at run time accordingly.
      *
-     * @see \phpseclib\Crypt\Base::cipher_name_mcrypt
-     * @see \phpseclib\Crypt\Base::engine
-     * @see self::isValidEngine()
-     * @var string
+     * @see    \phpseclib\Crypt\Base::cipher_name_mcrypt
+     * @see    \phpseclib\Crypt\Base::engine
+     * @see    self::isValidEngine()
+     * @var    string
      * @access private
      */
     var $cipher_name_mcrypt = 'rijndael-128';
@@ -82,9 +82,9 @@ class Rijndael extends Base
     /**
      * The default salt used by setPassword()
      *
-     * @see \phpseclib\Crypt\Base::password_default_salt
-     * @see \phpseclib\Crypt\Base::setPassword()
-     * @var string
+     * @see    \phpseclib\Crypt\Base::password_default_salt
+     * @see    \phpseclib\Crypt\Base::setPassword()
+     * @var    string
      * @access private
      */
     var $password_default_salt = 'phpseclib';
@@ -92,8 +92,8 @@ class Rijndael extends Base
     /**
      * The Key Schedule
      *
-     * @see self::_setup()
-     * @var array
+     * @see    self::_setup()
+     * @var    array
      * @access private
      */
     var $w;
@@ -101,8 +101,8 @@ class Rijndael extends Base
     /**
      * The Inverse Key Schedule
      *
-     * @see self::_setup()
-     * @var array
+     * @see    self::_setup()
+     * @var    array
      * @access private
      */
     var $dw;
@@ -110,9 +110,9 @@ class Rijndael extends Base
     /**
      * The Block Length divided by 32
      *
-     * @see self::setBlockLength()
-     * @var int
-     * @access private
+     * @see      self::setBlockLength()
+     * @var      int
+     * @access   private
      * @internal The max value is 256 / 32 = 8, the min value is 128 / 32 = 4.  Exists in conjunction with $block_size
      *    because the encryption / decryption / key schedule creation requires this number and not $block_size.  We could
      *    derive this from $block_size or vice versa, but that'd mean we'd have to do multiple shift operations, so in lieu
@@ -123,9 +123,9 @@ class Rijndael extends Base
     /**
      * The Key Length (in bytes)
      *
-     * @see self::setKeyLength()
-     * @var int
-     * @access private
+     * @see      self::setKeyLength()
+     * @var      int
+     * @access   private
      * @internal The max value is 256 / 8 = 32, the min value is 128 / 8 = 16.  Exists in conjunction with $Nk
      *    because the encryption / decryption / key schedule creation requires this number and not $key_length.  We could
      *    derive this from $key_length or vice versa, but that'd mean we'd have to do multiple shift operations, so in lieu
@@ -136,9 +136,9 @@ class Rijndael extends Base
     /**
      * The Key Length divided by 32
      *
-     * @see self::setKeyLength()
-     * @var int
-     * @access private
+     * @see      self::setKeyLength()
+     * @var      int
+     * @access   private
      * @internal The max value is 256 / 32 = 8, the min value is 128 / 32 = 4
      */
     var $Nk = 4;
@@ -146,8 +146,8 @@ class Rijndael extends Base
     /**
      * The Number of Rounds
      *
-     * @var int
-     * @access private
+     * @var      int
+     * @access   private
      * @internal The max value is 14, the min value is 10.
      */
     var $Nr;
@@ -155,7 +155,7 @@ class Rijndael extends Base
     /**
      * Shift offsets
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $c;
@@ -163,7 +163,7 @@ class Rijndael extends Base
     /**
      * Holds the last used key- and block_size information
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $kl;
@@ -186,25 +186,25 @@ class Rijndael extends Base
      *             This results then in slower encryption.
      *
      * @access public
-     * @param int $length
+     * @param  int $length
      */
     function setKeyLength($length)
     {
         switch (true) {
-            case $length <= 128:
-                $this->key_length = 16;
-                break;
-            case $length <= 160:
-                $this->key_length = 20;
-                break;
-            case $length <= 192:
-                $this->key_length = 24;
-                break;
-            case $length <= 224:
-                $this->key_length = 28;
-                break;
-            default:
-                $this->key_length = 32;
+        case $length <= 128:
+            $this->key_length = 16;
+            break;
+        case $length <= 160:
+            $this->key_length = 20;
+            break;
+        case $length <= 192:
+            $this->key_length = 24;
+            break;
+        case $length <= 224:
+            $this->key_length = 28;
+            break;
+        default:
+            $this->key_length = 32;
         }
 
         parent::setKeyLength($length);
@@ -217,7 +217,7 @@ class Rijndael extends Base
      * 128.  If the length is greater than 128 and invalid, it will be rounded down to the closest valid amount.
      *
      * @access public
-     * @param int $length
+     * @param  int $length
      */
     function setBlockLength($length)
     {
@@ -238,27 +238,27 @@ class Rijndael extends Base
      *
      * This is mainly just a wrapper to set things up for \phpseclib\Crypt\Base::isValidEngine()
      *
-     * @see \phpseclib\Crypt\Base::__construct()
-     * @param int $engine
+     * @see    \phpseclib\Crypt\Base::__construct()
+     * @param  int $engine
      * @access public
      * @return bool
      */
     function isValidEngine($engine)
     {
         switch ($engine) {
-            case self::ENGINE_OPENSSL:
-                if ($this->block_size != 16) {
-                    return false;
-                }
-                $this->cipher_name_openssl_ecb = 'aes-' . ($this->key_length << 3) . '-ecb';
-                $this->cipher_name_openssl = 'aes-' . ($this->key_length << 3) . '-' . $this->_openssl_translate_mode();
-                break;
-            case self::ENGINE_MCRYPT:
-                $this->cipher_name_mcrypt = 'rijndael-' . ($this->block_size << 3);
-                if ($this->key_length % 8) { // is it a 160/224-bit key?
-                    // mcrypt is not usable for them, only for 128/192/256-bit keys
-                    return false;
-                }
+        case self::ENGINE_OPENSSL:
+            if ($this->block_size != 16) {
+                return false;
+            }
+            $this->cipher_name_openssl_ecb = 'aes-' . ($this->key_length << 3) . '-ecb';
+            $this->cipher_name_openssl = 'aes-' . ($this->key_length << 3) . '-' . $this->_openssl_translate_mode();
+            break;
+        case self::ENGINE_MCRYPT:
+            $this->cipher_name_mcrypt = 'rijndael-' . ($this->block_size << 3);
+            if ($this->key_length % 8) { // is it a 160/224-bit key?
+                // mcrypt is not usable for them, only for 128/192/256-bit keys
+                return false;
+            }
         }
 
         return parent::isValidEngine($engine);
@@ -268,7 +268,7 @@ class Rijndael extends Base
      * Encrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _encryptBlock($in)
@@ -352,16 +352,16 @@ class Rijndael extends Base
         }
 
         switch ($Nb) {
-            case 8:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6], $temp[7]);
-            case 7:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6]);
-            case 6:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]);
-            case 5:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4]);
-            default:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3]);
+        case 8:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6], $temp[7]);
+        case 7:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6]);
+        case 6:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]);
+        case 5:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4]);
+        default:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3]);
         }
     }
 
@@ -369,7 +369,7 @@ class Rijndael extends Base
      * Decrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _decryptBlock($in)
@@ -442,23 +442,23 @@ class Rijndael extends Base
         }
 
         switch ($Nb) {
-            case 8:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6], $temp[7]);
-            case 7:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6]);
-            case 6:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]);
-            case 5:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4]);
-            default:
-                return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3]);
+        case 8:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6], $temp[7]);
+        case 7:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5], $temp[6]);
+        case 6:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]);
+        case 5:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3], $temp[4]);
+        default:
+            return pack('N*', $temp[0], $temp[1], $temp[2], $temp[3]);
         }
     }
 
     /**
      * Setup the key (expansion)
      *
-     * @see \phpseclib\Crypt\Base::_setupKey()
+     * @see    \phpseclib\Crypt\Base::_setupKey()
      * @access private
      */
     function _setupKey()
@@ -489,16 +489,16 @@ class Rijndael extends Base
         // shift offsets for Nb = 4, 6, 8 are defined in Rijndael-ammended.pdf#page=14,
         //     "Table 2: Shift offsets for different block lengths"
         switch ($this->Nb) {
-            case 4:
-            case 5:
-            case 6:
-                $this->c = array(0, 1, 2, 3);
-                break;
-            case 7:
-                $this->c = array(0, 1, 2, 4);
-                break;
-            case 8:
-                $this->c = array(0, 1, 3, 4);
+        case 4:
+        case 5:
+        case 6:
+            $this->c = array(0, 1, 2, 3);
+            break;
+        case 7:
+            $this->c = array(0, 1, 2, 4);
+            break;
+        case 8:
+            $this->c = array(0, 1, 3, 4);
         }
 
         $w = array_values(unpack('N*words', $this->key));
@@ -572,7 +572,7 @@ class Rijndael extends Base
      * Performs S-Box substitutions
      *
      * @access private
-     * @param int $word
+     * @param  int $word
      */
     function _subWord($word)
     {
@@ -590,9 +590,9 @@ class Rijndael extends Base
     /**
      * Provides the mixColumns and sboxes tables
      *
-     * @see self::_encryptBlock()
-     * @see self::_setupInlineCrypt()
-     * @see self::_subWord()
+     * @see    self::_encryptBlock()
+     * @see    self::_setupInlineCrypt()
+     * @see    self::_subWord()
      * @access private
      * @return array &$tables
      */
@@ -603,7 +603,8 @@ class Rijndael extends Base
             // according to <http://csrc.nist.gov/archive/aes/rijndael/Rijndael-ammended.pdf#page=19> (section 5.2.1),
             // precomputed tables can be used in the mixColumns phase. in that example, they're assigned t0...t3, so
             // those are the names we'll use.
-            $t3 = array_map('intval', array(
+            $t3 = array_map(
+                'intval', array(
                 // with array_map('intval', ...) we ensure we have only int's and not
                 // some slower floats converted by php automatically on high values
                 0x6363A5C6, 0x7C7C84F8, 0x777799EE, 0x7B7B8DF6, 0xF2F20DFF, 0x6B6BBDD6, 0x6F6FB1DE, 0xC5C55491,
@@ -638,7 +639,8 @@ class Rijndael extends Base
                 0x9B9BB62D, 0x1E1E223C, 0x87879215, 0xE9E920C9, 0xCECE4987, 0x5555FFAA, 0x28287850, 0xDFDF7AA5,
                 0x8C8C8F03, 0xA1A1F859, 0x89898009, 0x0D0D171A, 0xBFBFDA65, 0xE6E631D7, 0x4242C684, 0x6868B8D0,
                 0x4141C382, 0x9999B029, 0x2D2D775A, 0x0F0F111E, 0xB0B0CB7B, 0x5454FCA8, 0xBBBBD66D, 0x16163A2C
-            ));
+                )
+            );
 
             foreach ($t3 as $t3i) {
                 $t0[] = (($t3i << 24) & 0xFF000000) | (($t3i >>  8) & 0x00FFFFFF);
@@ -679,9 +681,9 @@ class Rijndael extends Base
     /**
      * Provides the inverse mixColumns and inverse sboxes tables
      *
-     * @see self::_decryptBlock()
-     * @see self::_setupInlineCrypt()
-     * @see self::_setupKey()
+     * @see    self::_decryptBlock()
+     * @see    self::_setupInlineCrypt()
+     * @see    self::_setupKey()
      * @access private
      * @return array &$tables
      */
@@ -689,7 +691,8 @@ class Rijndael extends Base
     {
         static $tables;
         if (empty($tables)) {
-            $dt3 = array_map('intval', array(
+            $dt3 = array_map(
+                'intval', array(
                 0xF4A75051, 0x4165537E, 0x17A4C31A, 0x275E963A, 0xAB6BCB3B, 0x9D45F11F, 0xFA58ABAC, 0xE303934B,
                 0x30FA5520, 0x766DF6AD, 0xCC769188, 0x024C25F5, 0xE5D7FC4F, 0x2ACBD7C5, 0x35448026, 0x62A38FB5,
                 0xB15A49DE, 0xBA1B6725, 0xEA0E9845, 0xFEC0E15D, 0x2F7502C3, 0x4CF01281, 0x4697A38D, 0xD3F9C66B,
@@ -722,7 +725,8 @@ class Rijndael extends Base
                 0xD2DF599C, 0xF2733F55, 0x14CE7918, 0xC737BF73, 0xF7CDEA53, 0xFDAA5B5F, 0x3D6F14DF, 0x44DB8678,
                 0xAFF381CA, 0x68C43EB9, 0x24342C38, 0xA3405FC2, 0x1DC37216, 0xE2250CBC, 0x3C498B28, 0x0D9541FF,
                 0xA8017139, 0x0CB3DE08, 0xB4E49CD8, 0x56C19064, 0xCB84617B, 0x32B670D5, 0x6C5C7448, 0xB85742D0
-            ));
+                )
+            );
 
             foreach ($dt3 as $dt3i) {
                 $dt0[] = (($dt3i << 24) & 0xFF000000) | (($dt3i >>  8) & 0x00FFFFFF);
@@ -763,7 +767,7 @@ class Rijndael extends Base
     /**
      * Setup the performance-optimized function for de/encrypt()
      *
-     * @see \phpseclib\Crypt\Base::_setupInlineCrypt()
+     * @see    \phpseclib\Crypt\Base::_setupInlineCrypt()
      * @access private
      */
     function _setupInlineCrypt()
@@ -787,20 +791,20 @@ class Rijndael extends Base
 
         if (!isset($lambda_functions[$code_hash])) {
             switch (true) {
-                case $gen_hi_opt_code:
-                    // The hi-optimized $lambda_functions will use the key-words hardcoded for better performance.
-                    $w  = $this->w;
-                    $dw = $this->dw;
-                    $init_encrypt = '';
-                    $init_decrypt = '';
-                    break;
-                default:
-                    for ($i = 0, $cw = count($this->w); $i < $cw; ++$i) {
-                        $w[]  = '$w['  . $i . ']';
-                        $dw[] = '$dw[' . $i . ']';
-                    }
-                    $init_encrypt = '$w  = $self->w;';
-                    $init_decrypt = '$dw = $self->dw;';
+            case $gen_hi_opt_code:
+                // The hi-optimized $lambda_functions will use the key-words hardcoded for better performance.
+                $w  = $this->w;
+                $dw = $this->dw;
+                $init_encrypt = '';
+                $init_decrypt = '';
+                break;
+            default:
+                for ($i = 0, $cw = count($this->w); $i < $cw; ++$i) {
+                    $w[]  = '$w['  . $i . ']';
+                    $dw[] = '$dw[' . $i . ']';
+                }
+                $init_encrypt = '$w  = $self->w;';
+                $init_decrypt = '$dw = $self->dw;';
             }
 
             $Nr = $this->Nr;

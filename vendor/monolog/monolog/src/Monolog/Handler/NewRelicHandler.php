@@ -130,7 +130,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      * Returns the appname where this log should be sent. Each log can override the default appname, set in this
      * handler's constructor, by providing the appname in it's context.
      *
-     * @param  array       $context
+     * @param  array $context
      * @return null|string
      */
     protected function getAppName(array $context)

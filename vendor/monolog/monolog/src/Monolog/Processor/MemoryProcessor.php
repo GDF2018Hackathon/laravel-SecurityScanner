@@ -41,7 +41,7 @@ abstract class MemoryProcessor
     /**
      * Formats bytes into a human readable string if $this->useFormatting is true, otherwise return $bytes as is
      *
-     * @param  int        $bytes
+     * @param  int $bytes
      * @return string|int Formatted string if $this->useFormatting is true, otherwise return $bytes as is
      */
     protected function formatBytes($bytes)

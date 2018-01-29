@@ -156,9 +156,11 @@ class ConfigPaths
 
     private static function getDirNames(array $baseDirs)
     {
-        $dirs = array_map(function ($dir) {
-            return strtr($dir, '\\', '/') . '/psysh';
-        }, $baseDirs);
+        $dirs = array_map(
+            function ($dir) {
+                return strtr($dir, '\\', '/') . '/psysh';
+            }, $baseDirs
+        );
 
         // Add ~/.psysh
         if ($home = getenv('HOME')) {

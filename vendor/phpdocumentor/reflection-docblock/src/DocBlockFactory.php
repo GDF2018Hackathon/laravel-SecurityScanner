@@ -20,10 +20,14 @@ use Webmozart\Assert\Assert;
 
 final class DocBlockFactory implements DocBlockFactoryInterface
 {
-    /** @var DocBlock\DescriptionFactory */
+    /**
+     * @var DocBlock\DescriptionFactory 
+     */
     private $descriptionFactory;
 
-    /** @var DocBlock\TagFactory */
+    /**
+     * @var DocBlock\TagFactory 
+     */
     private $tagFactory;
 
     /**
@@ -93,9 +97,11 @@ final class DocBlockFactory implements DocBlockFactoryInterface
         return new DocBlock(
             $summary,
             $description ? $this->descriptionFactory->create($description, $context) : null,
-            array_filter($this->parseTagBlock($tags, $context), function ($tag) {
-                return $tag instanceof Tag;
-            }),
+            array_filter(
+                $this->parseTagBlock($tags, $context), function ($tag) {
+                    return $tag instanceof Tag;
+                }
+            ),
             $context,
             $location,
             $templateMarker === '#@+',
@@ -214,7 +220,7 @@ final class DocBlockFactory implements DocBlockFactoryInterface
     /**
      * Creates the tag objects.
      *
-     * @param string $tags Tag block to parse.
+     * @param string        $tags    Tag block to parse.
      * @param Types\Context $context Context of the parsed Tag
      *
      * @return DocBlock\Tag[]

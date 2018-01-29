@@ -70,10 +70,12 @@ class Swift_Bug51Test extends \SwiftMailerTestCase
         if (false === $attachmentDataEnd) {
             $attachmentBase64 = trim(substr($source, $attachmentDataStart));
         } else {
-            $attachmentBase64 = trim(substr(
-                $source, $attachmentDataStart,
-                $attachmentDataEnd - $attachmentDataStart
-            ));
+            $attachmentBase64 = trim(
+                substr(
+                    $source, $attachmentDataStart,
+                    $attachmentDataEnd - $attachmentDataStart
+                )
+            );
         }
 
         $this->assertIdenticalBinary($attachmentData, base64_decode($attachmentBase64));
@@ -102,8 +104,7 @@ class Swift_Bug51Test extends \SwiftMailerTestCase
             ->setBody('test')
             ->setFrom('a@b.c')
             ->setTo('d@e.f')
-            ->attach(Swift_Attachment::fromPath($attachmentPath))
-            ;
+            ->attach(Swift_Attachment::fromPath($attachmentPath));
 
         return $message;
     }

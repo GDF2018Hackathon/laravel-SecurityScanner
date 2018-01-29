@@ -15,10 +15,14 @@
  */
 class Swift_Events_EventObject implements Swift_Events_Event
 {
-    /** The source of this Event */
+    /**
+     * The source of this Event 
+     */
     private $source;
 
-    /** The state of this Event (should it bubble up the stack?) */
+    /**
+     * The state of this Event (should it bubble up the stack?) 
+     */
     private $bubbleCancelled = false;
 
     /**

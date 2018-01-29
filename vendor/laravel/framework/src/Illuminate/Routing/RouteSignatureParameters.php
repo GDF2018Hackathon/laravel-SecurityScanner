@@ -12,7 +12,7 @@ class RouteSignatureParameters
      * Extract the route action's signature parameters.
      *
      * @param  array  $action
-     * @param  string  $subClass
+     * @param  string $subClass
      * @return array
      */
     public static function fromAction(array $action, $subClass = null)
@@ -21,15 +21,17 @@ class RouteSignatureParameters
                         ? static::fromClassMethodString($action['uses'])
                         : (new ReflectionFunction($action['uses']))->getParameters();
 
-        return is_null($subClass) ? $parameters : array_filter($parameters, function ($p) use ($subClass) {
-            return $p->getClass() && $p->getClass()->isSubclassOf($subClass);
-        });
+        return is_null($subClass) ? $parameters : array_filter(
+            $parameters, function ($p) use ($subClass) {
+                return $p->getClass() && $p->getClass()->isSubclassOf($subClass);
+            }
+        );
     }
 
     /**
      * Get the parameters for the given class / method by string.
      *
-     * @param  string  $uses
+     * @param  string $uses
      * @return array
      */
     protected static function fromClassMethodString($uses)

@@ -42,8 +42,8 @@ interface Matcher extends SelfDescribing
          * This method assumes that <code>matches($item)</code> is false, but
          * will not check this.
          *
-         * @param mixed $item The item that the Matcher has rejected.
-         * @param Description $description
+         * @param  mixed       $item        The item that the Matcher has rejected.
+         * @param  Description $description
          * @return
          */
     public function describeMismatch($item, Description $description);

@@ -21,7 +21,8 @@ class Swift_Encoder_Rfc2231EncoderAcceptanceTest extends \PHPUnit\Framework\Test
 
             $encoding = $encodingDir;
             $charStream = new Swift_CharacterStream_ArrayCharacterStream(
-                $this->factory, $encoding);
+                $this->factory, $encoding
+            );
             $encoder = new Swift_Encoder_Rfc2231Encoder($charStream);
 
             $sampleDir = $this->samplesDir.'/'.$encodingDir;
@@ -40,7 +41,7 @@ class Swift_Encoder_Rfc2231EncoderAcceptanceTest extends \PHPUnit\Framework\Test
                         urldecode(implode('', explode("\r\n", $encodedText))), $text,
                         '%s: Encoded string should decode back to original string for sample '.
                         $sampleDir.'/'.$sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }

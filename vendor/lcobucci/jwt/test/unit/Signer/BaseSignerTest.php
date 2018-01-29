@@ -28,7 +28,7 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
         $this->signer = $this->getMockForAbstractClass(BaseSigner::class);
 
         $this->signer->method('getAlgorithmId')
-                     ->willReturn('TEST123');
+            ->willReturn('TEST123');
     }
 
     /**
@@ -60,9 +60,9 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
         $key = new Key('123');
 
         $this->signer->expects($this->once())
-                     ->method('createHash')
-                     ->with('test', $key)
-                     ->willReturn('test');
+            ->method('createHash')
+            ->with('test', $key)
+            ->willReturn('test');
 
         $this->assertEquals(new Signature('test'), $this->signer->sign('test', $key));
     }
@@ -79,9 +79,9 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     public function signShouldConvertKeyWhenItsNotAnObject()
     {
         $this->signer->expects($this->once())
-                     ->method('createHash')
-                     ->with('test', new Key('123'))
-                     ->willReturn('test');
+            ->method('createHash')
+            ->with('test', new Key('123'))
+            ->willReturn('test');
 
         $this->assertEquals(new Signature('test'), $this->signer->sign('test', '123'));
     }
@@ -100,9 +100,9 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
         $key = new Key('123');
 
         $this->signer->expects($this->once())
-                     ->method('doVerify')
-                     ->with('test', 'test', $key)
-                     ->willReturn(true);
+            ->method('doVerify')
+            ->with('test', 'test', $key)
+            ->willReturn(true);
 
         $this->assertTrue($this->signer->verify('test', 'test', $key));
     }
@@ -119,9 +119,9 @@ class BaseSignerTest extends \PHPUnit_Framework_TestCase
     public function verifyShouldConvertKeyWhenItsNotAnObject()
     {
         $this->signer->expects($this->once())
-                     ->method('doVerify')
-                     ->with('test', 'test', new Key('123'))
-                     ->willReturn(true);
+            ->method('doVerify')
+            ->with('test', 'test', new Key('123'))
+            ->willReturn(true);
 
         $this->assertTrue($this->signer->verify('test', 'test', '123'));
     }

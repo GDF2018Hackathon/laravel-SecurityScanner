@@ -17,14 +17,16 @@ trait DatabaseTransactions
             $database->connection($name)->beginTransaction();
         }
 
-        $this->beforeApplicationDestroyed(function () use ($database) {
-            foreach ($this->connectionsToTransact() as $name) {
-                $connection = $database->connection($name);
+        $this->beforeApplicationDestroyed(
+            function () use ($database) {
+                foreach ($this->connectionsToTransact() as $name) {
+                    $connection = $database->connection($name);
 
-                $connection->rollBack();
-                $connection->disconnect();
+                    $connection->rollBack();
+                    $connection->disconnect();
+                }
             }
-        });
+        );
     }
 
     /**

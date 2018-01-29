@@ -38,7 +38,7 @@ class MigrateCommand extends BaseCommand
     /**
      * Create a new migration command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator  $migrator
+     * @param  \Illuminate\Database\Migrations\Migrator $migrator
      * @return void
      */
     public function __construct(Migrator $migrator)
@@ -64,10 +64,12 @@ class MigrateCommand extends BaseCommand
         // Next, we will check to see if a path option has been defined. If it has
         // we will use the path relative to the root of this installation folder
         // so that migrations may be run for any path within the applications.
-        $this->migrator->run($this->getMigrationPaths(), [
+        $this->migrator->run(
+            $this->getMigrationPaths(), [
             'pretend' => $this->option('pretend'),
             'step' => $this->option('step'),
-        ]);
+            ]
+        );
 
         // Once the migrator has run we will grab the note output and send it out to
         // the console screen, since the migrator itself functions without having

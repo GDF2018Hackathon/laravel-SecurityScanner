@@ -16,7 +16,7 @@ trait CreatesUserProviders
     /**
      * Create the user provider implementation for the driver.
      *
-     * @param  string|null  $provider
+     * @param  string|null $provider
      * @return \Illuminate\Contracts\Auth\UserProvider|null
      *
      * @throws \InvalidArgumentException
@@ -34,21 +34,21 @@ trait CreatesUserProviders
         }
 
         switch ($driver) {
-            case 'database':
-                return $this->createDatabaseProvider($config);
-            case 'eloquent':
-                return $this->createEloquentProvider($config);
-            default:
-                throw new InvalidArgumentException(
-                    "Authentication user provider [{$driver}] is not defined."
-                );
+        case 'database':
+            return $this->createDatabaseProvider($config);
+        case 'eloquent':
+            return $this->createEloquentProvider($config);
+        default:
+            throw new InvalidArgumentException(
+                "Authentication user provider [{$driver}] is not defined."
+            );
         }
     }
 
     /**
      * Get the user provider configuration.
      *
-     * @param  string|null  $provider
+     * @param  string|null $provider
      * @return array|null
      */
     protected function getProviderConfiguration($provider)
@@ -61,7 +61,7 @@ trait CreatesUserProviders
     /**
      * Create an instance of the database user provider.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return \Illuminate\Auth\DatabaseUserProvider
      */
     protected function createDatabaseProvider($config)
@@ -74,7 +74,7 @@ trait CreatesUserProviders
     /**
      * Create an instance of the Eloquent user provider.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return \Illuminate\Auth\EloquentUserProvider
      */
     protected function createEloquentProvider($config)

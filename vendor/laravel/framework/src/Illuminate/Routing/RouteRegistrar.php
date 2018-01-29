@@ -53,7 +53,7 @@ class RouteRegistrar
     /**
      * Create a new route registrar instance.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     public function __construct(Router $router)
@@ -64,7 +64,7 @@ class RouteRegistrar
     /**
      * Set the value for a given attribute.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  mixed  $value
      * @return $this
      *
@@ -84,8 +84,8 @@ class RouteRegistrar
     /**
      * Route a resource to a controller.
      *
-     * @param  string  $name
-     * @param  string  $controller
+     * @param  string $name
+     * @param  string $controller
      * @param  array  $options
      * @return \Illuminate\Routing\PendingResourceRegistration
      */
@@ -97,7 +97,7 @@ class RouteRegistrar
     /**
      * Create a route group with shared attributes.
      *
-     * @param  \Closure|string  $callback
+     * @param  \Closure|string $callback
      * @return void
      */
     public function group($callback)
@@ -108,9 +108,9 @@ class RouteRegistrar
     /**
      * Register a new route with the given verbs.
      *
-     * @param  array|string  $methods
-     * @param  string  $uri
-     * @param  \Closure|array|string|null  $action
+     * @param  array|string               $methods
+     * @param  string                     $uri
+     * @param  \Closure|array|string|null $action
      * @return \Illuminate\Routing\Route
      */
     public function match($methods, $uri, $action = null)
@@ -121,9 +121,9 @@ class RouteRegistrar
     /**
      * Register a new route with the router.
      *
-     * @param  string  $method
-     * @param  string  $uri
-     * @param  \Closure|array|string|null  $action
+     * @param  string                     $method
+     * @param  string                     $uri
+     * @param  \Closure|array|string|null $action
      * @return \Illuminate\Routing\Route
      */
     protected function registerRoute($method, $uri, $action = null)
@@ -138,7 +138,7 @@ class RouteRegistrar
     /**
      * Compile the action into an array including the attributes.
      *
-     * @param  \Closure|array|string|null  $action
+     * @param  \Closure|array|string|null $action
      * @return array
      */
     protected function compileAction($action)
@@ -157,7 +157,7 @@ class RouteRegistrar
     /**
      * Dynamically handle calls into the route registrar.
      *
-     * @param  string  $method
+     * @param  string $method
      * @param  array  $parameters
      * @return \Illuminate\Routing\Route|$this
      */

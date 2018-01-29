@@ -15,17 +15,27 @@ class Class_ extends ClassLike
     const MODIFIER_FINAL     = 32;
 
     const VISIBILITY_MODIFIER_MASK = 7; // 1 | 2 | 4
-    /** @deprecated */
+    /**
+ * @deprecated 
+*/
     const VISIBILITY_MODIFER_MASK = self::VISIBILITY_MODIFIER_MASK;
 
-    /** @var int Type */
+    /**
+     * @var int Type 
+     */
     public $flags;
-    /** @var null|Node\Name Name of extended class */
+    /**
+     * @var null|Node\Name Name of extended class 
+     */
     public $extends;
-    /** @var Node\Name[] Names of implemented interfaces */
+    /**
+     * @var Node\Name[] Names of implemented interfaces 
+     */
     public $implements;
 
-    /** @deprecated Use $flags instead */
+    /**
+     * @deprecated Use $flags instead 
+     */
     public $type;
 
     protected static $specialNames = array(
@@ -45,7 +55,8 @@ class Class_ extends ClassLike
      *                                'stmts'      => array(): Statements
      * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->flags = isset($subNodes['flags']) ? $subNodes['flags']
             : (isset($subNodes['type']) ? $subNodes['type'] : 0);
@@ -56,26 +67,31 @@ class Class_ extends ClassLike
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('flags', 'name', 'extends', 'implements', 'stmts');
     }
 
-    public function isAbstract() {
+    public function isAbstract() 
+    {
         return (bool) ($this->flags & self::MODIFIER_ABSTRACT);
     }
 
-    public function isFinal() {
+    public function isFinal() 
+    {
         return (bool) ($this->flags & self::MODIFIER_FINAL);
     }
 
-    public function isAnonymous() {
+    public function isAnonymous() 
+    {
         return null === $this->name;
     }
 
     /**
      * @internal
      */
-    public static function verifyModifier($a, $b) {
+    public static function verifyModifier($a, $b) 
+    {
         if ($a & self::VISIBILITY_MODIFIER_MASK && $b & self::VISIBILITY_MODIFIER_MASK) {
             throw new Error('Multiple access type modifiers are not allowed');
         }

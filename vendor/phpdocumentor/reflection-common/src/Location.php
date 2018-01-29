@@ -17,10 +17,14 @@ namespace phpDocumentor\Reflection;
  */
 final class Location
 {
-    /** @var int  */
+    /**
+     * @var int  
+     */
     private $lineNumber = 0;
 
-    /** @var int */
+    /**
+     * @var int 
+     */
     private $columnNumber = 0;
 
     /**

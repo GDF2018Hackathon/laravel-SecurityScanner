@@ -37,7 +37,9 @@ use Webmozart\Assert\Assert;
  */
 final class StandardTagFactory implements TagFactory
 {
-    /** PCRE regular expression matching a tag name. */
+    /**
+ * PCRE regular expression matching a tag name. 
+*/
     const REGEX_TAGNAME = '[\w\-\_\\\\]+';
 
     /**
@@ -184,8 +186,8 @@ final class StandardTagFactory implements TagFactory
      * Creates a new tag object with the given name and body or returns null if the tag name was recognized but the
      * body was invalid.
      *
-     * @param string  $body
-     * @param string  $name
+     * @param string      $body
+     * @param string      $name
      * @param TypeContext $context
      *
      * @return Tag|null
@@ -204,7 +206,7 @@ final class StandardTagFactory implements TagFactory
     /**
      * Determines the Fully Qualified Class Name of the Factory or Tag (containing a Factory Method `create`).
      *
-     * @param string  $tagName
+     * @param string      $tagName
      * @param TypeContext $context
      *
      * @return string

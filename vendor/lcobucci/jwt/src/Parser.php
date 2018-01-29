@@ -15,7 +15,7 @@ use Lcobucci\JWT\Parsing\Decoder;
  * This class parses the JWT strings and convert them into tokens
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  */
 class Parser
 {
@@ -36,7 +36,7 @@ class Parser
     /**
      * Initializes the object
      *
-     * @param Decoder $decoder
+     * @param Decoder      $decoder
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
@@ -139,7 +139,7 @@ class Parser
     /**
      * Returns the signature from given data
      *
-     * @param array $header
+     * @param array  $header
      * @param string $data
      *
      * @return Signature

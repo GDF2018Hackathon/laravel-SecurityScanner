@@ -24,36 +24,38 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Send the given notification to the given notifiable entities.
      *
-     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
-     * @param  mixed  $notification
+     * @param  \Illuminate\Support\Collection|array|mixed $notifiables
+     * @param  mixed                                      $notification
      * @return void
      */
     public function send($notifiables, $notification)
     {
         return (new NotificationSender(
-            $this, $this->app->make(Bus::class), $this->app->make(Dispatcher::class))
+            $this, $this->app->make(Bus::class), $this->app->make(Dispatcher::class)
+        )
         )->send($notifiables, $notification);
     }
 
     /**
      * Send the given notification immediately.
      *
-     * @param  \Illuminate\Support\Collection|array|mixed  $notifiables
-     * @param  mixed  $notification
-     * @param  array|null  $channels
+     * @param  \Illuminate\Support\Collection|array|mixed $notifiables
+     * @param  mixed                                      $notification
+     * @param  array|null                                 $channels
      * @return void
      */
     public function sendNow($notifiables, $notification, array $channels = null)
     {
         return (new NotificationSender(
-            $this, $this->app->make(Bus::class), $this->app->make(Dispatcher::class))
+            $this, $this->app->make(Bus::class), $this->app->make(Dispatcher::class)
+        )
         )->sendNow($notifiables, $notification, $channels);
     }
 
     /**
      * Get a channel instance.
      *
-     * @param  string|null  $name
+     * @param  string|null $name
      * @return mixed
      */
     public function channel($name = null)
@@ -99,10 +101,12 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     protected function createNexmoDriver()
     {
         return new Channels\NexmoSmsChannel(
-            new NexmoClient(new NexmoCredentials(
-                $this->app['config']['services.nexmo.key'],
-                $this->app['config']['services.nexmo.secret']
-            )),
+            new NexmoClient(
+                new NexmoCredentials(
+                    $this->app['config']['services.nexmo.key'],
+                    $this->app['config']['services.nexmo.secret']
+                )
+            ),
             $this->app['config']['services.nexmo.sms_from']
         );
     }
@@ -120,7 +124,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Create a new driver instance.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @return mixed
      *
      * @throws \InvalidArgumentException
@@ -161,7 +165,7 @@ class ChannelManager extends Manager implements DispatcherContract, FactoryContr
     /**
      * Set the default channel driver name.
      *
-     * @param  string  $channel
+     * @param  string $channel
      * @return void
      */
     public function deliverVia($channel)

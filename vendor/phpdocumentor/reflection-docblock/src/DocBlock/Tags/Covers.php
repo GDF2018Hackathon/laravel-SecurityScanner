@@ -26,13 +26,15 @@ final class Covers extends BaseTag implements Factory\StaticMethod
 {
     protected $name = 'covers';
 
-    /** @var Fqsen */
+    /**
+     * @var Fqsen 
+     */
     private $refers = null;
 
     /**
      * Initializes this tag.
      *
-     * @param Fqsen $refers
+     * @param Fqsen       $refers
      * @param Description $description
      */
     public function __construct(Fqsen $refers, Description $description = null)

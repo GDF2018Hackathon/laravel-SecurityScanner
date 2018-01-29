@@ -26,7 +26,9 @@ abstract class ShortcutCombination extends BaseMatcher
 
     protected function matchesWithShortcut($item, $shortcut)
     {
-        /** @var $matcher \Hamcrest\Matcher */
+        /**
+ * @var $matcher \Hamcrest\Matcher 
+*/
         foreach ($this->_matchers as $matcher) {
             if ($matcher->matches($item) == $shortcut) {
                 return $shortcut;

@@ -118,11 +118,13 @@ final class Mbstring
         $vars = array(&$a, &$b, &$c, &$d, &$e, &$f);
 
         $ok = true;
-        array_walk_recursive($vars, function (&$v) use (&$ok, $toEncoding, $fromEncoding) {
-            if (false === $v = Mbstring::mb_convert_encoding($v, $toEncoding, $fromEncoding)) {
-                $ok = false;
+        array_walk_recursive(
+            $vars, function (&$v) use (&$ok, $toEncoding, $fromEncoding) {
+                if (false === $v = Mbstring::mb_convert_encoding($v, $toEncoding, $fromEncoding)) {
+                    $ok = false;
+                }
             }
-        });
+        );
 
         return $ok ? $fromEncoding : false;
     }
@@ -235,11 +237,11 @@ final class Mbstring
         }
 
         switch ($lang = strtolower($lang)) {
-            case 'uni':
-            case 'neutral':
-                self::$language = $lang;
+        case 'uni':
+        case 'neutral':
+            self::$language = $lang;
 
-                return true;
+            return true;
         }
 
         return false;
@@ -253,9 +255,9 @@ final class Mbstring
     public static function mb_encoding_aliases($encoding)
     {
         switch (strtoupper($encoding)) {
-            case 'UTF8':
-            case 'UTF-8':
-                return array('utf8');
+        case 'UTF8':
+        case 'UTF-8':
+            return array('utf8');
         }
 
         return false;
@@ -286,23 +288,23 @@ final class Mbstring
 
         foreach ($encodingList as $enc) {
             switch ($enc) {
-                case 'ASCII':
-                    if (!preg_match('/[\x80-\xFF]/', $str)) {
-                        return $enc;
-                    }
-                    break;
+            case 'ASCII':
+                if (!preg_match('/[\x80-\xFF]/', $str)) {
+                    return $enc;
+                }
+                break;
 
-                case 'UTF8':
-                case 'UTF-8':
-                    if (preg_match('//u', $str)) {
-                        return 'UTF-8';
-                    }
-                    break;
+            case 'UTF8':
+            case 'UTF-8':
+                if (preg_match('//u', $str)) {
+                    return 'UTF-8';
+                }
+                break;
 
-                default:
-                    if (0 === strncmp($enc, 'ISO-8859-', 9)) {
-                        return $enc;
-                    }
+            default:
+                if (0 === strncmp($enc, 'ISO-8859-', 9)) {
+                    return $enc;
+                }
             }
         }
 
@@ -322,13 +324,13 @@ final class Mbstring
 
         foreach ($encodingList as $enc) {
             switch ($enc) {
-                default:
-                    if (strncmp($enc, 'ISO-8859-', 9)) {
-                        return false;
-                    }
-                case 'ASCII':
-                case 'UTF8':
-                case 'UTF-8':
+            default:
+                if (strncmp($enc, 'ISO-8859-', 9)) {
+                    return false;
+                }
+            case 'ASCII':
+            case 'UTF8':
+            case 'UTF-8':
             }
         }
 
@@ -638,7 +640,7 @@ final class Mbstring
     private static function getData($file)
     {
         if (file_exists($file = __DIR__.'/Resources/unidata/'.$file.'.php')) {
-            return require $file;
+            return include $file;
         }
 
         return false;

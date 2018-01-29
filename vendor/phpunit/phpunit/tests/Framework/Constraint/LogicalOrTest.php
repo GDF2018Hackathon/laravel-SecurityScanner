@@ -20,17 +20,19 @@ final class LogicalOrTest extends TestCase
         $other = 'Foo';
         $count = 5;
 
-        $constraints = \array_map(function () use ($other) {
-            $constraint = $this->getMockBuilder(Constraint::class)->getMock();
+        $constraints = \array_map(
+            function () use ($other) {
+                $constraint = $this->getMockBuilder(Constraint::class)->getMock();
 
-            $constraint
-                ->expects($this->once())
-                ->method('evaluate')
-                ->with($this->identicalTo($other))
-                ->willReturn(false);
+                $constraint
+                    ->expects($this->once())
+                    ->method('evaluate')
+                    ->with($this->identicalTo($other))
+                    ->willReturn(false);
 
-            return $constraint;
-        }, \array_fill(0, $count, null));
+                return $constraint;
+            }, \array_fill(0, $count, null)
+        );
 
         $constraint = LogicalOr::fromConstraints(...$constraints);
 

@@ -230,8 +230,9 @@ abstract class Renderer
         $id    = $node->getId();
         $depth = \substr_count($id, '/');
 
-        if ($id != 'index' &&
-            $node instanceof DirectoryNode) {
+        if ($id != 'index' 
+            && $node instanceof DirectoryNode
+        ) {
             $depth++;
         }
 
@@ -262,8 +263,9 @@ abstract class Renderer
     {
         if ($percent <= $this->lowUpperBound) {
             return 'danger';
-        } elseif ($percent > $this->lowUpperBound &&
-            $percent < $this->highLowerBound) {
+        } elseif ($percent > $this->lowUpperBound 
+            && $percent < $this->highLowerBound
+        ) {
             return 'warning';
         } else {
             return 'success';

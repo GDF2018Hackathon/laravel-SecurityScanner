@@ -86,6 +86,7 @@ class ElasticSearchHandler extends AbstractProcessingHandler
 
     /**
      * Getter options
+     *
      * @return array
      */
     public function getOptions()
@@ -112,7 +113,8 @@ class ElasticSearchHandler extends AbstractProcessingHandler
 
     /**
      * Use Elasticsearch bulk API to send list of documents
-     * @param  array             $documents
+     *
+     * @param  array $documents
      * @throws \RuntimeException
      */
     protected function bulkSend(array $documents)

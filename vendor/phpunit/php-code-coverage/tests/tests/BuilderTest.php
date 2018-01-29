@@ -42,8 +42,8 @@ class BuilderTest extends TestCase
         $this->assertEquals(0, $root->getNumTestedFunctions());
         $this->assertNull($root->getParent());
         $this->assertEquals([], $root->getDirectories());
-        #$this->assertEquals(array(), $root->getFiles());
-        #$this->assertEquals(array(), $root->getChildNodes());
+        // $this->assertEquals(array(), $root->getFiles());
+        // $this->assertEquals(array(), $root->getChildNodes());
 
         $this->assertEquals(
             [

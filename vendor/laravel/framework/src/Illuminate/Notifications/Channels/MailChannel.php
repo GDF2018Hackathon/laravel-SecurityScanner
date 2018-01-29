@@ -28,8 +28,8 @@ class MailChannel
     /**
      * Create a new mail channel instance.
      *
-     * @param  \Illuminate\Contracts\Mail\Mailer  $mailer
-     * @param  \Illuminate\Mail\Markdown  $markdown
+     * @param  \Illuminate\Contracts\Mail\Mailer $mailer
+     * @param  \Illuminate\Mail\Markdown         $markdown
      * @return void
      */
     public function __construct(Mailer $mailer, Markdown $markdown)
@@ -41,16 +41,17 @@ class MailChannel
     /**
      * Send the given notification.
      *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
+     * @param  mixed                                  $notifiable
+     * @param  \Illuminate\Notifications\Notification $notification
      * @return void
      */
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toMail($notifiable);
 
-        if (! $notifiable->routeNotificationFor('mail') &&
-            ! $message instanceof Mailable) {
+        if (! $notifiable->routeNotificationFor('mail') 
+            && ! $message instanceof Mailable
+        ) {
             return;
         }
 
@@ -68,9 +69,9 @@ class MailChannel
     /**
      * Get the mailer Closure for the message.
      *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
-     * @param  \Illuminate\Notifications\Messages\MailMessage  $message
+     * @param  mixed                                          $notifiable
+     * @param  \Illuminate\Notifications\Notification         $notification
+     * @param  \Illuminate\Notifications\Messages\MailMessage $message
      * @return \Closure
      */
     protected function messageBuilder($notifiable, $notification, $message)
@@ -83,7 +84,7 @@ class MailChannel
     /**
      * Build the notification's view.
      *
-     * @param  \Illuminate\Notifications\Messages\MailMessage  $message
+     * @param  \Illuminate\Notifications\Messages\MailMessage $message
      * @return string|array
      */
     protected function buildView($message)
@@ -101,19 +102,21 @@ class MailChannel
     /**
      * Build the mail message.
      *
-     * @param  \Illuminate\Mail\Message  $mailMessage
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
-     * @param  \Illuminate\Notifications\Messages\MailMessage  $message
+     * @param  \Illuminate\Mail\Message                       $mailMessage
+     * @param  mixed                                          $notifiable
+     * @param  \Illuminate\Notifications\Notification         $notification
+     * @param  \Illuminate\Notifications\Messages\MailMessage $message
      * @return void
      */
     protected function buildMessage($mailMessage, $notifiable, $notification, $message)
     {
         $this->addressMessage($mailMessage, $notifiable, $message);
 
-        $mailMessage->subject($message->subject ?: Str::title(
-            Str::snake(class_basename($notification), ' ')
-        ));
+        $mailMessage->subject(
+            $message->subject ?: Str::title(
+                Str::snake(class_basename($notification), ' ')
+            )
+        );
 
         $this->addAttachments($mailMessage, $message);
 
@@ -125,9 +128,9 @@ class MailChannel
     /**
      * Address the mail message.
      *
-     * @param  \Illuminate\Mail\Message  $mailMessage
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Messages\MailMessage  $message
+     * @param  \Illuminate\Mail\Message                       $mailMessage
+     * @param  mixed                                          $notifiable
+     * @param  \Illuminate\Notifications\Messages\MailMessage $message
      * @return void
      */
     protected function addressMessage($mailMessage, $notifiable, $message)
@@ -148,8 +151,8 @@ class MailChannel
     /**
      * Add the "from" and "reply to" addresses to the message.
      *
-     * @param  \Illuminate\Mail\Message  $mailMessage
-     * @param  \Illuminate\Notifications\Messages\MailMessage  $message
+     * @param  \Illuminate\Mail\Message                       $mailMessage
+     * @param  \Illuminate\Notifications\Messages\MailMessage $message
      * @return void
      */
     protected function addSender($mailMessage, $message)
@@ -166,8 +169,8 @@ class MailChannel
     /**
      * Get the recipients of the given message.
      *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Messages\MailMessage  $message
+     * @param  mixed                                          $notifiable
+     * @param  \Illuminate\Notifications\Messages\MailMessage $message
      * @return mixed
      */
     protected function getRecipients($notifiable, $message)
@@ -176,16 +179,18 @@ class MailChannel
             $recipients = [$recipients];
         }
 
-        return collect($recipients)->map(function ($recipient) {
-            return is_string($recipient) ? $recipient : $recipient->email;
-        })->all();
+        return collect($recipients)->map(
+            function ($recipient) {
+                return is_string($recipient) ? $recipient : $recipient->email;
+            }
+        )->all();
     }
 
     /**
      * Add the attachments to the message.
      *
-     * @param  \Illuminate\Mail\Message  $mailMessage
-     * @param  \Illuminate\Notifications\Messages\MailMessage  $message
+     * @param  \Illuminate\Mail\Message                       $mailMessage
+     * @param  \Illuminate\Notifications\Messages\MailMessage $message
      * @return void
      */
     protected function addAttachments($mailMessage, $message)

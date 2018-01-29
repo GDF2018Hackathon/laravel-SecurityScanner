@@ -16,7 +16,9 @@ use Monolog\TestCase;
 
 class SwiftMailerHandlerTest extends TestCase
 {
-    /** @var \Swift_Mailer|\PHPUnit_Framework_MockObject_MockObject */
+    /**
+     * @var \Swift_Mailer|\PHPUnit_Framework_MockObject_MockObject 
+     */
     private $mailer;
 
     public function setUp()
@@ -50,11 +52,15 @@ class SwiftMailerHandlerTest extends TestCase
         $expectedMessage = new \Swift_Message();
         $this->mailer->expects($this->once())
             ->method('send')
-            ->with($this->callback(function ($value) use ($expectedMessage) {
-                return $value instanceof \Swift_Message
-                    && $value->getSubject() === 'Emergency'
-                    && $value === $expectedMessage;
-            }));
+            ->with(
+                $this->callback(
+                    function ($value) use ($expectedMessage) {
+                        return $value instanceof \Swift_Message
+                        && $value->getSubject() === 'Emergency'
+                        && $value === $expectedMessage;
+                    }
+                )
+            );
 
         // Callback dynamically changes subject based on number of logged records
         $callback = function ($content, array $records) use ($expectedMessage) {
@@ -81,10 +87,14 @@ class SwiftMailerHandlerTest extends TestCase
 
         $this->mailer->expects($this->once())
             ->method('send')
-            ->with($this->callback(function ($value) use (&$receivedMessage) {
-                $receivedMessage = $value;
-                return true;
-            }));
+            ->with(
+                $this->callback(
+                    function ($value) use (&$receivedMessage) {
+                        $receivedMessage = $value;
+                        return true;
+                    }
+                )
+            );
 
         $handler = new SwiftMailerHandler($this->mailer, $messageTemplate);
 

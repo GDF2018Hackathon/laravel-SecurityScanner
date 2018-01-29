@@ -16,9 +16,15 @@ class Util
      */
     public static function pathinfo($path)
     {
-        $pathinfo = pathinfo($path) + compact('path');
-        $pathinfo['dirname'] = array_key_exists('dirname', $pathinfo)
-            ? static::normalizeDirname($pathinfo['dirname']) : '';
+        $pathinfo = compact('path');
+
+        if ('' !== $dirname = dirname($path)) {
+            $pathinfo['dirname'] = static::normalizeDirname($dirname);
+        }
+
+        $pathinfo['basename'] = static::basename($path);
+
+        $pathinfo += pathinfo($pathinfo['basename']);
 
         return $pathinfo;
     }
@@ -60,7 +66,7 @@ class Util
         $result = [];
 
         foreach ($map as $from => $to) {
-            if ( ! isset($object[$from])) {
+            if (! isset($object[$from])) {
                 continue;
             }
 
@@ -102,8 +108,8 @@ class Util
 
         foreach (explode('/', $path) as $part) {
             switch ($part) {
-                case '':
-                case '.':
+            case '':
+            case '.':
                 break;
 
             case '..':
@@ -131,7 +137,8 @@ class Util
      *
      * @return string $path
      */
-    protected static function removeFunkyWhiteSpace($path) {
+    protected static function removeFunkyWhiteSpace($path) 
+    {
         // We do this check in a loop, since removing invalid unicode characters
         // can lead to new characters being created.
         while (preg_match('#\p{C}+|^\./#u', $path)) {
@@ -169,7 +176,7 @@ class Util
     /**
      * Guess MIME Type based on the path of the file and it's content.
      *
-     * @param string $path
+     * @param string          $path
      * @param string|resource $content
      *
      * @return string|null MIME Type or NULL if no extension detected
@@ -178,7 +185,7 @@ class Util
     {
         $mimeType = MimeType::detectByContent($content);
 
-        if ( ! (empty($mimeType) || in_array($mimeType, ['application/x-empty', 'text/plain', 'text/x-asm']))) {
+        if (! (empty($mimeType) || in_array($mimeType, ['application/x-empty', 'text/plain', 'text/x-asm']))) {
             return $mimeType;
         }
 
@@ -198,11 +205,7 @@ class Util
         $listedDirectories = [];
 
         foreach ($listing as $object) {
-            list($directories, $listedDirectories) = static::emulateObjectDirectories(
-                $object,
-                $directories,
-                $listedDirectories
-            );
+            list($directories, $listedDirectories) = static::emulateObjectDirectories($object, $directories, $listedDirectories);
         }
 
         $directories = array_diff(array_unique($directories), array_unique($listedDirectories));
@@ -221,7 +224,7 @@ class Util
      *
      * @return Config config instance
      *
-     * @throw  LogicException
+     * @throw LogicException
      */
     public static function ensureConfig($config)
     {
@@ -306,5 +309,41 @@ class Util
         }
 
         return [$directories, $listedDirectories];
+    }
+
+    /**
+     * Returns the trailing name component of the path.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    private static function basename($path)
+    {
+        $separators = DIRECTORY_SEPARATOR === '/' ? '/' : '\/';
+
+        $path = rtrim($path, $separators);
+
+        $basename = preg_replace('#.*?([^' . preg_quote($separators, '#') . ']+$)#', '$1', $path);
+
+        if (DIRECTORY_SEPARATOR === '/') {
+            return $basename;
+        }
+        // @codeCoverageIgnoreStart
+        // Extra Windows path munging. This is tested via AppVeyor, but code
+        // coverage is not reported.
+
+        // Handle relative paths with drive letters. c:file.txt.
+        while (preg_match('#^[a-zA-Z]{1}:[^\\\/]#', $basename)) {
+            $basename = substr($basename, 2);
+        }
+
+        // Remove colon for standalone drive letter names.
+        if (preg_match('#^[a-zA-Z]{1}:$#', $basename)) {
+            $basename = rtrim($basename, ':');
+        }
+
+        return $basename;
+        // @codeCoverageIgnoreEnd
     }
 }

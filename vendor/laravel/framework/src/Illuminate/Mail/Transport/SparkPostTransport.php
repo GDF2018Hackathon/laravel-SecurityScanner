@@ -31,9 +31,9 @@ class SparkPostTransport extends Transport
     /**
      * Create a new SparkPost transport instance.
      *
-     * @param  \GuzzleHttp\ClientInterface  $client
-     * @param  string  $key
-     * @param  array  $options
+     * @param  \GuzzleHttp\ClientInterface $client
+     * @param  string                      $key
+     * @param  array                       $options
      * @return void
      */
     public function __construct(ClientInterface $client, $key, $options = [])
@@ -54,17 +54,21 @@ class SparkPostTransport extends Transport
 
         $message->setBcc([]);
 
-        $response = $this->client->post('https://api.sparkpost.com/api/v1/transmissions', [
+        $response = $this->client->post(
+            'https://api.sparkpost.com/api/v1/transmissions', [
             'headers' => [
                 'Authorization' => $this->key,
             ],
-            'json' => array_merge([
+            'json' => array_merge(
+                [
                 'recipients' => $recipients,
                 'content' => [
                     'email_rfc822' => $message->toString(),
                 ],
-            ], $this->options),
-        ]);
+                ], $this->options
+            ),
+            ]
+        );
 
         $message->getHeaders()->addTextHeader(
             'X-SparkPost-Transmission-ID', $this->getTransmissionId($response)
@@ -105,7 +109,7 @@ class SparkPostTransport extends Transport
     /**
      * Get the transmission ID from the response.
      *
-     * @param  \GuzzleHttp\Psr7\Response  $response
+     * @param  \GuzzleHttp\Psr7\Response $response
      * @return string
      */
     protected function getTransmissionId($response)
@@ -128,7 +132,7 @@ class SparkPostTransport extends Transport
     /**
      * Set the API key being used by the transport.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return string
      */
     public function setKey($key)
@@ -149,7 +153,7 @@ class SparkPostTransport extends Transport
     /**
      * Set the transmission options being used by the transport.
      *
-     * @param  array  $options
+     * @param  array $options
      * @return array
      */
     public function setOptions(array $options)

@@ -52,14 +52,16 @@ class WtfCommand extends TraceCommand implements ContextAware
         $this
             ->setName('wtf')
             ->setAliases(array('last-exception', 'wtf?'))
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputArgument('incredulity', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Number of lines to show'),
                 new InputOption('all', 'a',  InputOption::VALUE_NONE, 'Show entire backtrace.'),
 
                 $grep,
                 $insensitive,
                 $invert,
-            ))
+                )
+            )
             ->setDescription('Show the backtrace of the most recent exception.')
             ->setHelp(
                 <<<'HELP'
@@ -113,10 +115,12 @@ HELP
             $output->writeln('');
 
             if ($moreLines > 0) {
-                $output->writeln(sprintf(
-                    '<aside>Use <return>wtf -a</return> to see %d more lines</aside>',
-                    $moreLines
-                ));
+                $output->writeln(
+                    sprintf(
+                        '<aside>Use <return>wtf -a</return> to see %d more lines</aside>',
+                        $moreLines
+                    )
+                );
                 $output->writeln('');
             }
         } while ($exception = $exception->getPrevious());

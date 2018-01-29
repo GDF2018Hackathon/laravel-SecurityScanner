@@ -76,11 +76,13 @@ class WhatFailureGroupHandlerTest extends TestCase
     {
         $test = new TestHandler();
         $handler = new WhatFailureGroupHandler(array($test));
-        $handler->pushProcessor(function ($record) {
-            $record['extra']['foo'] = true;
+        $handler->pushProcessor(
+            function ($record) {
+                $record['extra']['foo'] = true;
 
-            return $record;
-        });
+                return $record;
+            }
+        );
         $handler->handle($this->getRecord(Logger::WARNING));
         $this->assertTrue($test->hasWarningRecords());
         $records = $test->getRecords();
@@ -95,11 +97,13 @@ class WhatFailureGroupHandlerTest extends TestCase
         $test = new TestHandler();
         $exception = new ExceptionTestHandler();
         $handler = new WhatFailureGroupHandler(array($exception, $test, $exception));
-        $handler->pushProcessor(function ($record) {
-            $record['extra']['foo'] = true;
+        $handler->pushProcessor(
+            function ($record) {
+                $record['extra']['foo'] = true;
 
-            return $record;
-        });
+                return $record;
+            }
+        );
         $handler->handle($this->getRecord(Logger::WARNING));
         $this->assertTrue($test->hasWarningRecords());
         $records = $test->getRecords();

@@ -9,114 +9,118 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoderTest extends \SwiftMailerTestCase
     {
         $encoder = $this->createEncoder(
             $this->createCharacterStream(true)
-            );
+        );
         $this->assertEquals('Q', $encoder->getName());
     }
 
     public function testSpaceAndTabNeverAppear()
     {
         /* -- RFC 2047, 4.
-     Only a subset of the printable ASCII characters may be used in
-     'encoded-text'.  Space and tab characters are not allowed, so that
-     the beginning and end of an 'encoded-word' are obvious.
-     */
+        Only a subset of the printable ASCII characters may be used in
+        'encoded-text'.  Space and tab characters are not allowed, so that
+        the beginning and end of an 'encoded-word' are obvious.
+        */
 
         $charStream = $this->createCharacterStream();
         $charStream->shouldReceive('readBytes')
-                   ->atLeast()->times(6)
-                   ->andReturn(array(ord('a')), array(0x20), array(0x09), array(0x20), array(ord('b')), false);
+            ->atLeast()->times(6)
+            ->andReturn(array(ord('a')), array(0x20), array(0x09), array(0x20), array(ord('b')), false);
 
         $encoder = $this->createEncoder($charStream);
-        $this->assertNotRegExp('~[ \t]~', $encoder->encodeString("a \t b"),
+        $this->assertNotRegExp(
+            '~[ \t]~', $encoder->encodeString("a \t b"),
             '%s: encoded-words in headers cannot contain LWSP as per RFC 2047.'
-            );
+        );
     }
 
     public function testSpaceIsRepresentedByUnderscore()
     {
         /* -- RFC 2047, 4.2.
         (2) The 8-bit hexadecimal value 20 (e.g., ISO-8859-1 SPACE) may be
-       represented as "_" (underscore, ASCII 95.).  (This character may
-       not pass through some internetwork mail gateways, but its use
-       will greatly enhance readability of "Q" encoded data with mail
-       readers that do not support this encoding.)  Note that the "_"
-       always represents hexadecimal 20, even if the SPACE character
-       occupies a different code position in the character set in use.
-       */
+        represented as "_" (underscore, ASCII 95.).  (This character may
+        not pass through some internetwork mail gateways, but its use
+        will greatly enhance readability of "Q" encoded data with mail
+        readers that do not support this encoding.)  Note that the "_"
+        always represents hexadecimal 20, even if the SPACE character
+        occupies a different code position in the character set in use.
+        */
         $charStream = $this->createCharacterStream();
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord('a')));
+            ->once()
+            ->andReturn(array(ord('a')));
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(0x20));
+            ->once()
+            ->andReturn(array(0x20));
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord('b')));
+            ->once()
+            ->andReturn(array(ord('b')));
         $charStream->shouldReceive('readBytes')
-                   ->zeroOrMoreTimes()
-                   ->andReturn(false);
+            ->zeroOrMoreTimes()
+            ->andReturn(false);
 
         $encoder = $this->createEncoder($charStream);
-        $this->assertEquals('a_b', $encoder->encodeString('a b'),
+        $this->assertEquals(
+            'a_b', $encoder->encodeString('a b'),
             '%s: Spaces can be represented by more readable underscores as per RFC 2047.'
-            );
+        );
     }
 
     public function testEqualsAndQuestionAndUnderscoreAreEncoded()
     {
         /* -- RFC 2047, 4.2.
         (3) 8-bit values which correspond to printable ASCII characters other
-       than "=", "?", and "_" (underscore), MAY be represented as those
-       characters.  (But see section 5 for restrictions.)  In
-       particular, SPACE and TAB MUST NOT be represented as themselves
-       within encoded words.
-       */
+        than "=", "?", and "_" (underscore), MAY be represented as those
+        characters.  (But see section 5 for restrictions.)  In
+        particular, SPACE and TAB MUST NOT be represented as themselves
+        within encoded words.
+        */
         $charStream = $this->createCharacterStream();
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord('=')));
+            ->once()
+            ->andReturn(array(ord('=')));
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord('?')));
+            ->once()
+            ->andReturn(array(ord('?')));
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord('_')));
+            ->once()
+            ->andReturn(array(ord('_')));
         $charStream->shouldReceive('readBytes')
-                   ->zeroOrMoreTimes()
-                   ->andReturn(false);
+            ->zeroOrMoreTimes()
+            ->andReturn(false);
 
         $encoder = $this->createEncoder($charStream);
-        $this->assertEquals('=3D=3F=5F', $encoder->encodeString('=?_'),
+        $this->assertEquals(
+            '=3D=3F=5F', $encoder->encodeString('=?_'),
             '%s: Chars =, ? and _ (underscore) may not appear as per RFC 2047.'
-            );
+        );
     }
 
     public function testParensAndQuotesAreEncoded()
     {
         /* -- RFC 2047, 5 (2).
-     A "Q"-encoded 'encoded-word' which appears in a 'comment' MUST NOT
-     contain the characters "(", ")" or "
-     */
+        A "Q"-encoded 'encoded-word' which appears in a 'comment' MUST NOT
+        contain the characters "(", ")" or "
+        */
 
         $charStream = $this->createCharacterStream();
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord('(')));
+            ->once()
+            ->andReturn(array(ord('(')));
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord('"')));
+            ->once()
+            ->andReturn(array(ord('"')));
         $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array(ord(')')));
+            ->once()
+            ->andReturn(array(ord(')')));
         $charStream->shouldReceive('readBytes')
-                   ->zeroOrMoreTimes()
-                   ->andReturn(false);
+            ->zeroOrMoreTimes()
+            ->andReturn(false);
 
         $encoder = $this->createEncoder($charStream);
-        $this->assertEquals('=28=22=29', $encoder->encodeString('(")'),
+        $this->assertEquals(
+            '=28=22=29', $encoder->encodeString('(")'),
             '%s: Chars (, " (DQUOTE) and ) may not appear as per RFC 2047.'
-            );
+        );
     }
 
     public function testOnlyCharactersAllowedInPhrasesAreUsed()
@@ -140,35 +144,38 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoderTest extends \SwiftMailerTestCase
             range(ord('a'), ord('z')), range(ord('A'), ord('Z')),
             range(ord('0'), ord('9')),
             array(ord('!'), ord('*'), ord('+'), ord('-'), ord('/'))
-            );
+        );
 
         foreach (range(0x00, 0xFF) as $byte) {
             $char = pack('C', $byte);
 
             $charStream = $this->createCharacterStream();
             $charStream->shouldReceive('readBytes')
-                   ->once()
-                   ->andReturn(array($byte));
+                ->once()
+                ->andReturn(array($byte));
             $charStream->shouldReceive('readBytes')
-                   ->zeroOrMoreTimes()
-                   ->andReturn(false);
+                ->zeroOrMoreTimes()
+                ->andReturn(false);
 
             $encoder = $this->createEncoder($charStream);
             $encodedChar = $encoder->encodeString($char);
 
             if (in_array($byte, $allowedBytes)) {
-                $this->assertEquals($char, $encodedChar,
+                $this->assertEquals(
+                    $char, $encodedChar,
                     '%s: Character '.$char.' should not be encoded.'
-                    );
+                );
             } elseif (0x20 == $byte) {
                 //Special case
-                $this->assertEquals('_', $encodedChar,
+                $this->assertEquals(
+                    '_', $encodedChar,
                     '%s: Space character should be replaced.'
-                    );
+                );
             } else {
-                $this->assertEquals(sprintf('=%02X', $byte), $encodedChar,
+                $this->assertEquals(
+                    sprintf('=%02X', $byte), $encodedChar,
                     '%s: Byte '.$byte.' should be encoded.'
-                    );
+                );
             }
         }
     }
@@ -192,8 +199,8 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoderTest extends \SwiftMailerTestCase
         $seq = 0;
         for (; $seq < 140; ++$seq) {
             $charStream->shouldReceive('readBytes')
-                       ->once()
-                       ->andReturn(array(ord('a')));
+                ->once()
+                ->andReturn(array(ord('a')));
 
             if (75 == $seq) {
                 $output .= "\r\n"; // =\r\n
@@ -202,8 +209,8 @@ class Swift_Mime_HeaderEncoder_QpHeaderEncoderTest extends \SwiftMailerTestCase
         }
 
         $charStream->shouldReceive('readBytes')
-                   ->zeroOrMoreTimes()
-                   ->andReturn(false);
+            ->zeroOrMoreTimes()
+            ->andReturn(false);
 
         $encoder = $this->createEncoder($charStream);
         $this->assertEquals($output, $encoder->encodeString($input));

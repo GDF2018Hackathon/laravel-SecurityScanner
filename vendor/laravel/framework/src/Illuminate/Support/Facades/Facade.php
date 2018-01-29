@@ -59,11 +59,13 @@ abstract class Facade
      */
     protected static function createFreshMockInstance()
     {
-        return tap(static::createMock(), function ($mock) {
-            static::swap($mock);
+        return tap(
+            static::createMock(), function ($mock) {
+                static::swap($mock);
 
-            $mock->shouldAllowMockingProtectedMethods();
-        });
+                $mock->shouldAllowMockingProtectedMethods();
+            }
+        );
     }
 
     /**
@@ -106,7 +108,7 @@ abstract class Facade
     /**
      * Hotswap the underlying instance behind the facade.
      *
-     * @param  mixed  $instance
+     * @param  mixed $instance
      * @return void
      */
     public static function swap($instance)
@@ -143,7 +145,7 @@ abstract class Facade
     /**
      * Resolve the facade root instance from the container.
      *
-     * @param  string|object  $name
+     * @param  string|object $name
      * @return mixed
      */
     protected static function resolveFacadeInstance($name)
@@ -162,7 +164,7 @@ abstract class Facade
     /**
      * Clear a resolved facade instance.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return void
      */
     public static function clearResolvedInstance($name)
@@ -193,7 +195,7 @@ abstract class Facade
     /**
      * Set the application instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application $app
      * @return void
      */
     public static function setFacadeApplication($app)
@@ -204,8 +206,8 @@ abstract class Facade
     /**
      * Handle dynamic, static calls to the object.
      *
-     * @param  string  $method
-     * @param  array   $args
+     * @param  string $method
+     * @param  array  $args
      * @return mixed
      *
      * @throws \RuntimeException

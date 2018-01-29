@@ -20,7 +20,6 @@ class Company extends \Faker\Provider\Company
      *
      * @see (dutch) http://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/zakelijk/btw/administratie_bijhouden/btw_nummers_controleren/uw_btw_nummer
      *
-     *
      * @return string VAT Number
      */
     public static function vat()

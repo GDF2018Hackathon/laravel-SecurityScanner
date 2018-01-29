@@ -78,9 +78,10 @@ class Swift_Mime_Headers_DateHeaderTest extends \PHPUnit\Framework\TestCase
         $dateTime = new DateTimeImmutable('2000-01-01 12:00:00 Europe/Berlin');
         $header = $this->getHeader('Date');
         $header->setDateTime($dateTime);
-        $this->assertEquals("Date: Sat, 01 Jan 2000 12:00:00 +0100\r\n",
+        $this->assertEquals(
+            "Date: Sat, 01 Jan 2000 12:00:00 +0100\r\n",
             $header->toString()
-            );
+        );
     }
 
     private function getHeader($name)

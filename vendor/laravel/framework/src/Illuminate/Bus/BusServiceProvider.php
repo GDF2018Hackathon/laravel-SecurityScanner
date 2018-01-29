@@ -23,11 +23,15 @@ class BusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Dispatcher::class, function ($app) {
-            return new Dispatcher($app, function ($connection = null) use ($app) {
-                return $app[QueueFactoryContract::class]->connection($connection);
-            });
-        });
+        $this->app->singleton(
+            Dispatcher::class, function ($app) {
+                return new Dispatcher(
+                    $app, function ($connection = null) use ($app) {
+                        return $app[QueueFactoryContract::class]->connection($connection);
+                    }
+                );
+            }
+        );
 
         $this->app->alias(
             Dispatcher::class, DispatcherContract::class

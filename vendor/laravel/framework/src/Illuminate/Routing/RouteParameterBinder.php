@@ -16,7 +16,7 @@ class RouteParameterBinder
     /**
      * Create a new Route parameter binder instance.
      *
-     * @param  \Illuminate\Routing\Route  $route
+     * @param  \Illuminate\Routing\Route $route
      * @return void
      */
     public function __construct($route)
@@ -27,7 +27,7 @@ class RouteParameterBinder
     /**
      * Get the parameters for the route.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function parameters($request)
@@ -52,7 +52,7 @@ class RouteParameterBinder
     /**
      * Get the parameter matches for the path portion of the URI.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     protected function bindPathParameters($request)
@@ -67,8 +67,8 @@ class RouteParameterBinder
     /**
      * Extract the parameter list from the host part of the request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $parameters
+     * @param  \Illuminate\Http\Request $request
+     * @param  array                    $parameters
      * @return array
      */
     protected function bindHostParameters($request, $parameters)
@@ -81,7 +81,7 @@ class RouteParameterBinder
     /**
      * Combine a set of parameter matches with the route's keys.
      *
-     * @param  array  $matches
+     * @param  array $matches
      * @return array
      */
     protected function matchToKeys(array $matches)
@@ -92,15 +92,17 @@ class RouteParameterBinder
 
         $parameters = array_intersect_key($matches, array_flip($parameterNames));
 
-        return array_filter($parameters, function ($value) {
-            return is_string($value) && strlen($value) > 0;
-        });
+        return array_filter(
+            $parameters, function ($value) {
+                return is_string($value) && strlen($value) > 0;
+            }
+        );
     }
 
     /**
      * Replace null parameters with their defaults.
      *
-     * @param  array  $parameters
+     * @param  array $parameters
      * @return array
      */
     protected function replaceDefaults(array $parameters)

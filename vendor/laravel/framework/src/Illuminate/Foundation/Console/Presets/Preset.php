@@ -52,10 +52,12 @@ class Preset
      */
     protected static function removeNodeModules()
     {
-        tap(new Filesystem, function ($files) {
-            $files->deleteDirectory(base_path('node_modules'));
+        tap(
+            new Filesystem, function ($files) {
+                $files->deleteDirectory(base_path('node_modules'));
 
-            $files->delete(base_path('yarn.lock'));
-        });
+                $files->delete(base_path('yarn.lock'));
+            }
+        );
     }
 }

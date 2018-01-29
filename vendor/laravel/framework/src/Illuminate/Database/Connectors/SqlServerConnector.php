@@ -22,7 +22,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     /**
      * Establish a database connection.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return \PDO
      */
     public function connect(array $config)
@@ -35,7 +35,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     /**
      * Create a DSN string from a configuration.
      *
-     * @param  array   $config
+     * @param  array $config
      * @return string
      */
     protected function getDsn(array $config)
@@ -55,7 +55,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     /**
      * Determine if the database configuration prefers ODBC.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return bool
      */
     protected function prefersOdbc(array $config)
@@ -67,21 +67,25 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     /**
      * Get the DSN string for a DbLib connection.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return string
      */
     protected function getDblibDsn(array $config)
     {
-        return $this->buildConnectString('dblib', array_merge([
-            'host' => $this->buildHostString($config, ':'),
-            'dbname' => $config['database'],
-        ], Arr::only($config, ['appname', 'charset', 'version'])));
+        return $this->buildConnectString(
+            'dblib', array_merge(
+                [
+                'host' => $this->buildHostString($config, ':'),
+                'dbname' => $config['database'],
+                ], Arr::only($config, ['appname', 'charset', 'version'])
+            )
+        );
     }
 
     /**
      * Get the DSN string for an ODBC connection.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return string
      */
     protected function getOdbcDsn(array $config)
@@ -93,7 +97,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     /**
      * Get the DSN string for a SqlSrv connection.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return string
      */
     protected function getSqlSrvDsn(array $config)
@@ -144,22 +148,26 @@ class SqlServerConnector extends Connector implements ConnectorInterface
     /**
      * Build a connection string from the given arguments.
      *
-     * @param  string  $driver
+     * @param  string $driver
      * @param  array  $arguments
      * @return string
      */
     protected function buildConnectString($driver, array $arguments)
     {
-        return $driver.':'.implode(';', array_map(function ($key) use ($arguments) {
-            return sprintf('%s=%s', $key, $arguments[$key]);
-        }, array_keys($arguments)));
+        return $driver.':'.implode(
+            ';', array_map(
+                function ($key) use ($arguments) {
+                    return sprintf('%s=%s', $key, $arguments[$key]);
+                }, array_keys($arguments)
+            )
+        );
     }
 
     /**
      * Build a host string from the given configuration.
      *
      * @param  array  $config
-     * @param  string  $separator
+     * @param  string $separator
      * @return string
      */
     protected function buildHostString(array $config, $separator)

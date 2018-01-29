@@ -24,7 +24,9 @@ final class Link extends BaseTag implements Factory\StaticMethod
 {
     protected $name = 'link';
 
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $link = '';
 
     /**
@@ -56,10 +58,10 @@ final class Link extends BaseTag implements Factory\StaticMethod
     }
 
     /**
-    * Gets the link
-    *
-    * @return string
-    */
+     * Gets the link
+     *
+     * @return string
+     */
     public function getLink()
     {
         return $this->link;

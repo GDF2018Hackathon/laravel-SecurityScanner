@@ -289,9 +289,11 @@ abstract class AbstractPhpProcess
                 $time
             );
         } else {
-            \set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-                throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
-            });
+            \set_error_handler(
+                function ($errno, $errstr, $errfile, $errline) {
+                    throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
+                }
+            );
 
             try {
                 if (\strpos($stdout, "#!/usr/bin/env php\n") === 0) {
@@ -319,7 +321,9 @@ abstract class AbstractPhpProcess
                 $test->setResult($childResult['testResult']);
                 $test->addToAssertionCount($childResult['numAssertions']);
 
-                /** @var TestResult $childResult */
+                /**
+ * @var TestResult $childResult 
+*/
                 $childResult = $childResult['result'];
 
                 if ($result->getCollectCodeCoverageInformation()) {
@@ -390,7 +394,7 @@ abstract class AbstractPhpProcess
      *
      * @return Exception
      *
-     * @see    https://github.com/sebastianbergmann/phpunit/issues/74
+     * @see https://github.com/sebastianbergmann/phpunit/issues/74
      */
     private function getException(TestFailure $error)
     {

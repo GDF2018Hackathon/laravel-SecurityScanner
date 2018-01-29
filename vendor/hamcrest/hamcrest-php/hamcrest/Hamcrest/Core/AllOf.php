@@ -27,7 +27,9 @@ class AllOf extends DiagnosingMatcher
 
     public function matchesWithDiagnosticDescription($item, Description $mismatchDescription)
     {
-        /** @var $matcher \Hamcrest\Matcher */
+        /**
+ * @var $matcher \Hamcrest\Matcher 
+*/
         foreach ($this->_matchers as $matcher) {
             if (!$matcher->matches($item)) {
                 $mismatchDescription->appendDescriptionOf($matcher)->appendText(' ');

@@ -97,9 +97,10 @@ class Generator
             $type = \array_unique(
                 \array_map(
                     function ($type) {
-                        if ($type === 'Traversable' ||
-                            $type === '\\Traversable' ||
-                            $type === '\\Iterator') {
+                        if ($type === 'Traversable' 
+                            || $type === '\\Traversable' 
+                            || $type === '\\Iterator'
+                        ) {
                             return 'Iterator';
                         }
 
@@ -113,8 +114,9 @@ class Generator
         if (!$allowMockingUnknownTypes) {
             if (\is_array($type)) {
                 foreach ($type as $_type) {
-                    if (!\class_exists($_type, $callAutoload) &&
-                        !\interface_exists($_type, $callAutoload)) {
+                    if (!\class_exists($_type, $callAutoload) 
+                        && !\interface_exists($_type, $callAutoload)
+                    ) {
                         throw new RuntimeException(
                             \sprintf(
                                 'Cannot stub or mock class or interface "%s" which does not exist',
@@ -124,8 +126,8 @@ class Generator
                     }
                 }
             } else {
-                if (!\class_exists($type, $callAutoload) &&
-                    !\interface_exists($type, $callAutoload)
+                if (!\class_exists($type, $callAutoload) 
+                    && !\interface_exists($type, $callAutoload)
                 ) {
                     throw new RuntimeException(
                         \sprintf(
@@ -220,9 +222,10 @@ class Generator
     {
         $this->evalClass($code, $className);
 
-        if ($callOriginalConstructor &&
-            \is_string($type) &&
-            !\interface_exists($type, $callAutoload)) {
+        if ($callOriginalConstructor 
+            && \is_string($type) 
+            && !\interface_exists($type, $callAutoload)
+        ) {
             if (\count($arguments) === 0) {
                 $object = new $className;
             } else {
@@ -295,8 +298,9 @@ class Generator
             throw InvalidArgumentHelper::factory(3, 'string');
         }
 
-        if (\class_exists($originalClassName, $callAutoload) ||
-            \interface_exists($originalClassName, $callAutoload)) {
+        if (\class_exists($originalClassName, $callAutoload) 
+            || \interface_exists($originalClassName, $callAutoload)
+        ) {
             $reflector = new ReflectionClass($originalClassName);
             $methods   = $mockedMethods;
 
@@ -623,10 +627,11 @@ class Generator
                 $isMultipleInterfaces = true;
 
                 $additionalInterfaces[] = $_type;
-                $typeClass              = new ReflectionClass($this->generateClassName(
-                    $_type,
-                    $mockClassName,
-                    'Mock_'
+                $typeClass              = new ReflectionClass(
+                    $this->generateClassName(
+                        $_type,
+                        $mockClassName,
+                        'Mock_'
                     )['fullClassName']
                 );
 
@@ -701,8 +706,9 @@ class Generator
             $cloneTemplate = $cloneTemplate->render();
         }
 
-        if (\is_array($methods) && empty($methods) &&
-            ($isClass || $isInterface)) {
+        if (\is_array($methods) && empty($methods) 
+            && ($isClass || $isInterface)
+        ) {
             $methods = $this->getClassMethods($mockClassName['fullClassName']);
         }
 
@@ -721,9 +727,10 @@ class Generator
 
         if (isset($class)) {
             // https://github.com/sebastianbergmann/phpunit-mock-objects/issues/103
-            if ($isInterface && $class->implementsInterface(Traversable::class) &&
-                !$class->implementsInterface(Iterator::class) &&
-                !$class->implementsInterface(IteratorAggregate::class)) {
+            if ($isInterface && $class->implementsInterface(Traversable::class) 
+                && !$class->implementsInterface(Iterator::class) 
+                && !$class->implementsInterface(IteratorAggregate::class)
+            ) {
                 $additionalInterfaces[] = Iterator::class;
                 $methods                = \array_merge($methods, $this->getClassMethods(Iterator::class));
             }
@@ -788,9 +795,13 @@ class Generator
                 'mock_class_name'   => $mockClassName['className'],
                 'mocked_methods'    => $mockedMethods,
                 'method'            => $method,
-                'configurable'      => '[' . \implode(', ', \array_map(function ($m) {
-                    return '\'' . $m . '\'';
-                }, $configurable)) . ']'
+                'configurable'      => '[' . \implode(
+                    ', ', \array_map(
+                        function ($m) {
+                            return '\'' . $m . '\'';
+                        }, $configurable
+                    )
+                ) . ']'
             ]
         );
 

@@ -16,19 +16,29 @@
  */
 class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_Plugins_Decorator_Replacements
 {
-    /** The replacement map */
+    /**
+     * The replacement map 
+     */
     private $replacements;
 
-    /** The body as it was before replacements */
+    /**
+     * The body as it was before replacements 
+     */
     private $originalBody;
 
-    /** The original headers of the message, before replacements */
+    /**
+     * The original headers of the message, before replacements 
+     */
     private $originalHeaders = array();
 
-    /** Bodies of children before they are replaced */
+    /**
+     * Bodies of children before they are replaced 
+     */
     private $originalChildBodies = array();
 
-    /** The Message that was last replaced */
+    /**
+     * The Message that was last replaced 
+     */
     private $lastMessage;
 
     /**
@@ -89,7 +99,7 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
             $replace = array_values($replacements);
             $bodyReplaced = str_replace(
                 $search, $replace, $body
-                );
+            );
             if ($body != $bodyReplaced) {
                 $this->originalBody = $body;
                 $message->setBody($bodyReplaced);
@@ -128,7 +138,7 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
                     $body = $child->getBody();
                     $bodyReplaced = str_replace(
                         $search, $replace, $body
-                        );
+                    );
                     if ($body != $bodyReplaced) {
                         $child->setBody($bodyReplaced);
                         $this->originalChildBodies[$child->getId()] = $body;
@@ -172,7 +182,9 @@ class Swift_Plugins_DecoratorPlugin implements Swift_Events_SendListener, Swift_
         $this->restoreMessage($evt->getMessage());
     }
 
-    /** Restore a changed message back to its original state */
+    /**
+     * Restore a changed message back to its original state 
+     */
     private function restoreMessage(Swift_Mime_SimpleMessage $message)
     {
         if ($this->lastMessage === $message) {

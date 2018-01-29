@@ -35,42 +35,49 @@ class SlackRecord
 
     /**
      * Slack channel (encoded ID or name)
+     *
      * @var string|null
      */
     private $channel;
 
     /**
      * Name of a bot
+     *
      * @var string|null
      */
     private $username;
 
     /**
      * User icon e.g. 'ghost', 'http://example.com/user.png'
+     *
      * @var string
      */
     private $userIcon;
 
     /**
      * Whether the message should be added to Slack as attachment (plain text otherwise)
+     *
      * @var bool
      */
     private $useAttachment;
 
     /**
      * Whether the the context/extra messages added to Slack as attachments are in a short style
+     *
      * @var bool
      */
     private $useShortAttachment;
 
     /**
      * Whether the attachment should include context and extra data
+     *
      * @var bool
      */
     private $includeContextAndExtra;
 
     /**
      * Dot separated list of fields to exclude from slack message. E.g. ['context.field1', 'extra.field2']
+     *
      * @var array
      */
     private $excludeFields;
@@ -179,20 +186,20 @@ class SlackRecord
      * Returned a Slack message attachment color associated with
      * provided level.
      *
-     * @param  int    $level
+     * @param  int $level
      * @return string
      */
     public function getAttachmentColor($level)
     {
         switch (true) {
-            case $level >= Logger::ERROR:
-                return self::COLOR_DANGER;
-            case $level >= Logger::WARNING:
-                return self::COLOR_WARNING;
-            case $level >= Logger::INFO:
-                return self::COLOR_GOOD;
-            default:
-                return self::COLOR_DEFAULT;
+        case $level >= Logger::ERROR:
+            return self::COLOR_DANGER;
+        case $level >= Logger::WARNING:
+            return self::COLOR_WARNING;
+        case $level >= Logger::INFO:
+            return self::COLOR_GOOD;
+        default:
+            return self::COLOR_DEFAULT;
         }
     }
 
@@ -229,7 +236,7 @@ class SlackRecord
     /**
      * Generates attachment field
      *
-     * @param string $title
+     * @param string       $title
      * @param string|array $value\
      *
      * @return array

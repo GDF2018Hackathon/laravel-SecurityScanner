@@ -50,8 +50,8 @@ class Twofish extends Base
     /**
      * The mcrypt specific name of the cipher
      *
-     * @see \phpseclib\Crypt\Base::cipher_name_mcrypt
-     * @var string
+     * @see    \phpseclib\Crypt\Base::cipher_name_mcrypt
+     * @var    string
      * @access private
      */
     var $cipher_name_mcrypt = 'twofish';
@@ -59,8 +59,8 @@ class Twofish extends Base
     /**
      * Optimizing value while CFB-encrypting
      *
-     * @see \phpseclib\Crypt\Base::cfb_init_len
-     * @var int
+     * @see    \phpseclib\Crypt\Base::cfb_init_len
+     * @var    int
      * @access private
      */
     var $cfb_init_len = 800;
@@ -68,7 +68,7 @@ class Twofish extends Base
     /**
      * Q-Table
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $q0 = array(
@@ -109,7 +109,7 @@ class Twofish extends Base
     /**
      * Q-Table
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $q1 = array(
@@ -150,7 +150,7 @@ class Twofish extends Base
     /**
      * M-Table
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $m0 = array(
@@ -191,7 +191,7 @@ class Twofish extends Base
     /**
      * M-Table
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $m1 = array(
@@ -232,7 +232,7 @@ class Twofish extends Base
     /**
      * M-Table
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $m2 = array(
@@ -273,7 +273,7 @@ class Twofish extends Base
     /**
      * M-Table
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $m3 = array(
@@ -314,7 +314,7 @@ class Twofish extends Base
     /**
      * The Key Schedule Array
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $K = array();
@@ -322,7 +322,7 @@ class Twofish extends Base
     /**
      * The Key depended S-Table 0
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $S0 = array();
@@ -330,7 +330,7 @@ class Twofish extends Base
     /**
      * The Key depended S-Table 1
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $S1 = array();
@@ -338,7 +338,7 @@ class Twofish extends Base
     /**
      * The Key depended S-Table 2
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $S2 = array();
@@ -346,7 +346,7 @@ class Twofish extends Base
     /**
      * The Key depended S-Table 3
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $S3 = array();
@@ -354,7 +354,7 @@ class Twofish extends Base
     /**
      * Holds the last used key
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $kl;
@@ -362,8 +362,8 @@ class Twofish extends Base
     /**
      * The Key Length (in bytes)
      *
-     * @see Crypt_Twofish::setKeyLength()
-     * @var int
+     * @see    Crypt_Twofish::setKeyLength()
+     * @var    int
      * @access private
      */
     var $key_length = 16;
@@ -374,19 +374,19 @@ class Twofish extends Base
      * Valid key lengths are 128, 192 or 256 bits
      *
      * @access public
-     * @param int $length
+     * @param  int $length
      */
     function setKeyLength($length)
     {
         switch (true) {
-            case $length <= 128:
-                $this->key_length = 16;
-                break;
-            case $length <= 192:
-                $this->key_length = 24;
-                break;
-            default:
-                $this->key_length = 32;
+        case $length <= 128:
+            $this->key_length = 16;
+            break;
+        case $length <= 192:
+            $this->key_length = 24;
+            break;
+        default:
+            $this->key_length = 32;
         }
 
         parent::setKeyLength($length);
@@ -395,7 +395,7 @@ class Twofish extends Base
     /**
      * Setup the key (expansion)
      *
-     * @see \phpseclib\Crypt\Base::_setupKey()
+     * @see    \phpseclib\Crypt\Base::_setupKey()
      * @access private
      */
     function _setupKey()
@@ -419,77 +419,77 @@ class Twofish extends Base
         $K = $S0 = $S1 = $S2 = $S3 = array();
 
         switch (strlen($this->key)) {
-            case 16:
-                list($s7, $s6, $s5, $s4) = $this->_mdsrem($le_longs[1], $le_longs[2]);
-                list($s3, $s2, $s1, $s0) = $this->_mdsrem($le_longs[3], $le_longs[4]);
-                for ($i = 0, $j = 1; $i < 40; $i+= 2, $j+= 2) {
-                    $A = $m0[$q0[$q0[$i] ^ $key[ 9]] ^ $key[1]] ^
-                         $m1[$q0[$q1[$i] ^ $key[10]] ^ $key[2]] ^
-                         $m2[$q1[$q0[$i] ^ $key[11]] ^ $key[3]] ^
-                         $m3[$q1[$q1[$i] ^ $key[12]] ^ $key[4]];
-                    $B = $m0[$q0[$q0[$j] ^ $key[13]] ^ $key[5]] ^
-                         $m1[$q0[$q1[$j] ^ $key[14]] ^ $key[6]] ^
-                         $m2[$q1[$q0[$j] ^ $key[15]] ^ $key[7]] ^
-                         $m3[$q1[$q1[$j] ^ $key[16]] ^ $key[8]];
-                    $B = ($B << 8) | ($B >> 24 & 0xff);
-                    $K[] = $A+= $B;
-                    $K[] = (($A+= $B) << 9 | $A >> 23 & 0x1ff);
-                }
-                for ($i = 0; $i < 256; ++$i) {
-                    $S0[$i] = $m0[$q0[$q0[$i] ^ $s4] ^ $s0];
-                    $S1[$i] = $m1[$q0[$q1[$i] ^ $s5] ^ $s1];
-                    $S2[$i] = $m2[$q1[$q0[$i] ^ $s6] ^ $s2];
-                    $S3[$i] = $m3[$q1[$q1[$i] ^ $s7] ^ $s3];
-                }
-                break;
-            case 24:
-                list($sb, $sa, $s9, $s8) = $this->_mdsrem($le_longs[1], $le_longs[2]);
-                list($s7, $s6, $s5, $s4) = $this->_mdsrem($le_longs[3], $le_longs[4]);
-                list($s3, $s2, $s1, $s0) = $this->_mdsrem($le_longs[5], $le_longs[6]);
-                for ($i = 0, $j = 1; $i < 40; $i+= 2, $j+= 2) {
-                    $A = $m0[$q0[$q0[$q1[$i] ^ $key[17]] ^ $key[ 9]] ^ $key[1]] ^
-                         $m1[$q0[$q1[$q1[$i] ^ $key[18]] ^ $key[10]] ^ $key[2]] ^
-                         $m2[$q1[$q0[$q0[$i] ^ $key[19]] ^ $key[11]] ^ $key[3]] ^
-                         $m3[$q1[$q1[$q0[$i] ^ $key[20]] ^ $key[12]] ^ $key[4]];
-                    $B = $m0[$q0[$q0[$q1[$j] ^ $key[21]] ^ $key[13]] ^ $key[5]] ^
-                         $m1[$q0[$q1[$q1[$j] ^ $key[22]] ^ $key[14]] ^ $key[6]] ^
-                         $m2[$q1[$q0[$q0[$j] ^ $key[23]] ^ $key[15]] ^ $key[7]] ^
-                         $m3[$q1[$q1[$q0[$j] ^ $key[24]] ^ $key[16]] ^ $key[8]];
-                    $B = ($B << 8) | ($B >> 24 & 0xff);
-                    $K[] = $A+= $B;
-                    $K[] = (($A+= $B) << 9 | $A >> 23 & 0x1ff);
-                }
-                for ($i = 0; $i < 256; ++$i) {
-                    $S0[$i] = $m0[$q0[$q0[$q1[$i] ^ $s8] ^ $s4] ^ $s0];
-                    $S1[$i] = $m1[$q0[$q1[$q1[$i] ^ $s9] ^ $s5] ^ $s1];
-                    $S2[$i] = $m2[$q1[$q0[$q0[$i] ^ $sa] ^ $s6] ^ $s2];
-                    $S3[$i] = $m3[$q1[$q1[$q0[$i] ^ $sb] ^ $s7] ^ $s3];
-                }
-                break;
-            default: // 32
-                list($sf, $se, $sd, $sc) = $this->_mdsrem($le_longs[1], $le_longs[2]);
-                list($sb, $sa, $s9, $s8) = $this->_mdsrem($le_longs[3], $le_longs[4]);
-                list($s7, $s6, $s5, $s4) = $this->_mdsrem($le_longs[5], $le_longs[6]);
-                list($s3, $s2, $s1, $s0) = $this->_mdsrem($le_longs[7], $le_longs[8]);
-                for ($i = 0, $j = 1; $i < 40; $i+= 2, $j+= 2) {
-                    $A = $m0[$q0[$q0[$q1[$q1[$i] ^ $key[25]] ^ $key[17]] ^ $key[ 9]] ^ $key[1]] ^
-                         $m1[$q0[$q1[$q1[$q0[$i] ^ $key[26]] ^ $key[18]] ^ $key[10]] ^ $key[2]] ^
-                         $m2[$q1[$q0[$q0[$q0[$i] ^ $key[27]] ^ $key[19]] ^ $key[11]] ^ $key[3]] ^
-                         $m3[$q1[$q1[$q0[$q1[$i] ^ $key[28]] ^ $key[20]] ^ $key[12]] ^ $key[4]];
-                    $B = $m0[$q0[$q0[$q1[$q1[$j] ^ $key[29]] ^ $key[21]] ^ $key[13]] ^ $key[5]] ^
-                         $m1[$q0[$q1[$q1[$q0[$j] ^ $key[30]] ^ $key[22]] ^ $key[14]] ^ $key[6]] ^
-                         $m2[$q1[$q0[$q0[$q0[$j] ^ $key[31]] ^ $key[23]] ^ $key[15]] ^ $key[7]] ^
-                         $m3[$q1[$q1[$q0[$q1[$j] ^ $key[32]] ^ $key[24]] ^ $key[16]] ^ $key[8]];
-                    $B = ($B << 8) | ($B >> 24 & 0xff);
-                    $K[] = $A+= $B;
-                    $K[] = (($A+= $B) << 9 | $A >> 23 & 0x1ff);
-                }
-                for ($i = 0; $i < 256; ++$i) {
-                    $S0[$i] = $m0[$q0[$q0[$q1[$q1[$i] ^ $sc] ^ $s8] ^ $s4] ^ $s0];
-                    $S1[$i] = $m1[$q0[$q1[$q1[$q0[$i] ^ $sd] ^ $s9] ^ $s5] ^ $s1];
-                    $S2[$i] = $m2[$q1[$q0[$q0[$q0[$i] ^ $se] ^ $sa] ^ $s6] ^ $s2];
-                    $S3[$i] = $m3[$q1[$q1[$q0[$q1[$i] ^ $sf] ^ $sb] ^ $s7] ^ $s3];
-                }
+        case 16:
+            list($s7, $s6, $s5, $s4) = $this->_mdsrem($le_longs[1], $le_longs[2]);
+            list($s3, $s2, $s1, $s0) = $this->_mdsrem($le_longs[3], $le_longs[4]);
+            for ($i = 0, $j = 1; $i < 40; $i+= 2, $j+= 2) {
+                $A = $m0[$q0[$q0[$i] ^ $key[ 9]] ^ $key[1]] ^
+                     $m1[$q0[$q1[$i] ^ $key[10]] ^ $key[2]] ^
+                     $m2[$q1[$q0[$i] ^ $key[11]] ^ $key[3]] ^
+                     $m3[$q1[$q1[$i] ^ $key[12]] ^ $key[4]];
+                $B = $m0[$q0[$q0[$j] ^ $key[13]] ^ $key[5]] ^
+                     $m1[$q0[$q1[$j] ^ $key[14]] ^ $key[6]] ^
+                     $m2[$q1[$q0[$j] ^ $key[15]] ^ $key[7]] ^
+                     $m3[$q1[$q1[$j] ^ $key[16]] ^ $key[8]];
+                $B = ($B << 8) | ($B >> 24 & 0xff);
+                $K[] = $A+= $B;
+                $K[] = (($A+= $B) << 9 | $A >> 23 & 0x1ff);
+            }
+            for ($i = 0; $i < 256; ++$i) {
+                $S0[$i] = $m0[$q0[$q0[$i] ^ $s4] ^ $s0];
+                $S1[$i] = $m1[$q0[$q1[$i] ^ $s5] ^ $s1];
+                $S2[$i] = $m2[$q1[$q0[$i] ^ $s6] ^ $s2];
+                $S3[$i] = $m3[$q1[$q1[$i] ^ $s7] ^ $s3];
+            }
+            break;
+        case 24:
+            list($sb, $sa, $s9, $s8) = $this->_mdsrem($le_longs[1], $le_longs[2]);
+            list($s7, $s6, $s5, $s4) = $this->_mdsrem($le_longs[3], $le_longs[4]);
+            list($s3, $s2, $s1, $s0) = $this->_mdsrem($le_longs[5], $le_longs[6]);
+            for ($i = 0, $j = 1; $i < 40; $i+= 2, $j+= 2) {
+                $A = $m0[$q0[$q0[$q1[$i] ^ $key[17]] ^ $key[ 9]] ^ $key[1]] ^
+                     $m1[$q0[$q1[$q1[$i] ^ $key[18]] ^ $key[10]] ^ $key[2]] ^
+                     $m2[$q1[$q0[$q0[$i] ^ $key[19]] ^ $key[11]] ^ $key[3]] ^
+                     $m3[$q1[$q1[$q0[$i] ^ $key[20]] ^ $key[12]] ^ $key[4]];
+                $B = $m0[$q0[$q0[$q1[$j] ^ $key[21]] ^ $key[13]] ^ $key[5]] ^
+                     $m1[$q0[$q1[$q1[$j] ^ $key[22]] ^ $key[14]] ^ $key[6]] ^
+                     $m2[$q1[$q0[$q0[$j] ^ $key[23]] ^ $key[15]] ^ $key[7]] ^
+                     $m3[$q1[$q1[$q0[$j] ^ $key[24]] ^ $key[16]] ^ $key[8]];
+                $B = ($B << 8) | ($B >> 24 & 0xff);
+                $K[] = $A+= $B;
+                $K[] = (($A+= $B) << 9 | $A >> 23 & 0x1ff);
+            }
+            for ($i = 0; $i < 256; ++$i) {
+                $S0[$i] = $m0[$q0[$q0[$q1[$i] ^ $s8] ^ $s4] ^ $s0];
+                $S1[$i] = $m1[$q0[$q1[$q1[$i] ^ $s9] ^ $s5] ^ $s1];
+                $S2[$i] = $m2[$q1[$q0[$q0[$i] ^ $sa] ^ $s6] ^ $s2];
+                $S3[$i] = $m3[$q1[$q1[$q0[$i] ^ $sb] ^ $s7] ^ $s3];
+            }
+            break;
+        default: // 32
+            list($sf, $se, $sd, $sc) = $this->_mdsrem($le_longs[1], $le_longs[2]);
+            list($sb, $sa, $s9, $s8) = $this->_mdsrem($le_longs[3], $le_longs[4]);
+            list($s7, $s6, $s5, $s4) = $this->_mdsrem($le_longs[5], $le_longs[6]);
+            list($s3, $s2, $s1, $s0) = $this->_mdsrem($le_longs[7], $le_longs[8]);
+            for ($i = 0, $j = 1; $i < 40; $i+= 2, $j+= 2) {
+                $A = $m0[$q0[$q0[$q1[$q1[$i] ^ $key[25]] ^ $key[17]] ^ $key[ 9]] ^ $key[1]] ^
+                     $m1[$q0[$q1[$q1[$q0[$i] ^ $key[26]] ^ $key[18]] ^ $key[10]] ^ $key[2]] ^
+                     $m2[$q1[$q0[$q0[$q0[$i] ^ $key[27]] ^ $key[19]] ^ $key[11]] ^ $key[3]] ^
+                     $m3[$q1[$q1[$q0[$q1[$i] ^ $key[28]] ^ $key[20]] ^ $key[12]] ^ $key[4]];
+                $B = $m0[$q0[$q0[$q1[$q1[$j] ^ $key[29]] ^ $key[21]] ^ $key[13]] ^ $key[5]] ^
+                     $m1[$q0[$q1[$q1[$q0[$j] ^ $key[30]] ^ $key[22]] ^ $key[14]] ^ $key[6]] ^
+                     $m2[$q1[$q0[$q0[$q0[$j] ^ $key[31]] ^ $key[23]] ^ $key[15]] ^ $key[7]] ^
+                     $m3[$q1[$q1[$q0[$q1[$j] ^ $key[32]] ^ $key[24]] ^ $key[16]] ^ $key[8]];
+                $B = ($B << 8) | ($B >> 24 & 0xff);
+                $K[] = $A+= $B;
+                $K[] = (($A+= $B) << 9 | $A >> 23 & 0x1ff);
+            }
+            for ($i = 0; $i < 256; ++$i) {
+                $S0[$i] = $m0[$q0[$q0[$q1[$q1[$i] ^ $sc] ^ $s8] ^ $s4] ^ $s0];
+                $S1[$i] = $m1[$q0[$q1[$q1[$q0[$i] ^ $sd] ^ $s9] ^ $s5] ^ $s1];
+                $S2[$i] = $m2[$q1[$q0[$q0[$q0[$i] ^ $se] ^ $sa] ^ $s6] ^ $s2];
+                $S3[$i] = $m3[$q1[$q1[$q0[$q1[$i] ^ $sf] ^ $sb] ^ $s7] ^ $s3];
+            }
         }
 
         $this->K  = $K;
@@ -503,8 +503,8 @@ class Twofish extends Base
      * _mdsrem function using by the twofish cipher algorithm
      *
      * @access private
-     * @param string $A
-     * @param string $B
+     * @param  string $A
+     * @param  string $B
      * @return array
      */
     function _mdsrem($A, $B)
@@ -551,7 +551,7 @@ class Twofish extends Base
      * Encrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _encryptBlock($in)
@@ -607,7 +607,7 @@ class Twofish extends Base
      * Decrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _decryptBlock($in)
@@ -662,7 +662,7 @@ class Twofish extends Base
     /**
      * Setup the performance-optimized function for de/encrypt()
      *
-     * @see \phpseclib\Crypt\Base::_setupInlineCrypt()
+     * @see    \phpseclib\Crypt\Base::_setupInlineCrypt()
      * @access private
      */
     function _setupInlineCrypt()
@@ -681,9 +681,9 @@ class Twofish extends Base
 
         if (!isset($lambda_functions[$code_hash])) {
             switch (true) {
-                case $gen_hi_opt_code:
-                    $K = $this->K;
-                    $init_crypt = '
+            case $gen_hi_opt_code:
+                $K = $this->K;
+                $init_crypt = '
                         static $S0, $S1, $S2, $S3;
                         if (!$S0) {
                             for ($i = 0; $i < 256; ++$i) {
@@ -694,13 +694,13 @@ class Twofish extends Base
                             }
                         }
                     ';
-                    break;
-                default:
-                    $K   = array();
-                    for ($i = 0; $i < 40; ++$i) {
-                        $K[] = '$K_' . $i;
-                    }
-                    $init_crypt = '
+                break;
+            default:
+                $K   = array();
+                for ($i = 0; $i < 40; ++$i) {
+                    $K[] = '$K_' . $i;
+                }
+                $init_crypt = '
                         $S0 = $self->S0;
                         $S1 = $self->S1;
                         $S2 = $self->S2;

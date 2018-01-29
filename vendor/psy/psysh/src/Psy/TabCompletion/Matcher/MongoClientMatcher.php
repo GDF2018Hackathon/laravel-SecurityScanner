@@ -43,9 +43,11 @@ class MongoClientMatcher extends AbstractContextAwareMatcher
         $list = $object->listDBs();
 
         return array_filter(
-            array_map(function ($info) {
-                return $info['name'];
-            }, $list['databases']),
+            array_map(
+                function ($info) {
+                    return $info['name'];
+                }, $list['databases']
+            ),
             function ($var) use ($input) {
                 return AbstractMatcher::startsWith($input, $var);
             }
@@ -61,9 +63,9 @@ class MongoClientMatcher extends AbstractContextAwareMatcher
         $prevToken = array_pop($tokens);
 
         switch (true) {
-            case self::tokenIs($token, self::T_OBJECT_OPERATOR):
-            case self::tokenIs($prevToken, self::T_OBJECT_OPERATOR):
-                return true;
+        case self::tokenIs($token, self::T_OBJECT_OPERATOR):
+        case self::tokenIs($prevToken, self::T_OBJECT_OPERATOR):
+            return true;
         }
 
         return false;

@@ -37,9 +37,11 @@ class InterfacePassTest extends TestCase
     {
         $pass = new InterfacePass;
 
-        $config = m::mock("Mockery\Generator\MockConfiguration", array(
+        $config = m::mock(
+            "Mockery\Generator\MockConfiguration", array(
             "getTargetInterfaces" => array(),
-        ));
+            )
+        );
 
         $code = $pass->apply(static::CODE, $config);
         $this->assertEquals(static::CODE, $code);
@@ -52,12 +54,14 @@ class InterfacePassTest extends TestCase
     {
         $pass = new InterfacePass;
 
-        $config = m::mock("Mockery\Generator\MockConfiguration", array(
+        $config = m::mock(
+            "Mockery\Generator\MockConfiguration", array(
             "getTargetInterfaces" => array(
                 m::mock(array("getName" => "Dave\Dave")),
                 m::mock(array("getName" => "Paddy\Paddy")),
             ),
-        ));
+            )
+        );
 
         $code = $pass->apply(static::CODE, $config);
 

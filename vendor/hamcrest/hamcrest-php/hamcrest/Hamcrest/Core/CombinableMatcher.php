@@ -29,13 +29,17 @@ class CombinableMatcher extends BaseMatcher
         $description->appendDescriptionOf($this->_matcher);
     }
 
-    /** Diversion from Hamcrest-Java... Logical "and" not permitted */
+    /**
+     * Diversion from Hamcrest-Java... Logical "and" not permitted 
+     */
     public function andAlso(Matcher $other)
     {
         return new self(new AllOf($this->_templatedListWith($other)));
     }
 
-    /** Diversion from Hamcrest-Java... Logical "or" not permitted */
+    /**
+     * Diversion from Hamcrest-Java... Logical "or" not permitted 
+     */
     public function orElse(Matcher $other)
     {
         return new self(new AnyOf($this->_templatedListWith($other)));

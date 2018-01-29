@@ -631,8 +631,9 @@ class CodeCoverage
      */
     private function applyCoversAnnotationFilter(array &$data, $linesToBeCovered, array $linesToBeUsed, $ignoreForceCoversAnnotation)
     {
-        if ($linesToBeCovered === false ||
-            ($this->forceCoversAnnotation && empty($linesToBeCovered) && !$ignoreForceCoversAnnotation)) {
+        if ($linesToBeCovered === false 
+            || ($this->forceCoversAnnotation && empty($linesToBeCovered) && !$ignoreForceCoversAnnotation)
+        ) {
             if ($this->checkForMissingCoversAnnotation) {
                 throw new MissingCoversAnnotationException;
             }
@@ -646,9 +647,10 @@ class CodeCoverage
             return;
         }
 
-        if ($this->checkForUnintentionallyCoveredCode &&
-            (!$this->currentId instanceof TestCase ||
-            (!$this->currentId->isMedium() && !$this->currentId->isLarge()))) {
+        if ($this->checkForUnintentionallyCoveredCode 
+            && (!$this->currentId instanceof TestCase 
+            || (!$this->currentId->isMedium() && !$this->currentId->isLarge()))
+        ) {
             $this->performUnintentionallyCoveredCodeCheck($data, $linesToBeCovered, $linesToBeUsed);
         }
 
@@ -835,82 +837,85 @@ class CodeCoverage
 
         foreach ($tokens->tokens() as $token) {
             switch (\get_class($token)) {
-                case \PHP_Token_COMMENT::class:
-                case \PHP_Token_DOC_COMMENT::class:
-                    $_token = \trim($token);
-                    $_line  = \trim($lines[$token->getLine() - 1]);
+            case \PHP_Token_COMMENT::class:
+            case \PHP_Token_DOC_COMMENT::class:
+                $_token = \trim($token);
+                $_line  = \trim($lines[$token->getLine() - 1]);
 
-                    if ($_token === '// @codeCoverageIgnore' ||
-                        $_token === '//@codeCoverageIgnore') {
-                        $ignore = true;
-                        $stop   = true;
-                    } elseif ($_token === '// @codeCoverageIgnoreStart' ||
-                        $_token === '//@codeCoverageIgnoreStart') {
-                        $ignore = true;
-                    } elseif ($_token === '// @codeCoverageIgnoreEnd' ||
-                        $_token === '//@codeCoverageIgnoreEnd') {
-                        $stop = true;
+                if ($_token === '// @codeCoverageIgnore' 
+                    || $_token === '//@codeCoverageIgnore'
+                ) {
+                    $ignore = true;
+                    $stop   = true;
+                } elseif ($_token === '// @codeCoverageIgnoreStart' 
+                    || $_token === '//@codeCoverageIgnoreStart'
+                ) {
+                    $ignore = true;
+                } elseif ($_token === '// @codeCoverageIgnoreEnd' 
+                    || $_token === '//@codeCoverageIgnoreEnd'
+                ) {
+                    $stop = true;
+                }
+
+                if (!$ignore) {
+                    $start = $token->getLine();
+                    $end   = $start + \substr_count($token, "\n");
+
+                    // Do not ignore the first line when there is a token
+                    // before the comment
+                    if (0 !== \strpos($_token, $_line)) {
+                        $start++;
                     }
 
-                    if (!$ignore) {
-                        $start = $token->getLine();
-                        $end   = $start + \substr_count($token, "\n");
-
-                        // Do not ignore the first line when there is a token
-                        // before the comment
-                        if (0 !== \strpos($_token, $_line)) {
-                            $start++;
-                        }
-
-                        for ($i = $start; $i < $end; $i++) {
-                            $this->ignoredLines[$filename][] = $i;
-                        }
-
-                        // A DOC_COMMENT token or a COMMENT token starting with "/*"
-                        // does not contain the final \n character in its text
-                        if (isset($lines[$i - 1]) && 0 === \strpos($_token, '/*') && '*/' === \substr(\trim($lines[$i - 1]), -2)) {
-                            $this->ignoredLines[$filename][] = $i;
-                        }
+                    for ($i = $start; $i < $end; $i++) {
+                        $this->ignoredLines[$filename][] = $i;
                     }
 
-                    break;
-
-                case \PHP_Token_INTERFACE::class:
-                case \PHP_Token_TRAIT::class:
-                case \PHP_Token_CLASS::class:
-                case \PHP_Token_FUNCTION::class:
-                    /* @var \PHP_Token_Interface $token */
-
-                    $docblock = $token->getDocblock();
-
-                    $this->ignoredLines[$filename][] = $token->getLine();
-
-                    if (\strpos($docblock, '@codeCoverageIgnore') || ($this->ignoreDeprecatedCode && \strpos($docblock, '@deprecated'))) {
-                        $endLine = $token->getEndLine();
-
-                        for ($i = $token->getLine(); $i <= $endLine; $i++) {
-                            $this->ignoredLines[$filename][] = $i;
-                        }
+                    // A DOC_COMMENT token or a COMMENT token starting with "/*"
+                    // does not contain the final \n character in its text
+                    if (isset($lines[$i - 1]) && 0 === \strpos($_token, '/*') && '*/' === \substr(\trim($lines[$i - 1]), -2)) {
+                        $this->ignoredLines[$filename][] = $i;
                     }
+                }
 
-                    break;
+                break;
 
-                case \PHP_Token_ENUM::class:
-                    $this->ignoredLines[$filename][] = $token->getLine();
+            case \PHP_Token_INTERFACE::class:
+            case \PHP_Token_TRAIT::class:
+            case \PHP_Token_CLASS::class:
+            case \PHP_Token_FUNCTION::class:
+                /* @var \PHP_Token_Interface $token */
 
-                    break;
+                $docblock = $token->getDocblock();
 
-                case \PHP_Token_NAMESPACE::class:
-                    $this->ignoredLines[$filename][] = $token->getEndLine();
+                $this->ignoredLines[$filename][] = $token->getLine();
+
+                if (\strpos($docblock, '@codeCoverageIgnore') || ($this->ignoreDeprecatedCode && \strpos($docblock, '@deprecated'))) {
+                    $endLine = $token->getEndLine();
+
+                    for ($i = $token->getLine(); $i <= $endLine; $i++) {
+                        $this->ignoredLines[$filename][] = $i;
+                    }
+                }
+
+                break;
+
+            case \PHP_Token_ENUM::class:
+                $this->ignoredLines[$filename][] = $token->getLine();
+
+                break;
+
+            case \PHP_Token_NAMESPACE::class:
+                $this->ignoredLines[$filename][] = $token->getEndLine();
 
                 // Intentional fallthrough
-                case \PHP_Token_DECLARE::class:
-                case \PHP_Token_OPEN_TAG::class:
-                case \PHP_Token_CLOSE_TAG::class:
-                case \PHP_Token_USE::class:
-                    $this->ignoredLines[$filename][] = $token->getLine();
+            case \PHP_Token_DECLARE::class:
+            case \PHP_Token_OPEN_TAG::class:
+            case \PHP_Token_CLOSE_TAG::class:
+            case \PHP_Token_USE::class:
+                $this->ignoredLines[$filename][] = $token->getLine();
 
-                    break;
+                break;
             }
 
             if ($ignore) {
@@ -1119,7 +1124,7 @@ class CodeCoverage
 
             foreach ($this->filter->getWhitelist() as $file) {
                 if ($this->filter->isFile($file)) {
-                    include_once($file);
+                    include_once $file;
                 }
             }
 

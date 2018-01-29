@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery\Generator;
@@ -33,7 +33,7 @@ class MockConfigurationBuilder
         '__toString',
         '__isset',
         '__destruct',
-        '__debugInfo', ## mocking this makes it difficult to debug with xdebug
+        '__debugInfo', // mocking this makes it difficult to debug with xdebug
 
         // below are reserved words in PHP
         "__halt_compiler", "abstract", "and", "array", "as",

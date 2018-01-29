@@ -39,7 +39,7 @@ class MockingNullableMethodsTest extends MockeryTestCase
     {
         parent::setUp();
 
-        require_once __DIR__."/Fixtures/MethodWithNullableReturnType.php";
+        include_once __DIR__."/Fixtures/MethodWithNullableReturnType.php";
     }
 
     /**
@@ -177,7 +177,9 @@ class MockingNullableMethodsTest extends MockeryTestCase
         $mock->nullableClass();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_allows_returning_null_for_nullable_object_return_types()
     {
         $double= \Mockery::mock(MethodWithNullableReturnType::class);
@@ -187,7 +189,9 @@ class MockingNullableMethodsTest extends MockeryTestCase
         $this->assertEquals(null, $double->nullableClass());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_allows_returning_null_for_nullable_string_return_types()
     {
         $double= \Mockery::mock(MethodWithNullableReturnType::class);
@@ -197,7 +201,9 @@ class MockingNullableMethodsTest extends MockeryTestCase
         $this->assertEquals(null, $double->nullableString());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_allows_returning_null_for_nullable_int_return_types()
     {
         $double= \Mockery::mock(MethodWithNullableReturnType::class);
@@ -207,7 +213,9 @@ class MockingNullableMethodsTest extends MockeryTestCase
         $this->assertEquals(null, $double->nullableInt());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_returns_null_on_calls_to_ignored_methods_of_spies_if_return_type_is_nullable()
     {
         $double = \Mockery::spy(MethodWithNullableReturnType::class);

@@ -37,7 +37,7 @@ class IsArrayWithSize extends FeatureMatcher
      *
      * @param \Hamcrest\Matcher|int $size as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayWithSize
+     * @return  \Hamcrest\Arrays\IsArrayWithSize
      * @factory
      */
     public static function arrayWithSize($size)

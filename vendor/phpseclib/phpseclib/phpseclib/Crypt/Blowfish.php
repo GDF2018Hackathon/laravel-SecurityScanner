@@ -50,8 +50,8 @@ class Blowfish extends Base
     /**
      * Block Length of the cipher
      *
-     * @see \phpseclib\Crypt\Base::block_size
-     * @var int
+     * @see    \phpseclib\Crypt\Base::block_size
+     * @var    int
      * @access private
      */
     var $block_size = 8;
@@ -59,8 +59,8 @@ class Blowfish extends Base
     /**
      * The mcrypt specific name of the cipher
      *
-     * @see \phpseclib\Crypt\Base::cipher_name_mcrypt
-     * @var string
+     * @see    \phpseclib\Crypt\Base::cipher_name_mcrypt
+     * @var    string
      * @access private
      */
     var $cipher_name_mcrypt = 'blowfish';
@@ -68,8 +68,8 @@ class Blowfish extends Base
     /**
      * Optimizing value while CFB-encrypting
      *
-     * @see \phpseclib\Crypt\Base::cfb_init_len
-     * @var int
+     * @see    \phpseclib\Crypt\Base::cfb_init_len
+     * @var    int
      * @access private
      */
     var $cfb_init_len = 500;
@@ -243,7 +243,7 @@ class Blowfish extends Base
     /**
      * P-Array consists of 18 32-bit subkeys
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $parray = array(
@@ -257,7 +257,7 @@ class Blowfish extends Base
      *
      * Holds the expanded key [p] and the key-depended s-boxes [sb]
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $bctx;
@@ -265,7 +265,7 @@ class Blowfish extends Base
     /**
      * Holds the last used key
      *
-     * @var array
+     * @var    array
      * @access private
      */
     var $kl;
@@ -273,9 +273,9 @@ class Blowfish extends Base
     /**
      * The Key Length (in bytes)
      *
-     * @see \phpseclib\Crypt\Base::setKeyLength()
-     * @var int
-     * @access private
+     * @see      \phpseclib\Crypt\Base::setKeyLength()
+     * @var      int
+     * @access   private
      * @internal The max value is 256 / 8 = 32, the min value is 128 / 8 = 16.  Exists in conjunction with $Nk
      *    because the encryption / decryption / key schedule creation requires this number and not $key_length.  We could
      *    derive this from $key_length or vice versa, but that'd mean we'd have to do multiple shift operations, so in lieu
@@ -289,7 +289,7 @@ class Blowfish extends Base
      * Key lengths can be between 32 and 448 bits.
      *
      * @access public
-     * @param int $length
+     * @param  int $length
      */
     function setKeyLength($length)
     {
@@ -309,8 +309,8 @@ class Blowfish extends Base
      *
      * This is mainly just a wrapper to set things up for \phpseclib\Crypt\Base::isValidEngine()
      *
-     * @see \phpseclib\Crypt\Base::isValidEngine()
-     * @param int $engine
+     * @see    \phpseclib\Crypt\Base::isValidEngine()
+     * @param  int $engine
      * @access public
      * @return bool
      */
@@ -333,7 +333,7 @@ class Blowfish extends Base
     /**
      * Setup the key (expansion)
      *
-     * @see \phpseclib\Crypt\Base::_setupKey()
+     * @see    \phpseclib\Crypt\Base::_setupKey()
      * @access private
      */
     function _setupKey()
@@ -390,7 +390,7 @@ class Blowfish extends Base
      * Encrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _encryptBlock($in)
@@ -426,7 +426,7 @@ class Blowfish extends Base
      * Decrypts a block
      *
      * @access private
-     * @param string $in
+     * @param  string $in
      * @return string
      */
     function _decryptBlock($in)
@@ -460,7 +460,7 @@ class Blowfish extends Base
     /**
      * Setup the performance-optimized function for de/encrypt()
      *
-     * @see \phpseclib\Crypt\Base::_setupInlineCrypt()
+     * @see    \phpseclib\Crypt\Base::_setupInlineCrypt()
      * @access private
      */
     function _setupInlineCrypt()
@@ -480,9 +480,9 @@ class Blowfish extends Base
 
         if (!isset($lambda_functions[$code_hash])) {
             switch (true) {
-                case $gen_hi_opt_code:
-                    $p = $this->bctx['p'];
-                    $init_crypt = '
+            case $gen_hi_opt_code:
+                $p = $this->bctx['p'];
+                $init_crypt = '
                         static $sb_0, $sb_1, $sb_2, $sb_3;
                         if (!$sb_0) {
                             $sb_0 = $self->bctx["sb"][0];
@@ -491,13 +491,13 @@ class Blowfish extends Base
                             $sb_3 = $self->bctx["sb"][3];
                         }
                     ';
-                    break;
-                default:
-                    $p   = array();
-                    for ($i = 0; $i < 18; ++$i) {
-                        $p[] = '$p_' . $i;
-                    }
-                    $init_crypt = '
+                break;
+            default:
+                $p   = array();
+                for ($i = 0; $i < 18; ++$i) {
+                    $p[] = '$p_' . $i;
+                }
+                $init_crypt = '
                         list($sb_0, $sb_1, $sb_2, $sb_3) = $self->bctx["sb"];
                         list(' . implode(',', $p) . ') = $self->bctx["p"];
 

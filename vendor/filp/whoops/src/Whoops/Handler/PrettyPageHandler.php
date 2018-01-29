@@ -1,6 +1,7 @@
 <?php
 /**
  * Whoops - php errors for cool kids
+ *
  * @author Filipe Dobreira <http://github.com/filp>
  */
 
@@ -80,12 +81,13 @@ class PrettyPageHandler extends Handler
      *
      * @example
      *  "txmt://open?url=%file&line=%line"
-     * @var mixed $editor
+     * @var     mixed $editor
      */
     protected $editor;
 
     /**
      * A list of known editor strings
+     *
      * @var array
      */
     protected $editors = [
@@ -126,19 +128,21 @@ class PrettyPageHandler extends Handler
         if (class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
             $cloner = new VarCloner();
             // Only dump object internals if a custom caster exists.
-            $cloner->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
-                $class = $stub->class;
-                $classes = [$class => $class] + class_parents($class) + class_implements($class);
+            $cloner->addCasters(
+                ['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
+                    $class = $stub->class;
+                    $classes = [$class => $class] + class_parents($class) + class_implements($class);
 
-                foreach ($classes as $class) {
-                    if (isset(AbstractCloner::$defaultCasters[$class])) {
-                        return $a;
+                    foreach ($classes as $class) {
+                        if (isset(AbstractCloner::$defaultCasters[$class])) {
+                            return $a;
+                        }
                     }
-                }
 
-                // Remove all internals
-                return [];
-            }]);
+                    // Remove all internals
+                    return [];
+                }]
+            );
             $this->templateHelper->setCloner($cloner);
         }
     }
@@ -235,9 +239,11 @@ class PrettyPageHandler extends Handler
 
         // Add extra entries list of data tables:
         // @todo: Consolidate addDataTable and addDataTableCallback
-        $extraTables = array_map(function ($table) use ($inspector) {
-            return $table instanceof \Closure ? $table($inspector) : $table;
-        }, $this->getDataTables());
+        $extraTables = array_map(
+            function ($table) use ($inspector) {
+                return $table instanceof \Closure ? $table($inspector) : $table;
+            }, $this->getDataTables()
+        );
         $vars["tables"] = array_merge($extraTables, $vars["tables"]);
 
         $plainTextHandler = new PlainTextHandler();
@@ -304,6 +310,7 @@ class PrettyPageHandler extends Handler
      * Adds an entry to the list of tables displayed in the template.
      * The expected data is a simple associative array. Any nested arrays
      * will be flattened with print_r
+     *
      * @param string $label
      * @param array  $data
      */
@@ -319,8 +326,8 @@ class PrettyPageHandler extends Handler
      * be flattened with print_r.
      *
      * @throws InvalidArgumentException If $callback is not callable
-     * @param  string                   $label
-     * @param  callable                 $callback Callable returning an associative array
+     * @param  string   $label
+     * @param  callable $callback Callable returning an associative array
      */
     public function addDataTableCallback($label, /* callable */ $callback)
     {
@@ -345,7 +352,8 @@ class PrettyPageHandler extends Handler
      * Returns all the extra data tables registered with this handler.
      * Optionally accepts a 'label' parameter, to only return the data
      * table under that label.
-     * @param  string|null      $label
+     *
+     * @param  string|null $label
      * @return array[]|callable
      */
     public function getDataTables($label = null)
@@ -362,6 +370,7 @@ class PrettyPageHandler extends Handler
      * Allows to disable all attempts to dynamically decide whether to
      * handle or return prematurely.
      * Set this to ensure that the handler will perform no matter what.
+     *
      * @param  bool|null $value
      * @return bool|null
      */
@@ -387,8 +396,8 @@ class PrettyPageHandler extends Handler
      *       unlink($file);
      *       return "http://stackoverflow.com";
      *   });
-     * @param string $identifier
-     * @param string $resolver
+     * @param   string $identifier
+     * @param   string $resolver
      */
     public function addEditor($identifier, $resolver)
     {
@@ -407,7 +416,7 @@ class PrettyPageHandler extends Handler
      *   $run->setEditor('sublime');
      *
      * @throws InvalidArgumentException If invalid argument identifier provided
-     * @param  string|callable          $editor
+     * @param  string|callable $editor
      */
     public function setEditor($editor)
     {
@@ -428,8 +437,8 @@ class PrettyPageHandler extends Handler
      * file reference.
      *
      * @throws InvalidArgumentException If editor resolver does not return a string
-     * @param  string                   $filePath
-     * @param  int                      $line
+     * @param  string $filePath
+     * @param  int    $line
      * @return string|bool
      */
     public function getEditorHref($filePath, $line)
@@ -460,8 +469,8 @@ class PrettyPageHandler extends Handler
      * valid callable function/closure
      *
      * @throws UnexpectedValueException  If editor resolver does not return a boolean
-     * @param  string                   $filePath
-     * @param  int                      $line
+     * @param  string $filePath
+     * @param  int    $line
      * @return bool
      */
     public function getEditorAjax($filePath, $line)
@@ -687,8 +696,8 @@ class PrettyPageHandler extends Handler
      *
      * We intentionally dont rely on $GLOBALS as it depends on 'auto_globals_jit' php.ini setting.
      *
-     * @param $superGlobal array One of the superglobal arrays
-     * @param $superGlobalName string the name of the superglobal array, e.g. '_GET'
+     * @param  $superGlobal array One of the superglobal arrays
+     * @param  $superGlobalName string the name of the superglobal array, e.g. '_GET'
      * @return array $values without sensitive data
      */
     private function masked(array $superGlobal, $superGlobalName)

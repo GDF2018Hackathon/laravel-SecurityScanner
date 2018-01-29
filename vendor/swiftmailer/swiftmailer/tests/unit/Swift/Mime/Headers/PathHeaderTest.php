@@ -34,7 +34,7 @@ class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit\Framework\TestCase
 
             path            =       ([CFWS] "<" ([CFWS] / addr-spec) ">" [CFWS]) /
                                                             obs-path
-     */
+        */
 
         $header = $this->getHeader('Return-Path');
         $header->setAddress('chris@swiftmailer.org');
@@ -66,9 +66,10 @@ class Swift_Mime_Headers_PathHeaderTest extends \PHPUnit\Framework\TestCase
     {
         $header = $this->getHeader('Return-Path');
         $header->setAddress('chris@swiftmailer.org');
-        $this->assertEquals('Return-Path: <chris@swiftmailer.org>'."\r\n",
+        $this->assertEquals(
+            'Return-Path: <chris@swiftmailer.org>'."\r\n",
             $header->toString()
-            );
+        );
     }
 
     private function getHeader($name)

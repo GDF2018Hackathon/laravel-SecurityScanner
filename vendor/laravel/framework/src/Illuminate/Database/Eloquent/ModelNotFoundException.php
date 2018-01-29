@@ -24,8 +24,8 @@ class ModelNotFoundException extends RuntimeException
     /**
      * Set the affected Eloquent model and instance ids.
      *
-     * @param  string  $model
-     * @param  int|array  $ids
+     * @param  string    $model
+     * @param  int|array $ids
      * @return $this
      */
     public function setModel($model, $ids = [])

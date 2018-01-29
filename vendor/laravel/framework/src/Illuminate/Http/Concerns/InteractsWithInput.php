@@ -13,8 +13,8 @@ trait InteractsWithInput
     /**
      * Retrieve a server variable from the request.
      *
-     * @param  string  $key
-     * @param  string|array|null  $default
+     * @param  string            $key
+     * @param  string|array|null $default
      * @return string|array
      */
     public function server($key = null, $default = null)
@@ -25,7 +25,7 @@ trait InteractsWithInput
     /**
      * Determine if a header is set on the request.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return bool
      */
     public function hasHeader($key)
@@ -36,8 +36,8 @@ trait InteractsWithInput
     /**
      * Retrieve a header from the request.
      *
-     * @param  string  $key
-     * @param  string|array|null  $default
+     * @param  string            $key
+     * @param  string|array|null $default
      * @return string|array
      */
     public function header($key = null, $default = null)
@@ -62,7 +62,7 @@ trait InteractsWithInput
     /**
      * Determine if the request contains a given input item key.
      *
-     * @param  string|array  $key
+     * @param  string|array $key
      * @return bool
      */
     public function exists($key)
@@ -73,7 +73,7 @@ trait InteractsWithInput
     /**
      * Determine if the request contains a given input item key.
      *
-     * @param  string|array  $key
+     * @param  string|array $key
      * @return bool
      */
     public function has($key)
@@ -94,7 +94,7 @@ trait InteractsWithInput
     /**
      * Determine if the request contains any of the given inputs.
      *
-     * @param  dynamic  $key
+     * @param  dynamic $key
      * @return bool
      */
     public function hasAny(...$keys)
@@ -113,7 +113,7 @@ trait InteractsWithInput
     /**
      * Determine if the request contains a non-empty value for an input item.
      *
-     * @param  string|array  $key
+     * @param  string|array $key
      * @return bool
      */
     public function filled($key)
@@ -132,7 +132,7 @@ trait InteractsWithInput
     /**
      * Determine if the given input key is an empty string for "has".
      *
-     * @param  string  $key
+     * @param  string $key
      * @return bool
      */
     protected function isEmptyString($key)
@@ -155,7 +155,7 @@ trait InteractsWithInput
     /**
      * Get all of the input and files for the request.
      *
-     * @param  array|mixed  $keys
+     * @param  array|mixed $keys
      * @return array
      */
     public function all($keys = null)
@@ -178,8 +178,8 @@ trait InteractsWithInput
     /**
      * Retrieve an input item from the request.
      *
-     * @param  string  $key
-     * @param  string|array|null  $default
+     * @param  string            $key
+     * @param  string|array|null $default
      * @return string|array
      */
     public function input($key = null, $default = null)
@@ -192,7 +192,7 @@ trait InteractsWithInput
     /**
      * Get a subset containing the provided keys with values from the input data.
      *
-     * @param  array|mixed  $keys
+     * @param  array|mixed $keys
      * @return array
      */
     public function only($keys)
@@ -217,7 +217,7 @@ trait InteractsWithInput
     /**
      * Get all of the input except for a specified array of items.
      *
-     * @param  array|mixed  $keys
+     * @param  array|mixed $keys
      * @return array
      */
     public function except($keys)
@@ -234,8 +234,8 @@ trait InteractsWithInput
     /**
      * Retrieve a query string item from the request.
      *
-     * @param  string  $key
-     * @param  string|array|null  $default
+     * @param  string            $key
+     * @param  string|array|null $default
      * @return string|array
      */
     public function query($key = null, $default = null)
@@ -246,8 +246,8 @@ trait InteractsWithInput
     /**
      * Retrieve a request payload item from the request.
      *
-     * @param  string  $key
-     * @param  string|array|null  $default
+     * @param string            $key
+     * @param string|array|null $default
      *
      * @return string|array
      */
@@ -259,7 +259,7 @@ trait InteractsWithInput
     /**
      * Determine if a cookie is set on the request.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return bool
      */
     public function hasCookie($key)
@@ -270,8 +270,8 @@ trait InteractsWithInput
     /**
      * Retrieve a cookie from the request.
      *
-     * @param  string  $key
-     * @param  string|array|null  $default
+     * @param  string            $key
+     * @param  string|array|null $default
      * @return string|array
      */
     public function cookie($key = null, $default = null)
@@ -296,26 +296,28 @@ trait InteractsWithInput
     /**
      * Convert the given array of Symfony UploadedFiles to custom Laravel UploadedFiles.
      *
-     * @param  array  $files
+     * @param  array $files
      * @return array
      */
     protected function convertUploadedFiles(array $files)
     {
-        return array_map(function ($file) {
-            if (is_null($file) || (is_array($file) && empty(array_filter($file)))) {
-                return $file;
-            }
+        return array_map(
+            function ($file) {
+                if (is_null($file) || (is_array($file) && empty(array_filter($file)))) {
+                    return $file;
+                }
 
-            return is_array($file)
+                return is_array($file)
                         ? $this->convertUploadedFiles($file)
                         : UploadedFile::createFromBase($file);
-        }, $files);
+            }, $files
+        );
     }
 
     /**
      * Determine if the uploaded data contains a file.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return bool
      */
     public function hasFile($key)
@@ -336,7 +338,7 @@ trait InteractsWithInput
     /**
      * Check that the given file is a valid file instance.
      *
-     * @param  mixed  $file
+     * @param  mixed $file
      * @return bool
      */
     protected function isValidFile($file)
@@ -347,7 +349,7 @@ trait InteractsWithInput
     /**
      * Retrieve a file from the request.
      *
-     * @param  string  $key
+     * @param  string $key
      * @param  mixed  $default
      * @return \Illuminate\Http\UploadedFile|array|null
      */
@@ -359,9 +361,9 @@ trait InteractsWithInput
     /**
      * Retrieve a parameter item from a given source.
      *
-     * @param  string  $source
-     * @param  string  $key
-     * @param  string|array|null  $default
+     * @param  string            $source
+     * @param  string            $key
+     * @param  string|array|null $default
      * @return string|array
      */
     protected function retrieveItem($source, $key, $default)

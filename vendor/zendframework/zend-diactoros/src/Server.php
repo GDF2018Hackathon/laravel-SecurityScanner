@@ -46,9 +46,9 @@ class Server
      *
      * Given a callback, a request, and a response, we can create a server.
      *
-     * @param callable $callback
+     * @param callable               $callback
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
+     * @param ResponseInterface      $response
      */
     public function __construct(
         callable $callback,
@@ -63,7 +63,7 @@ class Server
     /**
      * Allow retrieving the request, response and callback as properties
      *
-     * @param string $name
+     * @param  string $name
      * @return mixed
      * @throws OutOfBoundsException for invalid properties
      */
@@ -97,12 +97,12 @@ class Server
      * - cookies; typically this will be the $_COOKIE superglobal
      * - files; typically this will be the $_FILES superglobal
      *
-     * @param callable $callback
-     * @param array $server
-     * @param array $query
-     * @param array $body
-     * @param array $cookies
-     * @param array $files
+     * @param  callable $callback
+     * @param  array    $server
+     * @param  array    $query
+     * @param  array    $body
+     * @param  array    $cookies
+     * @param  array    $files
      * @return static
      */
     public static function createServer(
@@ -126,9 +126,9 @@ class Server
      *
      * If no Response object is provided, one will be created.
      *
-     * @param callable $callback
-     * @param ServerRequestInterface $request
-     * @param null|ResponseInterface $response
+     * @param  callable               $callback
+     * @param  ServerRequestInterface $request
+     * @param  null|ResponseInterface $response
      * @return static
      */
     public static function createServerFromRequest(

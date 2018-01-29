@@ -9,7 +9,7 @@ trait ConditionallyLoadsAttributes
     /**
      * Filter the given data, removing any optional values.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return array
      */
     protected function filter($data)
@@ -29,10 +29,11 @@ trait ConditionallyLoadsAttributes
                 return $this->merge($data, $index, $this->filter($value->data));
             }
 
-            if (($value instanceof PotentiallyMissing && $value->isMissing()) ||
-                ($value instanceof self &&
-                $value->resource instanceof PotentiallyMissing &&
-                $value->isMissing())) {
+            if (($value instanceof PotentiallyMissing && $value->isMissing()) 
+                || ($value instanceof self 
+                && $value->resource instanceof PotentiallyMissing 
+                && $value->isMissing())
+            ) {
                 unset($data[$key]);
 
                 $index--;
@@ -49,9 +50,9 @@ trait ConditionallyLoadsAttributes
     /**
      * Merge the given data in at the given index.
      *
-     * @param  array  $data
-     * @param  int  $index
-     * @param  array  $merge
+     * @param  array $data
+     * @param  int   $index
+     * @param  array $merge
      * @return array
      */
     protected function merge($data, $index, $merge)
@@ -72,8 +73,8 @@ trait ConditionallyLoadsAttributes
      * Retrieve a value based on a given condition.
      *
      * @param  bool  $condition
-     * @param  mixed  $value
-     * @param  mixed  $default
+     * @param  mixed $value
+     * @param  mixed $default
      * @return \Illuminate\Http\Resources\MissingValue|mixed
      */
     protected function when($condition, $value, $default = null)
@@ -89,7 +90,7 @@ trait ConditionallyLoadsAttributes
      * Merge a value based on a given condition.
      *
      * @param  bool  $condition
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return \Illuminate\Http\Resources\MissingValue|mixed
      */
     protected function mergeWhen($condition, $value)
@@ -100,7 +101,7 @@ trait ConditionallyLoadsAttributes
     /**
      * Merge the given attributes.
      *
-     * @param  array  $attributes
+     * @param  array $attributes
      * @return \Illuminate\Http\Resources\MergeValue
      */
     protected function attributes($attributes)
@@ -113,7 +114,7 @@ trait ConditionallyLoadsAttributes
     /**
      * Retrieve a relationship if it has been loaded.
      *
-     * @param  string  $relationship
+     * @param  string $relationship
      * @param  mixed  $value
      * @param  mixed  $default
      * @return \Illuminate\Http\Resources\MissingValue|mixed
@@ -142,7 +143,7 @@ trait ConditionallyLoadsAttributes
     /**
      * Execute a callback if the given pivot table has been loaded.
      *
-     * @param  string  $table
+     * @param  string $table
      * @param  mixed  $value
      * @param  mixed  $default
      * @return \Illuminate\Http\Resources\MissingValue|mixed
@@ -164,9 +165,9 @@ trait ConditionallyLoadsAttributes
     /**
      * Transform the given value if it is present.
      *
-     * @param  mixed  $value
-     * @param  callable  $callback
-     * @param  mixed  $default
+     * @param  mixed    $value
+     * @param  callable $callback
+     * @param  mixed    $default
      * @return mixed
      */
     protected function transform($value, callable $callback, $default = null)

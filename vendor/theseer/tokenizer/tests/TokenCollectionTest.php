@@ -6,20 +6,26 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \TheSeer\Tokenizer\TokenCollection
  */
-class TokenCollectionTest extends TestCase {
+class TokenCollectionTest extends TestCase
+{
 
-    /** @var  TokenCollection */
+    /**
+     * @var  TokenCollection 
+     */
     private $collection;
 
-    protected function setUp() {
+    protected function setUp() 
+    {
         $this->collection = new TokenCollection();
     }
 
-    public function testCollectionIsInitiallyEmpty() {
+    public function testCollectionIsInitiallyEmpty() 
+    {
         $this->assertCount(0, $this->collection);
     }
 
-    public function testTokenCanBeAddedToCollection() {
+    public function testTokenCanBeAddedToCollection() 
+    {
         $token = $this->createMock(Token::class);
         $this->collection->addToken($token);
 
@@ -27,7 +33,8 @@ class TokenCollectionTest extends TestCase {
         $this->assertSame($token, $this->collection[0]);
     }
 
-    public function testCanIterateOverTokens() {
+    public function testCanIterateOverTokens() 
+    {
         $token = $this->createMock(Token::class);
         $this->collection->addToken($token);
         $this->collection->addToken($token);
@@ -38,7 +45,8 @@ class TokenCollectionTest extends TestCase {
         }
     }
 
-    public function testOffsetCanBeUnset() {
+    public function testOffsetCanBeUnset() 
+    {
         $token = $this->createMock(Token::class);
         $this->collection->addToken($token);
 
@@ -47,24 +55,28 @@ class TokenCollectionTest extends TestCase {
         $this->assertCount(0, $this->collection);
     }
 
-    public function testTokenCanBeSetViaOffsetPosition() {
+    public function testTokenCanBeSetViaOffsetPosition() 
+    {
         $token = $this->createMock(Token::class);
         $this->collection[0] = $token;
         $this->assertCount(1, $this->collection);
         $this->assertSame($token, $this->collection[0]);
     }
 
-    public function testTryingToUseNonIntegerOffsetThrowsException() {
+    public function testTryingToUseNonIntegerOffsetThrowsException() 
+    {
         $this->expectException(TokenCollectionException::class);
         $this->collection['foo'] = $this->createMock(Token::class);
     }
 
-    public function testTryingToSetNonTokenAtOffsetThrowsException() {
+    public function testTryingToSetNonTokenAtOffsetThrowsException() 
+    {
         $this->expectException(TokenCollectionException::class);
         $this->collection[0] = 'abc';
     }
 
-    public function testTryingToGetTokenAtNonExistingOffsetThrowsException() {
+    public function testTryingToGetTokenAtNonExistingOffsetThrowsException() 
+    {
         $this->expectException(TokenCollectionException::class);
         $x = $this->collection[3];
     }

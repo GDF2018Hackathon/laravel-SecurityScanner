@@ -60,11 +60,13 @@ class Mirror
         } elseif ($filter & self::STATIC_PROPERTY && $class->hasProperty($member) && $class->getProperty($member)->isStatic()) {
             return $class->getProperty($member);
         } else {
-            throw new RuntimeException(sprintf(
-                'Unknown member %s on class %s',
-                $member,
-                is_object($value) ? get_class($value) : $value
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'Unknown member %s on class %s',
+                    $member,
+                    is_object($value) ? get_class($value) : $value
+                )
+            );
         }
     }
 

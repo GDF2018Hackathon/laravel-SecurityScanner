@@ -4,7 +4,8 @@ namespace PhpParser;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-function canonicalize($str) {
+function canonicalize($str) 
+{
     // normalize EOL style
     $str = str_replace("\r\n", "\n", $str);
 
@@ -13,8 +14,10 @@ function canonicalize($str) {
 
     // remove trailing whitespace on all lines
     $lines = explode("\n", $str);
-    $lines = array_map(function($line) {
-        return rtrim($line, " \t");
-    }, $lines);
+    $lines = array_map(
+        function ($line) {
+            return rtrim($line, " \t");
+        }, $lines
+    );
     return implode("\n", $lines);
 }

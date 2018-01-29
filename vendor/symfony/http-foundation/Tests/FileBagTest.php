@@ -36,52 +36,60 @@ class FileBagTest extends TestCase
         $tmpFile = $this->createTempFile();
         $file = new UploadedFile($tmpFile, basename($tmpFile), 'text/plain', 100, 0);
 
-        $bag = new FileBag(array('file' => array(
+        $bag = new FileBag(
+            array('file' => array(
             'name' => basename($tmpFile),
             'type' => 'text/plain',
             'tmp_name' => $tmpFile,
             'error' => 0,
             'size' => 100,
-        )));
+            ))
+        );
 
         $this->assertEquals($file, $bag->get('file'));
     }
 
     public function testShouldSetEmptyUploadedFilesToNull()
     {
-        $bag = new FileBag(array('file' => array(
+        $bag = new FileBag(
+            array('file' => array(
             'name' => '',
             'type' => '',
             'tmp_name' => '',
             'error' => UPLOAD_ERR_NO_FILE,
             'size' => 0,
-        )));
+            ))
+        );
 
         $this->assertNull($bag->get('file'));
     }
 
     public function testShouldRemoveEmptyUploadedFilesForMultiUpload()
     {
-        $bag = new FileBag(array('files' => array(
+        $bag = new FileBag(
+            array('files' => array(
             'name' => array(''),
             'type' => array(''),
             'tmp_name' => array(''),
             'error' => array(UPLOAD_ERR_NO_FILE),
             'size' => array(0),
-        )));
+            ))
+        );
 
         $this->assertSame(array(), $bag->get('files'));
     }
 
     public function testShouldNotRemoveEmptyUploadedFilesForAssociativeArray()
     {
-        $bag = new FileBag(array('files' => array(
+        $bag = new FileBag(
+            array('files' => array(
             'name' => array('file1' => ''),
             'type' => array('file1' => ''),
             'tmp_name' => array('file1' => ''),
             'error' => array('file1' => UPLOAD_ERR_NO_FILE),
             'size' => array('file1' => 0),
-        )));
+            ))
+        );
 
         $this->assertSame(array('file1' => null), $bag->get('files'));
     }
@@ -91,7 +99,8 @@ class FileBagTest extends TestCase
         $tmpFile = $this->createTempFile();
         $file = new UploadedFile($tmpFile, basename($tmpFile), 'text/plain', 100, 0);
 
-        $bag = new FileBag(array(
+        $bag = new FileBag(
+            array(
             'child' => array(
                 'name' => array(
                     'file' => basename($tmpFile),
@@ -109,7 +118,8 @@ class FileBagTest extends TestCase
                     'file' => 100,
                 ),
             ),
-        ));
+            )
+        );
 
         $files = $bag->all();
         $this->assertEquals($file, $files['child']['file']);
@@ -120,7 +130,8 @@ class FileBagTest extends TestCase
         $tmpFile = $this->createTempFile();
         $file = new UploadedFile($tmpFile, basename($tmpFile), 'text/plain', 100, 0);
 
-        $bag = new FileBag(array(
+        $bag = new FileBag(
+            array(
             'child' => array(
                 'name' => array(
                     'sub' => array('file' => basename($tmpFile)),
@@ -138,7 +149,8 @@ class FileBagTest extends TestCase
                     'sub' => array('file' => 100),
                 ),
             ),
-        ));
+            )
+        );
 
         $files = $bag->all();
         $this->assertEquals($file, $files['child']['sub']['file']);

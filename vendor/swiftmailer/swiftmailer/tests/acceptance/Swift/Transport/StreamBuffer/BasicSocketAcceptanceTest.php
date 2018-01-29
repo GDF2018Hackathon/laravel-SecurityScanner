@@ -10,7 +10,7 @@ class Swift_Transport_StreamBuffer_BasicSocketAcceptanceTest extends Swift_Trans
             $this->markTestSkipped(
                 'Cannot run test without an SMTP host to connect to (define '.
                 'SWIFT_SMTP_HOST in tests/acceptance.conf.php if you wish to run this test)'
-             );
+            );
         }
         parent::setUp();
     }
@@ -21,13 +21,15 @@ class Swift_Transport_StreamBuffer_BasicSocketAcceptanceTest extends Swift_Trans
         $host = $parts[0];
         $port = isset($parts[1]) ? $parts[1] : 25;
 
-        $this->buffer->initialize(array(
+        $this->buffer->initialize(
+            array(
             'type' => Swift_Transport_IoBuffer::TYPE_SOCKET,
             'host' => $host,
             'port' => $port,
             'protocol' => 'tcp',
             'blocking' => 1,
             'timeout' => 15,
-        ));
+            )
+        );
     }
 }

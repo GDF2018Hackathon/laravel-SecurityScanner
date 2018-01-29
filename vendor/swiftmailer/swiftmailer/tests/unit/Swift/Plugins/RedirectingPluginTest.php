@@ -15,20 +15,25 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit\Framework\TestCase
         $message = (new Swift_Message())
             ->setSubject('...')
             ->setFrom(array('john@example.com' => 'John Doe'))
-            ->setTo($to = array(
+            ->setTo(
+                $to = array(
                 'fabien-to@example.com' => 'Fabien (To)',
                 'chris-to@example.com' => 'Chris (To)',
-            ))
-            ->setCc($cc = array(
+                )
+            )
+            ->setCc(
+                $cc = array(
                 'fabien-cc@example.com' => 'Fabien (Cc)',
                 'chris-cc@example.com' => 'Chris (Cc)',
-            ))
-            ->setBcc($bcc = array(
+                )
+            )
+            ->setBcc(
+                $bcc = array(
                 'fabien-bcc@example.com' => 'Fabien (Bcc)',
                 'chris-bcc@example.com' => 'Chris (Bcc)',
-            ))
-            ->setBody('...')
-        ;
+                )
+            )
+            ->setBody('...');
 
         $plugin = new Swift_Plugins_RedirectingPlugin('god@example.com');
 
@@ -52,16 +57,19 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit\Framework\TestCase
         $message = (new Swift_Message())
             ->setSubject('...')
             ->setFrom(array('john@example.com' => 'John Doe'))
-            ->setCc($cc = array(
+            ->setCc(
+                $cc = array(
                 'fabien-cc@example.com' => 'Fabien (Cc)',
                 'chris-cc@example.com' => 'Chris (Cc)',
-            ))
-            ->setBcc($bcc = array(
+                )
+            )
+            ->setBcc(
+                $bcc = array(
                 'fabien-bcc@example.com' => 'Fabien (Bcc)',
                 'chris-bcc@example.com' => 'Chris (Bcc)',
-            ))
-            ->setBody('...')
-        ;
+                )
+            )
+            ->setBody('...');
 
         $plugin = new Swift_Plugins_RedirectingPlugin('god@example.com');
 
@@ -85,23 +93,28 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit\Framework\TestCase
         $message = (new Swift_Message())
             ->setSubject('...')
             ->setFrom(array('john@example.com' => 'John Doe'))
-            ->setTo($to = array(
+            ->setTo(
+                $to = array(
                 'fabien-to@example.com' => 'Fabien (To)',
                 'chris-to@example.com' => 'Chris (To)',
                 'lars-to@internal.com' => 'Lars (To)',
-            ))
-            ->setCc($cc = array(
+                )
+            )
+            ->setCc(
+                $cc = array(
                 'fabien-cc@example.com' => 'Fabien (Cc)',
                 'chris-cc@example.com' => 'Chris (Cc)',
                 'lars-cc@internal.org' => 'Lars (Cc)',
-            ))
-            ->setBcc($bcc = array(
+                )
+            )
+            ->setBcc(
+                $bcc = array(
                 'fabien-bcc@example.com' => 'Fabien (Bcc)',
                 'chris-bcc@example.com' => 'Chris (Bcc)',
                 'john-bcc@example.org' => 'John (Bcc)',
-            ))
-            ->setBody('...')
-        ;
+                )
+            )
+            ->setBody('...');
 
         $recipient = 'god@example.com';
         $patterns = array('/^.*@internal.[a-z]+$/', '/^john-.*$/');
@@ -131,23 +144,28 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit\Framework\TestCase
         $message = (new Swift_Message())
             ->setSubject('...')
             ->setFrom(array('john@example.com' => 'John Doe'))
-            ->setTo(array(
-            'fabien@example.com' => 'Fabien',
-            'chris@example.com' => 'Chris (To)',
-            'lars-to@internal.com' => 'Lars (To)',
-        ))
-            ->setCc(array(
-            'fabien@example.com' => 'Fabien',
-            'chris-cc@example.com' => 'Chris (Cc)',
-            'lars-cc@internal.org' => 'Lars (Cc)',
-        ))
-            ->setBcc(array(
-            'fabien@example.com' => 'Fabien',
-            'chris-bcc@example.com' => 'Chris (Bcc)',
-            'john-bcc@example.org' => 'John (Bcc)',
-        ))
-            ->setBody('...')
-        ;
+            ->setTo(
+                array(
+                'fabien@example.com' => 'Fabien',
+                'chris@example.com' => 'Chris (To)',
+                'lars-to@internal.com' => 'Lars (To)',
+                )
+            )
+            ->setCc(
+                array(
+                'fabien@example.com' => 'Fabien',
+                'chris-cc@example.com' => 'Chris (Cc)',
+                'lars-cc@internal.org' => 'Lars (Cc)',
+                )
+            )
+            ->setBcc(
+                array(
+                'fabien@example.com' => 'Fabien',
+                'chris-bcc@example.com' => 'Chris (Bcc)',
+                'john-bcc@example.org' => 'John (Bcc)',
+                )
+            )
+            ->setBody('...');
 
         $recipients = array('god@example.com', 'fabien@example.com');
         $patterns = array('/^.*@internal.[a-z]+$/');
@@ -172,8 +190,8 @@ class Swift_Plugins_RedirectingPluginTest extends \PHPUnit\Framework\TestCase
     private function createSendEvent(Swift_Mime_SimpleMessage $message)
     {
         $evt = $this->getMockBuilder('Swift_Events_SendEvent')
-                    ->disableOriginalConstructor()
-                    ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $evt->expects($this->any())
             ->method('getMessage')
             ->will($this->returnValue($message));

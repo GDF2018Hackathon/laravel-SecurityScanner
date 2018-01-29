@@ -56,12 +56,14 @@ class RedisCaster
             $prefix.'dbNum' => $c->getDbNum(),
             $prefix.'timeout' => $c->getTimeout(),
             $prefix.'persistentId' => $c->getPersistentID(),
-            $prefix.'options' => new EnumStub(array(
+            $prefix.'options' => new EnumStub(
+                array(
                 'READ_TIMEOUT' => $c->getOption(\Redis::OPT_READ_TIMEOUT),
                 'SERIALIZER' => isset(self::$serializer[$ser]) ? new ConstStub(self::$serializer[$ser], $ser) : $ser,
                 'PREFIX' => $c->getOption(\Redis::OPT_PREFIX),
                 'SCAN' => new ConstStub($retry ? 'RETRY' : 'NORETRY', $retry),
-            )),
+                )
+            ),
         );
     }
 

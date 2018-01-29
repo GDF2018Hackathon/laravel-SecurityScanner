@@ -24,22 +24,30 @@ use Webmozart\Assert\Assert;
  */
 final class Param extends BaseTag implements Factory\StaticMethod
 {
-    /** @var string */
+    /**
+     * @var string 
+     */
     protected $name = 'param';
 
-    /** @var Type */
+    /**
+     * @var Type 
+     */
     private $type;
 
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $variableName = '';
 
-    /** @var bool determines whether this is a variadic argument */
+    /**
+     * @var bool determines whether this is a variadic argument 
+     */
     private $isVariadic = false;
 
     /**
-     * @param string $variableName
-     * @param Type $type
-     * @param bool $isVariadic
+     * @param string      $variableName
+     * @param Type        $type
+     * @param bool        $isVariadic
      * @param Description $description
      */
     public function __construct($variableName, Type $type = null, $isVariadic = false, Description $description = null)

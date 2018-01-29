@@ -108,8 +108,12 @@ class SudoVisitor extends NodeVisitorAbstract
 
     private function prepareCall($method, $args)
     {
-        return new StaticCall(new FullyQualifiedName(self::SUDO_CLASS), $method, array_map(function ($arg) {
-            return new Arg($arg);
-        }, $args));
+        return new StaticCall(
+            new FullyQualifiedName(self::SUDO_CLASS), $method, array_map(
+                function ($arg) {
+                    return new Arg($arg);
+                }, $args
+            )
+        );
     }
 }

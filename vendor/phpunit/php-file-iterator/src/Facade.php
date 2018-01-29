@@ -14,7 +14,7 @@
  * RecursiveDirectoryIterator for each given path. The list of unique
  * files is returned as an array.
  *
- * @since     Class available since Release 1.3.0
+ * @since Class available since Release 1.3.0
  */
 class File_Iterator_Facade
 {
@@ -26,7 +26,7 @@ class File_Iterator_Facade
      * @param  bool         $commonPath
      * @return array
      */
-    public function getFilesAsArray($paths, $suffixes = '', $prefixes = '', array $exclude = array(), $commonPath = FALSE)
+    public function getFilesAsArray($paths, $suffixes = '', $prefixes = '', array $exclude = array(), $commonPath = false)
     {
         if (is_string($paths)) {
             $paths = array($paths);
@@ -34,7 +34,7 @@ class File_Iterator_Facade
 
         $factory  = new File_Iterator_Factory;
         $iterator = $factory->getFileIterator(
-          $paths, $suffixes, $prefixes, $exclude
+            $paths, $suffixes, $prefixes, $exclude
         );
 
         $files = array();
@@ -69,7 +69,7 @@ class File_Iterator_Facade
     /**
      * Returns the common path of a set of files.
      *
-     * @param  array  $files
+     * @param  array $files
      * @return string
      */
     protected function getCommonPath(array $files)
@@ -95,14 +95,14 @@ class File_Iterator_Facade
         }
 
         $common = '';
-        $done   = FALSE;
+        $done   = false;
         $j      = 0;
         $count--;
 
         while (!$done) {
             for ($i = 0; $i < $count; $i++) {
                 if ($_files[$i][$j] != $_files[$i+1][$j]) {
-                    $done = TRUE;
+                    $done = true;
                     break;
                 }
             }

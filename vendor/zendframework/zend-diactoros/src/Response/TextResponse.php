@@ -31,9 +31,9 @@ class TextResponse extends Response
      * Produces a text response with a Content-Type of text/plain and a default
      * status of 200.
      *
-     * @param string|StreamInterface $text String or stream for the message body.
-     * @param int $status Integer status code for the response; 200 by default.
-     * @param array $headers Array of headers to use at initialization.
+     * @param  string|StreamInterface $text    String or stream for the message body.
+     * @param  int                    $status  Integer status code for the response; 200 by default.
+     * @param  array                  $headers Array of headers to use at initialization.
      * @throws InvalidArgumentException if $text is neither a string or stream.
      */
     public function __construct($text, $status = 200, array $headers = [])
@@ -48,7 +48,7 @@ class TextResponse extends Response
     /**
      * Create the message body.
      *
-     * @param string|StreamInterface $text
+     * @param  string|StreamInterface $text
      * @return StreamInterface
      * @throws InvalidArgumentException if $html is neither a string or stream.
      */
@@ -59,11 +59,13 @@ class TextResponse extends Response
         }
 
         if (! is_string($text)) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid content (%s) provided to %s',
-                (is_object($text) ? get_class($text) : gettype($text)),
-                __CLASS__
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid content (%s) provided to %s',
+                    (is_object($text) ? get_class($text) : gettype($text)),
+                    __CLASS__
+                )
+            );
         }
 
         $body = new Stream('php://temp', 'wb+');

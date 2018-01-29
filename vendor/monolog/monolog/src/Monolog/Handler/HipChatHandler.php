@@ -116,7 +116,7 @@ class HipChatHandler extends SocketHandler
     /**
      * {@inheritdoc}
      *
-     * @param  array  $record
+     * @param  array $record
      * @return string
      */
     protected function generateDataStream($record)
@@ -129,7 +129,7 @@ class HipChatHandler extends SocketHandler
     /**
      * Builds the body of API call
      *
-     * @param  array  $record
+     * @param  array $record
      * @return string
      */
     private function buildContent($record)
@@ -192,22 +192,22 @@ class HipChatHandler extends SocketHandler
     /**
      * Assigns a color to each level of log records.
      *
-     * @param  int    $level
+     * @param  int $level
      * @return string
      */
     protected function getAlertColor($level)
     {
         switch (true) {
-            case $level >= Logger::ERROR:
-                return 'red';
-            case $level >= Logger::WARNING:
-                return 'yellow';
-            case $level >= Logger::INFO:
-                return 'green';
-            case $level == Logger::DEBUG:
-                return 'gray';
-            default:
-                return 'yellow';
+        case $level >= Logger::ERROR:
+            return 'red';
+        case $level >= Logger::WARNING:
+            return 'yellow';
+        case $level >= Logger::INFO:
+            return 'green';
+        case $level == Logger::DEBUG:
+            return 'gray';
+        default:
+            return 'yellow';
         }
     }
 
@@ -253,7 +253,7 @@ class HipChatHandler extends SocketHandler
      * will be the highest level from the given records. Datetime will be taken
      * from the first record.
      *
-     * @param $records
+     * @param  $records
      * @return array
      */
     private function combineRecords($records)

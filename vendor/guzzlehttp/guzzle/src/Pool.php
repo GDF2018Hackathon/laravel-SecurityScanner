@@ -18,7 +18,9 @@ use GuzzleHttp\Promise\EachPromise;
  */
 class Pool implements PromisorInterface
 {
-    /** @var EachPromise */
+    /**
+     * @var EachPromise 
+     */
     private $each;
 
     /**
@@ -26,10 +28,10 @@ class Pool implements PromisorInterface
      * @param array|\Iterator $requests Requests or functions that return
      *                                  requests to send concurrently.
      * @param array           $config   Associative array of options
-     *     - concurrency: (int) Maximum number of requests to send concurrently
-     *     - options: Array of request options to apply to each request.
-     *     - fulfilled: (callable) Function to invoke when a request completes.
-     *     - rejected: (callable) Function to invoke when a request is rejected.
+     *                                  - concurrency: (int) Maximum number of requests to send concurrently
+     *                                  - options: Array of request options to apply to each request.
+     *                                  - fulfilled: (callable) Function to invoke when a request completes.
+     *                                  - rejected: (callable) Function to invoke when a request is rejected.
      */
     public function __construct(
         ClientInterface $client,
@@ -58,10 +60,12 @@ class Pool implements PromisorInterface
                 } elseif (is_callable($rfn)) {
                     yield $key => $rfn($opts);
                 } else {
-                    throw new \InvalidArgumentException('Each value yielded by '
+                    throw new \InvalidArgumentException(
+                        'Each value yielded by '
                         . 'the iterator must be a Psr7\Http\Message\RequestInterface '
                         . 'or a callable that returns a promise that fulfills '
-                        . 'with a Psr7\Message\Http\ResponseInterface object.');
+                        . 'with a Psr7\Message\Http\ResponseInterface object.'
+                    );
                 }
             }
         };

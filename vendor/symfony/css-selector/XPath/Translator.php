@@ -57,8 +57,7 @@ class Translator implements TranslatorInterface
             ->registerExtension(new Extension\CombinationExtension())
             ->registerExtension(new Extension\FunctionExtension())
             ->registerExtension(new Extension\PseudoClassExtension())
-            ->registerExtension(new Extension\AttributeMatchingExtension())
-        ;
+            ->registerExtension(new Extension\AttributeMatchingExtension());
     }
 
     public static function getXpathLiteral(string $element): string
@@ -94,7 +93,9 @@ class Translator implements TranslatorInterface
     {
         $selectors = $this->parseSelectors($cssExpr);
 
-        /** @var SelectorNode $selector */
+        /**
+ * @var SelectorNode $selector 
+*/
         foreach ($selectors as $index => $selector) {
             if (null !== $selector->getPseudoElement()) {
                 throw new ExpressionErrorException('Pseudo-elements are not supported.');

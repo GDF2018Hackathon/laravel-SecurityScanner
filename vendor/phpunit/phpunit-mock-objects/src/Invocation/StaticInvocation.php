@@ -140,32 +140,32 @@ class StaticInvocation implements Invocation, SelfDescribing
         }
 
         switch (\strtolower($this->returnType)) {
-            case '':
-            case 'void':
-                return;
+        case '':
+        case 'void':
+            return;
 
-            case 'string':
-                return '';
+        case 'string':
+            return '';
 
-            case 'float':
-                return 0.0;
+        case 'float':
+            return 0.0;
 
-            case 'int':
-                return 0;
+        case 'int':
+            return 0;
 
-            case 'bool':
-                return false;
+        case 'bool':
+            return false;
 
-            case 'array':
-                return [];
+        case 'array':
+            return [];
 
-            case 'object':
-                return new \stdClass;
+        case 'object':
+            return new \stdClass;
 
-            case 'callable':
-            case 'closure':
-                return function () {
-                };
+        case 'callable':
+        case 'closure':
+            return function () {
+            };
 
             case 'traversable':
             case 'generator':
@@ -214,8 +214,9 @@ class StaticInvocation implements Invocation, SelfDescribing
 
         // Check the blacklist before asking PHP reflection to work around
         // https://bugs.php.net/bug.php?id=53967
-        if ($object->isInternal() &&
-            isset(self::$uncloneableExtensions[$object->getExtensionName()])) {
+        if ($object->isInternal() 
+            && isset(self::$uncloneableExtensions[$object->getExtensionName()])
+        ) {
             $cloneable = false;
         }
 

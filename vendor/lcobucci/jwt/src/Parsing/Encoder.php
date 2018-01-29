@@ -13,7 +13,7 @@ use RuntimeException;
  * Class that encodes data according with the specs of RFC-4648
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  *
  * @link http://tools.ietf.org/html/rfc4648#section-5
  */
@@ -22,7 +22,7 @@ class Encoder
     /**
      * Encodes to JSON, validating the errors
      *
-     * @param mixed $data
+     * @param  mixed $data
      * @return string
      *
      * @throws RuntimeException When something goes wrong while encoding
@@ -41,7 +41,7 @@ class Encoder
     /**
      * Encodes to base64url
      *
-     * @param string $data
+     * @param  string $data
      * @return string
      */
     public function base64UrlEncode($data)

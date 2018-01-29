@@ -35,9 +35,9 @@ class BroadcastNotificationCreated implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
-     * @param  array  $data
+     * @param  mixed                                  $notifiable
+     * @param  \Illuminate\Notifications\Notification $notification
+     * @param  array                                  $data
      * @return void
      */
     public function __construct($notifiable, $notification, $data)
@@ -70,10 +70,12 @@ class BroadcastNotificationCreated implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return array_merge($this->data, [
+        return array_merge(
+            $this->data, [
             'id' => $this->notification->id,
             'type' => get_class($this->notification),
-        ]);
+            ]
+        );
     }
 
     /**

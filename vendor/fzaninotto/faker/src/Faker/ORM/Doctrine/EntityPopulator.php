@@ -170,8 +170,9 @@ class EntityPopulator
 
     /**
      * Insert one new record using the Entity class.
-     * @param ObjectManager $manager
-     * @param bool $generateId
+     *
+     * @param  ObjectManager $manager
+     * @param  bool          $generateId
      * @return EntityPopulator
      */
     public function execute(ObjectManager $manager, $insertedEntities, $generateId = false)
@@ -202,12 +203,14 @@ class EntityPopulator
                 try {
                     $value = is_callable($format) ? $format($insertedEntities, $obj) : $format;
                 } catch (\InvalidArgumentException $ex) {
-                    throw new \InvalidArgumentException(sprintf(
-                        "Failed to generate a value for %s::%s: %s",
-                        get_class($obj),
-                        $field,
-                        $ex->getMessage()
-                    ));
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            "Failed to generate a value for %s::%s: %s",
+                            get_class($obj),
+                            $field,
+                            $ex->getMessage()
+                        )
+                    );
                 }
                 // Try a standard setter if it's available, otherwise fall back on reflection
                 $setter = sprintf("set%s", ucfirst($field));
@@ -236,9 +239,9 @@ class EntityPopulator
         /* @var $repository \Doctrine\Common\Persistence\ObjectRepository */
         $repository = $manager->getRepository(get_class($obj));
         $result = $repository->createQueryBuilder('e')
-                ->select(sprintf('e.%s', $column))
-                ->getQuery()
-                ->execute();
+            ->select(sprintf('e.%s', $column))
+            ->getQuery()
+            ->execute();
         $ids = array_map('current', $result->toArray());
 
         $id = null;

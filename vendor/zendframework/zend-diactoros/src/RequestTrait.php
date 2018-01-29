@@ -47,10 +47,10 @@ trait RequestTrait
      *
      * Used by constructors.
      *
-     * @param null|string|UriInterface $uri URI for the request, if any.
-     * @param null|string $method HTTP method for the request, if any.
-     * @param string|resource|StreamInterface $body Message body, if any.
-     * @param array $headers Headers for the message, if any.
+     * @param  null|string|UriInterface        $uri     URI for the request, if any.
+     * @param  null|string                     $method  HTTP method for the request, if any.
+     * @param  string|resource|StreamInterface $body    Message body, if any.
+     * @param  array                           $headers Headers for the message, if any.
      * @throws InvalidArgumentException for any invalid value.
      */
     private function initialize($uri = null, $method = null, $body = 'php://memory', array $headers = [])
@@ -83,7 +83,7 @@ trait RequestTrait
      *
      * Otherwise, it raises an exception.
      *
-     * @param null|string|UriInterface $uri
+     * @param  null|string|UriInterface $uri
      * @return UriInterface
      * @throws InvalidArgumentException
      */
@@ -149,9 +149,9 @@ trait RequestTrait
      * immutability of the message, and MUST return a new instance that has the
      * changed request target.
      *
-     * @link http://tools.ietf.org/html/rfc7230#section-2.7 (for the various
+     * @link   http://tools.ietf.org/html/rfc7230#section-2.7 (for the various
      *     request-target forms allowed in request messages)
-     * @param mixed $requestTarget
+     * @param  mixed $requestTarget
      * @return static
      * @throws InvalidArgumentException if the request target is invalid.
      */
@@ -189,7 +189,7 @@ trait RequestTrait
      * immutability of the message, and MUST return an instance that has the
      * changed request method.
      *
-     * @param string $method Case-insensitive method.
+     * @param  string $method Case-insensitive method.
      * @return static
      * @throws InvalidArgumentException for invalid HTTP methods.
      */
@@ -206,7 +206,7 @@ trait RequestTrait
      *
      * This method MUST return a UriInterface instance.
      *
-     * @link http://tools.ietf.org/html/rfc3986#section-4.3
+     * @link   http://tools.ietf.org/html/rfc3986#section-4.3
      * @return UriInterface Returns a UriInterface instance
      *     representing the URI of the request, if any.
      */
@@ -235,9 +235,9 @@ trait RequestTrait
      * immutability of the message, and MUST return an instance that has the
      * new UriInterface instance.
      *
-     * @link http://tools.ietf.org/html/rfc3986#section-4.3
-     * @param UriInterface $uri New request URI to use.
-     * @param bool $preserveHost Preserve the original state of the Host header.
+     * @link   http://tools.ietf.org/html/rfc3986#section-4.3
+     * @param  UriInterface $uri          New request URI to use.
+     * @param  bool         $preserveHost Preserve the original state of the Host header.
      * @return static
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
@@ -277,7 +277,7 @@ trait RequestTrait
     /**
      * Validate the HTTP method
      *
-     * @param null|string $method
+     * @param  null|string $method
      * @throws InvalidArgumentException on invalid HTTP method.
      */
     private function validateMethod($method)
@@ -287,17 +287,21 @@ trait RequestTrait
         }
 
         if (! is_string($method)) {
-            throw new InvalidArgumentException(sprintf(
-                'Unsupported HTTP method; must be a string, received %s',
-                (is_object($method) ? get_class($method) : gettype($method))
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Unsupported HTTP method; must be a string, received %s',
+                    (is_object($method) ? get_class($method) : gettype($method))
+                )
+            );
         }
 
         if (! preg_match('/^[!#$%&\'*+.^_`\|~0-9a-z-]+$/i', $method)) {
-            throw new InvalidArgumentException(sprintf(
-                'Unsupported HTTP method "%s" provided',
-                $method
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Unsupported HTTP method "%s" provided',
+                    $method
+                )
+            );
         }
     }
 

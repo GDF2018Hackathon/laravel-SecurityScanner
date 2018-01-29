@@ -16,10 +16,10 @@ class ChangeColumn
     /**
      * Compile a change column command into a series of SQL statements.
      *
-     * @param  \Illuminate\Database\Schema\Grammars\Grammar  $grammar
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Illuminate\Support\Fluent  $command
-     * @param  \Illuminate\Database\Connection $connection
+     * @param  \Illuminate\Database\Schema\Grammars\Grammar $grammar
+     * @param  \Illuminate\Database\Schema\Blueprint        $blueprint
+     * @param  \Illuminate\Support\Fluent                   $command
+     * @param  \Illuminate\Database\Connection              $connection
      * @return array
      *
      * @throws \RuntimeException
@@ -27,10 +27,12 @@ class ChangeColumn
     public static function compile($grammar, Blueprint $blueprint, Fluent $command, Connection $connection)
     {
         if (! $connection->isDoctrineAvailable()) {
-            throw new RuntimeException(sprintf(
-                'Changing columns for table "%s" requires Doctrine DBAL; install "doctrine/dbal".',
-                $blueprint->getTable()
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'Changing columns for table "%s" requires Doctrine DBAL; install "doctrine/dbal".',
+                    $blueprint->getTable()
+                )
+            );
         }
 
         $tableDiff = static::getChangedDiff(
@@ -47,8 +49,8 @@ class ChangeColumn
     /**
      * Get the Doctrine table difference for the given changes.
      *
-     * @param  \Illuminate\Database\Schema\Grammars\Grammar  $grammar
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Database\Schema\Grammars\Grammar $grammar
+     * @param  \Illuminate\Database\Schema\Blueprint        $blueprint
      * @param  \Doctrine\DBAL\Schema\AbstractSchemaManager  $schema
      * @return \Doctrine\DBAL\Schema\TableDiff|bool
      */
@@ -64,8 +66,8 @@ class ChangeColumn
     /**
      * Get a copy of the given Doctrine table after making the column changes.
      *
-     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
-     * @param  \Doctrine\DBAL\Schema\Table  $table
+     * @param  \Illuminate\Database\Schema\Blueprint $blueprint
+     * @param  \Doctrine\DBAL\Schema\Table           $table
      * @return \Doctrine\DBAL\Schema\Table
      */
     protected static function getTableWithColumnChanges(Blueprint $blueprint, Table $table)
@@ -93,7 +95,7 @@ class ChangeColumn
     /**
      * Get the Doctrine column instance for a column change.
      *
-     * @param  \Doctrine\DBAL\Schema\Table  $table
+     * @param  \Doctrine\DBAL\Schema\Table $table
      * @param  \Illuminate\Support\Fluent  $fluent
      * @return \Doctrine\DBAL\Schema\Column
      */
@@ -107,7 +109,7 @@ class ChangeColumn
     /**
      * Get the Doctrine column change options.
      *
-     * @param  \Illuminate\Support\Fluent  $fluent
+     * @param  \Illuminate\Support\Fluent $fluent
      * @return array
      */
     protected static function getDoctrineColumnChangeOptions(Fluent $fluent)
@@ -124,7 +126,7 @@ class ChangeColumn
     /**
      * Get the doctrine column type.
      *
-     * @param  string  $type
+     * @param  string $type
      * @return \Doctrine\DBAL\Types\Type
      */
     protected static function getDoctrineColumnType($type)
@@ -132,19 +134,19 @@ class ChangeColumn
         $type = strtolower($type);
 
         switch ($type) {
-            case 'biginteger':
-                $type = 'bigint';
-                break;
-            case 'smallinteger':
-                $type = 'smallint';
-                break;
-            case 'mediumtext':
-            case 'longtext':
-                $type = 'text';
-                break;
-            case 'binary':
-                $type = 'blob';
-                break;
+        case 'biginteger':
+            $type = 'bigint';
+            break;
+        case 'smallinteger':
+            $type = 'smallint';
+            break;
+        case 'mediumtext':
+        case 'longtext':
+            $type = 'text';
+            break;
+        case 'binary':
+            $type = 'blob';
+            break;
         }
 
         return Type::getType($type);
@@ -153,48 +155,48 @@ class ChangeColumn
     /**
      * Calculate the proper column length to force the Doctrine text type.
      *
-     * @param  string  $type
+     * @param  string $type
      * @return int
      */
     protected static function calculateDoctrineTextLength($type)
     {
         switch ($type) {
-            case 'mediumText':
-                return 65535 + 1;
-            case 'longText':
-                return 16777215 + 1;
-            default:
-                return 255 + 1;
+        case 'mediumText':
+            return 65535 + 1;
+        case 'longText':
+            return 16777215 + 1;
+        default:
+            return 255 + 1;
         }
     }
 
     /**
      * Get the matching Doctrine option for a given Fluent attribute name.
      *
-     * @param  string  $attribute
+     * @param  string $attribute
      * @return string|null
      */
     protected static function mapFluentOptionToDoctrine($attribute)
     {
         switch ($attribute) {
-            case 'type':
-            case 'name':
-                return;
-            case 'nullable':
-                return 'notnull';
-            case 'total':
-                return 'precision';
-            case 'places':
-                return 'scale';
-            default:
-                return $attribute;
+        case 'type':
+        case 'name':
+            return;
+        case 'nullable':
+            return 'notnull';
+        case 'total':
+            return 'precision';
+        case 'places':
+            return 'scale';
+        default:
+            return $attribute;
         }
     }
 
     /**
      * Get the matching Doctrine value for a given Fluent attribute.
      *
-     * @param  string  $option
+     * @param  string $option
      * @param  mixed  $value
      * @return mixed
      */

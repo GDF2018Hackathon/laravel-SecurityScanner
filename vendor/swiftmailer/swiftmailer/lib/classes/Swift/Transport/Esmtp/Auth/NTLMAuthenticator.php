@@ -13,7 +13,7 @@
 /**
  * Handles NTLM authentication.
  *
- * @author     Ward Peeters <ward@coding-tech.com>
+ * @author Ward Peeters <ward@coding-tech.com>
  */
 class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Esmtp_Authenticator
 {
@@ -222,7 +222,7 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
     {
         return self::NTLMSIG
         .$this->createByte('01') // Message 1
-.$this->createByte('0702'); // Flags
+        .$this->createByte('0702'); // Flags
     }
 
     /**
@@ -251,17 +251,17 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
 
         return self::NTLMSIG
         .$this->createByte('03') // TYPE 3 message
-.$lmSec // LM response header
-.$ntlmSec // NTLM response header
-.$domainSec // Domain header
-.$userSec // User header
-.$workSec // Workstation header
-.$this->createByte('000000009a', 8) // session key header (empty)
-.$this->createByte('01020000') // FLAGS
-.$this->convertTo16bit($domain) // domain name
-.$this->convertTo16bit($username) // username
-.$this->convertTo16bit($workstation) // workstation
-.$lmResponse
+        .$lmSec // LM response header
+        .$ntlmSec // NTLM response header
+        .$domainSec // Domain header
+        .$userSec // User header
+        .$workSec // Workstation header
+        .$this->createByte('000000009a', 8) // session key header (empty)
+        .$this->createByte('01020000') // FLAGS
+        .$this->convertTo16bit($domain) // domain name
+        .$this->convertTo16bit($username) // username
+        .$this->convertTo16bit($workstation) // workstation
+        .$lmResponse
         .$ntlmResponse;
     }
 
@@ -463,7 +463,9 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         return hex2bin(implode('', $material));
     }
 
-    /** HELPER FUNCTIONS */
+    /**
+     * HELPER FUNCTIONS 
+     */
 
     /**
      * Create our security buffer depending on length and offset.
@@ -548,7 +550,9 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         return $byte;
     }
 
-    /** ENCRYPTION ALGORITHMS */
+    /**
+     * ENCRYPTION ALGORITHMS 
+     */
 
     /**
      * DES Encryption.

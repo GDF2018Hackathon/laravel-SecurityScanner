@@ -62,7 +62,9 @@ class WithFormatterExpectationTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function format_objects_should_not_call_getters_with_params()
     {
         $obj = new ClassWithGetterWithParam();

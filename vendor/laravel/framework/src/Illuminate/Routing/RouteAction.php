@@ -12,7 +12,7 @@ class RouteAction
     /**
      * Parse the given action into an array.
      *
-     * @param  string  $uri
+     * @param  string $uri
      * @param  mixed  $action
      * @return array
      */
@@ -49,7 +49,7 @@ class RouteAction
     /**
      * Get an action for a route that has no action.
      *
-     * @param  string  $uri
+     * @param  string $uri
      * @return array
      */
     protected static function missingAction($uri)
@@ -62,14 +62,16 @@ class RouteAction
     /**
      * Find the callable in an action array.
      *
-     * @param  array  $action
+     * @param  array $action
      * @return callable
      */
     protected static function findCallable(array $action)
     {
-        return Arr::first($action, function ($value, $key) {
-            return is_callable($value) && is_numeric($key);
-        });
+        return Arr::first(
+            $action, function ($value, $key) {
+                return is_callable($value) && is_numeric($key);
+            }
+        );
     }
 
     /**

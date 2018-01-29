@@ -131,13 +131,15 @@ class RouteCollectionBuilderTest extends TestCase
 
         $this->assertCount(5, $actualCollection);
         $actualRouteNames = array_keys($actualCollection->all());
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'checkout_route',
             'imported_route1',
             'imported_route2',
             'homepage',
             'admin_dashboard',
-        ), $actualRouteNames);
+            ), $actualRouteNames
+        );
 
         // make sure the defaults were set
         $checkoutRoute = $actualCollection->get('checkout_route');
@@ -161,11 +163,13 @@ class RouteCollectionBuilderTest extends TestCase
 
         $actualCollection = $collectionBuilder->build();
         $actualRouteNames = array_keys($actualCollection->all());
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             'admin_dashboard',
             'GET_blogs',
             '100',
-        ), $actualRouteNames);
+            ), $actualRouteNames
+        );
     }
 
     public function testFlushSetsDetailsOnChildrenRoutes()

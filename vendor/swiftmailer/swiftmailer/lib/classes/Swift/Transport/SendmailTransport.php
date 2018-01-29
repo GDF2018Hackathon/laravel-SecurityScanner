@@ -94,7 +94,7 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
      * they bounce (i.e. send() will always return 100% success).
      *
      * @param Swift_Mime_SimpleMessage $message
-     * @param string[]           $failedRecipients An array of failures by-reference
+     * @param string[]                 $failedRecipients An array of failures by-reference
      *
      * @return int
      */
@@ -127,8 +127,7 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
 
             $count = count((array) $message->getTo())
                 + count((array) $message->getCc())
-                + count((array) $message->getBcc())
-                ;
+                + count((array) $message->getBcc());
             $message->toByteStream($buffer);
             $buffer->flushBuffers();
             $buffer->setWriteTranslations(array());
@@ -144,16 +143,20 @@ class Swift_Transport_SendmailTransport extends Swift_Transport_AbstractSmtpTran
         } elseif (false !== strpos($command, ' -bs')) {
             $count = parent::send($message, $failedRecipients);
         } else {
-            $this->throwException(new Swift_TransportException(
-                'Unsupported sendmail command flags ['.$command.']. '.
-                'Must be one of "-bs" or "-t" but can include additional flags.'
-                ));
+            $this->throwException(
+                new Swift_TransportException(
+                    'Unsupported sendmail command flags ['.$command.']. '.
+                    'Must be one of "-bs" or "-t" but can include additional flags.'
+                )
+            );
         }
 
         return $count;
     }
 
-    /** Get the params to initialize the buffer */
+    /**
+     * Get the params to initialize the buffer 
+     */
     protected function getBufferParams()
     {
         return $this->params;

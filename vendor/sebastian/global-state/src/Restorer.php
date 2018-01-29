@@ -24,7 +24,7 @@ class Restorer
      *
      * @throws RuntimeException when the uopz_delete() function is not available
      *
-     * @see    https://github.com/krakjoe/uopz
+     * @see https://github.com/krakjoe/uopz
      */
     public function restoreFunctions(Snapshot $snapshot)
     {
@@ -53,9 +53,10 @@ class Restorer
         $globalVariables = $snapshot->globalVariables();
 
         foreach (\array_keys($GLOBALS) as $key) {
-            if ($key != 'GLOBALS' &&
-                !\in_array($key, $superGlobalArrays) &&
-                !$snapshot->blacklist()->isGlobalVariableBlacklisted($key)) {
+            if ($key != 'GLOBALS' 
+                && !\in_array($key, $superGlobalArrays) 
+                && !$snapshot->blacklist()->isGlobalVariableBlacklisted($key)
+            ) {
                 if (\array_key_exists($key, $globalVariables)) {
                     $GLOBALS[$key] = $globalVariables[$key];
                 } else {
@@ -115,9 +116,10 @@ class Restorer
     {
         $superGlobalVariables = $snapshot->superGlobalVariables();
 
-        if (isset($GLOBALS[$superGlobalArray]) &&
-            \is_array($GLOBALS[$superGlobalArray]) &&
-            isset($superGlobalVariables[$superGlobalArray])) {
+        if (isset($GLOBALS[$superGlobalArray]) 
+            && \is_array($GLOBALS[$superGlobalArray]) 
+            && isset($superGlobalVariables[$superGlobalArray])
+        ) {
             $keys = \array_keys(
                 \array_merge(
                     $GLOBALS[$superGlobalArray],

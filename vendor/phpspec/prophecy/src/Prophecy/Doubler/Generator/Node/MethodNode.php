@@ -56,9 +56,11 @@ class MethodNode
         $visibility = strtolower($visibility);
 
         if (!in_array($visibility, array('public', 'private', 'protected'))) {
-            throw new InvalidArgumentException(sprintf(
-                '`%s` method visibility is not supported.', $visibility
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    '`%s` method visibility is not supported.', $visibility
+                )
+            );
         }
 
         $this->visibility = $visibility;
@@ -113,36 +115,36 @@ class MethodNode
     public function setReturnType($type = null)
     {
         switch ($type) {
-            case '':
-                $this->returnType = null;
-                break;
+        case '':
+            $this->returnType = null;
+            break;
 
-            case 'string':
-            case 'float':
-            case 'int':
-            case 'bool':
-            case 'array':
-            case 'callable':
-            case 'iterable':
-            case 'void':
-                $this->returnType = $type;
-                break;
+        case 'string':
+        case 'float':
+        case 'int':
+        case 'bool':
+        case 'array':
+        case 'callable':
+        case 'iterable':
+        case 'void':
+            $this->returnType = $type;
+            break;
 
-            case 'double':
-            case 'real':
-                $this->returnType = 'float';
-                break;
+        case 'double':
+        case 'real':
+            $this->returnType = 'float';
+            break;
 
-            case 'boolean':
-                $this->returnType = 'bool';
-                break;
+        case 'boolean':
+            $this->returnType = 'bool';
+            break;
 
-            case 'integer':
-                $this->returnType = 'int';
-                break;
+        case 'integer':
+            $this->returnType = 'int';
+            break;
 
-            default:
-                $this->returnType = '\\' . ltrim($type, '\\');
+        default:
+            $this->returnType = '\\' . ltrim($type, '\\');
         }
     }
 
@@ -177,8 +179,7 @@ class MethodNode
 
     public function getCode()
     {
-        if ($this->returnsReference)
-        {
+        if ($this->returnsReference) {
             return "throw new \Prophecy\Exception\Doubler\ReturnByReferenceException('Returning by reference not supported', get_class(\$this), '{$this->name}');";
         }
 
@@ -188,7 +189,8 @@ class MethodNode
     public function useParentCode()
     {
         $this->code = sprintf(
-            'return parent::%s(%s);', $this->getName(), implode(', ',
+            'return parent::%s(%s);', $this->getName(), implode(
+                ', ',
                 array_map(array($this, 'generateArgument'), $this->arguments)
             )
         );

@@ -30,15 +30,17 @@ class Carbon extends BaseCarbon implements JsonSerializable
 
         $carbon = $this;
 
-        return call_user_func(function () use ($carbon) {
-            return get_object_vars($carbon);
-        });
+        return call_user_func(
+            function () use ($carbon) {
+                return get_object_vars($carbon);
+            }
+        );
     }
 
     /**
      * JSON serialize all Carbon instances using the given callback.
      *
-     * @param  callable  $callback
+     * @param  callable $callback
      * @return void
      */
     public static function serializeUsing($callback)
@@ -49,7 +51,7 @@ class Carbon extends BaseCarbon implements JsonSerializable
     /**
      * Create a new Carbon instance based on the given state array.
      *
-     * @param  array  $array
+     * @param  array $array
      * @return static
      */
     public static function __set_state($array)

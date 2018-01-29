@@ -31,9 +31,11 @@ class DocCommand extends ReflectingCommand
         $this
             ->setName('doc')
             ->setAliases(array('rtfm', 'man'))
-            ->setDefinition(array(
+            ->setDefinition(
+                array(
                 new InputArgument('value', InputArgument::REQUIRED, 'Function, class, instance, constant, method or property to document.'),
-            ))
+                )
+            )
             ->setDescription('Read the documentation for an object, class, constant, method or property.')
             ->setHelp(
                 <<<HELP
@@ -67,18 +69,20 @@ HELP
 
         $db = $this->getApplication()->getManualDb();
 
-        $output->page(function ($output) use ($reflector, $doc, $db) {
-            $output->writeln(SignatureFormatter::format($reflector));
-            $output->writeln('');
+        $output->page(
+            function ($output) use ($reflector, $doc, $db) {
+                $output->writeln(SignatureFormatter::format($reflector));
+                $output->writeln('');
 
-            if (empty($doc) && !$db) {
-                $output->writeln('<warning>PHP manual not found</warning>');
-                $output->writeln('    To document core PHP functionality, download the PHP reference manual:');
-                $output->writeln('    https://github.com/bobthecow/psysh/wiki/PHP-manual');
-            } else {
-                $output->writeln($doc);
+                if (empty($doc) && !$db) {
+                    $output->writeln('<warning>PHP manual not found</warning>');
+                    $output->writeln('    To document core PHP functionality, download the PHP reference manual:');
+                    $output->writeln('    https://github.com/bobthecow/psysh/wiki/PHP-manual');
+                } else {
+                    $output->writeln($doc);
+                }
             }
-        });
+        );
 
         // Set some magic local variables
         $this->setCommandScopeVariables($reflector);
@@ -87,22 +91,22 @@ HELP
     private function getManualDoc($reflector)
     {
         switch (get_class($reflector)) {
-            case 'ReflectionClass':
-            case 'ReflectionObject':
-            case 'ReflectionFunction':
-                $id = $reflector->name;
-                break;
+        case 'ReflectionClass':
+        case 'ReflectionObject':
+        case 'ReflectionFunction':
+            $id = $reflector->name;
+            break;
 
-            case 'ReflectionMethod':
-                $id = $reflector->class . '::' . $reflector->name;
-                break;
+        case 'ReflectionMethod':
+            $id = $reflector->class . '::' . $reflector->name;
+            break;
 
-            case 'ReflectionProperty':
-                $id = $reflector->class . '::$' . $reflector->name;
-                break;
+        case 'ReflectionProperty':
+            $id = $reflector->class . '::$' . $reflector->name;
+            break;
 
-            default:
-                return false;
+        default:
+            return false;
         }
 
         return $this->getManualDocById($id);

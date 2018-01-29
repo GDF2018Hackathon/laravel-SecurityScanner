@@ -88,42 +88,42 @@ class IsType extends Constraint
     protected function matches($other)
     {
         switch ($this->type) {
-            case 'numeric':
-                return \is_numeric($other);
+        case 'numeric':
+            return \is_numeric($other);
 
-            case 'integer':
-            case 'int':
-                return \is_int($other);
+        case 'integer':
+        case 'int':
+            return \is_int($other);
 
-            case 'double':
-            case 'float':
-            case 'real':
-                return \is_float($other);
+        case 'double':
+        case 'float':
+        case 'real':
+            return \is_float($other);
 
-            case 'string':
-                return \is_string($other);
+        case 'string':
+            return \is_string($other);
 
-            case 'boolean':
-            case 'bool':
-                return \is_bool($other);
+        case 'boolean':
+        case 'bool':
+            return \is_bool($other);
 
-            case 'null':
-                return null === $other;
+        case 'null':
+            return null === $other;
 
-            case 'array':
-                return \is_array($other);
+        case 'array':
+            return \is_array($other);
 
-            case 'object':
-                return \is_object($other);
+        case 'object':
+            return \is_object($other);
 
-            case 'resource':
-                return \is_resource($other) || \is_string(@\get_resource_type($other));
+        case 'resource':
+            return \is_resource($other) || \is_string(@\get_resource_type($other));
 
-            case 'scalar':
-                return \is_scalar($other);
+        case 'scalar':
+            return \is_scalar($other);
 
-            case 'callable':
-                return \is_callable($other);
+        case 'callable':
+            return \is_callable($other);
         }
     }
 

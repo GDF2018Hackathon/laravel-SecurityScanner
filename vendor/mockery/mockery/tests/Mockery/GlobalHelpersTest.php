@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2016 Dave Marshall
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2016 Dave Marshall
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 use PHPUnit\Framework\TestCase;
@@ -32,7 +32,9 @@ class GlobalHelpersTest extends TestCase
         \Mockery::close();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function mock_creates_a_mock()
     {
         $double = mock();
@@ -42,7 +44,9 @@ class GlobalHelpersTest extends TestCase
         $double->foo();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function spy_creates_a_spy()
     {
         $double = spy();
@@ -51,7 +55,9 @@ class GlobalHelpersTest extends TestCase
         $double->foo();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function named_mock_creates_a_named_mock()
     {
         $className = "Class".uniqid();

@@ -124,8 +124,9 @@ class Parameters extends StatelessInvocation
             // `->withAnyParameters()`.
             //
             // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/199
-            if (\count($this->parameters) === 1 &&
-                \get_class($this->parameters[0]) === IsAnything::class) {
+            if (\count($this->parameters) === 1 
+                && \get_class($this->parameters[0]) === IsAnything::class
+            ) {
                 $message .= "\nTo allow 0 or more parameters with any value, omit ->with() or use ->withAnyParameters() instead.";
             }
 

@@ -26,7 +26,9 @@ final class Return_ extends BaseTag implements Factory\StaticMethod
 {
     protected $name = 'return';
 
-    /** @var Type */
+    /**
+     * @var Type 
+     */
     private $type;
 
     public function __construct(Type $type, Description $description = null)

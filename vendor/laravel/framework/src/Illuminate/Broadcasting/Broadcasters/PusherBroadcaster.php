@@ -20,7 +20,7 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Create a new broadcaster instance.
      *
-     * @param  \Pusher\Pusher  $pusher
+     * @param  \Pusher\Pusher $pusher
      * @return void
      */
     public function __construct(Pusher $pusher)
@@ -31,14 +31,15 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Authenticate the incoming request for a given channel.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return mixed
      * @throws \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
      */
     public function auth($request)
     {
-        if (Str::startsWith($request->channel_name, ['private-', 'presence-']) &&
-            ! $request->user()) {
+        if (Str::startsWith($request->channel_name, ['private-', 'presence-']) 
+            && ! $request->user()
+        ) {
             throw new AccessDeniedHttpException;
         }
 
@@ -54,8 +55,8 @@ class PusherBroadcaster extends Broadcaster
     /**
      * Return the valid authentication response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $result
+     * @param  \Illuminate\Http\Request $request
+     * @param  mixed                    $result
      * @return mixed
      */
     public function validAuthenticationResponse($request, $result)
@@ -68,14 +69,15 @@ class PusherBroadcaster extends Broadcaster
 
         return $this->decodePusherResponse(
             $this->pusher->presence_auth(
-                $request->channel_name, $request->socket_id, $request->user()->getAuthIdentifier(), $result)
+                $request->channel_name, $request->socket_id, $request->user()->getAuthIdentifier(), $result
+            )
         );
     }
 
     /**
      * Decode the given Pusher response.
      *
-     * @param  mixed  $response
+     * @param  mixed $response
      * @return array
      */
     protected function decodePusherResponse($response)
@@ -87,7 +89,7 @@ class PusherBroadcaster extends Broadcaster
      * Broadcast the given event.
      *
      * @param  array  $channels
-     * @param  string  $event
+     * @param  string $event
      * @param  array  $payload
      * @return void
      */
@@ -100,7 +102,8 @@ class PusherBroadcaster extends Broadcaster
         );
 
         if ((is_array($response) && $response['status'] >= 200 && $response['status'] <= 299)
-            || $response === true) {
+            || $response === true
+        ) {
             return;
         }
 

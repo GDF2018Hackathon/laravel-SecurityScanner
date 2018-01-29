@@ -11,7 +11,7 @@
 /**
  * Redirects all email to a single recipient.
  *
- * @author     Fabien Potencier
+ * @author Fabien Potencier
  */
 class Swift_Plugins_RedirectingPlugin implements Swift_Events_SendListener
 {

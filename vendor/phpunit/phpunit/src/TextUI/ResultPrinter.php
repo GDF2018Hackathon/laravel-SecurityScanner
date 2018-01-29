@@ -351,10 +351,11 @@ class ResultPrinter extends Printer implements TestListener
             return;
         }
 
-        if ($result->wasSuccessful() &&
-            $result->allHarmless() &&
-            $result->allCompletelyImplemented() &&
-            $result->noneSkipped()) {
+        if ($result->wasSuccessful() 
+            && $result->allHarmless() 
+            && $result->allCompletelyImplemented() 
+            && $result->noneSkipped()
+        ) {
             $this->writeWithColor(
                 'fg-black, bg-green',
                 \sprintf(

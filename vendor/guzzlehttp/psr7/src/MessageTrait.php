@@ -8,16 +8,24 @@ use Psr\Http\Message\StreamInterface;
  */
 trait MessageTrait
 {
-    /** @var array Map of all registered headers, as original name => array of values */
+    /**
+     * @var array Map of all registered headers, as original name => array of values 
+     */
     private $headers = [];
 
-    /** @var array Map of lowercase header name => original name at registration */
+    /**
+     * @var array Map of lowercase header name => original name at registration 
+     */
     private $headerNames  = [];
 
-    /** @var string */
+    /**
+     * @var string 
+     */
     private $protocol = '1.1';
 
-    /** @var StreamInterface */
+    /**
+     * @var StreamInterface 
+     */
     private $stream;
 
     public function getProtocolVersion()
@@ -176,8 +184,10 @@ trait MessageTrait
      */
     private function trimHeaderValues(array $values)
     {
-        return array_map(function ($value) {
-            return trim($value, " \t");
-        }, $values);
+        return array_map(
+            function ($value) {
+                return trim($value, " \t");
+            }, $values
+        );
     }
 }

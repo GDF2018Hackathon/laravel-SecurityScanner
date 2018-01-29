@@ -108,9 +108,11 @@ class ExceptionHandlerTest extends TestCase
 
         $handler->handle($exception);
 
-        $handler->setHandler(function ($e) use ($exception) {
-            $this->assertSame($exception, $e);
-        });
+        $handler->setHandler(
+            function ($e) use ($exception) {
+                $this->assertSame($exception, $e);
+            }
+        );
 
         $handler->handle($exception);
     }
@@ -124,9 +126,11 @@ class ExceptionHandlerTest extends TestCase
             ->expects($this->once())
             ->method('sendPhpResponse');
 
-        $handler->setHandler(function ($e) {
-            $this->fail('OutOfMemoryException should bypass the handler');
-        });
+        $handler->setHandler(
+            function ($e) {
+                $this->fail('OutOfMemoryException should bypass the handler');
+            }
+        );
 
         $handler->handle($exception);
     }

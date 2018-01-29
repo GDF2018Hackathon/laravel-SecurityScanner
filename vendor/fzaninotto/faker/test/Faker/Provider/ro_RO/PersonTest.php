@@ -12,7 +12,6 @@ class PersonTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @var \Faker\Generator
-     *
      */
     protected $faker;
     protected $originalTz;

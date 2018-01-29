@@ -40,8 +40,8 @@ class Schedule
     /**
      * Add a new callback event to the schedule.
      *
-     * @param  string|callable  $callback
-     * @param  array   $parameters
+     * @param  string|callable $callback
+     * @param  array           $parameters
      * @return \Illuminate\Console\Scheduling\CallbackEvent
      */
     public function call($callback, array $parameters = [])
@@ -56,7 +56,7 @@ class Schedule
     /**
      * Add a new Artisan command event to the schedule.
      *
-     * @param  string  $command
+     * @param  string $command
      * @param  array  $parameters
      * @return \Illuminate\Console\Scheduling\Event
      */
@@ -74,27 +74,29 @@ class Schedule
     /**
      * Add a new job callback event to the schedule.
      *
-     * @param  object|string  $job
-     * @param  string|null  $queue
+     * @param  object|string $job
+     * @param  string|null   $queue
      * @return \Illuminate\Console\Scheduling\CallbackEvent
      */
     public function job($job, $queue = null)
     {
-        return $this->call(function () use ($job, $queue) {
-            $job = is_string($job) ? resolve($job) : $job;
+        return $this->call(
+            function () use ($job, $queue) {
+                $job = is_string($job) ? resolve($job) : $job;
 
-            if ($job instanceof ShouldQueue) {
-                dispatch($job)->onQueue($queue);
-            } else {
-                dispatch_now($job);
+                if ($job instanceof ShouldQueue) {
+                    dispatch($job)->onQueue($queue);
+                } else {
+                    dispatch_now($job);
+                }
             }
-        })->name(is_string($job) ? $job : get_class($job));
+        )->name(is_string($job) ? $job : get_class($job));
     }
 
     /**
      * Add a new command event to the schedule.
      *
-     * @param  string  $command
+     * @param  string $command
      * @param  array  $parameters
      * @return \Illuminate\Console\Scheduling\Event
      */
@@ -112,28 +114,32 @@ class Schedule
     /**
      * Compile parameters for a command.
      *
-     * @param  array  $parameters
+     * @param  array $parameters
      * @return string
      */
     protected function compileParameters(array $parameters)
     {
-        return collect($parameters)->map(function ($value, $key) {
-            if (is_array($value)) {
-                $value = collect($value)->map(function ($value) {
-                    return ProcessUtils::escapeArgument($value);
-                })->implode(' ');
-            } elseif (! is_numeric($value) && ! preg_match('/^(-.$|--.*)/i', $value)) {
-                $value = ProcessUtils::escapeArgument($value);
-            }
+        return collect($parameters)->map(
+            function ($value, $key) {
+                if (is_array($value)) {
+                    $value = collect($value)->map(
+                        function ($value) {
+                            return ProcessUtils::escapeArgument($value);
+                        }
+                    )->implode(' ');
+                } elseif (! is_numeric($value) && ! preg_match('/^(-.$|--.*)/i', $value)) {
+                    $value = ProcessUtils::escapeArgument($value);
+                }
 
-            return is_numeric($key) ? $value : "{$key}={$value}";
-        })->implode(' ');
+                return is_numeric($key) ? $value : "{$key}={$value}";
+            }
+        )->implode(' ');
     }
 
     /**
      * Get all of the events on the schedule that are due.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Illuminate\Contracts\Foundation\Application $app
      * @return \Illuminate\Support\Collection
      */
     public function dueEvents($app)

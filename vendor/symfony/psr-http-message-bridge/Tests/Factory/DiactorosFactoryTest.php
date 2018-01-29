@@ -158,13 +158,15 @@ class DiactorosFactoryTest extends TestCase
 
     public function testCreateResponseFromStreamed()
     {
-        $response = new StreamedResponse(function () {
-            echo "Line 1\n";
-            flush();
+        $response = new StreamedResponse(
+            function () {
+                echo "Line 1\n";
+                flush();
 
-            echo "Line 2\n";
-            flush();
-        });
+                echo "Line 2\n";
+                flush();
+            }
+        );
 
         $psrResponse = $this->factory->createResponse($response);
 
@@ -191,17 +193,18 @@ class DiactorosFactoryTest extends TestCase
         $this->assertFalse($file->getSize(), 'SplFile::getSize() returns false on error');
         $this->assertInternalType('integer', $file->getClientSize());
 
-        $request = new Request(array(), array(), array(), array(),
-          array(
+        $request = new Request(
+            array(), array(), array(), array(),
+            array(
             'f1' => $file,
             'f2' => array('name' => null, 'type' => null, 'tmp_name' => null, 'error' => UPLOAD_ERR_NO_FILE, 'size' => 0),
-          ),
-          array(
+            ),
+            array(
             'REQUEST_METHOD' => 'POST',
             'HTTP_HOST' => 'dunglas.fr',
             'HTTP_X_SYMFONY' => '2.8',
-          ),
-          'Content'
+            ),
+            'Content'
         );
 
         $psrRequest = $this->factory->createRequest($request);

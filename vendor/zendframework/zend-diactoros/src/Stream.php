@@ -28,7 +28,7 @@ class Stream implements StreamInterface
 
     /**
      * @param string|resource $stream
-     * @param string $mode Mode with which to open stream
+     * @param string          $mode   Mode with which to open stream
      * @throws InvalidArgumentException
      */
     public function __construct($stream, $mode = 'r')
@@ -82,8 +82,8 @@ class Stream implements StreamInterface
     /**
      * Attach a new stream/resource to the instance.
      *
-     * @param string|resource $resource
-     * @param string $mode
+     * @param  string|resource $resource
+     * @param  string          $mode
      * @throws InvalidArgumentException for stream identifier that cannot be
      *     cast to a resource
      * @throws InvalidArgumentException for non-resource stream
@@ -293,8 +293,8 @@ class Stream implements StreamInterface
     /**
      * Set the internal stream resource.
      *
-     * @param string|resource $stream String stream target or stream resource.
-     * @param string $mode Resource mode for stream target.
+     * @param  string|resource $stream String stream target or stream resource.
+     * @param  string          $mode   Resource mode for stream target.
      * @throws InvalidArgumentException for invalid streams or resources.
      */
     private function setStream($stream, $mode = 'r')
@@ -303,9 +303,11 @@ class Stream implements StreamInterface
         $resource = $stream;
 
         if (is_string($stream)) {
-            set_error_handler(function ($e) use (&$error) {
-                $error = $e;
-            }, E_WARNING);
+            set_error_handler(
+                function ($e) use (&$error) {
+                    $error = $e;
+                }, E_WARNING
+            );
             $resource = fopen($stream, $mode);
             restore_error_handler();
         }

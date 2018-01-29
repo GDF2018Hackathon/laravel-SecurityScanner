@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery;
@@ -32,7 +32,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Add an expectation to the composite
      *
-     * @param \Mockery\Expectation|\Mockery\CompositeExpectation $expectation
+     * @param  \Mockery\Expectation|\Mockery\CompositeExpectation $expectation
      * @return void
      */
     public function add($expectation)
@@ -51,7 +51,7 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Set a return value, or sequential queue of return values
      *
-     * @param mixed ...
+     * @param  mixed ...
      * @return self
      */
     public function andReturns(...$args)
@@ -62,8 +62,8 @@ class CompositeExpectation implements ExpectationInterface
     /**
      * Intercept any expectation calls and direct against all expectations
      *
-     * @param string $method
-     * @param array $args
+     * @param  string $method
+     * @param  array  $args
      * @return self
      */
     public function __call($method, array $args)
@@ -112,7 +112,7 @@ class CompositeExpectation implements ExpectationInterface
      * Starts a new expectation addition on the first mock which is the primary
      * target outside of a demeter chain
      *
-     * @param mixed ...
+     * @param  mixed ...
      * @return \Mockery\Expectation
      */
     public function shouldReceive(...$args)

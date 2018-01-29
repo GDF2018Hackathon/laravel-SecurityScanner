@@ -239,7 +239,9 @@ class Crypto
         }
 
         // Get and check the version header.
-        /** @var string $header */
+        /**
+ * @var string $header 
+*/
         $header = Core::ourSubstr($ciphertext, 0, Core::HEADER_VERSION_SIZE);
         if ($header !== Core::CURRENT_VERSION) {
             throw new Ex\WrongKeyOrModifiedCiphertextException(
@@ -248,7 +250,9 @@ class Crypto
         }
 
         // Get the salt.
-        /** @var string $salt */
+        /**
+ * @var string $salt 
+*/
         $salt = Core::ourSubstr(
             $ciphertext,
             Core::HEADER_VERSION_SIZE,
@@ -259,7 +263,9 @@ class Crypto
         }
 
         // Get the IV.
-        /** @var string $iv */
+        /**
+ * @var string $iv 
+*/
         $iv = Core::ourSubstr(
             $ciphertext,
             Core::HEADER_VERSION_SIZE + Core::SALT_BYTE_SIZE,
@@ -270,7 +276,9 @@ class Crypto
         }
 
         // Get the HMAC.
-        /** @var string $hmac */
+        /**
+ * @var string $hmac 
+*/
         $hmac = Core::ourSubstr(
             $ciphertext,
             Core::ourStrlen($ciphertext) - Core::MAC_BYTE_SIZE,
@@ -281,7 +289,9 @@ class Crypto
         }
 
         // Get the actual encrypted ciphertext.
-        /** @var string $encrypted */
+        /**
+ * @var string $encrypted 
+*/
         $encrypted = Core::ourSubstr(
             $ciphertext,
             Core::HEADER_VERSION_SIZE + Core::SALT_BYTE_SIZE +
@@ -322,7 +332,9 @@ class Crypto
     {
         Core::ensureConstantExists('OPENSSL_RAW_DATA');
         Core::ensureFunctionExists('openssl_encrypt');
-        /** @var string $ciphertext */
+        /**
+ * @var string $ciphertext 
+*/
         $ciphertext = \openssl_encrypt(
             $plaintext,
             Core::CIPHER_METHOD,
@@ -357,7 +369,9 @@ class Crypto
         Core::ensureConstantExists('OPENSSL_RAW_DATA');
         Core::ensureFunctionExists('openssl_decrypt');
 
-        /** @var string $plaintext */
+        /**
+ * @var string $plaintext 
+*/
         $plaintext = \openssl_decrypt(
             $ciphertext,
             $cipherMethod,

@@ -16,7 +16,7 @@ use Lcobucci\JWT\Signer\Key;
  * This class makes easier the token creation process
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 0.1.0
+ * @since  0.1.0
  */
 class Builder
 {
@@ -58,7 +58,7 @@ class Builder
     /**
      * Initializes a new builder
      *
-     * @param Encoder $encoder
+     * @param Encoder      $encoder
      * @param ClaimFactory $claimFactory
      */
     public function __construct(
@@ -74,7 +74,7 @@ class Builder
     /**
      * Configures the audience
      *
-     * @param string $audience
+     * @param string  $audience
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -87,7 +87,7 @@ class Builder
     /**
      * Configures the expiration time
      *
-     * @param int $expiration
+     * @param int     $expiration
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -100,7 +100,7 @@ class Builder
     /**
      * Configures the token id
      *
-     * @param string $id
+     * @param string  $id
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -113,7 +113,7 @@ class Builder
     /**
      * Configures the time that the token was issued
      *
-     * @param int $issuedAt
+     * @param int     $issuedAt
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -126,7 +126,7 @@ class Builder
     /**
      * Configures the issuer
      *
-     * @param string $issuer
+     * @param string  $issuer
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -139,7 +139,7 @@ class Builder
     /**
      * Configures the time before which the token cannot be accepted
      *
-     * @param int $notBefore
+     * @param int     $notBefore
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -152,7 +152,7 @@ class Builder
     /**
      * Configures the subject
      *
-     * @param string $subject
+     * @param string  $subject
      * @param boolean $replicateAsHeader
      *
      * @return Builder
@@ -165,8 +165,8 @@ class Builder
     /**
      * Configures a registed claim
      *
-     * @param string $name
-     * @param mixed $value
+     * @param string  $name
+     * @param mixed   $value
      * @param boolean $replicate
      *
      * @return Builder
@@ -186,7 +186,7 @@ class Builder
      * Configures a header item
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return Builder
      *
@@ -207,7 +207,7 @@ class Builder
      * Configures a claim item
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return Builder
      *
@@ -227,7 +227,7 @@ class Builder
     /**
      * Signs the data
      *
-     * @param Signer $signer
+     * @param Signer     $signer
      * @param Key|string $key
      *
      * @return Builder

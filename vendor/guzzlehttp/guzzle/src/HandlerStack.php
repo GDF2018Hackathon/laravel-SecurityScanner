@@ -9,13 +9,19 @@ use Psr\Http\Message\RequestInterface;
  */
 class HandlerStack
 {
-    /** @var callable */
+    /**
+     * @var callable 
+     */
     private $handler;
 
-    /** @var array */
+    /**
+     * @var array 
+     */
     private $stack = [];
 
-    /** @var callable|null */
+    /**
+     * @var callable|null 
+     */
     private $cached;
 
     /**
@@ -175,12 +181,14 @@ class HandlerStack
     {
         $this->cached = null;
         $idx = is_callable($remove) ? 0 : 1;
-        $this->stack = array_values(array_filter(
-            $this->stack,
-            function ($tuple) use ($idx, $remove) {
-                return $tuple[$idx] !== $remove;
-            }
-        ));
+        $this->stack = array_values(
+            array_filter(
+                $this->stack,
+                function ($tuple) use ($idx, $remove) {
+                    return $tuple[$idx] !== $remove;
+                }
+            )
+        );
     }
 
     /**
@@ -223,10 +231,10 @@ class HandlerStack
     /**
      * Splices a function into the middleware list at a specific position.
      *
-     * @param          $findName
-     * @param          $withName
+     * @param $findName
+     * @param $withName
      * @param callable $middleware
-     * @param          $before
+     * @param $before
      */
     private function splice($findName, $withName, callable $middleware, $before)
     {

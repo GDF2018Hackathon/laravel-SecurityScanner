@@ -212,9 +212,11 @@ class ExpectationTest extends MockeryTestCase
 
     public function testReturnsValueOfClosure()
     {
-        $this->mock->shouldReceive('foo')->with(5)->andReturnUsing(function ($v) {
-            return $v+1;
-        });
+        $this->mock->shouldReceive('foo')->with(5)->andReturnUsing(
+            function ($v) {
+                return $v+1;
+            }
+        );
         $this->assertEquals(6, $this->mock->foo(5));
     }
 
@@ -242,7 +244,9 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function and_throws_is_an_alias_to_and_throw()
     {
         $this->mock->shouldReceive('foo')->andThrows(new OutOfBoundsException);
@@ -298,10 +302,12 @@ class ExpectationTest extends MockeryTestCase
 
     public function testAndThrowExceptions()
     {
-        $this->mock->shouldReceive('foo')->andThrowExceptions(array(
+        $this->mock->shouldReceive('foo')->andThrowExceptions(
+            array(
             new OutOfBoundsException,
             new InvalidArgumentException,
-        ));
+            )
+        );
 
         try {
             $this->mock->foo();
@@ -768,10 +774,14 @@ class ExpectationTest extends MockeryTestCase
         $number_of_calls = 0;
         $this->mock->shouldReceive('foo')
             ->times(2)
-            ->with(\Mockery::on(function ($argument) use (&$number_of_calls) {
-                $number_of_calls++;
-                return $number_of_calls <= 3;
-            }));
+            ->with(
+                \Mockery::on(
+                    function ($argument) use (&$number_of_calls) {
+                        $number_of_calls++;
+                        return $number_of_calls <= 3;
+                    }
+                )
+            );
 
         $this->mock->foo(1);
         $this->mock->foo(1);
@@ -1133,9 +1143,11 @@ class ExpectationTest extends MockeryTestCase
     public function testCallableConstraintMatchesArgument()
     {
         $this->mock->shouldReceive('foo')->with(Mockery::type('callable'))->once();
-        $this->mock->foo(function () {
-            return 'f';
-        });
+        $this->mock->foo(
+            function () {
+                return 'f';
+            }
+        );
     }
 
     public function testCallableConstraintNonMatchingCase()
@@ -1729,7 +1741,9 @@ class ExpectationTest extends MockeryTestCase
         $this->assertEquals(1, $this->mock->a());
     }
 
-    /** @issue #253 */
+    /**
+     * @issue #253 
+     */
     public function testShouldIgnoreMissingDefaultSelfAndReturnsSelf()
     {
         $this->mock->shouldIgnoreMissing(\Mockery::self());
@@ -2111,7 +2125,9 @@ class ExpectationTest extends MockeryTestCase
         Mockery::close();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_uses_a_matchers_to_string_method_in_the_exception_output()
     {
         $mock = Mockery::mock();

@@ -49,16 +49,16 @@ class LegacyEmptyPass extends CodeCleanerPass
     private function getUnexpectedThing(Node $node)
     {
         switch ($node->getType()) {
-            case 'Scalar_String':
-            case 'Scalar_LNumber':
-            case 'Scalar_DNumber':
-                return json_encode($node->value);
+        case 'Scalar_String':
+        case 'Scalar_LNumber':
+        case 'Scalar_DNumber':
+            return json_encode($node->value);
 
-            case 'Expr_ConstFetch':
-                return (string) $node->name;
+        case 'Expr_ConstFetch':
+            return (string) $node->name;
 
-            default:
-                return $node->getType();
+        default:
+            return $node->getType();
         }
     }
 }

@@ -11,13 +11,19 @@ use Psr\Http\Message\UriInterface;
  */
 class RequestException extends TransferException
 {
-    /** @var RequestInterface */
+    /**
+     * @var RequestInterface 
+     */
     private $request;
 
-    /** @var ResponseInterface */
+    /**
+     * @var ResponseInterface 
+     */
     private $response;
 
-    /** @var array */
+    /**
+     * @var array 
+     */
     private $handlerContext;
 
     public function __construct(

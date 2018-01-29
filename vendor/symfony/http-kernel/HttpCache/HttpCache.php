@@ -79,7 +79,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // needed in case there is a fatal error because the backend is too slow to respond
         register_shutdown_function(array($this->store, 'cleanup'));
 
-        $this->options = array_merge(array(
+        $this->options = array_merge(
+            array(
             'debug' => false,
             'default_ttl' => 0,
             'private_headers' => array('Authorization', 'Cookie'),
@@ -87,7 +88,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             'allow_revalidate' => false,
             'stale_while_revalidate' => 2,
             'stale_if_error' => 60,
-        ), $options);
+            ), $options
+        );
     }
 
     /**

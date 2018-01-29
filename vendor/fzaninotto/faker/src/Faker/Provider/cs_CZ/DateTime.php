@@ -49,7 +49,8 @@ class DateTime extends \Faker\Provider\DateTime
 
     /**
      * Full date with inflected month
-     * @return string
+     *
+     * @return  string
      * @example '16. listopadu 2003'
      */
     public function formattedDate()

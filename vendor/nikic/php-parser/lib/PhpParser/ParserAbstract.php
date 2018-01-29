@@ -27,103 +27,167 @@ abstract class ParserAbstract implements Parser
      * The following members will be filled with generated parsing data:
      */
 
-    /** @var int Size of $tokenToSymbol map */
+    /**
+     * @var int Size of $tokenToSymbol map 
+     */
     protected $tokenToSymbolMapSize;
-    /** @var int Size of $action table */
+    /**
+     * @var int Size of $action table 
+     */
     protected $actionTableSize;
-    /** @var int Size of $goto table */
+    /**
+     * @var int Size of $goto table 
+     */
     protected $gotoTableSize;
 
-    /** @var int Symbol number signifying an invalid token */
+    /**
+     * @var int Symbol number signifying an invalid token 
+     */
     protected $invalidSymbol;
-    /** @var int Symbol number of error recovery token */
+    /**
+     * @var int Symbol number of error recovery token 
+     */
     protected $errorSymbol;
-    /** @var int Action number signifying default action */
+    /**
+     * @var int Action number signifying default action 
+     */
     protected $defaultAction;
-    /** @var int Rule number signifying that an unexpected token was encountered */
+    /**
+     * @var int Rule number signifying that an unexpected token was encountered 
+     */
     protected $unexpectedTokenRule;
 
     protected $YY2TBLSTATE;
     protected $YYNLSTATES;
 
-    /** @var array Map of lexer tokens to internal symbols */
+    /**
+     * @var array Map of lexer tokens to internal symbols 
+     */
     protected $tokenToSymbol;
-    /** @var array Map of symbols to their names */
+    /**
+     * @var array Map of symbols to their names 
+     */
     protected $symbolToName;
-    /** @var array Names of the production rules (only necessary for debugging) */
+    /**
+     * @var array Names of the production rules (only necessary for debugging) 
+     */
     protected $productions;
 
-    /** @var array Map of states to a displacement into the $action table. The corresponding action for this
+    /**
+     * @var array Map of states to a displacement into the $action table. The corresponding action for this
      *             state/symbol pair is $action[$actionBase[$state] + $symbol]. If $actionBase[$state] is 0, the
-                   action is defaulted, i.e. $actionDefault[$state] should be used instead. */
+                   action is defaulted, i.e. $actionDefault[$state] should be used instead. 
+     */
     protected $actionBase;
-    /** @var array Table of actions. Indexed according to $actionBase comment. */
+    /**
+     * @var array Table of actions. Indexed according to $actionBase comment. 
+     */
     protected $action;
-    /** @var array Table indexed analogously to $action. If $actionCheck[$actionBase[$state] + $symbol] != $symbol
-     *             then the action is defaulted, i.e. $actionDefault[$state] should be used instead. */
+    /**
+     * @var array Table indexed analogously to $action. If $actionCheck[$actionBase[$state] + $symbol] != $symbol
+     *             then the action is defaulted, i.e. $actionDefault[$state] should be used instead. 
+     */
     protected $actionCheck;
-    /** @var array Map of states to their default action */
+    /**
+     * @var array Map of states to their default action 
+     */
     protected $actionDefault;
 
-    /** @var array Map of non-terminals to a displacement into the $goto table. The corresponding goto state for this
-     *             non-terminal/state pair is $goto[$gotoBase[$nonTerminal] + $state] (unless defaulted) */
+    /**
+     * @var array Map of non-terminals to a displacement into the $goto table. The corresponding goto state for this
+     *             non-terminal/state pair is $goto[$gotoBase[$nonTerminal] + $state] (unless defaulted) 
+     */
     protected $gotoBase;
-    /** @var array Table of states to goto after reduction. Indexed according to $gotoBase comment. */
+    /**
+     * @var array Table of states to goto after reduction. Indexed according to $gotoBase comment. 
+     */
     protected $goto;
-    /** @var array Table indexed analogously to $goto. If $gotoCheck[$gotoBase[$nonTerminal] + $state] != $nonTerminal
-     *             then the goto state is defaulted, i.e. $gotoDefault[$nonTerminal] should be used. */
+    /**
+     * @var array Table indexed analogously to $goto. If $gotoCheck[$gotoBase[$nonTerminal] + $state] != $nonTerminal
+     *             then the goto state is defaulted, i.e. $gotoDefault[$nonTerminal] should be used. 
+     */
     protected $gotoCheck;
-    /** @var array Map of non-terminals to the default state to goto after their reduction */
+    /**
+     * @var array Map of non-terminals to the default state to goto after their reduction 
+     */
     protected $gotoDefault;
 
-    /** @var array Map of rules to the non-terminal on their left-hand side, i.e. the non-terminal to use for
-     *             determining the state to goto after reduction. */
+    /**
+     * @var array Map of rules to the non-terminal on their left-hand side, i.e. the non-terminal to use for
+     *             determining the state to goto after reduction. 
+     */
     protected $ruleToNonTerminal;
-    /** @var array Map of rules to the length of their right-hand side, which is the number of elements that have to
-     *             be popped from the stack(s) on reduction. */
+    /**
+     * @var array Map of rules to the length of their right-hand side, which is the number of elements that have to
+     *             be popped from the stack(s) on reduction. 
+     */
     protected $ruleToLength;
 
     /*
      * The following members are part of the parser state:
      */
 
-    /** @var Lexer Lexer that is used when parsing */
+    /**
+     * @var Lexer Lexer that is used when parsing 
+     */
     protected $lexer;
-    /** @var mixed Temporary value containing the result of last semantic action (reduction) */
+    /**
+     * @var mixed Temporary value containing the result of last semantic action (reduction) 
+     */
     protected $semValue;
-    /** @var int Position in stacks (state stack, semantic value stack, attribute stack) */
+    /**
+     * @var int Position in stacks (state stack, semantic value stack, attribute stack) 
+     */
     protected $stackPos;
-    /** @var array Semantic value stack (contains values of tokens and semantic action results) */
+    /**
+     * @var array Semantic value stack (contains values of tokens and semantic action results) 
+     */
     protected $semStack;
-    /** @var array[] Start attribute stack */
+    /**
+     * @var array[] Start attribute stack 
+     */
     protected $startAttributeStack;
-    /** @var array[] End attribute stack */
+    /**
+     * @var array[] End attribute stack 
+     */
     protected $endAttributeStack;
-    /** @var array End attributes of last *shifted* token */
+    /**
+     * @var array End attributes of last *shifted* token 
+     */
     protected $endAttributes;
-    /** @var array Start attributes of last *read* token */
+    /**
+     * @var array Start attributes of last *read* token 
+     */
     protected $lookaheadStartAttributes;
 
-    /** @var ErrorHandler Error handler */
+    /**
+     * @var ErrorHandler Error handler 
+     */
     protected $errorHandler;
-    /** @var Error[] Errors collected during last parse */
+    /**
+     * @var Error[] Errors collected during last parse 
+     */
     protected $errors;
-    /** @var int Error state, used to avoid error floods */
+    /**
+     * @var int Error state, used to avoid error floods 
+     */
     protected $errorState;
 
     /**
      * Creates a parser instance.
      *
-     * @param Lexer $lexer A lexer
+     * @param Lexer $lexer   A lexer
      * @param array $options Options array. Currently no options are supported.
      */
-    public function __construct(Lexer $lexer, array $options = array()) {
+    public function __construct(Lexer $lexer, array $options = array()) 
+    {
         $this->lexer = $lexer;
         $this->errors = array();
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(
-                '"throwOnError" is no longer supported, use "errorHandler" instead');
+                '"throwOnError" is no longer supported, use "errorHandler" instead'
+            );
         }
     }
 
@@ -133,14 +197,15 @@ abstract class ParserAbstract implements Parser
      * If a non-throwing error handler is used, the parser will continue parsing after an error
      * occurred and attempt to build a partial AST.
      *
-     * @param string $code The source code to parse
+     * @param string            $code         The source code to parse
      * @param ErrorHandler|null $errorHandler Error handler to use for lexer/parser errors, defaults
      *                                        to ErrorHandler\Throwing.
      *
      * @return Node[]|null Array of statements (or null if the 'throwOnError' option is disabled and the parser was
      *                     unable to recover from an error).
      */
-    public function parse($code, ErrorHandler $errorHandler = null) {
+    public function parse($code, ErrorHandler $errorHandler = null) 
+    {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
 
         // Initialize the lexer
@@ -191,10 +256,12 @@ abstract class ParserAbstract implements Parser
                         : $this->invalidSymbol;
 
                     if ($symbol === $this->invalidSymbol) {
-                        throw new \RangeException(sprintf(
-                            'The lexer returned an invalid token (id=%d, value=%s)',
-                            $tokenId, $tokenValue
-                        ));
+                        throw new \RangeException(
+                            sprintf(
+                                'The lexer returned an invalid token (id=%d, value=%s)',
+                                $tokenId, $tokenValue
+                            )
+                        );
                     }
 
                     // This is necessary to assign some meaningful attributes to /* empty */ productions. They'll get
@@ -208,10 +275,11 @@ abstract class ParserAbstract implements Parser
 
                 $idx = $this->actionBase[$state] + $symbol;
                 if ((($idx >= 0 && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $symbol)
-                     || ($state < $this->YY2TBLSTATE
-                         && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
-                         && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $symbol))
-                    && ($action = $this->action[$idx]) != $this->defaultAction) {
+                    || ($state < $this->YY2TBLSTATE
+                    && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
+                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $symbol))
+                    && ($action = $this->action[$idx]) != $this->defaultAction
+                ) {
                     /*
                      * >= YYNLSTATES: shift and reduce
                      * > 0: shift
@@ -288,49 +356,49 @@ abstract class ParserAbstract implements Parser
                 } else {
                     /* error */
                     switch ($this->errorState) {
-                        case 0:
-                            $msg = $this->getErrorMessage($symbol, $state);
-                            $this->emitError(new Error($msg, $startAttributes + $endAttributes));
-                            // Break missing intentionally
-                        case 1:
-                        case 2:
-                            $this->errorState = 3;
+                    case 0:
+                        $msg = $this->getErrorMessage($symbol, $state);
+                        $this->emitError(new Error($msg, $startAttributes + $endAttributes));
+                        // Break missing intentionally
+                    case 1:
+                    case 2:
+                        $this->errorState = 3;
 
-                            // Pop until error-expecting state uncovered
-                            while (!(
-                                (($idx = $this->actionBase[$state] + $this->errorSymbol) >= 0
-                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
-                                || ($state < $this->YY2TBLSTATE
-                                    && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $this->errorSymbol) >= 0
-                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
-                            ) || ($action = $this->action[$idx]) == $this->defaultAction) { // Not totally sure about this
-                                if ($this->stackPos <= 0) {
-                                    // Could not recover from error
-                                    return null;
-                                }
-                                $state = $stateStack[--$this->stackPos];
-                                //$this->tracePop($state);
-                            }
-
-                            //$this->traceShift($this->errorSymbol);
-                            ++$this->stackPos;
-                            $stateStack[$this->stackPos] = $state = $action;
-
-                            // We treat the error symbol as being empty, so we reset the end attributes
-                            // to the end attributes of the last non-error symbol
-                            $this->endAttributeStack[$this->stackPos] = $this->endAttributeStack[$this->stackPos - 1];
-                            $this->endAttributes = $this->endAttributeStack[$this->stackPos - 1];
-                            break;
-
-                        case 3:
-                            if ($symbol === 0) {
-                                // Reached EOF without recovering from error
+                        // Pop until error-expecting state uncovered
+                        while (!(
+                            (($idx = $this->actionBase[$state] + $this->errorSymbol) >= 0
+                                && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
+                            || ($state < $this->YY2TBLSTATE
+                                && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $this->errorSymbol) >= 0
+                                && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
+                        ) || ($action = $this->action[$idx]) == $this->defaultAction) { // Not totally sure about this
+                            if ($this->stackPos <= 0) {
+                                // Could not recover from error
                                 return null;
                             }
+                            $state = $stateStack[--$this->stackPos];
+                            //$this->tracePop($state);
+                        }
 
-                            //$this->traceDiscard($symbol);
-                            $symbol = self::SYMBOL_NONE;
-                            break 2;
+                        //$this->traceShift($this->errorSymbol);
+                        ++$this->stackPos;
+                        $stateStack[$this->stackPos] = $state = $action;
+
+                        // We treat the error symbol as being empty, so we reset the end attributes
+                        // to the end attributes of the last non-error symbol
+                        $this->endAttributeStack[$this->stackPos] = $this->endAttributeStack[$this->stackPos - 1];
+                        $this->endAttributes = $this->endAttributeStack[$this->stackPos - 1];
+                        break;
+
+                    case 3:
+                        if ($symbol === 0) {
+                            // Reached EOF without recovering from error
+                            return null;
+                        }
+
+                        //$this->traceDiscard($symbol);
+                        $symbol = self::SYMBOL_NONE;
+                        break 2;
                     }
                 }
 
@@ -346,11 +414,13 @@ abstract class ParserAbstract implements Parser
         throw new \RuntimeException('Reached end of parser loop');
     }
 
-    protected function emitError(Error $error) {
+    protected function emitError(Error $error) 
+    {
         $this->errorHandler->handleError($error);
     }
 
-    protected function getErrorMessage($symbol, $state) {
+    protected function getErrorMessage($symbol, $state) 
+    {
         $expectedString = '';
         if ($expected = $this->getExpectedTokens($state)) {
             $expectedString = ', expecting ' . implode(' or ', $expected);
@@ -359,7 +429,8 @@ abstract class ParserAbstract implements Parser
         return 'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString;
     }
 
-    protected function getExpectedTokens($state) {
+    protected function getExpectedTokens($state) 
+    {
         $expected = array();
 
         $base = $this->actionBase[$state];
@@ -429,10 +500,11 @@ abstract class ParserAbstract implements Parser
     /**
      * Moves statements of semicolon-style namespaces into $ns->stmts and checks various error conditions.
      *
-     * @param Node[] $stmts
+     * @param  Node[] $stmts
      * @return Node[]
      */
-    protected function handleNamespaces(array $stmts) {
+    protected function handleNamespaces(array $stmts) 
+    {
         $hasErrored = false;
         $style = $this->getNamespacingStyle($stmts);
         if (null === $style) {
@@ -445,10 +517,14 @@ abstract class ParserAbstract implements Parser
                 if ($stmt instanceof Node\Stmt\Namespace_) {
                     $afterFirstNamespace = true;
                 } elseif (!$stmt instanceof Node\Stmt\HaltCompiler
-                        && !$stmt instanceof Node\Stmt\Nop
-                        && $afterFirstNamespace && !$hasErrored) {
-                    $this->emitError(new Error(
-                        'No code may exist outside of namespace {}', $stmt->getAttributes()));
+                    && !$stmt instanceof Node\Stmt\Nop
+                    && $afterFirstNamespace && !$hasErrored
+                ) {
+                    $this->emitError(
+                        new Error(
+                            'No code may exist outside of namespace {}', $stmt->getAttributes()
+                        )
+                    );
                     $hasErrored = true; // Avoid one error for every statement
                 }
             }
@@ -479,7 +555,8 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    private function getNamespacingStyle(array $stmts) {
+    private function getNamespacingStyle(array $stmts) 
+    {
         $style = null;
         $hasNotAllowedStmts = false;
         foreach ($stmts as $i => $stmt) {
@@ -488,16 +565,20 @@ abstract class ParserAbstract implements Parser
                 if (null === $style) {
                     $style = $currentStyle;
                     if ($hasNotAllowedStmts) {
-                        $this->emitError(new Error(
-                            'Namespace declaration statement has to be the very first statement in the script',
-                            $stmt->getLine() // Avoid marking the entire namespace as an error
-                        ));
+                        $this->emitError(
+                            new Error(
+                                'Namespace declaration statement has to be the very first statement in the script',
+                                $stmt->getLine() // Avoid marking the entire namespace as an error
+                            )
+                        );
                     }
                 } elseif ($style !== $currentStyle) {
-                    $this->emitError(new Error(
-                        'Cannot mix bracketed namespace declarations with unbracketed namespace declarations',
-                        $stmt->getLine() // Avoid marking the entire namespace as an error
-                    ));
+                    $this->emitError(
+                        new Error(
+                            'Cannot mix bracketed namespace declarations with unbracketed namespace declarations',
+                            $stmt->getLine() // Avoid marking the entire namespace as an error
+                        )
+                    );
                     // Treat like semicolon style for namespace normalization
                     return 'semicolon';
                 }
@@ -507,7 +588,8 @@ abstract class ParserAbstract implements Parser
             /* declare(), __halt_compiler() and nops can be used before a namespace declaration */
             if ($stmt instanceof Node\Stmt\Declare_
                 || $stmt instanceof Node\Stmt\HaltCompiler
-                || $stmt instanceof Node\Stmt\Nop) {
+                || $stmt instanceof Node\Stmt\Nop
+            ) {
                 continue;
             }
 
@@ -522,7 +604,8 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
-    protected function handleBuiltinTypes(Name $name) {
+    protected function handleBuiltinTypes(Name $name) 
+    {
         $scalarTypes = [
             'bool'     => true,
             'int'      => true,
@@ -547,11 +630,13 @@ abstract class ParserAbstract implements Parser
         'static' => true,
     );
 
-    protected function getAttributesAt($pos) {
+    protected function getAttributesAt($pos) 
+    {
         return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
     }
 
-    protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) {
+    protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) 
+    {
         try {
             return LNumber::fromString($str, $attributes, $allowInvalidOctal);
         } catch (Error $error) {
@@ -561,7 +646,8 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function parseNumString($str, $attributes) {
+    protected function parseNumString($str, $attributes) 
+    {
         if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
             return new String_($str, $attributes);
         }
@@ -574,7 +660,8 @@ abstract class ParserAbstract implements Parser
         return new LNumber($num, $attributes);
     }
 
-    protected function checkModifier($a, $b, $modifierPos) {
+    protected function checkModifier($a, $b, $modifierPos) 
+    {
         // Jumping through some hoops here because verifyModifier() is also used elsewhere
         try {
             Class_::verifyModifier($a, $b);
@@ -584,146 +671,201 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkParam(Param $node) {
+    protected function checkParam(Param $node) 
+    {
         if ($node->variadic && null !== $node->default) {
-            $this->emitError(new Error(
-                'Variadic parameter cannot have a default value',
-                $node->default->getAttributes()
-            ));
+            $this->emitError(
+                new Error(
+                    'Variadic parameter cannot have a default value',
+                    $node->default->getAttributes()
+                )
+            );
         }
     }
 
-    protected function checkTryCatch(TryCatch $node) {
+    protected function checkTryCatch(TryCatch $node) 
+    {
         if (empty($node->catches) && null === $node->finally) {
-            $this->emitError(new Error(
-                'Cannot use try without catch or finally', $node->getAttributes()
-            ));
+            $this->emitError(
+                new Error(
+                    'Cannot use try without catch or finally', $node->getAttributes()
+                )
+            );
         }
     }
 
-    protected function checkNamespace(Namespace_ $node) {
+    protected function checkNamespace(Namespace_ $node) 
+    {
         if (isset(self::$specialNames[strtolower($node->name)])) {
-            $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as namespace name', $node->name),
-                $node->name->getAttributes()
-            ));
+            $this->emitError(
+                new Error(
+                    sprintf('Cannot use \'%s\' as namespace name', $node->name),
+                    $node->name->getAttributes()
+                )
+            );
         }
 
         if (null !== $node->stmts) {
             foreach ($node->stmts as $stmt) {
                 if ($stmt instanceof Namespace_) {
-                    $this->emitError(new Error(
-                        'Namespace declarations cannot be nested', $stmt->getAttributes()
-                    ));
+                    $this->emitError(
+                        new Error(
+                            'Namespace declarations cannot be nested', $stmt->getAttributes()
+                        )
+                    );
                 }
             }
         }
     }
 
-    protected function checkClass(Class_ $node, $namePos) {
+    protected function checkClass(Class_ $node, $namePos) 
+    {
         if (null !== $node->name && isset(self::$specialNames[strtolower($node->name)])) {
-            $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
-                $this->getAttributesAt($namePos)
-            ));
+            $this->emitError(
+                new Error(
+                    sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
+                    $this->getAttributesAt($namePos)
+                )
+            );
         }
 
         if (isset(self::$specialNames[strtolower($node->extends)])) {
-            $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->extends),
-                $node->extends->getAttributes()
-            ));
+            $this->emitError(
+                new Error(
+                    sprintf('Cannot use \'%s\' as class name as it is reserved', $node->extends),
+                    $node->extends->getAttributes()
+                )
+            );
         }
 
         foreach ($node->implements as $interface) {
             if (isset(self::$specialNames[strtolower($interface)])) {
-                $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
-                    $interface->getAttributes()
-                ));
+                $this->emitError(
+                    new Error(
+                        sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                        $interface->getAttributes()
+                    )
+                );
             }
         }
     }
 
-    protected function checkInterface(Interface_ $node, $namePos) {
+    protected function checkInterface(Interface_ $node, $namePos) 
+    {
         if (null !== $node->name && isset(self::$specialNames[strtolower($node->name)])) {
-            $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
-                $this->getAttributesAt($namePos)
-            ));
+            $this->emitError(
+                new Error(
+                    sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
+                    $this->getAttributesAt($namePos)
+                )
+            );
         }
 
         foreach ($node->extends as $interface) {
             if (isset(self::$specialNames[strtolower($interface)])) {
-                $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
-                    $interface->getAttributes()
-                ));
+                $this->emitError(
+                    new Error(
+                        sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                        $interface->getAttributes()
+                    )
+                );
             }
         }
     }
 
-    protected function checkClassMethod(ClassMethod $node, $modifierPos) {
+    protected function checkClassMethod(ClassMethod $node, $modifierPos) 
+    {
         if ($node->flags & Class_::MODIFIER_STATIC) {
             switch (strtolower($node->name)) {
-                case '__construct':
-                    $this->emitError(new Error(
+            case '__construct':
+                $this->emitError(
+                    new Error(
                         sprintf('Constructor %s() cannot be static', $node->name),
-                        $this->getAttributesAt($modifierPos)));
-                    break;
-                case '__destruct':
-                    $this->emitError(new Error(
+                        $this->getAttributesAt($modifierPos)
+                    )
+                );
+                break;
+            case '__destruct':
+                $this->emitError(
+                    new Error(
                         sprintf('Destructor %s() cannot be static', $node->name),
-                        $this->getAttributesAt($modifierPos)));
-                    break;
-                case '__clone':
-                    $this->emitError(new Error(
+                        $this->getAttributesAt($modifierPos)
+                    )
+                );
+                break;
+            case '__clone':
+                $this->emitError(
+                    new Error(
                         sprintf('Clone method %s() cannot be static', $node->name),
-                        $this->getAttributesAt($modifierPos)));
-                    break;
+                        $this->getAttributesAt($modifierPos)
+                    )
+                );
+                break;
             }
         }
     }
 
-    protected function checkClassConst(ClassConst $node, $modifierPos) {
+    protected function checkClassConst(ClassConst $node, $modifierPos) 
+    {
         if ($node->flags & Class_::MODIFIER_STATIC) {
-            $this->emitError(new Error(
-                "Cannot use 'static' as constant modifier",
-                $this->getAttributesAt($modifierPos)));
+            $this->emitError(
+                new Error(
+                    "Cannot use 'static' as constant modifier",
+                    $this->getAttributesAt($modifierPos)
+                )
+            );
         }
         if ($node->flags & Class_::MODIFIER_ABSTRACT) {
-            $this->emitError(new Error(
-                "Cannot use 'abstract' as constant modifier",
-                $this->getAttributesAt($modifierPos)));
+            $this->emitError(
+                new Error(
+                    "Cannot use 'abstract' as constant modifier",
+                    $this->getAttributesAt($modifierPos)
+                )
+            );
         }
         if ($node->flags & Class_::MODIFIER_FINAL) {
-            $this->emitError(new Error(
-                "Cannot use 'final' as constant modifier",
-                $this->getAttributesAt($modifierPos)));
+            $this->emitError(
+                new Error(
+                    "Cannot use 'final' as constant modifier",
+                    $this->getAttributesAt($modifierPos)
+                )
+            );
         }
     }
 
-    protected function checkProperty(Property $node, $modifierPos) {
+    protected function checkProperty(Property $node, $modifierPos) 
+    {
         if ($node->flags & Class_::MODIFIER_ABSTRACT) {
-            $this->emitError(new Error('Properties cannot be declared abstract',
-                $this->getAttributesAt($modifierPos)));
+            $this->emitError(
+                new Error(
+                    'Properties cannot be declared abstract',
+                    $this->getAttributesAt($modifierPos)
+                )
+            );
         }
 
         if ($node->flags & Class_::MODIFIER_FINAL) {
-            $this->emitError(new Error('Properties cannot be declared final',
-                $this->getAttributesAt($modifierPos)));
+            $this->emitError(
+                new Error(
+                    'Properties cannot be declared final',
+                    $this->getAttributesAt($modifierPos)
+                )
+            );
         }
     }
 
-    protected function checkUseUse(UseUse $node, $namePos) {
+    protected function checkUseUse(UseUse $node, $namePos) 
+    {
         if ('self' == strtolower($node->alias) || 'parent' == strtolower($node->alias)) {
-            $this->emitError(new Error(
-                sprintf(
-                    'Cannot use %s as %s because \'%2$s\' is a special class name',
-                    $node->name, $node->alias
-                ),
-                $this->getAttributesAt($namePos)
-            ));
+            $this->emitError(
+                new Error(
+                    sprintf(
+                        'Cannot use %s as %s because \'%2$s\' is a special class name',
+                        $node->name, $node->alias
+                    ),
+                    $this->getAttributesAt($namePos)
+                )
+            );
         }
     }
 }

@@ -15,10 +15,14 @@
  */
 class Swift_StreamFilters_StringReplacementFilter implements Swift_StreamFilter
 {
-    /** The needle(s) to search for */
+    /**
+     * The needle(s) to search for 
+     */
     private $search;
 
-    /** The replacement(s) to make */
+    /**
+     * The replacement(s) to make 
+     */
     private $replace;
 
     /**

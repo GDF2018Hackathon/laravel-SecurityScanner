@@ -7,7 +7,7 @@ class PostgresBuilder extends Builder
     /**
      * Determine if the given table exists.
      *
-     * @param  string  $table
+     * @param  string $table
      * @return bool
      */
     public function hasTable($table)
@@ -16,9 +16,11 @@ class PostgresBuilder extends Builder
 
         $table = $this->connection->getTablePrefix().$table;
 
-        return count($this->connection->select(
-            $this->grammar->compileTableExists(), [$schema, $table]
-        )) > 0;
+        return count(
+            $this->connection->select(
+                $this->grammar->compileTableExists(), [$schema, $table]
+            )
+        ) > 0;
     }
 
     /**
@@ -66,7 +68,7 @@ class PostgresBuilder extends Builder
     /**
      * Get the column listing for a given table.
      *
-     * @param  string  $table
+     * @param  string $table
      * @return array
      */
     public function getColumnListing($table)
@@ -85,7 +87,7 @@ class PostgresBuilder extends Builder
     /**
      * Parse the table name and extract the schema and table.
      *
-     * @param  string  $table
+     * @param  string $table
      * @return array
      */
     protected function parseSchemaAndTable($table)

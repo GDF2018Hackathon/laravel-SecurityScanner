@@ -64,13 +64,13 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
         );
 
         $signer->method('getSignatureLength')
-               ->willReturn(64);
+            ->willReturn(64);
 
         $signer->method('getAlgorithm')
-               ->willReturn('sha256');
+            ->willReturn('sha256');
 
         $signer->method('getAlgorithmId')
-               ->willReturn('ES256');
+            ->willReturn('ES256');
 
         return $signer;
     }
@@ -107,33 +107,33 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
         $point = $this->getMock(PointInterface::class);
 
         $privateKey->method('getPoint')
-                   ->willReturn($point);
+            ->willReturn($point);
 
         $point->method('getOrder')
-              ->willReturn('1');
+            ->willReturn('1');
 
         $this->parser->expects($this->once())
-                     ->method('getPrivateKey')
-                     ->with($key)
-                     ->willReturn($privateKey);
+            ->method('getPrivateKey')
+            ->with($key)
+            ->willReturn($privateKey);
 
         $this->randomGenerator->expects($this->once())
-                              ->method('generate')
-                              ->with('1')
-                              ->willReturn('123');
+            ->method('generate')
+            ->with('1')
+            ->willReturn('123');
 
         $this->adapter->expects($this->once())
-                      ->method('hexDec')
-                      ->willReturn('123');
+            ->method('hexDec')
+            ->willReturn('123');
 
         $this->adapter->expects($this->exactly(2))
-                      ->method('decHex')
-                      ->willReturn('123');
+            ->method('decHex')
+            ->willReturn('123');
 
         $this->signer->expects($this->once())
-                     ->method('sign')
-                     ->with($privateKey, $this->isType('string'), $this->isType('string'))
-                     ->willReturn(new Signature('1234', '456'));
+            ->method('sign')
+            ->with($privateKey, $this->isType('string'), $this->isType('string'))
+            ->willReturn(new Signature('1234', '456'));
 
         $this->assertInternalType('string', $signer->createHash('testing', $key, $this->randomGenerator));
     }
@@ -155,18 +155,18 @@ class EcdsaTest extends \PHPUnit_Framework_TestCase
         $publicKey = $this->getMock(PublicKeyInterface::class);
 
         $this->parser->expects($this->once())
-                     ->method('getPublicKey')
-                     ->with($key)
-                     ->willReturn($publicKey);
+            ->method('getPublicKey')
+            ->with($key)
+            ->willReturn($publicKey);
 
         $this->adapter->expects($this->exactly(3))
-                      ->method('hexDec')
-                      ->willReturn('123');
+            ->method('hexDec')
+            ->willReturn('123');
 
         $this->signer->expects($this->once())
-                     ->method('verify')
-                     ->with($publicKey, $this->isInstanceOf(Signature::class), $this->isType('string'))
-                     ->willReturn(true);
+            ->method('verify')
+            ->with($publicKey, $this->isInstanceOf(Signature::class), $this->isType('string'))
+            ->willReturn(true);
 
         $this->assertTrue($signer->doVerify('testing', 'testing2', $key));
     }

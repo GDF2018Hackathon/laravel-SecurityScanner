@@ -16,10 +16,10 @@ use Mockery\Matcher\NoArgs;
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2016 Dave Marshall
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2016 Dave Marshall
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 if (!function_exists("mock")) {

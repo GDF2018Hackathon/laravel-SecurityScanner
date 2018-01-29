@@ -5,10 +5,10 @@ namespace Symfony\Component\Routing\Loader\Configurator;
 return function (RoutingConfigurator $routes) {
     $routes
         ->add('foo', '/foo')
-            ->condition('abc')
-            ->options(array('utf8' => true))
+        ->condition('abc')
+        ->options(array('utf8' => true))
         ->add('buz', 'zub')
-            ->controller('foo:act');
+        ->controller('foo:act');
 
     $routes->import('php_dsl_sub.php')
         ->prefix('/sub')

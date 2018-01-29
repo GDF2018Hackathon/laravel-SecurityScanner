@@ -135,8 +135,8 @@ class Matcher implements MatcherInvocation
 
         if ($this->afterMatchBuilderId !== null) {
             $builder = $invocation->getObject()
-                                  ->__phpunit_getInvocationMocker()
-                                  ->lookupId($this->afterMatchBuilderId);
+                ->__phpunit_getInvocationMocker()
+                ->lookupId($this->afterMatchBuilderId);
 
             if (!$builder) {
                 throw new RuntimeException(
@@ -157,8 +157,9 @@ class Matcher implements MatcherInvocation
         $this->invocationMatcher->invoked($invocation);
 
         try {
-            if ($this->parametersMatcher !== null &&
-                !$this->parametersMatcher->matches($invocation)) {
+            if ($this->parametersMatcher !== null 
+                && !$this->parametersMatcher->matches($invocation)
+            ) {
                 $this->parametersMatcher->verify();
             }
         } catch (ExpectationFailedException $e) {
@@ -192,8 +193,8 @@ class Matcher implements MatcherInvocation
     {
         if ($this->afterMatchBuilderId !== null) {
             $builder = $invocation->getObject()
-                                  ->__phpunit_getInvocationMocker()
-                                  ->lookupId($this->afterMatchBuilderId);
+                ->__phpunit_getInvocationMocker()
+                ->lookupId($this->afterMatchBuilderId);
 
             if (!$builder) {
                 throw new RuntimeException(

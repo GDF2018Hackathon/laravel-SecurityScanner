@@ -24,9 +24,10 @@ class Swift_StreamFilters_StringReplacementFilterFactoryTest extends \PHPUnit\Fr
         $factory = $this->createFactory();
         $filter1 = $factory->createFilter('a', 'b');
         $filter2 = $factory->createFilter('a', 'c');
-        $this->assertNotEquals($filter1, $filter2,
+        $this->assertNotEquals(
+            $filter1, $filter2,
             '%s: Differing instances should not be cached'
-            );
+        );
     }
 
     private function createFactory()

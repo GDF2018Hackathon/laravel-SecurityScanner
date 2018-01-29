@@ -34,6 +34,7 @@ class PushoverHandler extends SocketHandler
 
     /**
      * All parameters that can be sent to Pushover
+     *
      * @see https://pushover.net/api
      * @var array
      */
@@ -55,6 +56,7 @@ class PushoverHandler extends SocketHandler
 
     /**
      * Sounds the api supports by default
+     *
      * @see https://pushover.net/api#sounds
      * @var array
      */
@@ -176,6 +178,7 @@ class PushoverHandler extends SocketHandler
 
     /**
      * Use the formatted message?
+     *
      * @param bool $value
      */
     public function useFormattedMessage($value)

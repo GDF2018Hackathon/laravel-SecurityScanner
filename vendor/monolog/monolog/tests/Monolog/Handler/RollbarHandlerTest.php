@@ -65,9 +65,11 @@ class RollbarHandlerTest extends TestCase
         $this->rollbarNotifier
             ->expects($this->any())
             ->method('report_exception')
-            ->willReturnCallback(function ($exception, $context, $payload) use ($that) {
-                $that->reportedExceptionArguments = compact('exception', 'context', 'payload');
-            });
+            ->willReturnCallback(
+                function ($exception, $context, $payload) use ($that) {
+                    $that->reportedExceptionArguments = compact('exception', 'context', 'payload');
+                }
+            );
     }
 
     private function createHandler()
@@ -77,8 +79,10 @@ class RollbarHandlerTest extends TestCase
 
     private function createExceptionRecord($level = Logger::DEBUG, $message = 'test', $exception = null)
     {
-        return $this->getRecord($level, $message, array(
+        return $this->getRecord(
+            $level, $message, array(
             'exception' => $exception ?: new Exception()
-        ));
+            )
+        );
     }
 }

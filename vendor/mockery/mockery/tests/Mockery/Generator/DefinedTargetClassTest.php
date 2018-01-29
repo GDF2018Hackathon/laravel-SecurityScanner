@@ -26,7 +26,9 @@ use PHPUnit\Framework\TestCase;
 
 class DefinedTargetClassTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test 
+     */
     public function it_knows_if_one_of_its_ancestors_is_internal()
     {
         $target = new DefinedTargetClass(new \ReflectionClass("ArrayObject"));

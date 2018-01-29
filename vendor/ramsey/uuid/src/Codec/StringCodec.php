@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Codec;
@@ -45,7 +45,7 @@ class StringCodec implements CodecInterface
     /**
      * Encodes a UuidInterface as a string representation of a UUID
      *
-     * @param UuidInterface $uuid
+     * @param  UuidInterface $uuid
      * @return string Hexadecimal string representation of a UUID
      */
     public function encode(UuidInterface $uuid)
@@ -61,7 +61,7 @@ class StringCodec implements CodecInterface
     /**
      * Encodes a UuidInterface as a binary representation of a UUID
      *
-     * @param UuidInterface $uuid
+     * @param  UuidInterface $uuid
      * @return string Binary string representation of a UUID
      */
     public function encodeBinary(UuidInterface $uuid)
@@ -72,7 +72,7 @@ class StringCodec implements CodecInterface
     /**
      * Decodes a string representation of a UUID into a UuidInterface object instance
      *
-     * @param string $encodedUuid
+     * @param  string $encodedUuid
      * @return UuidInterface
      */
     public function decode($encodedUuid)
@@ -86,7 +86,7 @@ class StringCodec implements CodecInterface
     /**
      * Decodes a binary representation of a UUID into a UuidInterface object instance
      *
-     * @param string $bytes
+     * @param  string $bytes
      * @return UuidInterface
      */
     public function decodeBytes($bytes)
@@ -113,18 +113,20 @@ class StringCodec implements CodecInterface
     /**
      * Returns an array of UUID components (the UUID exploded on its dashes)
      *
-     * @param string $encodedUuid
+     * @param  string $encodedUuid
      * @return array
      */
     protected function extractComponents($encodedUuid)
     {
-        $nameParsed = str_replace(array(
+        $nameParsed = str_replace(
+            array(
             'urn:',
             'uuid:',
             '{',
             '}',
             '-'
-        ), '', $encodedUuid);
+            ), '', $encodedUuid
+        );
 
         // We have stripped out the dashes and are breaking up the string using
         // substr(). In this way, we can accept a full hex value that doesn't
@@ -149,8 +151,8 @@ class StringCodec implements CodecInterface
     /**
      * Returns the fields that make up this UUID
      *
-     * @see \Ramsey\Uuid\UuidInterface::getFieldsHex()
-     * @param array $components
+     * @see    \Ramsey\Uuid\UuidInterface::getFieldsHex()
+     * @param  array $components
      * @return array
      */
     protected function getFields(array $components)

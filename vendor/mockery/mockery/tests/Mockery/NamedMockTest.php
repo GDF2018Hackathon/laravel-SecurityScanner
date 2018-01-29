@@ -25,19 +25,25 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 class NamedMockTest extends MockeryTestCase
 {
-    /** @test */
+    /**
+     * @test 
+     */
     public function itCreatesANamedMock()
     {
         $mock = Mockery::namedMock("Mockery\Dave123");
         $this->assertEquals("Mockery\Dave123", get_class($mock));
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itCreatesPassesFurtherArgumentsJustLikeMock()
     {
-        $mock = Mockery::namedMock("Mockery\Dave456", "DateTime", array(
+        $mock = Mockery::namedMock(
+            "Mockery\Dave456", "DateTime", array(
             "getDave" => "dave"
-        ));
+            )
+        );
 
         $this->assertInstanceOf("DateTime", $mock);
         $this->assertEquals("dave", $mock->getDave());
@@ -54,7 +60,9 @@ class NamedMockTest extends MockeryTestCase
         $mock = Mockery::namedMock("Mockery\Dave7", "DateTime");
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function itCreatesConcreteMethodImplementationWithReturnType()
     {
         $cactus = new \Nature\Plant();

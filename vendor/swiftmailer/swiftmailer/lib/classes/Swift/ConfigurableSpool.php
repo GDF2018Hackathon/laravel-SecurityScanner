@@ -15,10 +15,14 @@
  */
 abstract class Swift_ConfigurableSpool implements Swift_Spool
 {
-    /** The maximum number of messages to send per flush */
+    /**
+     * The maximum number of messages to send per flush 
+     */
     private $message_limit;
 
-    /** The time limit per flush */
+    /**
+     * The time limit per flush 
+     */
     private $time_limit;
 
     /**

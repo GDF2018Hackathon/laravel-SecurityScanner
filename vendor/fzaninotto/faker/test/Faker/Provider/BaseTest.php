@@ -490,7 +490,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $faker = new \Faker\Generator();
         $faker->addProvider(new \Faker\Provider\Base($faker));
         $values = array();
-        $evenValidator = function($digit) {
+        $evenValidator = function ($digit) {
             return $digit % 2 === 0;
         };
         for ($i=0; $i < 50; $i++) {
@@ -508,7 +508,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $faker = new \Faker\Generator();
         $faker->addProvider(new \Faker\Provider\Base($faker));
-        $evenValidator = function($digit) {
+        $evenValidator = function ($digit) {
             return $digit % 2 === 0;
         };
         for ($i=0; $i < 11; $i++) {

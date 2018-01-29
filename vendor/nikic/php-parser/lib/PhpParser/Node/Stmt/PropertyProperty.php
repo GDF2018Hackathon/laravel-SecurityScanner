@@ -6,9 +6,13 @@ use PhpParser\Node;
 
 class PropertyProperty extends Node\Stmt
 {
-    /** @var string Name */
+    /**
+     * @var string Name 
+     */
     public $name;
-    /** @var null|Node\Expr Default */
+    /**
+     * @var null|Node\Expr Default 
+     */
     public $default;
 
     /**
@@ -18,13 +22,15 @@ class PropertyProperty extends Node\Stmt
      * @param null|Node\Expr $default    Default value
      * @param array          $attributes Additional attributes
      */
-    public function __construct($name, Node\Expr $default = null, array $attributes = array()) {
+    public function __construct($name, Node\Expr $default = null, array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->name = $name;
         $this->default = $default;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('name', 'default');
     }
 }

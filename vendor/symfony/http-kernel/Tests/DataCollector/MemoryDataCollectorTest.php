@@ -28,7 +28,9 @@ class MemoryDataCollectorTest extends TestCase
         $this->assertSame('memory', $collector->getName());
     }
 
-    /** @dataProvider getBytesConversionTestData */
+    /**
+     * @dataProvider getBytesConversionTestData 
+     */
     public function testBytesConversion($limit, $bytes)
     {
         $collector = new MemoryDataCollector();

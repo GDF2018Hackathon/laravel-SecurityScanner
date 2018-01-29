@@ -46,10 +46,12 @@ class PhpMatcherDumper extends MatcherDumper
      */
     public function dump(array $options = array())
     {
-        $options = array_replace(array(
+        $options = array_replace(
+            array(
             'class' => 'ProjectUrlMatcher',
             'base_class' => 'Symfony\\Component\\Routing\\Matcher\\UrlMatcher',
-        ), $options);
+            ), $options
+        );
 
         // trailing slash support is only enabled if we know how to redirect the user
         $interfaces = class_implements($options['base_class']);
@@ -308,7 +310,13 @@ EOF;
                 if (in_array('GET', $methods)) {
                     // Since we treat HEAD requests like GET requests we don't need to match it.
                     $methodVariable = 'canonicalMethod';
-                    $methods = array_values(array_filter($methods, function ($method) { return 'HEAD' !== $method; }));
+                    $methods = array_values(
+                        array_filter(
+                            $methods, function ($method) {
+                                return 'HEAD' !== $method; 
+                            }
+                        )
+                    );
                 }
 
                 if (1 === count($methods)) {

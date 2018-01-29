@@ -17,8 +17,9 @@ class Populator
 
     /**
      * Populator constructor.
+     *
      * @param \Faker\Generator $generator
-     * @param Locator|null $locator
+     * @param Locator|null     $locator
      */
     public function __construct(\Faker\Generator $generator, Locator $locator = null)
     {

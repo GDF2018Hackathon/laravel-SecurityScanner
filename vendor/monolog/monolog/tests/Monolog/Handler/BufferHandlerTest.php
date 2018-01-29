@@ -144,11 +144,13 @@ class BufferHandlerTest extends TestCase
     {
         $test = new TestHandler();
         $handler = new BufferHandler($test);
-        $handler->pushProcessor(function ($record) {
-            $record['extra']['foo'] = true;
+        $handler->pushProcessor(
+            function ($record) {
+                $record['extra']['foo'] = true;
 
-            return $record;
-        });
+                return $record;
+            }
+        );
         $handler->handle($this->getRecord(Logger::WARNING));
         $handler->flush();
         $this->assertTrue($test->hasWarningRecords());

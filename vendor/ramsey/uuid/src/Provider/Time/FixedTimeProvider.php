@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Provider\Time;
@@ -32,7 +32,7 @@ class FixedTimeProvider implements TimeProviderInterface
     /**
      * Constructs a `FixedTimeProvider` using the provided `$timestamp`
      *
-     * @param int[] Array containing `sec` and `usec` components of a timestamp
+     * @param  int[] Array containing `sec` and `usec` components of a timestamp
      * @throws \InvalidArgumentException if the `$timestamp` does not contain `sec` or `usec` components
      */
     public function __construct(array $timestamp)

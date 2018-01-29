@@ -21,13 +21,19 @@ use phpDocumentor\Reflection\Types\Object_;
 
 final class TypeResolver
 {
-    /** @var string Definition of the ARRAY operator for types */
+    /**
+ * @var string Definition of the ARRAY operator for types 
+*/
     const OPERATOR_ARRAY = '[]';
 
-    /** @var string Definition of the NAMESPACE operator in PHP */
+    /**
+ * @var string Definition of the NAMESPACE operator in PHP 
+*/
     const OPERATOR_NAMESPACE = '\\';
 
-    /** @var string[] List of recognized keywords and unto which Value Object they map */
+    /**
+     * @var string[] List of recognized keywords and unto which Value Object they map 
+     */
     private $keywords = array(
         'string' => Types\String_::class,
         'int' => Types\Integer::class,
@@ -54,7 +60,9 @@ final class TypeResolver
         'iterable' => Iterable_::class,
     );
 
-    /** @var FqsenResolver */
+    /**
+     * @var FqsenResolver 
+     */
     private $fqsenResolver;
 
     /**
@@ -77,7 +85,7 @@ final class TypeResolver
      * This method only works as expected if the namespace and aliases are set;
      * no dynamic reflection is being performed here.
      *
-     * @param string $type     The relative or absolute type.
+     * @param string  $type    The relative or absolute type.
      * @param Context $context
      *
      * @uses Context::getNamespace()        to determine with what to prefix the type name.
@@ -104,24 +112,24 @@ final class TypeResolver
         }
 
         switch (true) {
-            case $this->isNullableType($type):
-                return $this->resolveNullableType($type, $context);
-            case $this->isKeyword($type):
-                return $this->resolveKeyword($type);
-            case ($this->isCompoundType($type)):
-                return $this->resolveCompoundType($type, $context);
-            case $this->isTypedArray($type):
-                return $this->resolveTypedArray($type, $context);
-            case $this->isFqsen($type):
-                return $this->resolveTypedObject($type);
-            case $this->isPartialStructuralElementName($type):
-                return $this->resolveTypedObject($type, $context);
+        case $this->isNullableType($type):
+            return $this->resolveNullableType($type, $context);
+        case $this->isKeyword($type):
+            return $this->resolveKeyword($type);
+        case ($this->isCompoundType($type)):
+            return $this->resolveCompoundType($type, $context);
+        case $this->isTypedArray($type):
+            return $this->resolveTypedArray($type, $context);
+        case $this->isFqsen($type):
+            return $this->resolveTypedObject($type);
+        case $this->isPartialStructuralElementName($type):
+            return $this->resolveTypedObject($type, $context);
             // @codeCoverageIgnoreStart
-            default:
-                // I haven't got the foggiest how the logic would come here but added this as a defense.
-                throw new \RuntimeException(
-                    'Unable to resolve type "' . $type . '", there is no known method to resolve it'
-                );
+        default:
+            // I haven't got the foggiest how the logic would come here but added this as a defense.
+            throw new \RuntimeException(
+                'Unable to resolve type "' . $type . '", there is no known method to resolve it'
+            );
         }
         // @codeCoverageIgnoreEnd
     }
@@ -227,7 +235,7 @@ final class TypeResolver
     /**
      * Resolves the given typed array string (i.e. `string[]`) into an Array object with the right types set.
      *
-     * @param string $type
+     * @param string  $type
      * @param Context $context
      *
      * @return Array_
@@ -254,7 +262,7 @@ final class TypeResolver
     /**
      * Resolves the given FQSEN string into an FQSEN object.
      *
-     * @param string $type
+     * @param string       $type
      * @param Context|null $context
      *
      * @return Object_
@@ -267,7 +275,7 @@ final class TypeResolver
     /**
      * Resolves a compound type (i.e. `string|int`) into the appropriate Type objects or FQSEN.
      *
-     * @param string $type
+     * @param string  $type
      * @param Context $context
      *
      * @return Compound
@@ -286,7 +294,7 @@ final class TypeResolver
     /**
      * Resolve nullable types (i.e. `?string`) into a Nullable type wrapper
      *
-     * @param string $type
+     * @param string  $type
      * @param Context $context
      *
      * @return Nullable

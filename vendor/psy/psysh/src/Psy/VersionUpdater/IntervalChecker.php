@@ -48,12 +48,12 @@ class IntervalChecker extends GitHubChecker
     private function getDateInterval()
     {
         switch ($this->interval) {
-            case Checker::DAILY:
-                return new \DateInterval('P1D');
-            case Checker::WEEKLY:
-                return new \DateInterval('P1W');
-            case Checker::MONTHLY:
-                return new \DateInterval('P1M');
+        case Checker::DAILY:
+            return new \DateInterval('P1D');
+        case Checker::WEEKLY:
+            return new \DateInterval('P1W');
+        case Checker::MONTHLY:
+            return new \DateInterval('P1M');
         }
     }
 

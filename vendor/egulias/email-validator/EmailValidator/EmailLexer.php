@@ -157,7 +157,7 @@ class EmailLexer extends AbstractLexer
     /**
      * Retrieve token type. Also processes the token value if necessary.
      *
-     * @param string $value
+     * @param  string $value
      * @throws \InvalidArgumentException
      * @return integer
      */

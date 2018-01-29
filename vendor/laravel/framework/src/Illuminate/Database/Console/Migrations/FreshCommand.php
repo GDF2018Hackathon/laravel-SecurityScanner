@@ -41,11 +41,13 @@ class FreshCommand extends Command
 
         $this->info('Dropped all tables successfully.');
 
-        $this->call('migrate', [
+        $this->call(
+            'migrate', [
             '--database' => $database,
             '--path' => $this->input->getOption('path'),
             '--force' => true,
-        ]);
+            ]
+        );
 
         if ($this->needsSeeding()) {
             $this->runSeeder($database);
@@ -55,14 +57,14 @@ class FreshCommand extends Command
     /**
      * Drop all of the database tables.
      *
-     * @param  string  $database
+     * @param  string $database
      * @return void
      */
     protected function dropAllTables($database)
     {
         $this->laravel['db']->connection($database)
-                    ->getSchemaBuilder()
-                    ->dropAllTables();
+            ->getSchemaBuilder()
+            ->dropAllTables();
     }
 
     /**
@@ -78,16 +80,18 @@ class FreshCommand extends Command
     /**
      * Run the database seeder command.
      *
-     * @param  string  $database
+     * @param  string $database
      * @return void
      */
     protected function runSeeder($database)
     {
-        $this->call('db:seed', [
+        $this->call(
+            'db:seed', [
             '--database' => $database,
             '--class' => $this->option('seeder') ?: 'DatabaseSeeder',
             '--force' => $this->option('force'),
-        ]);
+            ]
+        );
     }
 
     /**

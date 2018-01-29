@@ -29,7 +29,9 @@ class RedirectMiddleware
         'track_redirects' => false,
     ];
 
-    /** @var callable  */
+    /**
+     * @var callable  
+     */
     private $nextHandler;
 
     /**
@@ -68,14 +70,16 @@ class RedirectMiddleware
         }
 
         return $fn($request, $options)
-            ->then(function (ResponseInterface $response) use ($request, $options) {
-                return $this->checkRedirect($request, $options, $response);
-            });
+            ->then(
+                function (ResponseInterface $response) use ($request, $options) {
+                    return $this->checkRedirect($request, $options, $response);
+                }
+            );
     }
 
     /**
-     * @param RequestInterface  $request
-     * @param array             $options
+     * @param RequestInterface                   $request
+     * @param array                              $options
      * @param ResponseInterface|PromiseInterface $response
      *
      * @return ResponseInterface|PromiseInterface
@@ -103,7 +107,9 @@ class RedirectMiddleware
             );
         }
 
-        /** @var PromiseInterface|ResponseInterface $promise */
+        /**
+ * @var PromiseInterface|ResponseInterface $promise 
+*/
         $promise = $this($nextRequest, $options);
 
         // Add headers to be able to track history of redirects.
@@ -130,7 +136,7 @@ class RedirectMiddleware
                 array_unshift($historyHeader, $uri);
                 array_unshift($statusHeader, $statusCode);
                 return $response->withHeader(self::HISTORY_HEADER, $historyHeader)
-                                ->withHeader(self::STATUS_HISTORY_HEADER, $statusHeader);
+                    ->withHeader(self::STATUS_HISTORY_HEADER, $statusHeader);
             }
         );
     }
@@ -171,8 +177,8 @@ class RedirectMiddleware
         // not forcing RFC compliance, but rather emulating what all browsers
         // would do.
         $statusCode = $response->getStatusCode();
-        if ($statusCode == 303 ||
-            ($statusCode <= 302 && $request->getBody() && !$options['allow_redirects']['strict'])
+        if ($statusCode == 303 
+            || ($statusCode <= 302 && $request->getBody() && !$options['allow_redirects']['strict'])
         ) {
             $modify['method'] = 'GET';
             $modify['body'] = '';

@@ -19,7 +19,8 @@ class PhpProcessTest extends TestCase
     public function testNonBlockingWorks()
     {
         $expected = 'hello world!';
-        $process = new PhpProcess(<<<PHP
+        $process = new PhpProcess(
+            <<<PHP
 <?php echo '$expected';
 PHP
         );
@@ -30,7 +31,8 @@ PHP
 
     public function testCommandLine()
     {
-        $process = new PhpProcess(<<<'PHP'
+        $process = new PhpProcess(
+            <<<'PHP'
 <?php echo phpversion().PHP_SAPI;
 PHP
         );

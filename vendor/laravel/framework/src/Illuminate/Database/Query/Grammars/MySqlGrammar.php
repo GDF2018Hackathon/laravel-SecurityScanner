@@ -31,7 +31,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a select query into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
      * @return string
      */
     public function compileSelect(Builder $query)
@@ -48,7 +48,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a single union statement.
      *
-     * @param  array  $union
+     * @param  array $union
      * @return string
      */
     protected function compileUnion(array $union)
@@ -61,7 +61,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the random statement into SQL.
      *
-     * @param  string  $seed
+     * @param  string $seed
      * @return string
      */
     public function compileRandom($seed)
@@ -72,8 +72,8 @@ class MySqlGrammar extends Grammar
     /**
      * Compile the lock into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  bool|string  $value
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  bool|string                        $value
      * @return string
      */
     protected function compileLock(Builder $query, $value)
@@ -88,8 +88,8 @@ class MySqlGrammar extends Grammar
     /**
      * Compile an update statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  array  $values
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  array                              $values
      * @return string
      */
     public function compileUpdate(Builder $query, $values)
@@ -137,25 +137,27 @@ class MySqlGrammar extends Grammar
     /**
      * Compile all of the columns for an update statement.
      *
-     * @param  array  $values
+     * @param  array $values
      * @return string
      */
     protected function compileUpdateColumns($values)
     {
-        return collect($values)->map(function ($value, $key) {
-            if ($this->isJsonSelector($key)) {
-                return $this->compileJsonUpdateColumn($key, new JsonExpression($value));
-            }
+        return collect($values)->map(
+            function ($value, $key) {
+                if ($this->isJsonSelector($key)) {
+                    return $this->compileJsonUpdateColumn($key, new JsonExpression($value));
+                }
 
-            return $this->wrap($key).' = '.$this->parameter($value);
-        })->implode(', ');
+                return $this->wrap($key).' = '.$this->parameter($value);
+            }
+        )->implode(', ');
     }
 
     /**
      * Prepares a JSON column being updated using the JSON_SET function.
      *
-     * @param  string  $key
-     * @param  \Illuminate\Database\Query\JsonExpression  $value
+     * @param  string                                    $key
+     * @param  \Illuminate\Database\Query\JsonExpression $value
      * @return string
      */
     protected function compileJsonUpdateColumn($key, JsonExpression $value)
@@ -174,16 +176,18 @@ class MySqlGrammar extends Grammar
      *
      * Booleans, integers, and doubles are inserted into JSON updates as raw values.
      *
-     * @param  array  $bindings
-     * @param  array  $values
+     * @param  array $bindings
+     * @param  array $values
      * @return array
      */
     public function prepareBindingsForUpdate(array $bindings, array $values)
     {
-        $values = collect($values)->reject(function ($value, $column) {
-            return $this->isJsonSelector($column) &&
+        $values = collect($values)->reject(
+            function ($value, $column) {
+                return $this->isJsonSelector($column) &&
                 in_array(gettype($value), ['boolean', 'integer', 'double']);
-        })->all();
+            }
+        )->all();
 
         return parent::prepareBindingsForUpdate($bindings, $values);
     }
@@ -191,7 +195,7 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a delete statement into SQL.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
      * @return string
      */
     public function compileDelete(Builder $query)
@@ -208,7 +212,7 @@ class MySqlGrammar extends Grammar
     /**
      * Prepare the bindings for a delete statement.
      *
-     * @param  array  $bindings
+     * @param  array $bindings
      * @return array
      */
     public function prepareBindingsForDelete(array $bindings)
@@ -223,9 +227,9 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a delete query that does not use joins.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  string  $table
-     * @param  array  $where
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  string                             $table
+     * @param  array                              $where
      * @return string
      */
     protected function compileDeleteWithoutJoins($query, $table, $where)
@@ -249,9 +253,9 @@ class MySqlGrammar extends Grammar
     /**
      * Compile a delete query that uses joins.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @param  string  $table
-     * @param  array  $where
+     * @param  \Illuminate\Database\Query\Builder $query
+     * @param  string                             $table
+     * @param  array                              $where
      * @return string
      */
     protected function compileDeleteWithJoins($query, $table, $where)
@@ -267,7 +271,7 @@ class MySqlGrammar extends Grammar
     /**
      * Wrap a single string in keyword identifiers.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return string
      */
     protected function wrapValue($value)
@@ -289,7 +293,7 @@ class MySqlGrammar extends Grammar
     /**
      * Wrap the given JSON selector.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return string
      */
     protected function wrapJsonSelector($value)
@@ -298,15 +302,19 @@ class MySqlGrammar extends Grammar
 
         $field = $this->wrapValue(array_shift($path));
 
-        return sprintf('%s->\'$.%s\'', $field, collect($path)->map(function ($part) {
-            return '"'.$part.'"';
-        })->implode('.'));
+        return sprintf(
+            '%s->\'$.%s\'', $field, collect($path)->map(
+                function ($part) {
+                    return '"'.$part.'"';
+                }
+            )->implode('.')
+        );
     }
 
     /**
      * Determine if the given string is a JSON selector.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return bool
      */
     protected function isJsonSelector($value)

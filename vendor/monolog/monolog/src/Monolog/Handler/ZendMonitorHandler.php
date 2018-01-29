@@ -16,7 +16,7 @@ use Monolog\Logger;
 /**
  * Handler sending logs to Zend Monitor
  *
- * @author  Christian Bergau <cbergau86@gmail.com>
+ * @author Christian Bergau <cbergau86@gmail.com>
  */
 class ZendMonitorHandler extends AbstractProcessingHandler
 {
@@ -39,8 +39,8 @@ class ZendMonitorHandler extends AbstractProcessingHandler
     /**
      * Construct
      *
-     * @param  int                       $level
-     * @param  bool                      $bubble
+     * @param  int  $level
+     * @param  bool $bubble
      * @throws MissingExtensionException
      */
     public function __construct($level = Logger::DEBUG, $bubble = true)

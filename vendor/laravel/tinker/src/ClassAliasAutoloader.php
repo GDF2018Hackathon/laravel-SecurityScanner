@@ -24,22 +24,24 @@ class ClassAliasAutoloader
     /**
      * Register a new alias loader instance.
      *
-     * @param  \Psy\Shell  $shell
-     * @param  string  $classMapPath
+     * @param  \Psy\Shell $shell
+     * @param  string     $classMapPath
      * @return static
      */
     public static function register(Shell $shell, $classMapPath)
     {
-        return tap(new static($shell, $classMapPath), function ($loader) {
-            spl_autoload_register([$loader, 'aliasClass']);
-        });
+        return tap(
+            new static($shell, $classMapPath), function ($loader) {
+                spl_autoload_register([$loader, 'aliasClass']);
+            }
+        );
     }
 
     /**
      * Create a new alias loader instance.
      *
-     * @param  \Psy\Shell  $shell
-     * @param  string  $classMapPath
+     * @param  \Psy\Shell $shell
+     * @param  string     $classMapPath
      * @return void
      */
     public function __construct(Shell $shell, $classMapPath)
@@ -48,7 +50,7 @@ class ClassAliasAutoloader
 
         $vendorPath = dirname(dirname($classMapPath));
 
-        $classes = require $classMapPath;
+        $classes = include $classMapPath;
 
         foreach ($classes as $class => $path) {
             if (! Str::contains($class, '\\') || Str::startsWith($path, $vendorPath)) {
@@ -66,7 +68,7 @@ class ClassAliasAutoloader
     /**
      * Find the closest class by name.
      *
-     * @param  string  $class
+     * @param  string $class
      * @return void
      */
     public function aliasClass($class)

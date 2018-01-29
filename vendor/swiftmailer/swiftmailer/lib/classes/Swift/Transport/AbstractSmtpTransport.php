@@ -15,22 +15,34 @@
  */
 abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
 {
-    /** Input-Output buffer for sending/receiving SMTP commands and responses */
+    /**
+     * Input-Output buffer for sending/receiving SMTP commands and responses 
+     */
     protected $buffer;
 
-    /** Connection status */
+    /**
+     * Connection status 
+     */
     protected $started = false;
 
-    /** The domain name to use in HELO command */
+    /**
+     * The domain name to use in HELO command 
+     */
     protected $domain = '[127.0.0.1]';
 
-    /** The event dispatching layer */
+    /**
+     * The event dispatching layer 
+     */
     protected $eventDispatcher;
 
-    /** Source Ip */
+    /**
+     * Source Ip 
+     */
     protected $sourceIp;
 
-    /** Return an array of params for the Buffer */
+    /**
+     * Return an array of params for the Buffer 
+     */
     abstract protected function getBufferParams();
 
     /**
@@ -155,7 +167,7 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
      * The return value is the number of recipients who were accepted for delivery.
      *
      * @param Swift_Mime_SimpleMessage $message
-     * @param string[]           $failedRecipients An array of failures by-reference
+     * @param string[]                 $failedRecipients An array of failures by-reference
      *
      * @return int
      */
@@ -172,8 +184,9 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
         }
 
         if (!$reversePath = $this->getReversePath($message)) {
-            $this->throwException(new Swift_TransportException(
-                'Cannot send message without a sender address'
+            $this->throwException(
+                new Swift_TransportException(
+                    'Cannot send message without a sender address'
                 )
             );
         }
@@ -319,43 +332,55 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
         return $response;
     }
 
-    /** Read the opening SMTP greeting */
+    /**
+     * Read the opening SMTP greeting 
+     */
     protected function readGreeting()
     {
         $this->assertResponseCode($this->getFullResponse(0), array(220));
     }
 
-    /** Send the HELO welcome */
+    /**
+     * Send the HELO welcome 
+     */
     protected function doHeloCommand()
     {
         $this->executeCommand(
             sprintf("HELO %s\r\n", $this->domain), array(250)
-            );
+        );
     }
 
-    /** Send the MAIL FROM command */
+    /**
+     * Send the MAIL FROM command 
+     */
     protected function doMailFromCommand($address)
     {
         $this->executeCommand(
             sprintf("MAIL FROM:<%s>\r\n", $address), array(250)
-            );
+        );
     }
 
-    /** Send the RCPT TO command */
+    /**
+     * Send the RCPT TO command 
+     */
     protected function doRcptToCommand($address)
     {
         $this->executeCommand(
             sprintf("RCPT TO:<%s>\r\n", $address), array(250, 251, 252)
-            );
+        );
     }
 
-    /** Send the DATA command */
+    /**
+     * Send the DATA command 
+     */
     protected function doDataCommand()
     {
         $this->executeCommand("DATA\r\n", array(354));
     }
 
-    /** Stream the contents of the message over the buffer */
+    /**
+     * Stream the contents of the message over the buffer 
+     */
     protected function streamMessage(Swift_Mime_SimpleMessage $message)
     {
         $this->buffer->setWriteTranslations(array("\r\n." => "\r\n.."));
@@ -369,7 +394,9 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
         $this->executeCommand("\r\n.\r\n", array(250));
     }
 
-    /** Determine the best-use reverse path for this message */
+    /**
+     * Determine the best-use reverse path for this message 
+     */
     protected function getReversePath(Swift_Mime_SimpleMessage $message)
     {
         $return = $message->getReturnPath();
@@ -390,7 +417,9 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
         return $path;
     }
 
-    /** Throw a TransportException, first sending it to any listeners */
+    /**
+     * Throw a TransportException, first sending it to any listeners 
+     */
     protected function throwException(Swift_TransportException $e)
     {
         if ($evt = $this->eventDispatcher->createTransportExceptionEvent($this, $e)) {
@@ -403,14 +432,19 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
         }
     }
 
-    /** Throws an Exception if a response code is incorrect */
+    /**
+     * Throws an Exception if a response code is incorrect 
+     */
     protected function assertResponseCode($response, $wanted)
     {
         list($code) = sscanf($response, '%3d');
         $valid = (empty($wanted) || in_array($code, $wanted));
 
-        if ($evt = $this->eventDispatcher->createResponseEvent($this, $response,
-            $valid)) {
+        if ($evt = $this->eventDispatcher->createResponseEvent(
+            $this, $response,
+            $valid
+        )
+        ) {
             $this->eventDispatcher->dispatchEvent($evt, 'responseReceived');
         }
 
@@ -419,12 +453,15 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
                 new Swift_TransportException(
                     'Expected response code '.implode('/', $wanted).' but got code '.
                     '"'.$code.'", with message "'.$response.'"',
-                    $code)
-                );
+                    $code
+                )
+            );
         }
     }
 
-    /** Get an entire multi-line response using its sequence number */
+    /**
+     * Get an entire multi-line response using its sequence number 
+     */
     protected function getFullResponse($seq)
     {
         $response = '';
@@ -438,14 +475,17 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
         } catch (Swift_IoException $e) {
             $this->throwException(
                 new Swift_TransportException(
-                    $e->getMessage())
-                );
+                    $e->getMessage()
+                )
+            );
         }
 
         return $response;
     }
 
-    /** Send an email to the given recipients from the given reverse path */
+    /**
+     * Send an email to the given recipients from the given reverse path 
+     */
     private function doMailTransaction($message, $reversePath, array $recipients, array &$failedRecipients)
     {
         $sent = 0;
@@ -469,18 +509,24 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
         return $sent;
     }
 
-    /** Send a message to the given To: recipients */
+    /**
+     * Send a message to the given To: recipients 
+     */
     private function sendTo(Swift_Mime_SimpleMessage $message, $reversePath, array $to, array &$failedRecipients)
     {
         if (empty($to)) {
             return 0;
         }
 
-        return $this->doMailTransaction($message, $reversePath, array_keys($to),
-            $failedRecipients);
+        return $this->doMailTransaction(
+            $message, $reversePath, array_keys($to),
+            $failedRecipients
+        );
     }
 
-    /** Send a message to all Bcc: recipients */
+    /**
+     * Send a message to all Bcc: recipients 
+     */
     private function sendBcc(Swift_Mime_SimpleMessage $message, $reversePath, array $bcc, array &$failedRecipients)
     {
         $sent = 0;
@@ -488,7 +534,7 @@ abstract class Swift_Transport_AbstractSmtpTransport implements Swift_Transport
             $message->setBcc(array($forwardPath => $name));
             $sent += $this->doMailTransaction(
                 $message, $reversePath, array($forwardPath), $failedRecipients
-                );
+            );
         }
 
         return $sent;

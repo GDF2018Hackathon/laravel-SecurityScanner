@@ -114,9 +114,13 @@ class RedisHandlerTest extends TestCase
         // Redis uses multi
         $redis->expects($this->once())
             ->method('transaction')
-            ->will($this->returnCallback(function ($cb) use ($redisTransaction) {
-                $cb($redisTransaction);
-            }));
+            ->will(
+                $this->returnCallback(
+                    function ($cb) use ($redisTransaction) {
+                        $cb($redisTransaction);
+                    }
+                )
+            );
 
         $record = $this->getRecord(Logger::WARNING, 'test', array('data' => new \stdClass, 'foo' => 34));
 

@@ -30,7 +30,9 @@ class ConsoleColorWithForceSupport extends ConsoleColor
 
 class ConsoleColorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ConsoleColorWithForceSupport */
+    /**
+     * @var ConsoleColorWithForceSupport 
+     */
     private $uut;
 
     protected function setUp()

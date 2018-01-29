@@ -53,11 +53,13 @@ class NewRelicHandlerTest extends TestCase
     public function testThehandlerCanAddExplodedContextParamsToTheNewRelicTrace()
     {
         $handler = new StubNewRelicHandler(Logger::ERROR, true, self::$appname, true);
-        $handler->handle($this->getRecord(
-            Logger::ERROR,
-            'log message',
-            array('a' => array('key1' => 'value1', 'key2' => 'value2'))
-        ));
+        $handler->handle(
+            $this->getRecord(
+                Logger::ERROR,
+                'log message',
+                array('a' => array('key1' => 'value1', 'key2' => 'value2'))
+            )
+        );
         $this->assertEquals(
             array('context_a_key1' => 'value1', 'context_a_key2' => 'value2'),
             self::$customParameters

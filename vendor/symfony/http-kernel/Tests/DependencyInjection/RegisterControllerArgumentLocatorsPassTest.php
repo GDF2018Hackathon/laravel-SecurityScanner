@@ -34,8 +34,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', NotFound::class)
-            ->addTag('controller.service_arguments')
-        ;
+            ->addTag('controller.service_arguments');
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);
@@ -51,8 +50,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', RegisterTestController::class)
-            ->addTag('controller.service_arguments', array('argument' => 'bar'))
-        ;
+            ->addTag('controller.service_arguments', array('argument' => 'bar'));
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);
@@ -68,8 +66,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', RegisterTestController::class)
-            ->addTag('controller.service_arguments', array('action' => 'fooAction'))
-        ;
+            ->addTag('controller.service_arguments', array('action' => 'fooAction'));
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);
@@ -85,8 +82,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', RegisterTestController::class)
-            ->addTag('controller.service_arguments', array('action' => 'fooAction', 'argument' => 'bar'))
-        ;
+            ->addTag('controller.service_arguments', array('action' => 'fooAction', 'argument' => 'bar'));
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);
@@ -102,8 +98,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', RegisterTestController::class)
-            ->addTag('controller.service_arguments', array('action' => 'barAction', 'argument' => 'bar', 'id' => 'bar_service'))
-        ;
+            ->addTag('controller.service_arguments', array('action' => 'barAction', 'argument' => 'bar', 'id' => 'bar_service'));
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);
@@ -119,8 +114,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', RegisterTestController::class)
-            ->addTag('controller.service_arguments', array('action' => 'fooAction', 'argument' => 'baz', 'id' => 'bar'))
-        ;
+            ->addTag('controller.service_arguments', array('action' => 'fooAction', 'argument' => 'baz', 'id' => 'bar'));
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);
@@ -132,8 +126,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $resolver = $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', RegisterTestController::class)
-            ->addTag('controller.service_arguments')
-        ;
+            ->addTag('controller.service_arguments');
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);
@@ -178,8 +171,7 @@ class RegisterControllerArgumentLocatorsPassTest extends TestCase
         $resolver = $container->register('argument_resolver.service')->addArgument(array());
 
         $container->register('foo', RegisterTestController::class)
-            ->addTag('controller.service_arguments', array('action' => 'fooAction', 'argument' => 'bar', 'id' => '?bar'))
-        ;
+            ->addTag('controller.service_arguments', array('action' => 'fooAction', 'argument' => 'bar', 'id' => '?bar'));
 
         $pass = new RegisterControllerArgumentLocatorsPass();
         $pass->process($container);

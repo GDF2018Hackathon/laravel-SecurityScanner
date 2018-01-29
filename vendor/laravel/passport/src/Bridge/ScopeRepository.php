@@ -23,16 +23,20 @@ class ScopeRepository implements ScopeRepositoryInterface
      */
     public function finalizeScopes(
         array $scopes, $grantType,
-        ClientEntityInterface $clientEntity, $userIdentifier = null)
-    {
+        ClientEntityInterface $clientEntity, $userIdentifier = null
+    ) {
         if (! in_array($grantType, ['password', 'personal_access'])) {
-            $scopes = collect($scopes)->reject(function ($scope) {
-                return trim($scope->getIdentifier()) === '*';
-            })->values()->all();
+            $scopes = collect($scopes)->reject(
+                function ($scope) {
+                    return trim($scope->getIdentifier()) === '*';
+                }
+            )->values()->all();
         }
 
-        return collect($scopes)->filter(function ($scope) {
-            return Passport::hasScope($scope->getIdentifier());
-        })->values()->all();
+        return collect($scopes)->filter(
+            function ($scope) {
+                return Passport::hasScope($scope->getIdentifier());
+            }
+        )->values()->all();
     }
 }

@@ -7,15 +7,25 @@ use PhpParser\Node\FunctionLike;
 
 class Function_ extends Node\Stmt implements FunctionLike
 {
-    /** @var bool Whether function returns by reference */
+    /**
+     * @var bool Whether function returns by reference 
+     */
     public $byRef;
-    /** @var string Name */
+    /**
+     * @var string Name 
+     */
     public $name;
-    /** @var Node\Param[] Parameters */
+    /**
+     * @var Node\Param[] Parameters 
+     */
     public $params;
-    /** @var null|string|Node\Name|Node\NullableType Return type */
+    /**
+     * @var null|string|Node\Name|Node\NullableType Return type 
+     */
     public $returnType;
-    /** @var Node[] Statements */
+    /**
+     * @var Node[] Statements 
+     */
     public $stmts;
 
     /**
@@ -29,7 +39,8 @@ class Function_ extends Node\Stmt implements FunctionLike
      *                           'stmts'      => array(): Statements
      * @param array  $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
         $this->name = $name;
@@ -38,23 +49,28 @@ class Function_ extends Node\Stmt implements FunctionLike
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('byRef', 'name', 'params', 'returnType', 'stmts');
     }
 
-    public function returnsByRef() {
+    public function returnsByRef() 
+    {
         return $this->byRef;
     }
 
-    public function getParams() {
+    public function getParams() 
+    {
         return $this->params;
     }
 
-    public function getReturnType() {
+    public function getReturnType() 
+    {
         return $this->returnType;
     }
 
-    public function getStmts() {
+    public function getStmts() 
+    {
         return $this->stmts;
     }
 }

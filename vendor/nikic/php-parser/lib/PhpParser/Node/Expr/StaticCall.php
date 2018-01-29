@@ -7,11 +7,17 @@ use PhpParser\Node\Expr;
 
 class StaticCall extends Expr
 {
-    /** @var Node\Name|Expr Class name */
+    /**
+     * @var Node\Name|Expr Class name 
+     */
     public $class;
-    /** @var string|Expr Method name */
+    /**
+     * @var string|Expr Method name 
+     */
     public $name;
-    /** @var Node\Arg[] Arguments */
+    /**
+     * @var Node\Arg[] Arguments 
+     */
     public $args;
 
     /**
@@ -22,14 +28,16 @@ class StaticCall extends Expr
      * @param Node\Arg[]     $args       Arguments
      * @param array          $attributes Additional attributes
      */
-    public function __construct($class, $name, array $args = array(), array $attributes = array()) {
+    public function __construct($class, $name, array $args = array(), array $attributes = array()) 
+    {
         parent::__construct($attributes);
         $this->class = $class;
         $this->name = $name;
         $this->args = $args;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() 
+    {
         return array('class', 'name', 'args');
     }
 }

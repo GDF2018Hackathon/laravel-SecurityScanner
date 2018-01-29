@@ -303,7 +303,7 @@ class Inflector
      * ?>
      * </code>
      *
-     * @param string $string The string to operate on.
+     * @param string $string     The string to operate on.
      * @param string $delimiters A list of word separators.
      *
      * @return string The string with all delimeter-separated words capitalized.
@@ -346,9 +346,9 @@ class Inflector
      * ));
      * }}}
      *
-     * @param string  $type         The type of inflection, either 'plural' or 'singular'
+     * @param string         $type  The type of inflection, either 'plural' or 'singular'
      * @param array|iterable $rules An array of rules to be added.
-     * @param boolean $reset        If true, will unset default inflections for all
+     * @param boolean        $reset If true, will unset default inflections for all
      *                              new rules that are being defined in $rules.
      *
      * @return void
@@ -356,7 +356,7 @@ class Inflector
     public static function rules(string $type, iterable $rules, bool $reset = false) : void
     {
         foreach ($rules as $rule => $pattern) {
-            if ( ! is_array($pattern)) {
+            if (! is_array($pattern)) {
                 continue;
             }
 

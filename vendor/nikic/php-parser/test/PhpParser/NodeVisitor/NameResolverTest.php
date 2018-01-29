@@ -10,14 +10,16 @@ use PhpParser\Node\Stmt;
 
 class NameResolverTest extends \PHPUnit_Framework_TestCase
 {
-    private function canonicalize($string) {
+    private function canonicalize($string) 
+    {
         return str_replace("\r\n", "\n", $string);
     }
 
     /**
      * @covers PhpParser\NodeVisitor\NameResolver
      */
-    public function testResolveNames() {
+    public function testResolveNames() 
+    {
         $code = <<<'EOC'
 <?php
 
@@ -182,7 +184,8 @@ EOC;
     /**
      * @covers PhpParser\NodeVisitor\NameResolver
      */
-    public function testResolveLocations() {
+    public function testResolveLocations() 
+    {
         $code = <<<'EOC'
 <?php
 namespace NS;
@@ -278,7 +281,8 @@ EOC;
         );
     }
 
-    public function testNoResolveSpecialName() {
+    public function testNoResolveSpecialName() 
+    {
         $stmts = array(new Node\Expr\New_(new Name('self')));
 
         $traverser = new PhpParser\NodeTraverser;
@@ -287,14 +291,17 @@ EOC;
         $this->assertEquals($stmts, $traverser->traverse($stmts));
     }
 
-    public function testAddDeclarationNamespacedName() {
+    public function testAddDeclarationNamespacedName() 
+    {
         $nsStmts = array(
             new Stmt\Class_('A'),
             new Stmt\Interface_('B'),
             new Stmt\Function_('C'),
-            new Stmt\Const_(array(
+            new Stmt\Const_(
+                array(
                 new Node\Const_('D', new Node\Scalar\LNumber(42))
-            )),
+                )
+            ),
             new Stmt\Trait_('E'),
             new Expr\New_(new Stmt\Class_(null)),
         );
@@ -319,16 +326,21 @@ EOC;
         $this->assertObjectNotHasAttribute('namespacedName', $stmts[0]->stmts[5]->class);
     }
 
-    public function testAddRuntimeResolvedNamespacedName() {
+    public function testAddRuntimeResolvedNamespacedName() 
+    {
         $stmts = array(
-            new Stmt\Namespace_(new Name('NS'), array(
+            new Stmt\Namespace_(
+                new Name('NS'), array(
                 new Expr\FuncCall(new Name('foo')),
                 new Expr\ConstFetch(new Name('FOO')),
-            )),
-            new Stmt\Namespace_(null, array(
+                )
+            ),
+            new Stmt\Namespace_(
+                null, array(
                 new Expr\FuncCall(new Name('foo')),
                 new Expr\ConstFetch(new Name('FOO')),
-            )),
+                )
+            ),
         );
 
         $traverser = new PhpParser\NodeTraverser;
@@ -345,7 +357,8 @@ EOC;
     /**
      * @dataProvider provideTestError
      */
-    public function testError(Node $stmt, $errorMsg) {
+    public function testError(Node $stmt, $errorMsg) 
+    {
         $this->setExpectedException('PhpParser\Error', $errorMsg);
 
         $traverser = new PhpParser\NodeTraverser;
@@ -353,27 +366,34 @@ EOC;
         $traverser->traverse(array($stmt));
     }
 
-    public function provideTestError() {
+    public function provideTestError() 
+    {
         return array(
             array(
-                new Stmt\Use_(array(
+                new Stmt\Use_(
+                    array(
                     new Stmt\UseUse(new Name('A\B'), 'B', 0, array('startLine' => 1)),
                     new Stmt\UseUse(new Name('C\D'), 'B', 0, array('startLine' => 2)),
-                ), Stmt\Use_::TYPE_NORMAL),
+                    ), Stmt\Use_::TYPE_NORMAL
+                ),
                 'Cannot use C\D as B because the name is already in use on line 2'
             ),
             array(
-                new Stmt\Use_(array(
+                new Stmt\Use_(
+                    array(
                     new Stmt\UseUse(new Name('a\b'), 'b', 0, array('startLine' => 1)),
                     new Stmt\UseUse(new Name('c\d'), 'B', 0, array('startLine' => 2)),
-                ), Stmt\Use_::TYPE_FUNCTION),
+                    ), Stmt\Use_::TYPE_FUNCTION
+                ),
                 'Cannot use function c\d as B because the name is already in use on line 2'
             ),
             array(
-                new Stmt\Use_(array(
+                new Stmt\Use_(
+                    array(
                     new Stmt\UseUse(new Name('A\B'), 'B', 0, array('startLine' => 1)),
                     new Stmt\UseUse(new Name('C\D'), 'B', 0, array('startLine' => 2)),
-                ), Stmt\Use_::TYPE_CONSTANT),
+                    ), Stmt\Use_::TYPE_CONSTANT
+                ),
                 'Cannot use const C\D as B because the name is already in use on line 2'
             ),
             array(
@@ -416,7 +436,8 @@ EOC;
         $this->assertSame(array('Bar', 'Baz'), $stmt->stmts[1]->expr->class->parts);
     }
 
-    public function testSpecialClassNamesAreCaseInsensitive() {
+    public function testSpecialClassNamesAreCaseInsensitive() 
+    {
         $source = <<<'EOC'
 <?php
 namespace Foo;
@@ -447,17 +468,20 @@ EOC;
         $this->assertSame('STATIC', (string)$methodStmt->stmts[2]->class);
     }
 
-    public function testAddOriginalNames() {
+    public function testAddOriginalNames() 
+    {
         $traverser = new PhpParser\NodeTraverser;
         $traverser->addVisitor(new NameResolver(null, ['preserveOriginalNames' => true]));
 
         $n1 = new Name('Bar');
         $n2 = new Name('bar');
         $origStmts = [
-            new Stmt\Namespace_(new Name('Foo'), [
+            new Stmt\Namespace_(
+                new Name('Foo'), [
                 new Expr\ClassConstFetch($n1, 'FOO'),
                 new Expr\FuncCall($n2),
-            ])
+                ]
+            )
         ];
 
         $stmts = $traverser->traverse($origStmts);

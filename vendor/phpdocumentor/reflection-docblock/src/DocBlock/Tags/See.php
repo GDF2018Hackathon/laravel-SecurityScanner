@@ -28,13 +28,15 @@ class See extends BaseTag implements Factory\StaticMethod
 {
     protected $name = 'see';
 
-    /** @var Reference */
+    /**
+     * @var Reference 
+     */
     protected $refers = null;
 
     /**
      * Initializes this tag.
      *
-     * @param Reference $refers
+     * @param Reference   $refers
      * @param Description $description
      */
     public function __construct(Reference $refers, Description $description = null)

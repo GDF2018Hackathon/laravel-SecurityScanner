@@ -160,20 +160,24 @@ EODUMP;
      */
     public function testFrameWithTwig()
     {
-        require_once dirname(__DIR__).'/Fixtures/Twig.php';
+        include_once dirname(__DIR__).'/Fixtures/Twig.php';
 
         $f = array(
-            new FrameStub(array(
+            new FrameStub(
+                array(
                 'file' => dirname(__DIR__).'/Fixtures/Twig.php',
                 'line' => 20,
                 'class' => '__TwigTemplate_VarDumperFixture_u75a09',
-            )),
-            new FrameStub(array(
+                )
+            ),
+            new FrameStub(
+                array(
                 'file' => dirname(__DIR__).'/Fixtures/Twig.php',
                 'line' => 21,
                 'class' => '__TwigTemplate_VarDumperFixture_u75a09',
                 'object' => new \__TwigTemplate_VarDumperFixture_u75a09(null, __FILE__),
-            )),
+                )
+            ),
         );
 
         $expectedDump = <<<'EODUMP'

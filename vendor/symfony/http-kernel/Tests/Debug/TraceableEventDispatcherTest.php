@@ -25,13 +25,18 @@ class TraceableEventDispatcherTest extends TestCase
     public function testStopwatchSections()
     {
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), $stopwatch = new Stopwatch());
-        $kernel = $this->getHttpKernel($dispatcher, function () { return new Response(); });
+        $kernel = $this->getHttpKernel(
+            $dispatcher, function () {
+                return new Response(); 
+            }
+        );
         $request = Request::create('/');
         $response = $kernel->handle($request);
         $kernel->terminate($request, $response);
 
         $events = $stopwatch->getSectionEvents($response->headers->get('X-Debug-Token'));
-        $this->assertEquals(array(
+        $this->assertEquals(
+            array(
             '__section__',
             'kernel.request',
             'kernel.controller',
@@ -39,7 +44,8 @@ class TraceableEventDispatcherTest extends TestCase
             'controller',
             'kernel.response',
             'kernel.terminate',
-        ), array_keys($events));
+            ), array_keys($events)
+        );
     }
 
     public function testStopwatchCheckControllerOnRequestEvent()
@@ -53,7 +59,11 @@ class TraceableEventDispatcherTest extends TestCase
 
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), $stopwatch);
 
-        $kernel = $this->getHttpKernel($dispatcher, function () { return new Response(); });
+        $kernel = $this->getHttpKernel(
+            $dispatcher, function () {
+                return new Response(); 
+            }
+        );
         $request = Request::create('/');
         $kernel->handle($request);
     }
@@ -73,7 +83,11 @@ class TraceableEventDispatcherTest extends TestCase
 
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), $stopwatch);
 
-        $kernel = $this->getHttpKernel($dispatcher, function () { return new Response(); });
+        $kernel = $this->getHttpKernel(
+            $dispatcher, function () {
+                return new Response(); 
+            }
+        );
         $request = Request::create('/');
         $kernel->handle($request);
     }
@@ -83,12 +97,16 @@ class TraceableEventDispatcherTest extends TestCase
         $called1 = false;
         $called2 = false;
         $dispatcher = new TraceableEventDispatcher(new EventDispatcher(), new Stopwatch());
-        $dispatcher->addListener('my-event', function () use ($dispatcher, &$called1, &$called2) {
-            $called1 = true;
-            $dispatcher->addListener('my-event', function () use (&$called2) {
-                $called2 = true;
-            });
-        });
+        $dispatcher->addListener(
+            'my-event', function () use ($dispatcher, &$called1, &$called2) {
+                $called1 = true;
+                $dispatcher->addListener(
+                    'my-event', function () use (&$called2) {
+                        $called2 = true;
+                    }
+                );
+            }
+        );
         $dispatcher->dispatch('my-event');
         $this->assertTrue($called1);
         $this->assertFalse($called2);
@@ -103,7 +121,10 @@ class TraceableEventDispatcherTest extends TestCase
             $eventDispatcher->removeListener('foo', $listener1);
         };
         $eventDispatcher->addListener('foo', $listener1);
-        $eventDispatcher->addListener('foo', function () {});
+        $eventDispatcher->addListener(
+            'foo', function () {
+            }
+        );
         $eventDispatcher->dispatch('foo');
 
         $this->assertCount(1, $eventDispatcher->getListeners('foo'), 'expected listener1 to be removed');

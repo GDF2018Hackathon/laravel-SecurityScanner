@@ -7,9 +7,11 @@ if ('cli' !== php_sapi_name()) {
     die('This script is designed for running on the command line.');
 }
 
-function showHelp($error) {
-    die($error . "\n\n" .
-<<<OUTPUT
+function showHelp($error) 
+{
+    die(
+        $error . "\n\n" .
+        <<<OUTPUT
 This script has to be called with the following signature:
 
     php run.php [--no-progress] testType pathToTestFiles
@@ -58,23 +60,24 @@ $testType = $arguments[0];
 $dir = $arguments[1];
 
 switch ($testType) {
-    case 'Symfony':
-        $version = 'Php5';
-        $fileFilter = function($path) {
-            return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
-        };
-        $codeExtractor = function($file, $code) {
+case 'Symfony':
+    $version = 'Php5';
+    $fileFilter = function ($path) {
+        return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
+    };
+        $codeExtractor = function ($file, $code) {
             return $code;
         };
-        break;
-    case 'PHP5':
-    case 'PHP7':
+    break;
+case 'PHP5':
+case 'PHP7':
     $version = $testType === 'PHP5' ? 'Php5' : 'Php7';
-        $fileFilter = function($path) {
-            return preg_match('~\.phpt$~', $path);
-        };
-        $codeExtractor = function($file, $code) {
-            if (preg_match('~(?:
+    $fileFilter = function ($path) {
+        return preg_match('~\.phpt$~', $path);
+    };
+        $codeExtractor = function ($file, $code) {
+            if (preg_match(
+                '~(?:
 # skeleton files
   ext.gmp.tests.001
 | ext.skeleton.tests.001
@@ -92,7 +95,9 @@ switch ($testType) {
 # pretty print difference due to nop statements
 | ext.mbstring.tests.htmlent
 | ext.standard.tests.file.fread_basic
-)\.phpt$~x', $file)) {
+)\.phpt$~x', $file
+            )
+            ) {
                 return null;
             }
 
@@ -105,9 +110,9 @@ switch ($testType) {
 
             return $matches[1];
         };
-        break;
-    default:
-        showHelp('Test type must be one of: PHP5, PHP7 or Symfony');
+    break;
+default:
+    showHelp('Test type must be one of: PHP5, PHP7 or Symfony');
 }
 
 require_once dirname(__FILE__) . '/../lib/PhpParser/Autoloader.php';
@@ -124,8 +129,9 @@ $readTime = $parseTime = $ppTime = $reparseTime = $compareTime = 0;
 $totalStartTime = microtime(true);
 
 foreach (new RecursiveIteratorIterator(
-             new RecursiveDirectoryIterator($dir),
-             RecursiveIteratorIterator::LEAVES_ONLY)
+    new RecursiveDirectoryIterator($dir),
+    RecursiveIteratorIterator::LEAVES_ONLY
+)
          as $file) {
     if (!$fileFilter($file)) {
         continue;

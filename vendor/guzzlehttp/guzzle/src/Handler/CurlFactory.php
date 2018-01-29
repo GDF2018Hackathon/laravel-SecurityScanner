@@ -15,10 +15,14 @@ use Psr\Http\Message\RequestInterface;
  */
 class CurlFactory implements CurlFactoryInterface
 {
-    /** @var array */
+    /**
+     * @var array 
+     */
     private $handles = [];
 
-    /** @var int Total number of idle handles to keep in cache */
+    /**
+     * @var int Total number of idle handles to keep in cache 
+     */
     private $maxHandles;
 
     /**
@@ -251,8 +255,8 @@ class CurlFactory implements CurlFactoryInterface
 
         // Send the body as a string if the size is less than 1MB OR if the
         // [curl][body_as_string] request value is set.
-        if (($size !== null && $size < 1000000) ||
-            !empty($options['_body_as_string'])
+        if (($size !== null && $size < 1000000) 
+            || !empty($options['_body_as_string'])
         ) {
             $conf[CURLOPT_POSTFIELDS] = (string) $request->getBody();
             // Don't duplicate the Content-Length header
@@ -334,8 +338,9 @@ class CurlFactory implements CurlFactoryInterface
                     }
                     // If it's a directory or a link to a directory use CURLOPT_CAPATH.
                     // If not, it's probably a file, or a link to a file, so use CURLOPT_CAINFO.
-                    if (is_dir($options['verify']) ||
-                        (is_link($options['verify']) && is_dir(readlink($options['verify'])))) {
+                    if (is_dir($options['verify']) 
+                        || (is_link($options['verify']) && is_dir(readlink($options['verify'])))
+                    ) {
                         $conf[CURLOPT_CAPATH] = $options['verify'];
                     } else {
                         $conf[CURLOPT_CAINFO] = $options['verify'];
@@ -361,11 +366,13 @@ class CurlFactory implements CurlFactoryInterface
                 $sink = \GuzzleHttp\Psr7\stream_for($sink);
             } elseif (!is_dir(dirname($sink))) {
                 // Ensure that the directory exists before failing in curl.
-                throw new \RuntimeException(sprintf(
-                    'Directory %s does not exist for sink value of %s',
-                    dirname($sink),
-                    $sink
-                ));
+                throw new \RuntimeException(
+                    sprintf(
+                        'Directory %s does not exist for sink value of %s',
+                        dirname($sink),
+                        $sink
+                    )
+                );
             } else {
                 $sink = new LazyOpenStream($sink, 'w+');
             }
@@ -409,8 +416,8 @@ class CurlFactory implements CurlFactoryInterface
                 $scheme = $easy->request->getUri()->getScheme();
                 if (isset($options['proxy'][$scheme])) {
                     $host = $easy->request->getUri()->getHost();
-                    if (!isset($options['proxy']['no']) ||
-                        !\GuzzleHttp\is_host_in_noproxy($host, $options['proxy']['no'])
+                    if (!isset($options['proxy']['no']) 
+                        || !\GuzzleHttp\is_host_in_noproxy($host, $options['proxy']['no'])
                     ) {
                         $conf[CURLOPT_PROXY] = $options['proxy'][$scheme];
                     }

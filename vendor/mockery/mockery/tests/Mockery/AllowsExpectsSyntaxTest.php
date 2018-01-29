@@ -28,7 +28,9 @@ use PHPUnit\Framework\TestCase;
 
 class AllowsExpectsSyntaxTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test 
+     */
     public function allowsSetsUpMethodStub()
     {
         $stub = m::mock();
@@ -37,20 +39,26 @@ class AllowsExpectsSyntaxTest extends TestCase
         $this->assertEquals(456, $stub->foo(123));
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function allowsCanTakeAnArrayOfCalls()
     {
         $stub = m::mock();
-        $stub->allows([
+        $stub->allows(
+            [
             "foo" => "bar",
             "bar" => "baz",
-        ]);
+            ]
+        );
 
         $this->assertEquals("bar", $stub->foo());
         $this->assertEquals("baz", $stub->bar());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function allowsCanTakeAString()
     {
         $stub = m::mock();
@@ -58,7 +66,9 @@ class AllowsExpectsSyntaxTest extends TestCase
         $this->assertEquals("bar", $stub->foo());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function expects_can_optionally_match_on_any_arguments()
     {
         $mock = m::mock();
@@ -67,7 +77,9 @@ class AllowsExpectsSyntaxTest extends TestCase
         $this->assertEquals(123, $mock->foo(456, 789));
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function expects_can_take_a_string()
     {
         $mock = m::mock();
@@ -76,7 +88,9 @@ class AllowsExpectsSyntaxTest extends TestCase
         $this->assertEquals(123, $mock->foo(456, 789));
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function expectsSetsUpExpectationOfOneCall()
     {
         $mock = m::mock();
@@ -86,7 +100,9 @@ class AllowsExpectsSyntaxTest extends TestCase
         m::close();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function callVerificationCountCanBeOverridenAfterExpectsThrowsExceptionWhenIncorrectNumberOfCalls()
     {
         $mock = m::mock();
@@ -97,7 +113,9 @@ class AllowsExpectsSyntaxTest extends TestCase
         m::close();
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function callVerificationCountCanBeOverridenAfterExpects()
     {
         $mock = m::mock();

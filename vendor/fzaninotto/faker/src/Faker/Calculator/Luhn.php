@@ -50,7 +50,7 @@ class Luhn
     /**
      * Checks whether a number (partial number + check digit) is Luhn compliant
      *
-     * @param string $number
+     * @param  string $number
      * @return bool
      */
     public static function isValid($number)

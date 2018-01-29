@@ -105,7 +105,9 @@ A;
         $this->assertContainsOnlyInstancesOf(Line::class, $lines);
         $this->assertCount(2, $lines);
 
-        /** @var Line $line */
+        /**
+ * @var Line $line 
+*/
         $line = $lines[0];
         $this->assertSame('A', $line->getContent());
         $this->assertSame(Line::UNCHANGED, $line->getType());
@@ -137,7 +139,9 @@ A;
         $diffs = $this->parser->parse($content);
         $this->assertCount(2, $diffs);
 
-        /** @var Diff $diff */
+        /**
+ * @var Diff $diff 
+*/
         $diff = $diffs[0];
         $this->assertSame('a/Test.txt', $diff->getFrom());
         $this->assertSame('b/Test.txt', $diff->getTo());

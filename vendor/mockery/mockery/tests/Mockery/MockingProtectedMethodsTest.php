@@ -49,14 +49,18 @@ class MockingProtectedMethodsTest extends MockeryTestCase
         $this->assertEquals("bar", $mock->bar());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function shouldAutomaticallyIgnoreAbstractProtectedMethods()
     {
         $mock = mock("test\Mockery\TestWithProtectedMethods")->shouldDeferMissing();
         $this->assertEquals(null, $mock->foo());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function shouldAllowMockingProtectedMethods()
     {
         $mock = mock("test\Mockery\TestWithProtectedMethods")
@@ -67,7 +71,9 @@ class MockingProtectedMethodsTest extends MockeryTestCase
         $this->assertEquals("notbar", $mock->bar());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function shouldAllowMockingProtectedMethodOnDefinitionTimePartial()
     {
         $mock = mock("test\Mockery\TestWithProtectedMethods[protectedBar]")
@@ -77,7 +83,9 @@ class MockingProtectedMethodsTest extends MockeryTestCase
         $this->assertEquals("notbar", $mock->bar());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function shouldAllowMockingAbstractProtectedMethods()
     {
         $mock = mock("test\Mockery\TestWithProtectedMethods")
@@ -88,7 +96,9 @@ class MockingProtectedMethodsTest extends MockeryTestCase
         $this->assertEquals("abstractProtected", $mock->foo());
     }
 
-    /** @test */
+    /**
+     * @test 
+     */
     public function shouldAllowMockingIncreasedVisabilityMethods()
     {
         $mock = mock("test\Mockery\TestIncreasedVisibilityChild");

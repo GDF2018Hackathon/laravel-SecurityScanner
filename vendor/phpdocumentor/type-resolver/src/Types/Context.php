@@ -28,18 +28,22 @@ namespace phpDocumentor\Reflection\Types;
  */
 final class Context
 {
-    /** @var string The current namespace. */
+    /**
+     * @var string The current namespace. 
+     */
     private $namespace;
 
-    /** @var array List of namespace aliases => Fully Qualified Namespace. */
+    /**
+     * @var array List of namespace aliases => Fully Qualified Namespace. 
+     */
     private $namespaceAliases;
 
     /**
      * Initializes the new context and normalizes all passed namespaces to be in Qualified Namespace Name (QNN)
      * format (without a preceding `\`).
      *
-     * @param string $namespace The namespace where this DocBlock resides in.
-     * @param array $namespaceAliases List of namespace aliases => Fully Qualified Namespace.
+     * @param string $namespace        The namespace where this DocBlock resides in.
+     * @param array  $namespaceAliases List of namespace aliases => Fully Qualified Namespace.
      */
     public function __construct($namespace, array $namespaceAliases = [])
     {

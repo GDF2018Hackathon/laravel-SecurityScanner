@@ -12,7 +12,7 @@ trait SerializesAndRestoresModelIdentifiers
     /**
      * Get the property value prepared for serialization.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return mixed
      */
     protected function getSerializedPropertyValue($value)
@@ -39,7 +39,7 @@ trait SerializesAndRestoresModelIdentifiers
     /**
      * Get the restored property value after deserialization.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return mixed
      */
     protected function getRestoredPropertyValue($value)
@@ -51,13 +51,13 @@ trait SerializesAndRestoresModelIdentifiers
         return is_array($value->id)
                 ? $this->restoreCollection($value)
                 : $this->getQueryForModelRestoration((new $value->class)->setConnection($value->connection), $value->id)
-                        ->useWritePdo()->firstOrFail();
+                    ->useWritePdo()->firstOrFail();
     }
 
     /**
      * Restore a queueable collection instance.
      *
-     * @param  \Illuminate\Contracts\Database\ModelIdentifier  $value
+     * @param  \Illuminate\Contracts\Database\ModelIdentifier $value
      * @return \Illuminate\Database\Eloquent\Collection
      */
     protected function restoreCollection($value)
@@ -74,8 +74,8 @@ trait SerializesAndRestoresModelIdentifiers
     /**
      * Get the query for restoration.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  array|int                            $ids
+     * @param  \Illuminate\Database\Eloquent\Model $model
+     * @param  array|int                           $ids
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function getQueryForModelRestoration($model, $ids)

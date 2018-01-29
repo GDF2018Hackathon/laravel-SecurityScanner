@@ -24,13 +24,15 @@ use phpDocumentor\Reflection\Type;
  */
 final class Object_ implements Type
 {
-    /** @var Fqsen|null */
+    /**
+     * @var Fqsen|null 
+     */
     private $fqsen;
 
     /**
      * Initializes this object with an optional FQSEN, if not provided this object is considered 'untyped'.
      *
-     * @param Fqsen $fqsen
+     * @param  Fqsen $fqsen
      * @throws \InvalidArgumentException when provided $fqsen is not a valid type.
      */
     public function __construct(Fqsen $fqsen = null)

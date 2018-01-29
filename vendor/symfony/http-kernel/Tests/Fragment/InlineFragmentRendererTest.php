@@ -62,10 +62,13 @@ class InlineFragmentRendererTest extends TestCase
         $resolver
             ->expects($this->once())
             ->method('getController')
-            ->will($this->returnValue(function (\stdClass $object, Bar $object1) {
-                return new Response($object1->getBar());
-            }))
-        ;
+            ->will(
+                $this->returnValue(
+                    function (\stdClass $object, Bar $object1) {
+                        return new Response($object1->getBar());
+                    }
+                )
+            );
 
         $kernel = new HttpKernel(new EventDispatcher(), $resolver, new RequestStack());
         $renderer = new InlineFragmentRenderer($kernel);
@@ -83,10 +86,13 @@ class InlineFragmentRendererTest extends TestCase
         $resolver
             ->expects($this->once())
             ->method('getController')
-            ->will($this->returnValue(function (\stdClass $object, Bar $object1) {
-                return new Response($object1->getBar());
-            }))
-        ;
+            ->will(
+                $this->returnValue(
+                    function (\stdClass $object, Bar $object1) {
+                        return new Response($object1->getBar());
+                    }
+                )
+            );
 
         $kernel = new HttpKernel(new EventDispatcher(), $resolver, new RequestStack(), new ArgumentResolver());
         $renderer = new InlineFragmentRenderer($kernel);
@@ -130,10 +136,14 @@ class InlineFragmentRendererTest extends TestCase
 
     public function testRenderExceptionIgnoreErrorsWithAlt()
     {
-        $strategy = new InlineFragmentRenderer($this->getKernel($this->onConsecutiveCalls(
-            $this->throwException(new \RuntimeException('foo')),
-            $this->returnValue(new Response('bar'))
-        )));
+        $strategy = new InlineFragmentRenderer(
+            $this->getKernel(
+                $this->onConsecutiveCalls(
+                    $this->throwException(new \RuntimeException('foo')),
+                    $this->returnValue(new Response('bar'))
+                )
+            )
+        );
 
         $this->assertEquals('bar', $strategy->render('/', Request::create('/'), array('ignore_errors' => true, 'alt' => '/foo'))->getContent());
     }
@@ -144,8 +154,7 @@ class InlineFragmentRendererTest extends TestCase
         $kernel
             ->expects($this->any())
             ->method('handle')
-            ->will($returnValue)
-        ;
+            ->will($returnValue);
 
         return $kernel;
     }
@@ -156,19 +165,21 @@ class InlineFragmentRendererTest extends TestCase
         $controllerResolver
             ->expects($this->once())
             ->method('getController')
-            ->will($this->returnValue(function () {
-                ob_start();
-                echo 'bar';
-                throw new \RuntimeException();
-            }))
-        ;
+            ->will(
+                $this->returnValue(
+                    function () {
+                        ob_start();
+                        echo 'bar';
+                        throw new \RuntimeException();
+                    }
+                )
+            );
 
         $argumentResolver = $this->getMockBuilder('Symfony\\Component\\HttpKernel\\Controller\\ArgumentResolverInterface')->getMock();
         $argumentResolver
             ->expects($this->once())
             ->method('getArguments')
-            ->will($this->returnValue(array()))
-        ;
+            ->will($this->returnValue(array()));
 
         $kernel = new HttpKernel(new EventDispatcher(), $controllerResolver, new RequestStack(), $argumentResolver);
         $renderer = new InlineFragmentRenderer($kernel);

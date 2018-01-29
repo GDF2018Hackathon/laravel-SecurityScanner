@@ -37,7 +37,8 @@ trait InteractsWithRedis
         }
 
         foreach ($this->redisDriverProvider() as $driver) {
-            $this->redis[$driver[0]] = new RedisManager($driver[0], [
+            $this->redis[$driver[0]] = new RedisManager(
+                $driver[0], [
                 'cluster' => false,
                 'default' => [
                     'host' => $host,
@@ -45,7 +46,8 @@ trait InteractsWithRedis
                     'database' => 5,
                     'timeout' => 0.5,
                 ],
-            ]);
+                ]
+            );
         }
 
         try {
@@ -95,7 +97,7 @@ trait InteractsWithRedis
     /**
      * Run test if redis is available.
      *
-     * @param  callable  $callback
+     * @param  callable $callback
      * @return void
      */
     public function ifRedisAvailable($callback)

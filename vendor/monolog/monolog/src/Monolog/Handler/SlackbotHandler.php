@@ -23,18 +23,21 @@ class SlackbotHandler extends AbstractProcessingHandler
 {
     /**
      * The slug of the Slack team
+     *
      * @var string
      */
     private $slackTeam;
 
     /**
      * Slackbot token
+     *
      * @var string
      */
     private $token;
 
     /**
      * Slack channel name
+     *
      * @var string
      */
     private $channel;

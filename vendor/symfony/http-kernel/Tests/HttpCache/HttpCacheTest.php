@@ -156,13 +156,15 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $time = \DateTime::createFromFormat('U', time());
 
-        $this->setNextResponse(200, array(), '', function ($request, $response) use ($time) {
-            $response->setStatusCode(200);
-            $response->headers->set('ETag', '12345');
-            $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
-            $response->headers->set('Content-Type', 'text/plain');
-            $response->setContent('Hello World');
-        });
+        $this->setNextResponse(
+            200, array(), '', function ($request, $response) use ($time) {
+                $response->setStatusCode(200);
+                $response->headers->set('ETag', '12345');
+                $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
+                $response->headers->set('Content-Type', 'text/plain');
+                $response->setContent('Hello World');
+            }
+        );
 
         // only ETag matches
         $t = \DateTime::createFromFormat('U', time() - 3600);
@@ -208,30 +210,32 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testValidatesPrivateResponsesCachedOnTheClient()
     {
-        $this->setNextResponse(200, array(), '', function ($request, $response) {
-            $etags = preg_split('/\s*,\s*/', $request->headers->get('IF_NONE_MATCH'));
-            if ($request->cookies->has('authenticated')) {
-                $response->headers->set('Cache-Control', 'private, no-store');
-                $response->setETag('"private tag"');
-                if (in_array('"private tag"', $etags)) {
-                    $response->setStatusCode(304);
+        $this->setNextResponse(
+            200, array(), '', function ($request, $response) {
+                $etags = preg_split('/\s*,\s*/', $request->headers->get('IF_NONE_MATCH'));
+                if ($request->cookies->has('authenticated')) {
+                    $response->headers->set('Cache-Control', 'private, no-store');
+                    $response->setETag('"private tag"');
+                    if (in_array('"private tag"', $etags)) {
+                        $response->setStatusCode(304);
+                    } else {
+                        $response->setStatusCode(200);
+                        $response->headers->set('Content-Type', 'text/plain');
+                        $response->setContent('private data');
+                    }
                 } else {
-                    $response->setStatusCode(200);
-                    $response->headers->set('Content-Type', 'text/plain');
-                    $response->setContent('private data');
-                }
-            } else {
-                $response->headers->set('Cache-Control', 'public');
-                $response->setETag('"public tag"');
-                if (in_array('"public tag"', $etags)) {
-                    $response->setStatusCode(304);
-                } else {
-                    $response->setStatusCode(200);
-                    $response->headers->set('Content-Type', 'text/plain');
-                    $response->setContent('public data');
+                    $response->headers->set('Cache-Control', 'public');
+                    $response->setETag('"public tag"');
+                    if (in_array('"public tag"', $etags)) {
+                        $response->setStatusCode(304);
+                    } else {
+                        $response->setStatusCode(200);
+                        $response->headers->set('Content-Type', 'text/plain');
+                        $response->setContent('public data');
+                    }
                 }
             }
-        });
+        );
 
         $this->request('GET', '/');
         $this->assertHttpKernelIsCalled();
@@ -267,10 +271,12 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $count = 0;
 
-        $this->setNextResponse(200, array('Cache-Control' => 'public, max-age=10000'), '', function ($request, $response) use (&$count) {
-            ++$count;
-            $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
-        });
+        $this->setNextResponse(
+            200, array('Cache-Control' => 'public, max-age=10000'), '', function ($request, $response) use (&$count) {
+                ++$count;
+                $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
+            }
+        );
 
         $this->request('GET', '/');
         $this->assertEquals(200, $this->response->getStatusCode());
@@ -294,10 +300,12 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $count = 0;
 
-        $this->setNextResponse(200, array('Cache-Control' => 'public, max-age=10000'), '', function ($request, $response) use (&$count) {
-            ++$count;
-            $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
-        });
+        $this->setNextResponse(
+            200, array('Cache-Control' => 'public, max-age=10000'), '', function ($request, $response) use (&$count) {
+                ++$count;
+                $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
+            }
+        );
 
         $this->request('GET', '/');
         $this->assertEquals(200, $this->response->getStatusCode());
@@ -325,12 +333,14 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $count = 0;
 
-        $this->setNextResponse(200, array(), '', function ($request, $response) use (&$count) {
-            ++$count;
-            $response->headers->set('Cache-Control', 'public, max-age=10000');
-            $response->setETag($count);
-            $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
-        });
+        $this->setNextResponse(
+            200, array(), '', function ($request, $response) use (&$count) {
+                ++$count;
+                $response->headers->set('Cache-Control', 'public, max-age=10000');
+                $response->setETag($count);
+                $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
+            }
+        );
 
         $this->request('GET', '/');
         $this->assertEquals(200, $this->response->getStatusCode());
@@ -355,12 +365,14 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $count = 0;
 
-        $this->setNextResponse(200, array(), '', function ($request, $response) use (&$count) {
-            ++$count;
-            $response->headers->set('Cache-Control', 'public, max-age=10000');
-            $response->setETag($count);
-            $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
-        });
+        $this->setNextResponse(
+            200, array(), '', function ($request, $response) use (&$count) {
+                ++$count;
+                $response->headers->set('Cache-Control', 'public, max-age=10000');
+                $response->setETag($count);
+                $response->setContent(1 == $count ? 'Hello World' : 'Goodbye World');
+            }
+        );
 
         $this->request('GET', '/');
         $this->assertEquals(200, $this->response->getStatusCode());
@@ -805,14 +817,16 @@ class HttpCacheTest extends HttpCacheTestCase
     public function testValidatesCachedResponsesWithLastModifiedAndNoFreshnessInformation()
     {
         $time = \DateTime::createFromFormat('U', time());
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) use ($time) {
-            $response->headers->set('Cache-Control', 'public');
-            $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
-            if ($time->format(DATE_RFC2822) == $request->headers->get('IF_MODIFIED_SINCE')) {
-                $response->setStatusCode(304);
-                $response->setContent('');
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) use ($time) {
+                $response->headers->set('Cache-Control', 'public');
+                $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
+                if ($time->format(DATE_RFC2822) == $request->headers->get('IF_MODIFIED_SINCE')) {
+                    $response->setStatusCode(304);
+                    $response->setContent('');
+                }
             }
-        });
+        );
 
         // build initial request
         $this->request('GET', '/');
@@ -843,9 +857,11 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $test = $this;
 
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) use ($test) {
-            $test->assertSame('OPTIONS', $request->getMethod());
-        });
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) use ($test) {
+                $test->assertSame('OPTIONS', $request->getMethod());
+            }
+        );
 
         // build initial request
         $this->request('OPTIONS', '/');
@@ -856,14 +872,16 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testValidatesCachedResponsesWithETagAndNoFreshnessInformation()
     {
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) {
-            $response->headers->set('Cache-Control', 'public');
-            $response->headers->set('ETag', '"12345"');
-            if ($response->getETag() == $request->headers->get('IF_NONE_MATCH')) {
-                $response->setStatusCode(304);
-                $response->setContent('');
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) {
+                $response->headers->set('Cache-Control', 'public');
+                $response->headers->set('ETag', '"12345"');
+                if ($response->getETag() == $request->headers->get('IF_NONE_MATCH')) {
+                    $response->setStatusCode(304);
+                    $response->setContent('');
+                }
             }
-        });
+        );
 
         // build initial request
         $this->request('GET', '/');
@@ -893,10 +911,12 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $time = \DateTime::createFromFormat('U', time());
 
-        $this->setNextResponse(200, array(), 'Hello World', function (Request $request, Response $response) use ($time) {
-            $response->setSharedMaxAge(10);
-            $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
-        });
+        $this->setNextResponse(
+            200, array(), 'Hello World', function (Request $request, Response $response) use ($time) {
+                $response->setSharedMaxAge(10);
+                $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
+            }
+        );
 
         // prime the cache
         $this->request('GET', '/');
@@ -911,9 +931,11 @@ class HttpCacheTest extends HttpCacheTestCase
 
         sleep(15); // expire the cache
 
-        $this->setNextResponse(304, array(), '', function (Request $request, Response $response) use ($time) {
-            $this->assertEquals($time->format(DATE_RFC2822), $request->headers->get('IF_MODIFIED_SINCE'));
-        });
+        $this->setNextResponse(
+            304, array(), '', function (Request $request, Response $response) use ($time) {
+                $this->assertEquals($time->format(DATE_RFC2822), $request->headers->get('IF_MODIFIED_SINCE'));
+            }
+        );
 
         $this->request('GET', '/');
         $this->assertHttpKernelIsCalled();
@@ -927,22 +949,24 @@ class HttpCacheTest extends HttpCacheTestCase
     {
         $time = \DateTime::createFromFormat('U', time());
         $count = 0;
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) use ($time, &$count) {
-            $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
-            $response->headers->set('Cache-Control', 'public');
-            switch (++$count) {
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) use ($time, &$count) {
+                $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
+                $response->headers->set('Cache-Control', 'public');
+                switch (++$count) {
                 case 1:
                     $response->setContent('first response');
-                    break;
+break;
                 case 2:
                     $response->setContent('second response');
-                    break;
+break;
                 case 3:
                     $response->setContent('');
                     $response->setStatusCode(304);
-                    break;
+break;
+                }
             }
-        });
+        );
 
         // first request should fetch from backend and store in cache
         $this->request('GET', '/');
@@ -964,11 +988,13 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testPassesHeadRequestsThroughDirectlyOnPass()
     {
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) {
-            $response->setContent('');
-            $response->setStatusCode(200);
-            $this->assertEquals('HEAD', $request->getMethod());
-        });
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) {
+                $response->setContent('');
+                $response->setStatusCode(200);
+                $this->assertEquals('HEAD', $request->getMethod());
+            }
+        );
 
         $this->request('HEAD', '/', array('HTTP_EXPECT' => 'something ...'));
         $this->assertHttpKernelIsCalled();
@@ -977,12 +1003,14 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testUsesCacheToRespondToHeadRequestsWhenFresh()
     {
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) {
-            $response->headers->set('Cache-Control', 'public, max-age=10');
-            $response->setContent('Hello World');
-            $response->setStatusCode(200);
-            $this->assertNotEquals('HEAD', $request->getMethod());
-        });
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) {
+                $response->headers->set('Cache-Control', 'public, max-age=10');
+                $response->setContent('Hello World');
+                $response->setStatusCode(200);
+                $this->assertNotEquals('HEAD', $request->getMethod());
+            }
+        );
 
         $this->request('GET', '/');
         $this->assertHttpKernelIsCalled();
@@ -998,10 +1026,12 @@ class HttpCacheTest extends HttpCacheTestCase
     public function testSendsNoContentWhenFresh()
     {
         $time = \DateTime::createFromFormat('U', time());
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) use ($time) {
-            $response->headers->set('Cache-Control', 'public, max-age=10');
-            $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
-        });
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) use ($time) {
+                $response->headers->set('Cache-Control', 'public, max-age=10');
+                $response->headers->set('Last-Modified', $time->format(DATE_RFC2822));
+            }
+        );
 
         $this->request('GET', '/');
         $this->assertHttpKernelIsCalled();
@@ -1015,18 +1045,20 @@ class HttpCacheTest extends HttpCacheTestCase
 
     public function testInvalidatesCachedResponsesOnPost()
     {
-        $this->setNextResponse(200, array(), 'Hello World', function ($request, $response) {
-            if ('GET' == $request->getMethod()) {
-                $response->setStatusCode(200);
-                $response->headers->set('Cache-Control', 'public, max-age=500');
-                $response->setContent('Hello World');
-            } elseif ('POST' == $request->getMethod()) {
-                $response->setStatusCode(303);
-                $response->headers->set('Location', '/');
-                $response->headers->remove('Cache-Control');
-                $response->setContent('');
+        $this->setNextResponse(
+            200, array(), 'Hello World', function ($request, $response) {
+                if ('GET' == $request->getMethod()) {
+                    $response->setStatusCode(200);
+                    $response->headers->set('Cache-Control', 'public, max-age=500');
+                    $response->setContent('Hello World');
+                } elseif ('POST' == $request->getMethod()) {
+                    $response->setStatusCode(303);
+                    $response->headers->set('Location', '/');
+                    $response->headers->remove('Cache-Control');
+                    $response->setContent('');
+                }
             }
-        });
+        );
 
         // build initial request to enter into the cache
         $this->request('GET', '/');
@@ -1064,12 +1096,14 @@ class HttpCacheTest extends HttpCacheTestCase
     public function testServesFromCacheWhenHeadersMatch()
     {
         $count = 0;
-        $this->setNextResponse(200, array('Cache-Control' => 'max-age=10000'), '', function ($request, $response) use (&$count) {
-            $response->headers->set('Vary', 'Accept User-Agent Foo');
-            $response->headers->set('Cache-Control', 'public, max-age=10');
-            $response->headers->set('X-Response-Count', ++$count);
-            $response->setContent($request->headers->get('USER_AGENT'));
-        });
+        $this->setNextResponse(
+            200, array('Cache-Control' => 'max-age=10000'), '', function ($request, $response) use (&$count) {
+                $response->headers->set('Vary', 'Accept User-Agent Foo');
+                $response->headers->set('Cache-Control', 'public, max-age=10');
+                $response->headers->set('X-Response-Count', ++$count);
+                $response->setContent($request->headers->get('USER_AGENT'));
+            }
+        );
 
         $this->request('GET', '/', array('HTTP_ACCEPT' => 'text/html', 'HTTP_USER_AGENT' => 'Bob/1.0'));
         $this->assertEquals(200, $this->response->getStatusCode());
@@ -1088,12 +1122,14 @@ class HttpCacheTest extends HttpCacheTestCase
     public function testStoresMultipleResponsesWhenHeadersDiffer()
     {
         $count = 0;
-        $this->setNextResponse(200, array('Cache-Control' => 'max-age=10000'), '', function ($request, $response) use (&$count) {
-            $response->headers->set('Vary', 'Accept User-Agent Foo');
-            $response->headers->set('Cache-Control', 'public, max-age=10');
-            $response->headers->set('X-Response-Count', ++$count);
-            $response->setContent($request->headers->get('USER_AGENT'));
-        });
+        $this->setNextResponse(
+            200, array('Cache-Control' => 'max-age=10000'), '', function ($request, $response) use (&$count) {
+                $response->headers->set('Vary', 'Accept User-Agent Foo');
+                $response->headers->set('Cache-Control', 'public, max-age=10');
+                $response->headers->set('X-Response-Count', ++$count);
+                $response->setContent($request->headers->get('USER_AGENT'));
+            }
+        );
 
         $this->request('GET', '/', array('HTTP_ACCEPT' => 'text/html', 'HTTP_USER_AGENT' => 'Bob/1.0'));
         $this->assertEquals(200, $this->response->getStatusCode());

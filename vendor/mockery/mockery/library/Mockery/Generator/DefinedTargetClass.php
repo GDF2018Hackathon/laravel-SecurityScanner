@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery\Generator;
@@ -51,17 +51,21 @@ class DefinedTargetClass implements TargetClassInterface
 
     public function getMethods()
     {
-        return array_map(function ($method) {
-            return new Method($method);
-        }, $this->rfc->getMethods());
+        return array_map(
+            function ($method) {
+                return new Method($method);
+            }, $this->rfc->getMethods()
+        );
     }
 
     public function getInterfaces()
     {
         $class = __CLASS__;
-        return array_map(function ($interface) use ($class) {
-            return new $class($interface);
-        }, $this->rfc->getInterfaces());
+        return array_map(
+            function ($interface) use ($class) {
+                return new $class($interface);
+            }, $this->rfc->getInterfaces()
+        );
     }
 
     public function __toString()

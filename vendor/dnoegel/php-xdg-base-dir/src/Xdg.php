@@ -8,6 +8,7 @@ namespace XdgBaseDir;
  * Based on the python implementation https://github.com/takluyver/pyxdg/blob/master/xdg/BaseDirectory.py
  *
  * Class Xdg
+ *
  * @package ShopwareCli\Application
  */
 class Xdg
@@ -100,12 +101,12 @@ class Xdg
 
         $st = lstat($fallback);
 
-        # The fallback must be a directory
+        // The fallback must be a directory
         if (!$st['mode'] & self::S_IFDIR) {
             rmdir($fallback);
             $create = true;
-        } elseif ($st['uid'] != getmyuid() ||
-            $st['mode'] & (self::S_IRWXG | self::S_IRWXO)
+        } elseif ($st['uid'] != getmyuid() 
+            || $st['mode'] & (self::S_IRWXG | self::S_IRWXO)
         ) {
             rmdir($fallback);
             $create = true;

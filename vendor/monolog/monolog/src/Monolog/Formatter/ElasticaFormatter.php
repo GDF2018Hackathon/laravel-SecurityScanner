@@ -55,6 +55,7 @@ class ElasticaFormatter extends NormalizerFormatter
 
     /**
      * Getter index
+     *
      * @return string
      */
     public function getIndex()
@@ -64,6 +65,7 @@ class ElasticaFormatter extends NormalizerFormatter
 
     /**
      * Getter type
+     *
      * @return string
      */
     public function getType()
@@ -74,7 +76,7 @@ class ElasticaFormatter extends NormalizerFormatter
     /**
      * Convert a log message into an Elastica Document
      *
-     * @param  array    $record Log message
+     * @param  array $record Log message
      * @return Document
      */
     protected function getDocument($record)

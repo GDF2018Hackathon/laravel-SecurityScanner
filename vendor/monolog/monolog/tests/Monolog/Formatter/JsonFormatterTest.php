@@ -70,9 +70,11 @@ class JsonFormatterTest extends TestCase
             $this->getRecord(Logger::WARNING),
             $this->getRecord(Logger::DEBUG),
         );
-        array_walk($expected, function (&$value, $key) {
-            $value = json_encode($value);
-        });
+        array_walk(
+            $expected, function (&$value, $key) {
+                $value = json_encode($value);
+            }
+        );
         $this->assertEquals(implode("\n", $expected), $formatter->formatBatch($records));
     }
 
@@ -129,21 +131,23 @@ class JsonFormatterTest extends TestCase
     }
 
     /**
-     * @param JsonFormatter $formatter
+     * @param JsonFormatter         $formatter
      * @param \Exception|\Throwable $exception
      *
      * @return string
      */
     private function formatRecordWithExceptionInContext(JsonFormatter $formatter, $exception)
     {
-        $message = $formatter->format(array(
+        $message = $formatter->format(
+            array(
             'level_name' => 'CRITICAL',
             'channel' => 'core',
             'context' => array('exception' => $exception),
             'datetime' => null,
             'extra' => array(),
             'message' => 'foobar',
-        ));
+            )
+        );
         return $message;
     }
 
@@ -165,7 +169,7 @@ class JsonFormatterTest extends TestCase
     /**
      * @param \Exception|\Throwable $exception
      *
-     * @param null|string $previous
+     * @param null|string           $previous
      *
      * @return string
      */

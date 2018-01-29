@@ -44,8 +44,9 @@ class HoursField extends AbstractField
         $position = $invert ? count($hours) - 1 : 0;
         if (count($hours) > 1) {
             for ($i = 0; $i < count($hours) - 1; $i++) {
-                if ((!$invert && $current_hour >= $hours[$i] && $current_hour < $hours[$i + 1]) ||
-                    ($invert && $current_hour > $hours[$i] && $current_hour <= $hours[$i + 1])) {
+                if ((!$invert && $current_hour >= $hours[$i] && $current_hour < $hours[$i + 1]) 
+                    || ($invert && $current_hour > $hours[$i] && $current_hour <= $hours[$i + 1])
+                ) {
                     $position = $invert ? $i : $i + 1;
                     break;
                 }

@@ -61,7 +61,7 @@ class CallbackStream implements StreamInterface
     /**
      * Attach a new callback to the instance.
      *
-     * @param callable $callback
+     * @param  callable $callback
      * @throws InvalidArgumentException for callable callback
      */
     public function attach(callable $callback)

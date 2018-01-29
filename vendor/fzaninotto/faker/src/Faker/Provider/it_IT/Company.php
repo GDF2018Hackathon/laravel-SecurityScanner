@@ -64,7 +64,8 @@ class Company extends \Faker\Provider\Company
 
     /**
      * Italian VAT number (Partita iva)
-     * @link https://it.wikipedia.org/wiki/Partita_IVA
+     *
+     * @link   https://it.wikipedia.org/wiki/Partita_IVA
      * @return string
      */
     public static function vatId()

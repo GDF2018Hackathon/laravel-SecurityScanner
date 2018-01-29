@@ -231,9 +231,11 @@ class NativeSessionStorage implements SessionStorageInterface
         }
 
         // Register custom error handler to catch a possible failure warning during session write
-        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-            throw new \ErrorException($errstr, $errno, E_WARNING, $errfile, $errline);
-        }, E_WARNING);
+        set_error_handler(
+            function ($errno, $errstr, $errfile, $errline) {
+                throw new \ErrorException($errstr, $errno, E_WARNING, $errfile, $errline);
+            }, E_WARNING
+        );
 
         try {
             $e = null;
@@ -348,7 +350,8 @@ class NativeSessionStorage implements SessionStorageInterface
             return;
         }
 
-        $validOptions = array_flip(array(
+        $validOptions = array_flip(
+            array(
             'cache_limiter', 'cache_expire', 'cookie_domain', 'cookie_httponly',
             'cookie_lifetime', 'cookie_path', 'cookie_secure',
             'entropy_file', 'entropy_length', 'gc_divisor',
@@ -359,7 +362,8 @@ class NativeSessionStorage implements SessionStorageInterface
             'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',
             'upload_progress.freq', 'upload_progress.min-freq', 'url_rewriter.tags',
             'sid_length', 'sid_bits_per_character', 'trans_sid_hosts', 'trans_sid_tags',
-        ));
+            )
+        );
 
         foreach ($options as $key => $value) {
             if (isset($validOptions[$key])) {
@@ -392,9 +396,10 @@ class NativeSessionStorage implements SessionStorageInterface
      */
     public function setSaveHandler($saveHandler = null)
     {
-        if (!$saveHandler instanceof AbstractProxy &&
-            !$saveHandler instanceof \SessionHandlerInterface &&
-            null !== $saveHandler) {
+        if (!$saveHandler instanceof AbstractProxy 
+            && !$saveHandler instanceof \SessionHandlerInterface 
+            && null !== $saveHandler
+        ) {
             throw new \InvalidArgumentException('Must be instance of AbstractProxy; implement \SessionHandlerInterface; or be null.');
         }
 

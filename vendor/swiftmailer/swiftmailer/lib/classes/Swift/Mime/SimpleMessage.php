@@ -33,7 +33,8 @@ class Swift_Mime_SimpleMessage extends Swift_Mime_MimePart
     public function __construct(Swift_Mime_SimpleHeaderSet $headers, Swift_Mime_ContentEncoder $encoder, Swift_KeyCache $cache, Swift_IdGenerator $idGenerator, $charset = null)
     {
         parent::__construct($headers, $encoder, $cache, $idGenerator, $charset);
-        $this->getHeaders()->defineOrdering(array(
+        $this->getHeaders()->defineOrdering(
+            array(
             'Return-Path',
             'Received',
             'DKIM-Signature',
@@ -50,7 +51,8 @@ class Swift_Mime_SimpleMessage extends Swift_Mime_MimePart
             'MIME-Version',
             'Content-Type',
             'Content-Transfer-Encoding',
-            ));
+            )
+        );
         $this->getHeaders()->setAlwaysDisplayed(array('Date', 'Message-ID', 'From'));
         $this->getHeaders()->addTextHeader('MIME-Version', '1.0');
         $this->setDate(new DateTimeImmutable());
@@ -470,10 +472,15 @@ class Swift_Mime_SimpleMessage extends Swift_Mime_MimePart
         } elseif ($priority < min($pMapKeys)) {
             $priority = min($pMapKeys);
         }
-        if (!$this->setHeaderFieldModel('X-Priority',
-            sprintf('%d (%s)', $priority, $priorityMap[$priority]))) {
-            $this->getHeaders()->addTextHeader('X-Priority',
-                sprintf('%d (%s)', $priority, $priorityMap[$priority]));
+        if (!$this->setHeaderFieldModel(
+            'X-Priority',
+            sprintf('%d (%s)', $priority, $priorityMap[$priority])
+        )
+        ) {
+            $this->getHeaders()->addTextHeader(
+                'X-Priority',
+                sprintf('%d (%s)', $priority, $priorityMap[$priority])
+            );
         }
 
         return $this;
@@ -489,9 +496,10 @@ class Swift_Mime_SimpleMessage extends Swift_Mime_MimePart
      */
     public function getPriority()
     {
-        list($priority) = sscanf($this->getHeaderFieldModel('X-Priority'),
+        list($priority) = sscanf(
+            $this->getHeaderFieldModel('X-Priority'),
             '%[1-5]'
-            );
+        );
 
         return $priority ?? 3;
     }
@@ -618,18 +626,23 @@ class Swift_Mime_SimpleMessage extends Swift_Mime_MimePart
         }
     }
 
-    /** @see Swift_Mime_SimpleMimeEntity::getIdField() */
+    /**
+     * @see Swift_Mime_SimpleMimeEntity::getIdField() 
+     */
     protected function getIdField()
     {
         return 'Message-ID';
     }
 
-    /** Turn the body of this message into a child of itself if needed */
+    /**
+     * Turn the body of this message into a child of itself if needed 
+     */
     protected function becomeMimePart()
     {
-        $part = new parent($this->getHeaders()->newInstance(), $this->getEncoder(),
+        $part = new parent(
+            $this->getHeaders()->newInstance(), $this->getEncoder(),
             $this->getCache(), $this->getIdGenerator(), $this->userCharset
-            );
+        );
         $part->setContentType($this->userContentType);
         $part->setBody($this->getBody());
         $part->setFormat($this->userFormat);
@@ -639,7 +652,9 @@ class Swift_Mime_SimpleMessage extends Swift_Mime_MimePart
         return $part;
     }
 
-    /** Get the highest nesting level nested inside this message */
+    /**
+     * Get the highest nesting level nested inside this message 
+     */
     private function getTopNestingLevel()
     {
         $highestLevel = $this->getNestingLevel();

@@ -20,10 +20,12 @@ class UtilTest extends \PhpUnit_Framework_TestCase
 
     public function testCheckAllAreMatchersAcceptsMatchers()
     {
-        \Hamcrest\Util::checkAllAreMatchers(array(
+        \Hamcrest\Util::checkAllAreMatchers(
+            array(
             new \Hamcrest\Text\MatchesPattern('/fo+/'),
             new \Hamcrest\Core\IsEqual('foo'),
-        ));
+            )
+        );
     }
 
     /**
@@ -31,10 +33,12 @@ class UtilTest extends \PhpUnit_Framework_TestCase
      */
     public function testCheckAllAreMatchersFailsForPrimitive()
     {
-        \Hamcrest\Util::checkAllAreMatchers(array(
+        \Hamcrest\Util::checkAllAreMatchers(
+            array(
             new \Hamcrest\Text\MatchesPattern('/fo+/'),
             'foo',
-        ));
+            )
+        );
     }
 
     private function callAndAssertCreateMatcherArray($items)

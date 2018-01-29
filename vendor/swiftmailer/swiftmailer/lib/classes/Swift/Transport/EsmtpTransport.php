@@ -224,9 +224,11 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         foreach ($handlers as $handler) {
             $assoc[$handler->getHandledKeyword()] = $handler;
         }
-        uasort($assoc, function ($a, $b) {
-            return $a->getPriorityOver($b->getHandledKeyword());
-        });
+        uasort(
+            $assoc, function ($a, $b) {
+                return $a->getPriorityOver($b->getHandledKeyword());
+            }
+        );
         $this->handlers = $assoc;
         $this->setHandlerParams();
 
@@ -263,7 +265,7 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         foreach ($this->getActiveHandlers() as $handler) {
             $response = $handler->onCommand(
                 $this, $command, $codes, $failures, $stopSignal
-                );
+            );
             if ($stopSignal) {
                 return $response;
             }
@@ -272,13 +274,17 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         return parent::executeCommand($command, $codes, $failures);
     }
 
-    /** Mixin handling method for ESMTP handlers */
+    /**
+     * Mixin handling method for ESMTP handlers 
+     */
     public function __call($method, $args)
     {
         foreach ($this->handlers as $handler) {
-            if (in_array(strtolower($method),
+            if (in_array(
+                strtolower($method),
                 array_map('strtolower', (array) $handler->exposeMixinMethods())
-                )) {
+            )
+            ) {
                 $return = call_user_func_array(array($handler, $method), $args);
                 // Allow fluid method calls
                 if (null === $return && substr($method, 0, 3) == 'set') {
@@ -291,19 +297,23 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         trigger_error('Call to undefined method '.$method, E_USER_ERROR);
     }
 
-    /** Get the params to initialize the buffer */
+    /**
+     * Get the params to initialize the buffer 
+     */
     protected function getBufferParams()
     {
         return $this->params;
     }
 
-    /** Overridden to perform EHLO instead */
+    /**
+     * Overridden to perform EHLO instead 
+     */
     protected function doHeloCommand()
     {
         try {
             $response = $this->executeCommand(
                 sprintf("EHLO %s\r\n", $this->domain), array(250)
-                );
+            );
         } catch (Swift_TransportException $e) {
             return parent::doHeloCommand();
         }
@@ -319,7 +329,7 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
                 try {
                     $response = $this->executeCommand(
                         sprintf("EHLO %s\r\n", $this->domain), array(250)
-                        );
+                    );
                 } catch (Swift_TransportException $e) {
                     return parent::doHeloCommand();
                 }
@@ -335,7 +345,9 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         }
     }
 
-    /** Overridden to add Extension support */
+    /**
+     * Overridden to add Extension support 
+     */
     protected function doMailFromCommand($address)
     {
         $handlers = $this->getActiveHandlers();
@@ -346,10 +358,12 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         $paramStr = !empty($params) ? ' '.implode(' ', $params) : '';
         $this->executeCommand(
             sprintf("MAIL FROM:<%s>%s\r\n", $address, $paramStr), array(250)
-            );
+        );
     }
 
-    /** Overridden to add Extension support */
+    /**
+     * Overridden to add Extension support 
+     */
     protected function doRcptToCommand($address)
     {
         $handlers = $this->getActiveHandlers();
@@ -360,10 +374,12 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         $paramStr = !empty($params) ? ' '.implode(' ', $params) : '';
         $this->executeCommand(
             sprintf("RCPT TO:<%s>%s\r\n", $address, $paramStr), array(250, 251, 252)
-            );
+        );
     }
 
-    /** Determine ESMTP capabilities by function group */
+    /**
+     * Determine ESMTP capabilities by function group 
+     */
     private function getCapabilities($ehloResponse)
     {
         $capabilities = array();
@@ -382,7 +398,9 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         return $capabilities;
     }
 
-    /** Set parameters which are used by each extension handler */
+    /**
+     * Set parameters which are used by each extension handler 
+     */
     private function setHandlerParams()
     {
         foreach ($this->handlers as $keyword => $handler) {
@@ -392,7 +410,9 @@ class Swift_Transport_EsmtpTransport extends Swift_Transport_AbstractSmtpTranspo
         }
     }
 
-    /** Get ESMTP handlers which are currently ok to use */
+    /**
+     * Get ESMTP handlers which are currently ok to use 
+     */
     private function getActiveHandlers()
     {
         $handlers = array();

@@ -149,7 +149,9 @@ class FactoryMethod
             return '';
         }
         $params = array();
-        foreach ($this->parameters as /** @var $parameter FactoryParameter */
+        foreach ($this->parameters as /**
+ * @var $parameter FactoryParameter 
+*/
                  $parameter) {
             $params[] = $parameter->getDeclaration();
         }

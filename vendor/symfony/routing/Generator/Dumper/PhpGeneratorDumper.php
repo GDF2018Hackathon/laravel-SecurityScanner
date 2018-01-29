@@ -33,10 +33,12 @@ class PhpGeneratorDumper extends GeneratorDumper
      */
     public function dump(array $options = array())
     {
-        $options = array_merge(array(
+        $options = array_merge(
+            array(
             'class' => 'ProjectUrlGenerator',
             'base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator',
-        ), $options);
+            ), $options
+        );
 
         return <<<EOF
 <?php

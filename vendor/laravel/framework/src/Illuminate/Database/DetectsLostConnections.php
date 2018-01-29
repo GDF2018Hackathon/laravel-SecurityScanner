@@ -10,14 +10,15 @@ trait DetectsLostConnections
     /**
      * Determine if the given exception was caused by a lost connection.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
      * @return bool
      */
     protected function causedByLostConnection(Exception $e)
     {
         $message = $e->getMessage();
 
-        return Str::contains($message, [
+        return Str::contains(
+            $message, [
             'server has gone away',
             'no connection to the server',
             'Lost connection',
@@ -32,6 +33,7 @@ trait DetectsLostConnections
             'child connection forced to terminate due to client_idle_limit',
             'query_wait_timeout',
             'reset by peer',
-        ]);
+            ]
+        );
     }
 }

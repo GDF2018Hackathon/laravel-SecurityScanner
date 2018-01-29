@@ -113,28 +113,32 @@ class ExceptionHandler
 
         $caughtLength = $this->caughtLength = 0;
 
-        ob_start(function ($buffer) {
-            $this->caughtBuffer = $buffer;
+        ob_start(
+            function ($buffer) {
+                $this->caughtBuffer = $buffer;
 
-            return '';
-        });
+                return '';
+            }
+        );
 
         $this->sendPhpResponse($exception);
         while (null === $this->caughtBuffer && ob_end_flush()) {
             // Empty loop, everything is in the condition
         }
         if (isset($this->caughtBuffer[0])) {
-            ob_start(function ($buffer) {
-                if ($this->caughtLength) {
-                    // use substr_replace() instead of substr() for mbstring overloading resistance
-                    $cleanBuffer = substr_replace($buffer, '', 0, $this->caughtLength);
-                    if (isset($cleanBuffer[0])) {
-                        $buffer = $cleanBuffer;
+            ob_start(
+                function ($buffer) {
+                    if ($this->caughtLength) {
+                        // use substr_replace() instead of substr() for mbstring overloading resistance
+                        $cleanBuffer = substr_replace($buffer, '', 0, $this->caughtLength);
+                        if (isset($cleanBuffer[0])) {
+                            $buffer = $cleanBuffer;
+                        }
                     }
-                }
 
-                return $buffer;
-            });
+                    return $buffer;
+                }
+            );
 
             echo $this->caughtBuffer;
             $caughtLength = ob_get_length();
@@ -201,11 +205,11 @@ class ExceptionHandler
     public function getContent(FlattenException $exception)
     {
         switch ($exception->getStatusCode()) {
-            case 404:
-                $title = 'Sorry, the page you are looking for could not be found.';
-                break;
-            default:
-                $title = 'Whoops, looks like something went wrong.';
+        case 404:
+            $title = 'Sorry, the page you are looking for could not be found.';
+            break;
+        default:
+            $title = 'Whoops, looks like something went wrong.';
         }
 
         $content = '';
@@ -217,7 +221,8 @@ class ExceptionHandler
                     $ind = $count - $position + 1;
                     $class = $this->formatClass($e['class']);
                     $message = nl2br($this->escapeHtml($e['message']));
-                    $content .= sprintf(<<<'EOF'
+                    $content .= sprintf(
+                        <<<'EOF'
                         <div class="trace trace-as-html">
                             <table class="trace-details">
                                 <thead class="trace-head"><tr><th>
@@ -229,7 +234,8 @@ class ExceptionHandler
                                 </th></tr></thead>
                                 <tbody>
 EOF
-                        , $ind, $total, $class, $message);
+                        , $ind, $total, $class, $message
+                    );
                     foreach ($e['trace'] as $trace) {
                         $content .= '<tr><td>';
                         if ($trace['function']) {

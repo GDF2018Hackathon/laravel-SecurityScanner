@@ -24,7 +24,7 @@ class ThrottleRequests
     /**
      * Create a new request throttler.
      *
-     * @param  \Illuminate\Cache\RateLimiter  $limiter
+     * @param  \Illuminate\Cache\RateLimiter $limiter
      * @return void
      */
     public function __construct(RateLimiter $limiter)
@@ -35,10 +35,10 @@ class ThrottleRequests
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  int|string  $maxAttempts
-     * @param  float|int  $decayMinutes
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     * @param  int|string               $maxAttempts
+     * @param  float|int                $decayMinutes
      * @return mixed
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
@@ -65,8 +65,8 @@ class ThrottleRequests
     /**
      * Resolve the number of attempts if the user is authenticated or not.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int|string  $maxAttempts
+     * @param  \Illuminate\Http\Request $request
+     * @param  int|string               $maxAttempts
      * @return int
      */
     protected function resolveMaxAttempts($request, $maxAttempts)
@@ -81,7 +81,7 @@ class ThrottleRequests
     /**
      * Resolve request signature.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return string
      * @throws \RuntimeException
      */
@@ -103,8 +103,8 @@ class ThrottleRequests
     /**
      * Create a 'too many attempts' exception.
      *
-     * @param  string  $key
-     * @param  int  $maxAttempts
+     * @param  string $key
+     * @param  int    $maxAttempts
      * @return \Symfony\Component\HttpKernel\Exception\HttpException
      */
     protected function buildException($key, $maxAttempts)
@@ -125,7 +125,7 @@ class ThrottleRequests
     /**
      * Get the number of seconds until the next retry.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return int
      */
     protected function getTimeUntilNextRetry($key)
@@ -136,10 +136,10 @@ class ThrottleRequests
     /**
      * Add the limit header information to the given response.
      *
-     * @param  \Symfony\Component\HttpFoundation\Response  $response
-     * @param  int  $maxAttempts
-     * @param  int  $remainingAttempts
-     * @param  int|null  $retryAfter
+     * @param  \Symfony\Component\HttpFoundation\Response $response
+     * @param  int                                        $maxAttempts
+     * @param  int                                        $remainingAttempts
+     * @param  int|null                                   $retryAfter
      * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function addHeaders(Response $response, $maxAttempts, $remainingAttempts, $retryAfter = null)
@@ -154,9 +154,9 @@ class ThrottleRequests
     /**
      * Get the limit headers information.
      *
-     * @param  int  $maxAttempts
-     * @param  int  $remainingAttempts
-     * @param  int|null  $retryAfter
+     * @param  int      $maxAttempts
+     * @param  int      $remainingAttempts
+     * @param  int|null $retryAfter
      * @return array
      */
     protected function getHeaders($maxAttempts, $remainingAttempts, $retryAfter = null)
@@ -177,9 +177,9 @@ class ThrottleRequests
     /**
      * Calculate the number of remaining attempts.
      *
-     * @param  string  $key
-     * @param  int  $maxAttempts
-     * @param  int|null  $retryAfter
+     * @param  string   $key
+     * @param  int      $maxAttempts
+     * @param  int|null $retryAfter
      * @return int
      */
     protected function calculateRemainingAttempts($key, $maxAttempts, $retryAfter = null)

@@ -38,19 +38,25 @@ class PassportServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->registerMigrations();
 
-            $this->publishes([
+            $this->publishes(
+                [
                 __DIR__.'/../resources/views' => base_path('resources/views/vendor/passport'),
-            ], 'passport-views');
+                ], 'passport-views'
+            );
 
-            $this->publishes([
+            $this->publishes(
+                [
                 __DIR__.'/../resources/assets/js/components' => base_path('resources/assets/js/components/passport'),
-            ], 'passport-components');
+                ], 'passport-components'
+            );
 
-            $this->commands([
+            $this->commands(
+                [
                 Console\InstallCommand::class,
                 Console\ClientCommand::class,
                 Console\KeysCommand::class,
-            ]);
+                ]
+            );
         }
     }
 
@@ -65,9 +71,11 @@ class PassportServiceProvider extends ServiceProvider
             return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         }
 
-        $this->publishes([
+        $this->publishes(
+            [
             __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'passport-migrations');
+            ], 'passport-migrations'
+        );
     }
 
     /**
@@ -91,35 +99,39 @@ class PassportServiceProvider extends ServiceProvider
      */
     protected function registerAuthorizationServer()
     {
-        $this->app->singleton(AuthorizationServer::class, function () {
-            return tap($this->makeAuthorizationServer(), function ($server) {
-                $server->enableGrantType(
-                    $this->makeAuthCodeGrant(), Passport::tokensExpireIn()
-                );
+        $this->app->singleton(
+            AuthorizationServer::class, function () {
+                return tap(
+                    $this->makeAuthorizationServer(), function ($server) {
+                        $server->enableGrantType(
+                            $this->makeAuthCodeGrant(), Passport::tokensExpireIn()
+                        );
 
-                $server->enableGrantType(
-                    $this->makeRefreshTokenGrant(), Passport::tokensExpireIn()
-                );
+                        $server->enableGrantType(
+                            $this->makeRefreshTokenGrant(), Passport::tokensExpireIn()
+                        );
 
-                $server->enableGrantType(
-                    $this->makePasswordGrant(), Passport::tokensExpireIn()
-                );
+                        $server->enableGrantType(
+                            $this->makePasswordGrant(), Passport::tokensExpireIn()
+                        );
 
-                $server->enableGrantType(
-                    new PersonalAccessGrant, new DateInterval('P1Y')
-                );
+                        $server->enableGrantType(
+                            new PersonalAccessGrant, new DateInterval('P1Y')
+                        );
 
-                $server->enableGrantType(
-                    new ClientCredentialsGrant, Passport::tokensExpireIn()
-                );
+                        $server->enableGrantType(
+                            new ClientCredentialsGrant, Passport::tokensExpireIn()
+                        );
 
-                if (Passport::$implicitGrantEnabled) {
-                    $server->enableGrantType(
-                        $this->makeImplicitGrant(), Passport::tokensExpireIn()
-                    );
-                }
-            });
-        });
+                        if (Passport::$implicitGrantEnabled) {
+                            $server->enableGrantType(
+                                $this->makeImplicitGrant(), Passport::tokensExpireIn()
+                            );
+                        }
+                    }
+                );
+            }
+        );
     }
 
     /**
@@ -129,9 +141,11 @@ class PassportServiceProvider extends ServiceProvider
      */
     protected function makeAuthCodeGrant()
     {
-        return tap($this->buildAuthCodeGrant(), function ($grant) {
-            $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
-        });
+        return tap(
+            $this->buildAuthCodeGrant(), function ($grant) {
+                $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+            }
+        );
     }
 
     /**
@@ -157,9 +171,11 @@ class PassportServiceProvider extends ServiceProvider
     {
         $repository = $this->app->make(RefreshTokenRepository::class);
 
-        return tap(new RefreshTokenGrant($repository), function ($grant) {
-            $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
-        });
+        return tap(
+            new RefreshTokenGrant($repository), function ($grant) {
+                $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+            }
+        );
     }
 
     /**
@@ -212,18 +228,20 @@ class PassportServiceProvider extends ServiceProvider
      */
     protected function registerResourceServer()
     {
-        $this->app->singleton(ResourceServer::class, function () {
-            return new ResourceServer(
-                $this->app->make(Bridge\AccessTokenRepository::class),
-                $this->makeCryptKey('oauth-public.key')
-            );
-        });
+        $this->app->singleton(
+            ResourceServer::class, function () {
+                return new ResourceServer(
+                    $this->app->make(Bridge\AccessTokenRepository::class),
+                    $this->makeCryptKey('oauth-public.key')
+                );
+            }
+        );
     }
 
     /**
      * Create a CryptKey instance without permissions check
      *
-     * @param string $key
+     * @param  string $key
      * @return \League\OAuth2\Server\CryptKey
      */
     protected function makeCryptKey($key)
@@ -242,30 +260,36 @@ class PassportServiceProvider extends ServiceProvider
      */
     protected function registerGuard()
     {
-        Auth::extend('passport', function ($app, $name, array $config) {
-            return tap($this->makeGuard($config), function ($guard) {
-                $this->app->refresh('request', $guard, 'setRequest');
-            });
-        });
+        Auth::extend(
+            'passport', function ($app, $name, array $config) {
+                return tap(
+                    $this->makeGuard($config), function ($guard) {
+                        $this->app->refresh('request', $guard, 'setRequest');
+                    }
+                );
+            }
+        );
     }
 
     /**
      * Make an instance of the token guard.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return \Illuminate\Auth\RequestGuard
      */
     protected function makeGuard(array $config)
     {
-        return new RequestGuard(function ($request) use ($config) {
-            return (new TokenGuard(
-                $this->app->make(ResourceServer::class),
-                Auth::createUserProvider($config['provider']),
-                $this->app->make(TokenRepository::class),
-                $this->app->make(ClientRepository::class),
-                $this->app->make('encrypter')
-            ))->user($request);
-        }, $this->app['request']);
+        return new RequestGuard(
+            function ($request) use ($config) {
+                return (new TokenGuard(
+                    $this->app->make(ResourceServer::class),
+                    Auth::createUserProvider($config['provider']),
+                    $this->app->make(TokenRepository::class),
+                    $this->app->make(ClientRepository::class),
+                    $this->app->make('encrypter')
+                ))->user($request);
+            }, $this->app['request']
+        );
     }
 
     /**
@@ -275,10 +299,12 @@ class PassportServiceProvider extends ServiceProvider
      */
     protected function deleteCookieOnLogout()
     {
-        Event::listen(Logout::class, function () {
-            if (Request::hasCookie(Passport::cookie())) {
-                Cookie::queue(Cookie::forget(Passport::cookie()));
+        Event::listen(
+            Logout::class, function () {
+                if (Request::hasCookie(Passport::cookie())) {
+                    Cookie::queue(Cookie::forget(Passport::cookie()));
+                }
             }
-        });
+        );
     }
 }

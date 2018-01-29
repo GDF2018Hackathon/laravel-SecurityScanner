@@ -15,69 +15,107 @@
  */
 class Swift_Mime_SimpleMimeEntity implements Swift_Mime_CharsetObserver, Swift_Mime_EncodingObserver
 {
-    /** Main message document; there can only be one of these */
+    /**
+ * Main message document; there can only be one of these 
+*/
     const LEVEL_TOP = 16;
 
-    /** An entity which nests with the same precedence as an attachment */
+    /**
+ * An entity which nests with the same precedence as an attachment 
+*/
     const LEVEL_MIXED = 256;
 
-    /** An entity which nests with the same precedence as a mime part */
+    /**
+ * An entity which nests with the same precedence as a mime part 
+*/
     const LEVEL_ALTERNATIVE = 4096;
 
-    /** An entity which nests with the same precedence as embedded content */
+    /**
+ * An entity which nests with the same precedence as embedded content 
+*/
     const LEVEL_RELATED = 65536;
 
-    /** A collection of Headers for this mime entity */
+    /**
+     * A collection of Headers for this mime entity 
+     */
     private $headers;
 
-    /** The body as a string, or a stream */
+    /**
+     * The body as a string, or a stream 
+     */
     private $body;
 
-    /** The encoder that encodes the body into a streamable format */
+    /**
+     * The encoder that encodes the body into a streamable format 
+     */
     private $encoder;
 
-    /** Message ID generator */
+    /**
+     * Message ID generator 
+     */
     private $idGenerator;
 
-    /** A mime boundary, if any is used */
+    /**
+     * A mime boundary, if any is used 
+     */
     private $boundary;
 
-    /** Mime types to be used based on the nesting level */
+    /**
+     * Mime types to be used based on the nesting level 
+     */
     private $compositeRanges = array(
         'multipart/mixed' => array(self::LEVEL_TOP, self::LEVEL_MIXED),
         'multipart/alternative' => array(self::LEVEL_MIXED, self::LEVEL_ALTERNATIVE),
         'multipart/related' => array(self::LEVEL_ALTERNATIVE, self::LEVEL_RELATED),
     );
 
-    /** A set of filter rules to define what level an entity should be nested at */
+    /**
+     * A set of filter rules to define what level an entity should be nested at 
+     */
     private $compoundLevelFilters = array();
 
-    /** The nesting level of this entity */
+    /**
+     * The nesting level of this entity 
+     */
     private $nestingLevel = self::LEVEL_ALTERNATIVE;
 
-    /** A KeyCache instance used during encoding and streaming */
+    /**
+     * A KeyCache instance used during encoding and streaming 
+     */
     private $cache;
 
-    /** Direct descendants of this entity */
+    /**
+     * Direct descendants of this entity 
+     */
     private $immediateChildren = array();
 
-    /** All descendants of this entity */
+    /**
+     * All descendants of this entity 
+     */
     private $children = array();
 
-    /** The maximum line length of the body of this entity */
+    /**
+     * The maximum line length of the body of this entity 
+     */
     private $maxLineLength = 78;
 
-    /** The order in which alternative mime types should appear */
+    /**
+     * The order in which alternative mime types should appear 
+     */
     private $alternativePartOrder = array(
         'text/plain' => 1,
         'text/html' => 2,
         'multipart/related' => 3,
     );
 
-    /** The CID of this entity */
+    /**
+     * The CID of this entity 
+     */
     private $id;
 
-    /** The key used for accessing the cache */
+    /**
+     * The key used for accessing the cache 
+     */
     private $cacheKey;
 
     protected $userContentType;
@@ -638,9 +676,10 @@ class Swift_Mime_SimpleMimeEntity implements Swift_Mime_CharsetObserver, Swift_M
     protected function fixHeaders()
     {
         if (count($this->immediateChildren)) {
-            $this->setHeaderParameter('Content-Type', 'boundary',
+            $this->setHeaderParameter(
+                'Content-Type', 'boundary',
                 $this->getBoundary()
-                );
+            );
             $this->headers->remove('Content-Transfer-Encoding');
         } else {
             $this->setHeaderParameter('Content-Type', 'boundary', null);

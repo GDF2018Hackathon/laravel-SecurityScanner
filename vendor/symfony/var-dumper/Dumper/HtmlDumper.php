@@ -128,7 +128,8 @@ class HtmlDumper extends CliDumper
             return $this->dumpHeader;
         }
 
-        $line = str_replace('{$options}', json_encode($this->displayOptions, JSON_FORCE_OBJECT), <<<'EOHTML'
+        $line = str_replace(
+            '{$options}', json_encode($this->displayOptions, JSON_FORCE_OBJECT), <<<'EOHTML'
 <script>
 Sfdump = window.Sfdump || (function (doc) {
 
@@ -825,15 +826,17 @@ EOHTML
             }
         }
 
-        $v = "<span class=sf-dump-{$style}>".preg_replace_callback(static::$controlCharsRx, function ($c) use ($map) {
-            $s = '<span class=sf-dump-default>';
-            $c = $c[$i = 0];
-            do {
-                $s .= isset($map[$c[$i]]) ? $map[$c[$i]] : sprintf('\x%02X', ord($c[$i]));
-            } while (isset($c[++$i]));
+        $v = "<span class=sf-dump-{$style}>".preg_replace_callback(
+            static::$controlCharsRx, function ($c) use ($map) {
+                $s = '<span class=sf-dump-default>';
+                $c = $c[$i = 0];
+                do {
+                    $s .= isset($map[$c[$i]]) ? $map[$c[$i]] : sprintf('\x%02X', ord($c[$i]));
+                } while (isset($c[++$i]));
 
-            return $s.'</span>';
-        }, $v).'</span>';
+                return $s.'</span>';
+            }, $v
+        ).'</span>';
 
         if (isset($attr['file']) && $href = $this->getSourceLink($attr['file'], isset($attr['line']) ? $attr['line'] : 0)) {
             $attr['href'] = $href;

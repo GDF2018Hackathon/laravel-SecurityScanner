@@ -107,130 +107,130 @@ class VarCloner extends AbstractCloner
                 // Create $stub when the original value $v can not be used directly
                 // If $v is a nested structure, put that structure in array $a
                 switch (true) {
-                    case null === $v:
-                    case \is_bool($v):
-                    case \is_int($v):
-                    case \is_float($v):
+                case null === $v:
+                case \is_bool($v):
+                case \is_int($v):
+                case \is_float($v):
+                    continue 2;
+
+                case \is_string($v):
+                    if ('' === $v) {
                         continue 2;
-
-                    case \is_string($v):
-                        if ('' === $v) {
-                            continue 2;
-                        }
-                        if (!\preg_match('//u', $v)) {
-                            $stub = new Stub();
-                            $stub->type = Stub::TYPE_STRING;
-                            $stub->class = Stub::STRING_BINARY;
-                            if (0 <= $maxString && 0 < $cut = \strlen($v) - $maxString) {
-                                $stub->cut = $cut;
-                                $stub->value = \substr($v, 0, -$cut);
-                            } else {
-                                $stub->value = $v;
-                            }
-                        } elseif (0 <= $maxString && isset($v[1 + ($maxString >> 2)]) && 0 < $cut = \mb_strlen($v, 'UTF-8') - $maxString) {
-                            $stub = new Stub();
-                            $stub->type = Stub::TYPE_STRING;
-                            $stub->class = Stub::STRING_UTF8;
+                    }
+                    if (!\preg_match('//u', $v)) {
+                        $stub = new Stub();
+                        $stub->type = Stub::TYPE_STRING;
+                        $stub->class = Stub::STRING_BINARY;
+                        if (0 <= $maxString && 0 < $cut = \strlen($v) - $maxString) {
                             $stub->cut = $cut;
-                            $stub->value = \mb_substr($v, 0, $maxString, 'UTF-8');
+                            $stub->value = \substr($v, 0, -$cut);
                         } else {
-                            continue 2;
+                            $stub->value = $v;
                         }
-                        $a = null;
-                        break;
+                    } elseif (0 <= $maxString && isset($v[1 + ($maxString >> 2)]) && 0 < $cut = \mb_strlen($v, 'UTF-8') - $maxString) {
+                        $stub = new Stub();
+                        $stub->type = Stub::TYPE_STRING;
+                        $stub->class = Stub::STRING_UTF8;
+                        $stub->cut = $cut;
+                        $stub->value = \mb_substr($v, 0, $maxString, 'UTF-8');
+                    } else {
+                        continue 2;
+                    }
+                    $a = null;
+                    break;
 
-                    case \is_array($v):
-                        if (!$v) {
-                            continue 2;
+                case \is_array($v):
+                    if (!$v) {
+                        continue 2;
+                    }
+                    $stub = $arrayStub;
+                    $stub->class = Stub::ARRAY_INDEXED;
+
+                    $j = -1;
+                    foreach ($v as $gk => $gv) {
+                        if ($gk !== ++$j) {
+                            $stub->class = Stub::ARRAY_ASSOC;
+                            break;
                         }
-                        $stub = $arrayStub;
-                        $stub->class = Stub::ARRAY_INDEXED;
+                    }
+                    $a = $v;
 
-                        $j = -1;
-                        foreach ($v as $gk => $gv) {
-                            if ($gk !== ++$j) {
-                                $stub->class = Stub::ARRAY_ASSOC;
+                    if (Stub::ARRAY_ASSOC === $stub->class) {
+                        // Copies of $GLOBALS have very strange behavior,
+                        // let's detect them with some black magic
+                        $a[$gid] = true;
+
+                        // Happens with copies of $GLOBALS
+                        if (isset($v[$gid])) {
+                            unset($v[$gid]);
+                            $a = array();
+                            foreach ($v as $gk => &$gv) {
+                                $a[$gk] = &$gv;
+                            }
+                            unset($gv);
+                        } else {
+                            $a = $v;
+                        }
+                    } elseif (\PHP_VERSION_ID < 70200) {
+                        $indexedArrays[$len] = true;
+                    }
+                    break;
+
+                case \is_object($v):
+                case $v instanceof \__PHP_Incomplete_Class:
+                    if (empty($objRefs[$h = $hashMask ^ \hexdec(\substr(\spl_object_hash($v), $hashOffset, \PHP_INT_SIZE))])) {
+                        $stub = new Stub();
+                        $stub->type = Stub::TYPE_OBJECT;
+                        $stub->class = \get_class($v);
+                        $stub->value = $v;
+                        $stub->handle = $h;
+                        $a = $this->castObject($stub, 0 < $i);
+                        if ($v !== $stub->value) {
+                            if (Stub::TYPE_OBJECT !== $stub->type || null === $stub->value) {
                                 break;
                             }
-                        }
-                        $a = $v;
-
-                        if (Stub::ARRAY_ASSOC === $stub->class) {
-                            // Copies of $GLOBALS have very strange behavior,
-                            // let's detect them with some black magic
-                            $a[$gid] = true;
-
-                            // Happens with copies of $GLOBALS
-                            if (isset($v[$gid])) {
-                                unset($v[$gid]);
-                                $a = array();
-                                foreach ($v as $gk => &$gv) {
-                                    $a[$gk] = &$gv;
-                                }
-                                unset($gv);
-                            } else {
-                                $a = $v;
-                            }
-                        } elseif (\PHP_VERSION_ID < 70200) {
-                            $indexedArrays[$len] = true;
-                        }
-                        break;
-
-                    case \is_object($v):
-                    case $v instanceof \__PHP_Incomplete_Class:
-                        if (empty($objRefs[$h = $hashMask ^ \hexdec(\substr(\spl_object_hash($v), $hashOffset, \PHP_INT_SIZE))])) {
-                            $stub = new Stub();
-                            $stub->type = Stub::TYPE_OBJECT;
-                            $stub->class = \get_class($v);
-                            $stub->value = $v;
+                            $h = $hashMask ^ \hexdec(\substr(\spl_object_hash($stub->value), $hashOffset, \PHP_INT_SIZE));
                             $stub->handle = $h;
-                            $a = $this->castObject($stub, 0 < $i);
-                            if ($v !== $stub->value) {
-                                if (Stub::TYPE_OBJECT !== $stub->type || null === $stub->value) {
-                                    break;
-                                }
-                                $h = $hashMask ^ \hexdec(\substr(\spl_object_hash($stub->value), $hashOffset, \PHP_INT_SIZE));
-                                $stub->handle = $h;
-                            }
-                            $stub->value = null;
-                            if (0 <= $maxItems && $maxItems <= $pos && $minimumDepthReached) {
-                                $stub->cut = \count($a);
-                                $a = null;
-                            }
                         }
-                        if (empty($objRefs[$h])) {
-                            $objRefs[$h] = $stub;
-                        } else {
-                            $stub = $objRefs[$h];
-                            ++$stub->refCount;
+                        $stub->value = null;
+                        if (0 <= $maxItems && $maxItems <= $pos && $minimumDepthReached) {
+                            $stub->cut = \count($a);
                             $a = null;
                         }
-                        break;
+                    }
+                    if (empty($objRefs[$h])) {
+                        $objRefs[$h] = $stub;
+                    } else {
+                        $stub = $objRefs[$h];
+                        ++$stub->refCount;
+                        $a = null;
+                    }
+                    break;
 
-                    default: // resource
-                        if (empty($resRefs[$h = (int) $v])) {
-                            $stub = new Stub();
-                            $stub->type = Stub::TYPE_RESOURCE;
-                            if ('Unknown' === $stub->class = @\get_resource_type($v)) {
-                                $stub->class = 'Closed';
-                            }
-                            $stub->value = $v;
-                            $stub->handle = $h;
-                            $a = $this->castResource($stub, 0 < $i);
-                            $stub->value = null;
-                            if (0 <= $maxItems && $maxItems <= $pos && $minimumDepthReached) {
-                                $stub->cut = \count($a);
-                                $a = null;
-                            }
+                default: // resource
+                    if (empty($resRefs[$h = (int) $v])) {
+                        $stub = new Stub();
+                        $stub->type = Stub::TYPE_RESOURCE;
+                        if ('Unknown' === $stub->class = @\get_resource_type($v)) {
+                            $stub->class = 'Closed';
                         }
-                        if (empty($resRefs[$h])) {
-                            $resRefs[$h] = $stub;
-                        } else {
-                            $stub = $resRefs[$h];
-                            ++$stub->refCount;
+                        $stub->value = $v;
+                        $stub->handle = $h;
+                        $a = $this->castResource($stub, 0 < $i);
+                        $stub->value = null;
+                        if (0 <= $maxItems && $maxItems <= $pos && $minimumDepthReached) {
+                            $stub->cut = \count($a);
                             $a = null;
                         }
-                        break;
+                    }
+                    if (empty($resRefs[$h])) {
+                        $resRefs[$h] = $stub;
+                    } else {
+                        $stub = $resRefs[$h];
+                        ++$stub->refCount;
+                        $a = null;
+                    }
+                    break;
                 }
 
                 if ($a) {

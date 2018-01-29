@@ -56,10 +56,8 @@ if (!is_callable('random_bytes')) {
         }
 
         $buf = @mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
-        if (
-            $buf !== false
-            &&
-            RandomCompat_strlen($buf) === $bytes
+        if ($buf !== false
+            && RandomCompat_strlen($buf) === $bytes
         ) {
             /**
              * Return our random entropy buffer here:

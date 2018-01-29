@@ -17,13 +17,15 @@ class XML implements Serializer
     /**
      * Constructs a XML serializer.
      */
-    public function __construct() {
+    public function __construct() 
+    {
         $this->writer = new XMLWriter;
         $this->writer->openMemory();
         $this->writer->setIndent(true);
     }
 
-    public function serialize(array $nodes) {
+    public function serialize(array $nodes) 
+    {
         $this->writer->flush();
         $this->writer->startDocument('1.0', 'UTF-8');
 
@@ -40,7 +42,8 @@ class XML implements Serializer
         return $this->writer->outputMemory();
     }
 
-    protected function _serialize($node) {
+    protected function _serialize($node) 
+    {
         if ($node instanceof Node) {
             $this->writer->startElement('node:' . $node->getType());
 

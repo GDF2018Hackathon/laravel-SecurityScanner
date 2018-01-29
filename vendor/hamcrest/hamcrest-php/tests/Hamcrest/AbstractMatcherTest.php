@@ -1,7 +1,8 @@
 <?php
 namespace Hamcrest;
 
-class UnknownType {
+class UnknownType
+{
 }
 
 abstract class AbstractMatcherTest extends \PHPUnit_Framework_TestCase

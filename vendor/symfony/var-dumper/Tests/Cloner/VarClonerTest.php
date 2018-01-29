@@ -381,7 +381,8 @@ EOTXT;
 
     public function testCaster()
     {
-        $cloner = new VarCloner(array(
+        $cloner = new VarCloner(
+            array(
             '*' => function ($obj, $array) {
                 return array('foo' => 123);
             },
@@ -390,7 +391,8 @@ EOTXT;
 
                 return $array;
             },
-        ));
+            )
+        );
         $clone = $cloner->cloneVar($this);
 
         $expected = <<<EOTXT

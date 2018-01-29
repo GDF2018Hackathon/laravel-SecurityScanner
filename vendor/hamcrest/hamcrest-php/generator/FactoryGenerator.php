@@ -87,7 +87,7 @@ class FactoryGenerator
     {
         $name = $this->getFactoryClassName($file);
         if ($name !== null) {
-            require_once $file;
+            include_once $file;
 
             if (class_exists($name)) {
                 $class = new FactoryClass(substr($file, strpos($file, 'Hamcrest/')), new ReflectionClass($name));

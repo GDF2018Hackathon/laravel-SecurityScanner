@@ -26,8 +26,8 @@ abstract class Lock
     /**
      * Create a new lock instance.
      *
-     * @param  string  $name
-     * @param  int  $seconds
+     * @param  string $name
+     * @param  int    $seconds
      * @return void
      */
     public function __construct($name, $seconds)
@@ -46,7 +46,7 @@ abstract class Lock
     /**
      * Attempt to acquire the lock.
      *
-     * @param  callable|null  $callback
+     * @param  callable|null $callback
      * @return bool
      */
     public function get($callback = null)
@@ -54,9 +54,11 @@ abstract class Lock
         $result = $this->acquire();
 
         if ($result && is_callable($callback)) {
-            return tap($callback(), function () {
-                $this->release();
-            });
+            return tap(
+                $callback(), function () {
+                    $this->release();
+                }
+            );
         }
 
         return $result;
@@ -65,8 +67,8 @@ abstract class Lock
     /**
      * Attempt to acquire the lock for the given number of seconds.
      *
-     * @param  int  $seconds
-     * @param  callable|null  $callback
+     * @param  int           $seconds
+     * @param  callable|null $callback
      * @return bool
      * @throws \Illuminate\Contracts\Cache\LockTimeoutException
      */
@@ -83,9 +85,11 @@ abstract class Lock
         }
 
         if (is_callable($callback)) {
-            return tap($callback(), function () {
-                $this->release();
-            });
+            return tap(
+                $callback(), function () {
+                    $this->release();
+                }
+            );
         }
 
         return true;

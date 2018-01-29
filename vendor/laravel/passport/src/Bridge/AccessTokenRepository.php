@@ -31,8 +31,8 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
     /**
      * Create a new repository instance.
      *
-     * @param  \Laravel\Passport\TokenRepository  $tokenRepository
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param \Laravel\Passport\TokenRepository       $tokenRepository
+     * @param \Illuminate\Contracts\Events\Dispatcher $events
      */
     public function __construct(TokenRepository $tokenRepository, Dispatcher $events)
     {
@@ -53,7 +53,8 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
      */
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {
-        $this->tokenRepository->create([
+        $this->tokenRepository->create(
+            [
             'id' => $accessTokenEntity->getIdentifier(),
             'user_id' => $accessTokenEntity->getUserIdentifier(),
             'client_id' => $accessTokenEntity->getClient()->getIdentifier(),
@@ -62,13 +63,16 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
             'expires_at' => $accessTokenEntity->getExpiryDateTime(),
-        ]);
+            ]
+        );
 
-        $this->events->dispatch(new AccessTokenCreated(
-            $accessTokenEntity->getIdentifier(),
-            $accessTokenEntity->getUserIdentifier(),
-            $accessTokenEntity->getClient()->getIdentifier()
-        ));
+        $this->events->dispatch(
+            new AccessTokenCreated(
+                $accessTokenEntity->getIdentifier(),
+                $accessTokenEntity->getUserIdentifier(),
+                $accessTokenEntity->getClient()->getIdentifier()
+            )
+        );
     }
 
     /**

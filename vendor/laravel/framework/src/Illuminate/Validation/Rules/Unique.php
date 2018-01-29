@@ -24,7 +24,7 @@ class Unique
      * Ignore the given ID during the unique check.
      *
      * @param  mixed  $id
-     * @param  string  $idColumn
+     * @param  string $idColumn
      * @return $this
      */
     public function ignore($id, $idColumn = 'id')
@@ -42,12 +42,15 @@ class Unique
      */
     public function __toString()
     {
-        return rtrim(sprintf('unique:%s,%s,%s,%s,%s',
-            $this->table,
-            $this->column,
-            $this->ignore ? '"'.$this->ignore.'"' : 'NULL',
-            $this->idColumn,
-            $this->formatWheres()
-        ), ',');
+        return rtrim(
+            sprintf(
+                'unique:%s,%s,%s,%s,%s',
+                $this->table,
+                $this->column,
+                $this->ignore ? '"'.$this->ignore.'"' : 'NULL',
+                $this->idColumn,
+                $this->formatWheres()
+            ), ','
+        );
     }
 }

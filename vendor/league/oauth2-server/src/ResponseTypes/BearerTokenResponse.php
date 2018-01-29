@@ -2,11 +2,11 @@
 /**
  * OAuth 2.0 Bearer Token Response.
  *
- * @author      Alex Bilbie <hello@alexbilbie.com>
- * @copyright   Copyright (c) Alex Bilbie
- * @license     http://mit-license.org/
+ * @author    Alex Bilbie <hello@alexbilbie.com>
+ * @copyright Copyright (c) Alex Bilbie
+ * @license   http://mit-license.org/
  *
- * @link        https://github.com/thephpleague/oauth2-server
+ * @link https://github.com/thephpleague/oauth2-server
  */
 
 namespace League\OAuth2\Server\ResponseTypes;

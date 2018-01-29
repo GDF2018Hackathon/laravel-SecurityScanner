@@ -81,18 +81,20 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function getCoverageForBankAccount()
     {
         $data = $this->getXdebugDataForBankAccount();
-        require_once TEST_FILES_PATH . '/BankAccountTest.php';
+        include_once TEST_FILES_PATH . '/BankAccountTest.php';
 
         $stub = $this->createMock(Xdebug::class);
 
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->onConsecutiveCalls(
-                $data[0],
-                $data[1],
-                $data[2],
-                $data[3]
-            ));
+            ->will(
+                $this->onConsecutiveCalls(
+                    $data[0],
+                    $data[1],
+                    $data[2],
+                    $data[3]
+                )
+            );
 
         $filter = new Filter;
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
@@ -153,10 +155,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->onConsecutiveCalls(
-                $data[0],
-                $data[1]
-            ));
+            ->will(
+                $this->onConsecutiveCalls(
+                    $data[0],
+                    $data[1]
+                )
+            );
 
         $filter = new Filter;
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
@@ -193,10 +197,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->onConsecutiveCalls(
-                $data[2],
-                $data[3]
-            ));
+            ->will(
+                $this->onConsecutiveCalls(
+                    $data[2],
+                    $data[3]
+                )
+            );
 
         $filter = new Filter;
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
@@ -286,16 +292,18 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->returnValue(
-                [
+            ->will(
+                $this->returnValue(
+                    [
                     TEST_FILES_PATH . 'source_with_ignore.php' => [
                         2 => 1,
                         4 => -1,
                         6 => -1,
                         7 => 1
                     ]
-                ]
-            ));
+                    ]
+                )
+            );
 
         return $stub;
     }
@@ -322,8 +330,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $stub->expects($this->any())
             ->method('stop')
-            ->will($this->returnValue(
-                [
+            ->will(
+                $this->returnValue(
+                    [
                     TEST_FILES_PATH . 'source_with_class_and_anonymous_function.php' => [
                         7  => 1,
                         9  => 1,
@@ -335,8 +344,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                         17 => 1,
                         18 => 1
                     ]
-                ]
-            ));
+                    ]
+                )
+            );
 
         return $stub;
     }

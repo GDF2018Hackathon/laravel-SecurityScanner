@@ -115,9 +115,9 @@ class Response implements ResponseInterface
     private $statusCode;
 
     /**
-     * @param string|resource|StreamInterface $body Stream identifier and/or actual stream resource
-     * @param int $status Status code for the response, if any.
-     * @param array $headers Headers for the response, if any.
+     * @param string|resource|StreamInterface $body    Stream identifier and/or actual stream resource
+     * @param int                             $status  Status code for the response, if any.
+     * @param array                           $headers Headers for the response, if any.
      * @throws InvalidArgumentException on any invalid element.
      */
     public function __construct($body = 'php://memory', $status = 200, array $headers = [])
@@ -163,7 +163,7 @@ class Response implements ResponseInterface
     /**
      * Set a valid status code.
      *
-     * @param int $code
+     * @param  int $code
      * @throws InvalidArgumentException on an invalid status code.
      */
     private function setStatusCode($code)
@@ -173,12 +173,14 @@ class Response implements ResponseInterface
             || $code < static::MIN_STATUS_CODE_VALUE
             || $code > static::MAX_STATUS_CODE_VALUE
         ) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid status code "%s"; must be an integer between %d and %d, inclusive',
-                (is_scalar($code) ? $code : gettype($code)),
-                static::MIN_STATUS_CODE_VALUE,
-                static::MAX_STATUS_CODE_VALUE
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid status code "%s"; must be an integer between %d and %d, inclusive',
+                    (is_scalar($code) ? $code : gettype($code)),
+                    static::MIN_STATUS_CODE_VALUE,
+                    static::MAX_STATUS_CODE_VALUE
+                )
+            );
         }
         $this->statusCode = $code;
     }

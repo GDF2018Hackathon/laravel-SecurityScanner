@@ -18,9 +18,11 @@ class NotificationServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/resources/views', 'notifications');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([
+            $this->publishes(
+                [
                 __DIR__.'/resources/views' => $this->app->resourcePath('views/vendor/notifications'),
-            ], 'laravel-notifications');
+                ], 'laravel-notifications'
+            );
         }
     }
 
@@ -31,9 +33,11 @@ class NotificationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(ChannelManager::class, function ($app) {
-            return new ChannelManager($app);
-        });
+        $this->app->singleton(
+            ChannelManager::class, function ($app) {
+                return new ChannelManager($app);
+            }
+        );
 
         $this->app->alias(
             ChannelManager::class, DispatcherContract::class

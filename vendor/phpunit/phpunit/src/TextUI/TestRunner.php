@@ -143,9 +143,10 @@ class TestRunner extends BaseTestRunner
      */
     private function processSuiteFilters(TestSuite $suite, array $arguments)
     {
-        if (!$arguments['filter'] &&
-            empty($arguments['groups']) &&
-            empty($arguments['excludeGroups'])) {
+        if (!$arguments['filter'] 
+            && empty($arguments['groups']) 
+            && empty($arguments['excludeGroups'])
+        ) {
             return;
         }
 
@@ -266,8 +267,9 @@ class TestRunner extends BaseTestRunner
         }
 
         if ($this->printer === null) {
-            if (isset($arguments['printer']) &&
-                $arguments['printer'] instanceof Printer) {
+            if (isset($arguments['printer']) 
+                && $arguments['printer'] instanceof Printer
+            ) {
                 $this->printer = $arguments['printer'];
             } else {
                 $printerClass = ResultPrinter::class;
@@ -753,8 +755,9 @@ class TestRunner extends BaseTestRunner
      */
     protected function handleConfiguration(array &$arguments)
     {
-        if (isset($arguments['configuration']) &&
-            !$arguments['configuration'] instanceof Configuration) {
+        if (isset($arguments['configuration']) 
+            && !$arguments['configuration'] instanceof Configuration
+        ) {
             $arguments['configuration'] = Configuration::getInstance(
                 $arguments['configuration']
             );
@@ -922,9 +925,10 @@ class TestRunner extends BaseTestRunner
             }
 
             foreach ($arguments['configuration']->getListenerConfiguration() as $listener) {
-                if (!\class_exists($listener['class'], false) &&
-                    $listener['file'] !== '') {
-                    require_once $listener['file'];
+                if (!\class_exists($listener['class'], false) 
+                    && $listener['file'] !== ''
+                ) {
+                    include_once $listener['file'];
                 }
 
                 if (!\class_exists($listener['class'])) {
@@ -1037,13 +1041,15 @@ class TestRunner extends BaseTestRunner
 
             $testdoxGroupConfiguration = $arguments['configuration']->getTestdoxGroupConfiguration();
 
-            if (isset($testdoxGroupConfiguration['include']) &&
-                !isset($arguments['testdoxGroups'])) {
+            if (isset($testdoxGroupConfiguration['include']) 
+                && !isset($arguments['testdoxGroups'])
+            ) {
                 $arguments['testdoxGroups'] = $testdoxGroupConfiguration['include'];
             }
 
-            if (isset($testdoxGroupConfiguration['exclude']) &&
-                !isset($arguments['testdoxExcludeGroups'])) {
+            if (isset($testdoxGroupConfiguration['exclude']) 
+                && !isset($arguments['testdoxExcludeGroups'])
+            ) {
                 $arguments['testdoxExcludeGroups'] = $testdoxGroupConfiguration['exclude'];
             }
         }

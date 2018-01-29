@@ -43,9 +43,8 @@ class IsArrayContaining extends TypeSafeMatcher
     public function describeTo(Description $description)
     {
         $description
-                 ->appendText('an array containing ')
-                 ->appendDescriptionOf($this->_elementMatcher)
-        ;
+            ->appendText('an array containing ')
+            ->appendDescriptionOf($this->_elementMatcher);
     }
 
     /**
@@ -53,7 +52,7 @@ class IsArrayContaining extends TypeSafeMatcher
      *
      * @param mixed $item as a {@link Hamcrest\Matcher} or a value.
      *
-     * @return \Hamcrest\Arrays\IsArrayContaining
+     * @return  \Hamcrest\Arrays\IsArrayContaining
      * @factory hasValue
      */
     public static function hasItemInArray($item)

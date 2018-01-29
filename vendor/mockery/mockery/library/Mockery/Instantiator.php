@@ -121,16 +121,18 @@ final class Instantiator
      */
     private function attemptInstantiationViaUnSerialization(ReflectionClass $reflectionClass, $serializedString)
     {
-        set_error_handler(function ($code, $message, $file, $line) use ($reflectionClass, & $error) {
-            $msg = sprintf(
-                'Could not produce an instance of "%s" via un-serialization, since an error was triggered in file "%s" at line "%d"',
-                $reflectionClass->getName(),
-                $file,
-                $line
-            );
+        set_error_handler(
+            function ($code, $message, $file, $line) use ($reflectionClass, & $error) {
+                $msg = sprintf(
+                    'Could not produce an instance of "%s" via un-serialization, since an error was triggered in file "%s" at line "%d"',
+                    $reflectionClass->getName(),
+                    $file,
+                    $line
+                );
 
-            $error = new UnexpectedValueException($msg, 0, new \Exception($message, $code));
-        });
+                $error = new UnexpectedValueException($msg, 0, new \Exception($message, $code));
+            }
+        );
 
         try {
             unserialize($serializedString);

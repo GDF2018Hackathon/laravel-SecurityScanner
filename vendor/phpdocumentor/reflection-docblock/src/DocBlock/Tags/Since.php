@@ -40,7 +40,9 @@ final class Since extends BaseTag implements Factory\StaticMethod
         [^\s\:]+\:\s*\$[^\$]+\$
     )';
 
-    /** @var string The version vector. */
+    /**
+     * @var string The version vector. 
+     */
     private $version = '';
 
     public function __construct($version = null, Description $description = null)

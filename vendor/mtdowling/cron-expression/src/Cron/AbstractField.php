@@ -95,7 +95,7 @@ abstract class AbstractField implements FieldInterface
         }
 
         if ($dateValue > $offset && 0 === $stepSize) {
-          return false;
+            return false;
         }
 
         for ($i = $offset; $i <= $to; $i+= $stepSize) {
@@ -111,7 +111,7 @@ abstract class AbstractField implements FieldInterface
      * Returns a range of values for the given cron expression
      *
      * @param string $expression The expression to evaluate
-     * @param int $max           Maximum offset for range
+     * @param int    $max        Maximum offset for range
      *
      * @return array
      */

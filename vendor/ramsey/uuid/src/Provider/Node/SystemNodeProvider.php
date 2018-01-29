@@ -6,10 +6,10 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
- * @license http://opensource.org/licenses/MIT MIT
- * @link https://benramsey.com/projects/ramsey-uuid/ Documentation
- * @link https://packagist.org/packages/ramsey/uuid Packagist
- * @link https://github.com/ramsey/uuid GitHub
+ * @license   http://opensource.org/licenses/MIT MIT
+ * @link      https://benramsey.com/projects/ramsey-uuid/ Documentation
+ * @link      https://packagist.org/packages/ramsey/uuid Packagist
+ * @link      https://github.com/ramsey/uuid GitHub
  */
 
 namespace Ramsey\Uuid\Provider\Node;
@@ -39,7 +39,7 @@ class SystemNodeProvider implements NodeProviderInterface
         $matches = array();
 
         // first try a  linux specific way
-        $node = $this->getsysfs();
+        $node = $this->getSysfs();
 
         // Search the ifconfig output for all MAC addresses and return
         // the first one found
@@ -58,22 +58,22 @@ class SystemNodeProvider implements NodeProviderInterface
      * Returns the network interface configuration for the system
      *
      * @codeCoverageIgnore
-     * @return string
+     * @return             string
      */
     protected function getIfconfig()
     {
         ob_start();
         switch (strtoupper(substr(php_uname('a'), 0, 3))) {
-            case 'WIN':
-                passthru('ipconfig /all 2>&1');
-                break;
-            case 'DAR':
-                passthru('ifconfig 2>&1');
-                break;
-            case 'LIN':
-            default:
-                passthru('netstat -ie 2>&1');
-                break;
+        case 'WIN':
+            passthru('ipconfig /all 2>&1');
+            break;
+        case 'DAR':
+            passthru('ifconfig 2>&1');
+            break;
+        case 'LIN':
+        default:
+            passthru('netstat -ie 2>&1');
+            break;
         }
 
         return ob_get_clean();
@@ -84,29 +84,38 @@ class SystemNodeProvider implements NodeProviderInterface
      *
      * @return string|bool
      */
-    protected function getsysfs()
+    protected function getSysfs()
     {
         $mac = false;
+
         if (strtoupper(php_uname('s')) === "LINUX") {
-            // get all the macadresses of all systems
+            $addressPaths = glob('/sys/class/net/*/address', GLOB_NOSORT);
+
+            if (empty($addressPaths)) {
+                return false;
+            }
+
             $macs = array_map(
                 'file_get_contents',
-                glob('/sys/class/net/*/address', GLOB_NOSORT)
+                $addressPaths
             );
 
             $macs = array_map('trim', $macs);
 
             // remove invalid entries
-            $macs = array_filter($macs, function ($mac) {
-                return
+            $macs = array_filter(
+                $macs, function ($mac) {
+                    return
                     // localhost adapter
                     $mac !== '00:00:00:00:00:00' &&
                     // must match  mac adress
                     preg_match('/^([0-9a-f]{2}:){5}[0-9a-f]{2}$/i', $mac);
-            });
+                }
+            );
 
             $mac = reset($macs);
         }
+
         return $mac;
     }
 }

@@ -230,14 +230,16 @@ class StreamHandler
     private function createResource(callable $callback)
     {
         $errors = null;
-        set_error_handler(function ($_, $msg, $file, $line) use (&$errors) {
-            $errors[] = [
+        set_error_handler(
+            function ($_, $msg, $file, $line) use (&$errors) {
+                $errors[] = [
                 'message' => $msg,
                 'file'    => $file,
                 'line'    => $line
-            ];
-            return true;
-        });
+                ];
+                return true;
+            }
+        );
 
         $resource = $callback();
         restore_error_handler();
@@ -514,10 +516,12 @@ class StreamHandler
         if (!isset($params['notification'])) {
             $params['notification'] = $notify;
         } else {
-            $params['notification'] = $this->callArray([
+            $params['notification'] = $this->callArray(
+                [
                 $params['notification'],
                 $notify
-            ]);
+                ]
+            );
         }
     }
 

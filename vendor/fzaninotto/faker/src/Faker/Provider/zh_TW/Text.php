@@ -154,7 +154,7 @@ EOT;
     /**
      * Convert original string to utf-8 encoding.
      *
-     * @param string $text
+     * @param  string $text
      * @return array
      */
     protected static function utf8Encoding($text)
@@ -171,21 +171,21 @@ EOT;
             $ord = ord($chars[$i]);
 
             switch (true) {
-                case $ord > 251:
-                    $temp .= $chars[++$i];
-                    // no break
-                case $ord > 247:
-                    $temp .= $chars[++$i];
-                    // no break
-                case $ord > 239:
-                    $temp .= $chars[++$i];
-                    // no break
-                case $ord > 223:
-                    $temp .= $chars[++$i];
-                    // no break
-                case $ord > 191:
-                    $temp .= $chars[++$i];
-                    // no break
+            case $ord > 251:
+                $temp .= $chars[++$i];
+                // no break
+            case $ord > 247:
+                $temp .= $chars[++$i];
+                // no break
+            case $ord > 239:
+                $temp .= $chars[++$i];
+                // no break
+            case $ord > 223:
+                $temp .= $chars[++$i];
+                // no break
+            case $ord > 191:
+                $temp .= $chars[++$i];
+                // no break
             }
 
             $encoding[] = $temp;

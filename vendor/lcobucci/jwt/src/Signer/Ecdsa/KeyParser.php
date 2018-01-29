@@ -21,7 +21,7 @@ use Mdanter\Ecc\Serializer\PublicKey\PublicKeySerializerInterface;
  * Base class for ECDSA signers
  *
  * @author Luís Otávio Cobucci Oblonczyk <lcobucci@gmail.com>
- * @since 3.0.4
+ * @since  3.0.4
  */
 class KeyParser
 {
@@ -36,9 +36,9 @@ class KeyParser
     private $publicKeySerializer;
 
     /**
-     * @param MathAdapterInterface $adapter
+     * @param MathAdapterInterface          $adapter
      * @param PrivateKeySerializerInterface $privateKeySerializer
-     * @param PublicKeySerializerInterface $publicKeySerializer
+     * @param PublicKeySerializerInterface  $publicKeySerializer
      */
     public function __construct(
         MathAdapterInterface $adapter,
@@ -76,7 +76,7 @@ class KeyParser
     /**
      * Extracts the base 64 value from the PEM certificate
      *
-     * @param Key $key
+     * @param Key    $key
      * @param string $header
      *
      * @return string

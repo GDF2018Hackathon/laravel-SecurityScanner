@@ -47,7 +47,8 @@ use phpseclib\System\SSH\Agent\Identity;
  */
 class Agent
 {
-    /**#@+
+    /**
+* #@+
      * Message numbers
      *
      * @access private
@@ -60,9 +61,12 @@ class Agent
     const SSH_AGENTC_SIGN_REQUEST = 13;
     // the SSH1 response is SSH_AGENT_RSA_RESPONSE (4)
     const SSH_AGENT_SIGN_RESPONSE = 14;
-    /**#@-*/
+    /**
+* #@-
+*/
 
-    /**@+
+    /**
+* @+
      * Agent forwarding status
      *
      * @access private
@@ -73,7 +77,9 @@ class Agent
     const FORWARD_REQUEST = 1;
     // forwarding has been request and is active
     const FORWARD_ACTIVE = 2;
-    /**#@-*/
+    /**
+* #@-
+*/
 
     /**
      * Unused
@@ -83,7 +89,7 @@ class Agent
     /**
      * Socket Resource
      *
-     * @var resource
+     * @var    resource
      * @access private
      */
     var $fsock;
@@ -120,15 +126,15 @@ class Agent
     function __construct()
     {
         switch (true) {
-            case isset($_SERVER['SSH_AUTH_SOCK']):
-                $address = $_SERVER['SSH_AUTH_SOCK'];
-                break;
-            case isset($_ENV['SSH_AUTH_SOCK']):
-                $address = $_ENV['SSH_AUTH_SOCK'];
-                break;
-            default:
-                user_error('SSH_AUTH_SOCK not found');
-                return false;
+        case isset($_SERVER['SSH_AUTH_SOCK']):
+            $address = $_SERVER['SSH_AUTH_SOCK'];
+            break;
+        case isset($_ENV['SSH_AUTH_SOCK']):
+            $address = $_ENV['SSH_AUTH_SOCK'];
+            break;
+        default:
+            user_error('SSH_AUTH_SOCK not found');
+            return false;
         }
 
         $this->fsock = fsockopen('unix://' . $address, 0, $errno, $errstr);
@@ -176,13 +182,13 @@ class Agent
             $length = current(unpack('N', substr($key_blob, 0, 4)));
             $key_type = substr($key_blob, 4, $length);
             switch ($key_type) {
-                case 'ssh-rsa':
-                    $key = new RSA();
-                    $key->loadKey($key_str);
-                    break;
-                case 'ssh-dss':
-                    // not currently supported
-                    break;
+            case 'ssh-rsa':
+                $key = new RSA();
+                $key->loadKey($key_str);
+                break;
+            case 'ssh-dss':
+                // not currently supported
+                break;
             }
             // resources are passed by reference by default
             if (isset($key)) {
@@ -201,7 +207,7 @@ class Agent
      * Signal that agent forwarding should
      * be requested when a channel is opened
      *
-     * @param Net_SSH2 $ssh
+     * @param  Net_SSH2 $ssh
      * @return bool
      * @access public
      */
@@ -215,7 +221,7 @@ class Agent
     /**
      * Request agent forwarding of remote server
      *
-     * @param Net_SSH2 $ssh
+     * @param  Net_SSH2 $ssh
      * @return bool
      * @access private
      */
@@ -259,7 +265,7 @@ class Agent
      * open to give the SSH Agent an opportunity
      * to take further action. i.e. request agent forwarding
      *
-     * @param Net_SSH2 $ssh
+     * @param  Net_SSH2 $ssh
      * @access private
      */
     function _on_channel_open($ssh)
@@ -272,7 +278,7 @@ class Agent
     /**
      * Forward data to SSH Agent and return data reply
      *
-     * @param string $data
+     * @param  string $data
      * @return data from SSH Agent
      * @access private
      */

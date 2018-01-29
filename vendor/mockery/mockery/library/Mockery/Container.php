@@ -12,10 +12,10 @@
  * obtain it through the world-wide-web, please send an email
  * to padraic@php.net so we can send you a copy immediately.
  *
- * @category   Mockery
- * @package    Mockery
- * @copyright  Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
- * @license    http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
+ * @category  Mockery
+ * @package   Mockery
+ * @copyright Copyright (c) 2010 Pádraic Brady (http://blog.astrumfutura.com)
+ * @license   http://github.com/padraic/mockery/blob/master/LICENSE New BSD License
  */
 
 namespace Mockery;
@@ -142,8 +142,10 @@ class Container
             } elseif (is_string($arg) && substr($arg, strlen($arg)-1, 1) == ']') {
                 $parts = explode('[', $arg);
                 if (!class_exists($parts[0], true) && !interface_exists($parts[0], true)) {
-                    throw new \Mockery\Exception('Can only create a partial mock from'
-                    . ' an existing class or interface');
+                    throw new \Mockery\Exception(
+                        'Can only create a partial mock from'
+                        . ' an existing class or interface'
+                    );
                 }
                 $class = $parts[0];
                 $parts[1] = str_replace(' ', '', $parts[1]);
@@ -192,7 +194,8 @@ class Container
 
         if (defined('HHVM_VERSION')
             && isset($class)
-            && ($class === 'Exception' || is_subclass_of($class, 'Exception'))) {
+            && ($class === 'Exception' || is_subclass_of($class, 'Exception'))
+        ) {
             $builder->addBlackListedMethod("setTraceOptions");
             $builder->addBlackListedMethod("getTraceOptions");
         }
@@ -346,7 +349,7 @@ class Container
      * Set ordering for a group
      *
      * @param mixed $group
-     * @param int $order
+     * @param int   $order
      */
     public function mockery_setGroup($group, $order)
     {
@@ -366,7 +369,7 @@ class Container
     /**
      * Set current ordered number
      *
-     * @param int $order
+     * @param  int $order
      * @return int The current order number that was set
      */
     public function mockery_setCurrentOrder($order)
@@ -388,8 +391,8 @@ class Container
     /**
      * Validate the current mock's ordering
      *
-     * @param string $method
-     * @param int $order
+     * @param  string $method
+     * @param  int    $order
      * @throws \Mockery\Exception
      * @return void
      */
@@ -426,7 +429,7 @@ class Container
     /**
      * Store a mock and set its container reference
      *
-     * @param \Mockery\Mock
+     * @param  \Mockery\Mock
      * @return \Mockery\MockInterface
      */
     public function rememberMock(\Mockery\MockInterface $mock)
@@ -485,9 +488,11 @@ class Container
             $internalMockName = $mockName . '_Internal';
 
             if (!class_exists($internalMockName)) {
-                eval("class $internalMockName extends $mockName {" .
+                eval(
+                    "class $internalMockName extends $mockName {" .
                         'public function __construct() {}' .
-                    '}');
+                    '}'
+                );
             }
 
             $instance = new $internalMockName();
@@ -519,7 +524,8 @@ class Container
 
     /**
      * see http://php.net/manual/en/language.oop5.basic.php
-     * @param string $className
+     *
+     * @param  string $className
      * @return bool
      */
     public function isValidClassName($className)
@@ -529,9 +535,11 @@ class Container
             $className = substr($className, 1); // remove the first backslash
         }
         // all the namespaces and class name should match the regex
-        $invalidNames = array_filter(explode('\\', $className), function ($name) {
-            return !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
-        });
+        $invalidNames = array_filter(
+            explode('\\', $className), function ($name) {
+                return !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name);
+            }
+        );
         return empty($invalidNames);
     }
 }

@@ -15,10 +15,14 @@
  */
 class Swift_Preferences
 {
-    /** Singleton instance */
+    /**
+     * Singleton instance 
+     */
     private static $instance = null;
 
-    /** Constructor not to be used */
+    /**
+     * Constructor not to be used 
+     */
     private function __construct()
     {
     }

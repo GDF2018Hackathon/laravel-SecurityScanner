@@ -19,7 +19,7 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Create a new controller dispatcher instance.
      *
-     * @param  \Illuminate\Container\Container  $container
+     * @param  \Illuminate\Container\Container $container
      * @return void
      */
     public function __construct(Container $container)
@@ -30,9 +30,9 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Dispatch a request to a given controller and method.
      *
-     * @param  \Illuminate\Routing\Route  $route
-     * @param  mixed  $controller
-     * @param  string  $method
+     * @param  \Illuminate\Routing\Route $route
+     * @param  mixed                     $controller
+     * @param  string                    $method
      * @return mixed
      */
     public function dispatch(Route $route, $controller, $method)
@@ -51,8 +51,8 @@ class ControllerDispatcher implements ControllerDispatcherContract
     /**
      * Get the middleware for the controller instance.
      *
-     * @param  \Illuminate\Routing\Controller  $controller
-     * @param  string  $method
+     * @param  \Illuminate\Routing\Controller $controller
+     * @param  string                         $method
      * @return array
      */
     public function getMiddleware($controller, $method)
@@ -61,15 +61,17 @@ class ControllerDispatcher implements ControllerDispatcherContract
             return [];
         }
 
-        return collect($controller->getMiddleware())->reject(function ($data) use ($method) {
-            return static::methodExcludedByOptions($method, $data['options']);
-        })->pluck('middleware')->all();
+        return collect($controller->getMiddleware())->reject(
+            function ($data) use ($method) {
+                return static::methodExcludedByOptions($method, $data['options']);
+            }
+        )->pluck('middleware')->all();
     }
 
     /**
      * Determine if the given options exclude a particular method.
      *
-     * @param  string  $method
+     * @param  string $method
      * @param  array  $options
      * @return bool
      */

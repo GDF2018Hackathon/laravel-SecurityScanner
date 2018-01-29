@@ -204,9 +204,9 @@ class DomainPart extends Parser
                 throw new ExpectingDTEXT();
             }
 
-            if ($this->lexer->token['type'] === EmailLexer::INVALID ||
-                $this->lexer->token['type'] === EmailLexer::C_DEL   ||
-                $this->lexer->token['type'] === EmailLexer::S_LF
+            if ($this->lexer->token['type'] === EmailLexer::INVALID 
+                || $this->lexer->token['type'] === EmailLexer::C_DEL   
+                || $this->lexer->token['type'] === EmailLexer::S_LF
             ) {
                 $this->warnings[ObsoleteDTEXT::CODE] = new ObsoleteDTEXT();
             }
@@ -217,7 +217,8 @@ class DomainPart extends Parser
 
             if ($this->lexer->isNextTokenAny(
                 array(EmailLexer::S_HTAB, EmailLexer::S_SP, $this->lexer->token['type'] === EmailLexer::CRLF)
-            )) {
+            )
+            ) {
                 $this->warnings[CFWSWithFWS::CODE] = new CFWSWithFWS();
                 $this->parseFWS();
             }
@@ -315,7 +316,8 @@ class DomainPart extends Parser
         }
 
         if ($this->lexer->token['type'] === EmailLexer::S_BACKSLASH
-            && $this->lexer->isNextToken(EmailLexer::GENERIC)) {
+            && $this->lexer->isNextToken(EmailLexer::GENERIC)
+        ) {
             throw new ExpectingATEXT();
         }
     }
@@ -337,9 +339,9 @@ class DomainPart extends Parser
 
     protected function checkLabelLength($prev)
     {
-        if ($this->lexer->token['type'] === EmailLexer::S_DOT &&
-            $prev['type'] === EmailLexer::GENERIC &&
-            strlen($prev['value']) > 63
+        if ($this->lexer->token['type'] === EmailLexer::S_DOT 
+            && $prev['type'] === EmailLexer::GENERIC 
+            && strlen($prev['value']) > 63
         ) {
             $this->warnings[LabelTooLong::CODE] = new LabelTooLong();
         }

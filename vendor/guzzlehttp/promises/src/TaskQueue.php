@@ -18,15 +18,17 @@ class TaskQueue implements TaskQueueInterface
     public function __construct($withShutdown = true)
     {
         if ($withShutdown) {
-            register_shutdown_function(function () {
-                if ($this->enableShutdown) {
-                    // Only run the tasks if an E_ERROR didn't occur.
-                    $err = error_get_last();
-                    if (!$err || ($err['type'] ^ E_ERROR)) {
-                        $this->run();
+            register_shutdown_function(
+                function () {
+                    if ($this->enableShutdown) {
+                        // Only run the tasks if an E_ERROR didn't occur.
+                        $err = error_get_last();
+                        if (!$err || ($err['type'] ^ E_ERROR)) {
+                            $this->run();
+                        }
                     }
                 }
-            });
+            );
         }
     }
 
@@ -42,7 +44,9 @@ class TaskQueue implements TaskQueueInterface
 
     public function run()
     {
-        /** @var callable $task */
+        /**
+ * @var callable $task 
+*/
         while ($task = array_shift($this->queue)) {
             $task();
         }

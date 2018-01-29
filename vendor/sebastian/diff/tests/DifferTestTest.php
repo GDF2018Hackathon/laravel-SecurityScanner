@@ -37,7 +37,7 @@ final class DifferTestTest extends TestCase
 
     public function provideDiffWithLineNumbers()
     {
-        require_once __DIR__ . '/DifferTest.php';
+        include_once __DIR__ . '/DifferTest.php';
         $test  = new DifferTest();
         $tests = $test->provideDiffWithLineNumbers();
 

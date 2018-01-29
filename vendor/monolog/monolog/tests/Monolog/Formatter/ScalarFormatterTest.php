@@ -47,7 +47,8 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
     public function testFormat()
     {
         $exception = new \Exception('foo');
-        $formatted = $this->formatter->format(array(
+        $formatted = $this->formatter->format(
+            array(
             'foo' => 'string',
             'bar' => 1,
             'baz' => false,
@@ -55,48 +56,61 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
             'bat' => array('foo' => 'bar'),
             'bap' => \DateTime::createFromFormat(\DateTime::ISO8601, '1970-01-01T00:00:00+0000'),
             'ban' => $exception,
-        ));
+            )
+        );
 
-        $this->assertSame(array(
+        $this->assertSame(
+            array(
             'foo' => 'string',
             'bar' => 1,
             'baz' => false,
             'bam' => $this->encodeJson(array(1, 2, 3)),
             'bat' => $this->encodeJson(array('foo' => 'bar')),
             'bap' => '1970-01-01 00:00:00',
-            'ban' => $this->encodeJson(array(
+            'ban' => $this->encodeJson(
+                array(
                 'class'   => get_class($exception),
                 'message' => $exception->getMessage(),
                 'code'    => $exception->getCode(),
                 'file'    => $exception->getFile() . ':' . $exception->getLine(),
                 'trace'   => $this->buildTrace($exception),
-            )),
-        ), $formatted);
+                )
+            ),
+            ), $formatted
+        );
     }
 
     public function testFormatWithErrorContext()
     {
         $context = array('file' => 'foo', 'line' => 1);
-        $formatted = $this->formatter->format(array(
+        $formatted = $this->formatter->format(
+            array(
             'context' => $context,
-        ));
+            )
+        );
 
-        $this->assertSame(array(
+        $this->assertSame(
+            array(
             'context' => $this->encodeJson($context),
-        ), $formatted);
+            ), $formatted
+        );
     }
 
     public function testFormatWithExceptionContext()
     {
         $exception = new \Exception('foo');
-        $formatted = $this->formatter->format(array(
+        $formatted = $this->formatter->format(
+            array(
             'context' => array(
                 'exception' => $exception,
             ),
-        ));
+            )
+        );
 
-        $this->assertSame(array(
-            'context' => $this->encodeJson(array(
+        $this->assertSame(
+            array(
+            'context' => $this->encodeJson(
+                array(
                 'exception' => array(
                     'class'   => get_class($exception),
                     'message' => $exception->getMessage(),
@@ -104,7 +118,9 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
                     'file'    => $exception->getFile() . ':' . $exception->getLine(),
                     'trace'   => $this->buildTrace($exception),
                 ),
-            )),
-        ), $formatted);
+                )
+            ),
+            ), $formatted
+        );
     }
 }

@@ -39,7 +39,7 @@ class Autoloader
 
         $file = dirname(__DIR__) . '/' . strtr($class, '\\', '/') . '.php';
         if (is_file($file)) {
-            require $file;
+            include $file;
         }
     }
 }

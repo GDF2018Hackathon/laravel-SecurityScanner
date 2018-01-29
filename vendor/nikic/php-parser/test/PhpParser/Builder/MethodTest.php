@@ -10,70 +10,78 @@ use PhpParser\Node\Stmt;
 
 class MethodTest extends \PHPUnit_Framework_TestCase
 {
-    public function createMethodBuilder($name) {
+    public function createMethodBuilder($name) 
+    {
         return new Method($name);
     }
 
-    public function testModifiers() {
+    public function testModifiers() 
+    {
         $node = $this->createMethodBuilder('test')
             ->makePublic()
             ->makeAbstract()
             ->makeStatic()
-            ->getNode()
-        ;
+            ->getNode();
 
         $this->assertEquals(
-            new Stmt\ClassMethod('test', array(
+            new Stmt\ClassMethod(
+                'test', array(
                 'flags' => Stmt\Class_::MODIFIER_PUBLIC
                          | Stmt\Class_::MODIFIER_ABSTRACT
                          | Stmt\Class_::MODIFIER_STATIC,
                 'stmts' => null,
-            )),
+                )
+            ),
             $node
         );
 
         $node = $this->createMethodBuilder('test')
             ->makeProtected()
             ->makeFinal()
-            ->getNode()
-        ;
+            ->getNode();
 
         $this->assertEquals(
-            new Stmt\ClassMethod('test', array(
+            new Stmt\ClassMethod(
+                'test', array(
                 'flags' => Stmt\Class_::MODIFIER_PROTECTED
                          | Stmt\Class_::MODIFIER_FINAL
-            )),
+                )
+            ),
             $node
         );
 
         $node = $this->createMethodBuilder('test')
             ->makePrivate()
-            ->getNode()
-        ;
+            ->getNode();
 
         $this->assertEquals(
-            new Stmt\ClassMethod('test', array(
+            new Stmt\ClassMethod(
+                'test', array(
                 'type' => Stmt\Class_::MODIFIER_PRIVATE
-            )),
+                )
+            ),
             $node
         );
     }
 
-    public function testReturnByRef() {
+    public function testReturnByRef() 
+    {
         $node = $this->createMethodBuilder('test')
             ->makeReturnByRef()
-            ->getNode()
-        ;
+            ->getNode();
 
         $this->assertEquals(
-            new Stmt\ClassMethod('test', array(
+            new Stmt\ClassMethod(
+                'test', array(
                 'byRef' => true
-            )),
+                )
+            ),
             $node
         );
     }
 
-    public function testParams() {
+    public function testParams() 
+    {
         $param1 = new Node\Param('test1');
         $param2 = new Node\Param('test2');
         $param3 = new Node\Param('test3');
@@ -81,18 +89,20 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $node = $this->createMethodBuilder('test')
             ->addParam($param1)
             ->addParams(array($param2, $param3))
-            ->getNode()
-        ;
+            ->getNode();
 
         $this->assertEquals(
-            new Stmt\ClassMethod('test', array(
+            new Stmt\ClassMethod(
+                'test', array(
                 'params' => array($param1, $param2, $param3)
-            )),
+                )
+            ),
             $node
         );
     }
 
-    public function testStmts() {
+    public function testStmts() 
+    {
         $stmt1 = new Print_(new String_('test1'));
         $stmt2 = new Print_(new String_('test2'));
         $stmt3 = new Print_(new String_('test3'));
@@ -100,64 +110,75 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $node = $this->createMethodBuilder('test')
             ->addStmt($stmt1)
             ->addStmts(array($stmt2, $stmt3))
-            ->getNode()
-        ;
+            ->getNode();
 
         $this->assertEquals(
-            new Stmt\ClassMethod('test', array(
+            new Stmt\ClassMethod(
+                'test', array(
                 'stmts' => array($stmt1, $stmt2, $stmt3)
-            )),
+                )
+            ),
             $node
         );
     }
-    public function testDocComment() {
+    public function testDocComment() 
+    {
         $node = $this->createMethodBuilder('test')
             ->setDocComment('/** Test */')
             ->getNode();
 
-        $this->assertEquals(new Stmt\ClassMethod('test', array(), array(
-            'comments' => array(new Comment\Doc('/** Test */'))
-        )), $node);
+        $this->assertEquals(
+            new Stmt\ClassMethod(
+                'test', array(), array(
+                'comments' => array(new Comment\Doc('/** Test */'))
+                )
+            ), $node
+        );
     }
 
-    public function testReturnType() {
+    public function testReturnType() 
+    {
         $node = $this->createMethodBuilder('test')
             ->setReturnType('bool')
             ->getNode();
-        $this->assertEquals(new Stmt\ClassMethod('test', array(
-            'returnType' => 'bool'
-        ), array()), $node);
+        $this->assertEquals(
+            new Stmt\ClassMethod(
+                'test', array(
+                'returnType' => 'bool'
+                ), array()
+            ), $node
+        );
     }
 
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Cannot add statements to an abstract method
      */
-    public function testAddStmtToAbstractMethodError() {
+    public function testAddStmtToAbstractMethodError() 
+    {
         $this->createMethodBuilder('test')
             ->makeAbstract()
-            ->addStmt(new Print_(new String_('test')))
-        ;
+            ->addStmt(new Print_(new String_('test')));
     }
 
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Cannot make method with statements abstract
      */
-    public function testMakeMethodWithStmtsAbstractError() {
+    public function testMakeMethodWithStmtsAbstractError() 
+    {
         $this->createMethodBuilder('test')
             ->addStmt(new Print_(new String_('test')))
-            ->makeAbstract()
-        ;
+            ->makeAbstract();
     }
 
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Expected parameter node, got "Name"
      */
-    public function testInvalidParamError() {
+    public function testInvalidParamError() 
+    {
         $this->createMethodBuilder('test')
-            ->addParam(new Node\Name('foo'))
-        ;
+            ->addParam(new Node\Name('foo'));
     }
 }

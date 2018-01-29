@@ -46,44 +46,44 @@ class Context
     public function get($name)
     {
         switch ($name) {
-            case '_':
-                return $this->returnValue;
+        case '_':
+            return $this->returnValue;
 
-            case '_e':
-                if (isset($this->lastException)) {
-                    return $this->lastException;
-                }
-                break;
+        case '_e':
+            if (isset($this->lastException)) {
+                return $this->lastException;
+            }
+            break;
 
-            case '__out':
-                if (isset($this->lastStdout)) {
-                    return $this->lastStdout;
-                }
-                break;
+        case '__out':
+            if (isset($this->lastStdout)) {
+                return $this->lastStdout;
+            }
+            break;
 
-            case 'this':
-                if (isset($this->boundObject)) {
-                    return $this->boundObject;
-                }
-                break;
+        case 'this':
+            if (isset($this->boundObject)) {
+                return $this->boundObject;
+            }
+            break;
 
-            case '__function':
-            case '__method':
-            case '__class':
-            case '__namespace':
-            case '__file':
-            case '__line':
-            case '__dir':
-                if (array_key_exists($name, $this->commandScopeVariables)) {
-                    return $this->commandScopeVariables[$name];
-                }
-                break;
+        case '__function':
+        case '__method':
+        case '__class':
+        case '__namespace':
+        case '__file':
+        case '__line':
+        case '__dir':
+            if (array_key_exists($name, $this->commandScopeVariables)) {
+                return $this->commandScopeVariables[$name];
+            }
+            break;
 
-            default:
-                if (array_key_exists($name, $this->scopeVariables)) {
-                    return $this->scopeVariables[$name];
-                }
-                break;
+        default:
+            if (array_key_exists($name, $this->scopeVariables)) {
+                return $this->scopeVariables[$name];
+            }
+            break;
         }
 
         throw new \InvalidArgumentException('Unknown variable: $' . $name);

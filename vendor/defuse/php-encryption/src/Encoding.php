@@ -84,7 +84,7 @@ final class Encoding
      * Calling this function may leak the length of the string as well as the
      * number of trailing whitespace characters through side-channels.
      *
-     * @param string $string
+     * @param  string $string
      * @return string
      */
     public static function trimTrailingWhitespace($string = '')

@@ -25,9 +25,10 @@ class Swift_Mime_SimpleHeaderFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testMailboxHeaderHasCorrectModel()
     {
-        $header = $this->factory->createMailboxHeader('X-Foo',
+        $header = $this->factory->createMailboxHeader(
+            'X-Foo',
             array('foo@bar' => 'FooBar')
-            );
+        );
         $this->assertEquals(array('foo@bar' => 'FooBar'), $header->getFieldBodyModel());
     }
 
@@ -88,9 +89,10 @@ class Swift_Mime_SimpleHeaderFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testParameterizedHeaderHasCorrectParams()
     {
-        $header = $this->factory->createParameterizedHeader('X-Foo', 'bar',
+        $header = $this->factory->createParameterizedHeader(
+            'X-Foo', 'bar',
             array('zip' => 'button')
-            );
+        );
         $this->assertEquals(array('zip' => 'button'), $header->getParameters());
     }
 
@@ -134,12 +136,12 @@ class Swift_Mime_SimpleHeaderFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $encoder = $this->createHeaderEncoder();
         $encoder->expects($this->once())
-                ->method('charsetChanged')
-                ->with('utf-8');
+            ->method('charsetChanged')
+            ->with('utf-8');
         $paramEncoder = $this->createParamEncoder();
         $paramEncoder->expects($this->once())
-                     ->method('charsetChanged')
-                     ->with('utf-8');
+            ->method('charsetChanged')
+            ->with('utf-8');
 
         $factory = $this->createFactory($encoder, $paramEncoder);
 
@@ -154,7 +156,7 @@ class Swift_Mime_SimpleHeaderFactoryTest extends \PHPUnit\Framework\TestCase
             $paramEncoder
                 ? $paramEncoder : $this->createParamEncoder(),
             new EmailValidator()
-            );
+        );
     }
 
     private function createHeaderEncoder()

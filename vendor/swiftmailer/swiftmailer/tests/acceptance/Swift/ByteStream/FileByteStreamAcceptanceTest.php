@@ -104,7 +104,7 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest extends \PHPUnit\Framework\T
     {
         $file = $this->createFileStream(
             $this->testFile, true
-            );
+        );
         $is1 = $this->createMockInputStream();
         $is2 = $this->createMockInputStream();
 

@@ -38,7 +38,7 @@ use Throwable;
  * @param callable $generatorFn Generator function to wrap into a promise.
  *
  * @return Promise
- * @link https://github.com/petkaantonov/bluebird/blob/master/API.md#generators inspiration
+ * @link   https://github.com/petkaantonov/bluebird/blob/master/API.md#generators inspiration
  */
 final class Coroutine implements PromiseInterface
 {
@@ -60,11 +60,13 @@ final class Coroutine implements PromiseInterface
     public function __construct(callable $generatorFn)
     {
         $this->generator = $generatorFn();
-        $this->result = new Promise(function () {
-            while (isset($this->currentPromise)) {
-                $this->currentPromise->wait();
+        $this->result = new Promise(
+            function () {
+                while (isset($this->currentPromise)) {
+                    $this->currentPromise->wait();
+                }
             }
-        });
+        );
         $this->nextCoroutine($this->generator->current());
     }
 

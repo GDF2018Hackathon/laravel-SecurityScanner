@@ -278,11 +278,14 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         foreach ($bundles as $bundle) {
             if ($isResource && file_exists($file = $dir.'/'.$bundle->getName().$overridePath)) {
                 if (null !== $resourceBundle) {
-                    throw new \RuntimeException(sprintf('"%s" resource is hidden by a resource from the "%s" derived bundle. Create a "%s" file to override the bundle resource.',
-                        $file,
-                        $resourceBundle,
-                        $dir.'/'.$bundles[0]->getName().$overridePath
-                    ));
+                    throw new \RuntimeException(
+                        sprintf(
+                            '"%s" resource is hidden by a resource from the "%s" derived bundle. Create a "%s" file to override the bundle resource.',
+                            $file,
+                            $resourceBundle,
+                            $dir.'/'.$bundles[0]->getName().$overridePath
+                        )
+                    );
                 }
 
                 if ($first) {
@@ -469,7 +472,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         $cacheDir = $this->warmupDir ?: $this->getCacheDir();
 
         if (!$this->booted && is_file($cacheDir.'/classes.map')) {
-            ClassCollectionLoader::load(include($cacheDir.'/classes.map'), $cacheDir, $name, $this->debug, false, $extension);
+            ClassCollectionLoader::load(include $cacheDir.'/classes.map', $cacheDir, $name, $this->debug, false, $extension);
         }
     }
 
@@ -595,35 +598,37 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             if ($this->debug) {
                 $collectedLogs = array();
                 $previousHandler = defined('PHPUNIT_COMPOSER_INSTALL');
-                $previousHandler = $previousHandler ?: set_error_handler(function ($type, $message, $file, $line) use (&$collectedLogs, &$previousHandler) {
-                    if (E_USER_DEPRECATED !== $type && E_DEPRECATED !== $type) {
-                        return $previousHandler ? $previousHandler($type & ~E_WARNING, $message, $file, $line) : E_WARNING === $type;
-                    }
-
-                    if (isset($collectedLogs[$message])) {
-                        ++$collectedLogs[$message]['count'];
-
-                        return;
-                    }
-
-                    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
-                    // Clean the trace by removing first frames added by the error handler itself.
-                    for ($i = 0; isset($backtrace[$i]); ++$i) {
-                        if (isset($backtrace[$i]['file'], $backtrace[$i]['line']) && $backtrace[$i]['line'] === $line && $backtrace[$i]['file'] === $file) {
-                            $backtrace = array_slice($backtrace, 1 + $i);
-                            break;
+                $previousHandler = $previousHandler ?: set_error_handler(
+                    function ($type, $message, $file, $line) use (&$collectedLogs, &$previousHandler) {
+                        if (E_USER_DEPRECATED !== $type && E_DEPRECATED !== $type) {
+                            return $previousHandler ? $previousHandler($type & ~E_WARNING, $message, $file, $line) : E_WARNING === $type;
                         }
-                    }
 
-                    $collectedLogs[$message] = array(
+                        if (isset($collectedLogs[$message])) {
+                            ++$collectedLogs[$message]['count'];
+
+                            return;
+                        }
+
+                        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3);
+                        // Clean the trace by removing first frames added by the error handler itself.
+                        for ($i = 0; isset($backtrace[$i]); ++$i) {
+                            if (isset($backtrace[$i]['file'], $backtrace[$i]['line']) && $backtrace[$i]['line'] === $line && $backtrace[$i]['file'] === $file) {
+                                $backtrace = array_slice($backtrace, 1 + $i);
+                                break;
+                            }
+                        }
+
+                        $collectedLogs[$message] = array(
                         'type' => $type,
                         'message' => $message,
                         'file' => $file,
                         'line' => $line,
                         'trace' => $backtrace,
                         'count' => 1,
-                    );
-                });
+                        );
+                    }
+                );
             } else {
                 $errorLevel = error_reporting(\E_ALL ^ \E_WARNING);
             }
@@ -646,7 +651,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             }
 
             $this->dumpContainer($cache, $container, $class, $this->getContainerBaseClass());
-            $this->container = require $cache->getPath();
+            $this->container = include $cache->getPath();
         }
 
         $this->container->set('kernel', $this);
@@ -834,14 +839,16 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             $dumper->setProxyDumper(new ProxyDumper(substr(hash('sha256', $cache->getPath()), 0, 7)));
         }
 
-        $content = $dumper->dump(array(
+        $content = $dumper->dump(
+            array(
             'class' => $class,
             'base_class' => $baseClass,
             'file' => $cache->getPath(),
             'as_files' => true,
             'debug' => $this->debug,
             'inline_class_loader_parameter' => \PHP_VERSION_ID >= 70000 && !$this->loadClassCache && !class_exists(ClassCollectionLoader::class, false) ? 'container.dumper.inline_class_loader' : null,
-        ));
+            )
+        );
 
         $rootCode = array_pop($content);
         $dir = dirname($cache->getPath()).'/';
@@ -863,7 +870,8 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     protected function getContainerLoader(ContainerInterface $container)
     {
         $locator = new FileLocator($this);
-        $resolver = new LoaderResolver(array(
+        $resolver = new LoaderResolver(
+            array(
             new XmlFileLoader($container, $locator),
             new YamlFileLoader($container, $locator),
             new IniFileLoader($container, $locator),
@@ -871,7 +879,8 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             new GlobFileLoader($locator),
             new DirectoryLoader($container, $locator),
             new ClosureLoader($container),
-        ));
+            )
+        );
 
         return new DelegatingLoader($resolver);
     }

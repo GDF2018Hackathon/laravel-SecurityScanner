@@ -26,12 +26,12 @@ class HmacTest extends \PHPUnit_Framework_TestCase
         $this->signer = $this->getMockForAbstractClass(Hmac::class);
 
         $this->signer->expects($this->any())
-                     ->method('getAlgorithmId')
-                     ->willReturn('TEST123');
+            ->method('getAlgorithmId')
+            ->willReturn('TEST123');
 
         $this->signer->expects($this->any())
-                     ->method('getAlgorithm')
-                     ->willReturn('sha256');
+            ->method('getAlgorithm')
+            ->willReturn('sha256');
     }
 
     /**

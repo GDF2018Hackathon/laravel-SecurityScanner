@@ -22,6 +22,7 @@ final class HeaderSecurity
 {
     /**
      * Private constructor; non-instantiable.
+     *
      * @codeCoverageIgnore
      */
     private function __construct()
@@ -40,8 +41,8 @@ final class HeaderSecurity
      * This method filters any values not allowed from the string, and is
      * lossy.
      *
-     * @see http://en.wikipedia.org/wiki/HTTP_response_splitting
-     * @param string $value
+     * @see    http://en.wikipedia.org/wiki/HTTP_response_splitting
+     * @param  string $value
      * @return string
      */
     public static function filter($value)
@@ -89,8 +90,8 @@ final class HeaderSecurity
      * tabs are allowed in values; header continuations MUST consist of
      * a single CRLF sequence followed by a space or horizontal tab.
      *
-     * @see http://en.wikipedia.org/wiki/HTTP_response_splitting
-     * @param string $value
+     * @see    http://en.wikipedia.org/wiki/HTTP_response_splitting
+     * @param  string $value
      * @return bool
      */
     public static function isValid($value)
@@ -122,45 +123,53 @@ final class HeaderSecurity
     /**
      * Assert a header value is valid.
      *
-     * @param string $value
+     * @param  string $value
      * @throws InvalidArgumentException for invalid values
      */
     public static function assertValid($value)
     {
         if (! is_string($value) && ! is_numeric($value)) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid header value type; must be a string or numeric; received %s',
-                (is_object($value) ? get_class($value) : gettype($value))
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid header value type; must be a string or numeric; received %s',
+                    (is_object($value) ? get_class($value) : gettype($value))
+                )
+            );
         }
         if (! self::isValid($value)) {
-            throw new InvalidArgumentException(sprintf(
-                '"%s" is not valid header value',
-                $value
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    '"%s" is not valid header value',
+                    $value
+                )
+            );
         }
     }
 
     /**
      * Assert whether or not a header name is valid.
      *
-     * @see http://tools.ietf.org/html/rfc7230#section-3.2
-     * @param mixed $name
+     * @see    http://tools.ietf.org/html/rfc7230#section-3.2
+     * @param  mixed $name
      * @throws InvalidArgumentException
      */
     public static function assertValidName($name)
     {
         if (! is_string($name)) {
-            throw new InvalidArgumentException(sprintf(
-                'Invalid header name type; expected string; received %s',
-                (is_object($name) ? get_class($name) : gettype($name))
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid header name type; expected string; received %s',
+                    (is_object($name) ? get_class($name) : gettype($name))
+                )
+            );
         }
         if (! preg_match('/^[a-zA-Z0-9\'`#$%&*+.^_|~!-]+$/', $name)) {
-            throw new InvalidArgumentException(sprintf(
-                '"%s" is not valid header name',
-                $name
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    '"%s" is not valid header name',
+                    $name
+                )
+            );
         }
     }
 }
